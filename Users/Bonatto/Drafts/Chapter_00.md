@@ -68,6 +68,38 @@ Kind é amigável conosco, mas isso é porque ainda nem começamos a ver as prov
 formais, lá nós veremos que ele é muito mais amigável do que só na sintaxe
 dele. 
 
+Entender a construção dos *tipos* é importante para quando formos estudar as
+provas formais, que veremos nos próximos capítulos. De qualquer forma,
+entender a estrutura de um *tipo* impedirá que alguns erros de sintaxe ocorram.
+
+Apenas revisando, nosso elemento *Suco* é do tipo *Type* e o Suco.**laranja** é do tipo *Suco*. Desta forma, em termos leigos, temos que o elemento fica a direita dos dois pontos e o tipo a esquerda
+
+`elemento : Tipo` 
+
+Como dito antes, até mesmo os tipos são funções, logo podemos ter uma função
+como tipo. Por exemplo:
+
+```rust
+Problema : (Equal Bool Bool.true Bool.true
+```
+
+
+Podemos perceber que temos um elemento chamado "Problema" e ele é do
+tipo "(Equal Bool Bool.true Bool.true)". Por hora não é necessário compreender
+sobre o que se trata essa função, veremos sobre ela nos próximos capítulos,
+entretanto é necessário entender que essa função é um tipo e, da mesma forma
+que não escrevemos
+
+```rust
+Suco: Type
+Suco.laranja : Type
+```
+
+Não podemos simplesmente copiar a função para os construtores desse tipo.
+O *Suco* é tipo *Type*, mas o *Suco*.**laranja** não é do tipo *Type*, ele é
+do tipo *Suco*. Pode parecer complicado, mas será muito mais fácil
+compreender quando começarmos com as provas formais em si.
+
 Mas falando em provas formais, o que é uma prova formal?
 
 - #### Provas formais.
