@@ -19,7 +19,7 @@ função, desde a propria função em si a até mesmo os construtores e tipos.
 
 Falando em tipos, vamos usar um como exemplo, o tipo *Booleano*:
 
-```Bhaskelrust 
+```rust 
 Bool: Type
 Bool.true   : Bool
 Bool.false  : Bool
@@ -34,7 +34,7 @@ frente.
 Outro exemplo possível é o *Nat*, dos números naturais. Números
 naturais são todos os números inteiros maiores ou igual a zero. Ou seja, eles começam com o número zero e vão até o infinito, mas não possuem valores decimais. Ou seja, o **3** é um número natural, mas o **3,14** não é, da mesma forma que o **-3** também não é. Então sabemos que o número natural é feito de *zero* e dos *sucessores* dele. Vamos ver como isso é no kind:
 
-```
+```rust
 Nat: Type
 Nat.zero              : Nat
 Nat.succ (pred:Nat)   : Nat
@@ -52,7 +52,7 @@ Porém, de qualquer forma, percebemos que a estrutura do **Nat** é basicamente
 a mesma do **Bool**, isso nos mostra que podemos criar qualquer tipo,
 desde que sigamos a mesma estrutura. Vamos criar o tipo suco:
 
-```
+```rust
 Suco : Type
 Suco.laranja  : Suco
 Suco.caju     : Suco
