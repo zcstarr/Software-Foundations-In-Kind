@@ -88,14 +88,14 @@ Podemos perceber que temos um elemento chamado "Problema" e ele é do
 tipo "(Equal Bool Bool.true Bool.true)". Por hora não é necessário compreender
 sobre o que se trata essa função, veremos sobre ela nos próximos capítulos,
 entretanto é necessário entender que essa função é um tipo e, da mesma forma
-que não escrevemos
+que **não escrevemos**
 
 ```rust
 Suco: Type
 Suco.laranja : Type
 ```
 
-Não podemos simplesmente copiar a função para os construtores desse tipo.
+**Não podemos** simplesmente copiar a função para os construtores desse tipo.
 O *Suco* é tipo *Type*, mas o *Suco*.**laranja** não é do tipo *Type*, ele é
 do tipo *Suco*. Pode parecer complicado, mas será muito mais fácil
 compreender quando começarmos com as provas formais em si.
