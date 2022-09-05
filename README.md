@@ -1,5 +1,4 @@
-Learning Material
------------------
+# Learning Material
 
 Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.github.io/software-foundations/pdf/sf-idris-2018.pdf) para Kind2.
 
@@ -13,7 +12,6 @@ Toda semana:
 
 4. Gravar um video (voz + tela) explicando a solução de um dos exercícios.
 
-Semana 1
---------
+## Semana 1
 
 - Capítulos 3 e 4
