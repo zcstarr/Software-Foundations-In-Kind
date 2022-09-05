@@ -12,3 +12,10 @@ computa uma função matemática. Esse é um dos sentidos do "funcional" em
 "programação funcional". A conexão direta entre programas e objetos matemáticos
 simples suporta tanto a formalidade de provas de corretude quanto a racionalização
 informal sobre o comportamento do programa.
+
+O outro sentido na qual programação funcional é "funcional" é que ela enfatiza
+o uso de funções "ou métodos" como valores de primeira classe - ou seja, valores
+que podem ser passados como argumentos para outras funções, retornados como
+resultados, incluídos em estruturas de dados, etc. O reconhecimento de que funções
+podem ser tratadas desse jeito como dados habilita uma gama de idiomas úteis.
+
