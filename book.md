@@ -19,3 +19,14 @@ que podem ser passados como argumentos para outras funções, retornados como
 resultados, incluídos em estruturas de dados, etc. O reconhecimento de que funções
 podem ser tratadas desse jeito como dados habilita uma gama de idiomas úteis.
 
+Outras funcionalidades comuns de linguagens funcionais incluem *algebraic data types*
+e *pattern matching*, o que torna fácil construir e manipular estruturas de dados,
+e sistemas de tipo polimórficos sofisticados, suportando abstração e reuso de código.
+Kind contém todas essas funcionalidades.
+
+A primeira metade desse capítulo introduz os elementos mais básicos da linguagem
+de programação funcional Kind. A segunda metade introduz algumas técnicas básicas
+que podem ser usadas para provar propriedades em programas em Kind.
+
+### 2.2 Tipos Enumerados
+
