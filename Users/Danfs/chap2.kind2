@@ -1,0 +1,121 @@
+// 3.0.1
+Nandb (b1 : Bool) (b2 : Bool) : Bool
+Nandb Bool.true  b2 = Bool.not b2
+Nandb Bool.false b2 = Bool.true
+
+Test_nandb1 : Equal (Nandb Bool.true Bool.false) Bool.true
+Test_nandb1 = Equal.refl
+Test_nandb2 : Equal (Nandb Bool.false Bool.false) Bool.true
+Test_nandb2 = Equal.refl
+Test_nandb3 : Equal (Nandb Bool.false Bool.true) Bool.true
+Test_nandb3 = Equal.refl
+Test_nandb4 : Equal (Nandb Bool.true Bool.true) Bool.false
+Test_nandb4 = Equal.refl
+
+// 3.0.2
+Andb3 (b1 : Bool) (b2 : Bool) (b3 : Bool) : Bool
+Andb3 Bool.true Bool.true Bool.true = Bool.true
+Andb3 b1 b2 b3 = Bool.false
+
+Test_andb31 : Equal (Andb3 Bool.true  Bool.true  Bool.true ) Bool.true
+Test_andb31 = Equal.refl
+Test_andb32 : Equal (Andb3 Bool.false Bool.true  Bool.true ) Bool.false
+Test_andb32 = Equal.refl
+Test_andb33 : Equal (Andb3 Bool.true  Bool.false Bool.true ) Bool.false
+Test_andb33 = Equal.refl
+Test_andb34 : Equal (Andb3 Bool.true  Bool.true  Bool.false) Bool.false
+Test_andb34 = Equal.refl
+
+// 6.0.1
+Factorial (n : Nat) : Nat
+Factorial  Nat.zero    = Nat.succ Nat.zero
+Factorial (Nat.succ n) = Nat.mul (Nat.succ n) (Factorial n)
+
+TestFactorial1 : Equal (Factorial (U60.to_nat 3)) (U60.to_nat 6)
+TestFactorial1 = Equal.refl
+TestFactorial2 : Equal (Factorial (U60.to_nat 5)) (Nat.mul (U60.to_nat 10) (U60.to_nat 12))
+TestFactorial2 = Equal.refl
+
+// 6.0.2
+Blt_nat (n : Nat) (m : Nat) : Bool
+Blt_nat n m = Nat.lte (Nat.succ n) m
+
+Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.false
+Test_blt_nat_1 = Equal.refl
+Test_blt_nat_2 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 4)) Bool.true
+Test_blt_nat_2 = Equal.refl
+Test_blt_nat_3 : Equal (Blt_nat (U60.to_nat 4) (U60.to_nat 2)) Bool.false
+Test_blt_nat_3 = Equal.refl
+
+// 8.0.1
+Plus_id_exercise (n : Nat) (m : Nat) (o : Nat) (e1 : Equal Nat n m) (e2 : Equal Nat m o) : Equal (Nat.add n m) (Nat.add m o)
+Plus_id_exercise n m o e1 e2 =
+  let app = Equal.apply (x => Nat.add x m) e1
+  let rwt = Equal.rewrite e2 (x => (Equal (Nat.add n m) (Nat.add m x))) app
+  rwt
+
+// 8.0.2
+Mult_S_1 (n : Nat) (m : Nat) (e : Equal m (Nat.succ n)) : Equal (Nat.mul m (Nat.add (Nat.succ Nat.zero) n)) (Nat.mul m m)
+Mult_S_1 n m e =
+  let app = Equal.apply (x => Nat.mul m x) e
+  Equal.mirror app
+
+// 9.0.1
+Andb_true_elim_2 (b : Bool) (c : Bool) (e : Equal (Bool.and b c) Bool.true) : Equal c Bool.true
+Andb_true_elim_2 Bool.true  Bool.true  e = Equal.refl
+Andb_true_elim_2 Bool.true  Bool.false e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
+Andb_true_elim_2 Bool.false Bool.true  e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
+Andb_true_elim_2 Bool.false Bool.false e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
+
+// 9.0.2
+Zero_nbeq_plus_1 (n : Nat) : Equal (Nat.equal Nat.zero (Nat.add n (Nat.succ Nat.zero))) Bool.false
+Zero_nbeq_plus_1  Nat.zero    = Equal.refl
+Zero_nbeq_plus_1 (Nat.succ n) = Equal.refl
+
+// TODO 11.0.1
+// Identity_fn_applied_twice 
+//   (f : Bool -> Bool)
+//   (e : [x : Bool] Equal (f x) x)
+//   (b : Bool) 
+// : Equal (f (f b)) b
+// Identity_fn_applied_twice f e b =
+//   let e2 = Equal.apply (x => f (f x)) (Equal Bool b b)
+//   let rwt = Equal.rewrite e (x => (Equal (f (f b)) (f x))) e2
+//   ?
+
+// 11.0.2
+Andb_eq_orb (b : Bool) (c : Bool) (e : Equal (Bool.and b c) (Bool.or b c)) : Equal b c
+Andb_eq_orb Bool.true  Bool.true  e = Equal.refl
+Andb_eq_orb Bool.true  Bool.false e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
+Andb_eq_orb Bool.false Bool.true  e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
+Andb_eq_orb Bool.false Bool.false e = Equal.refl
+
+// 11.0.3
+// a)
+Bin : Type
+Bin.zero : Bin
+Bin.even (b : Bin) : Bin
+Bin.odd  (b : Bin) : Bin
+
+// b)
+Bin.inc (b: Bin) : Bin
+Bin.inc  Bin.zero    = Bin.odd Bin.zero
+Bin.inc (Bin.even b) = Bin.odd b
+Bin.inc (Bin.odd  b) = Bin.even (Bin.inc b)
+
+Bin.to_nat (b: Bin) : Nat
+Bin.to_nat  Bin.zero    = Nat.zero
+Bin.to_nat (Bin.even b) = Nat.double (Bin.to_nat b)
+Bin.to_nat (Bin.odd  b) = Nat.succ (Bin.to_nat (Bin.even b))
+
+// c)
+Test_bin_incr_1 : Equal (Bin.to_nat (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc Bin.zero))))))) (U60.to_nat 6)
+Test_bin_incr_1 = Equal.refl
+Test_bin_incr_2 : Equal (Bin.to_nat (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc (Bin.inc Bin.zero)))))))))) (U60.to_nat 9)
+Test_bin_incr_2 = Equal.refl
+Test_bin_incr_3 : Equal (Bin.to_nat (Bin.inc Bin.zero)) (U60.to_nat 1)
+Test_bin_incr_3 = Equal.refl
+Test_bin_incr_4 : Equal (Bin.to_nat Bin.zero) (U60.to_nat 0)
+Test_bin_incr_4 = Equal.refl
+Test_bin_incr_5 : Equal (Bin.to_nat (Bin.inc (Bin.inc Bin.zero))) (U60.to_nat 2)
+Test_bin_incr_5 = Equal.refl
