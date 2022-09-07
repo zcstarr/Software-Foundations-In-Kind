@@ -46,69 +46,99 @@
                     
                     <div class="Box-body px-5 pb-5">
                       <article id="grip-content" class="markdown-body entry-content container-lg">
-                        <h1><a id="user-content-capítulo-00" class="anchor" aria-hidden="true" href="#capítulo-00"><span aria-hidden="true" class="octicon octicon-link"></span></a>Capítulo 00</h1>
-<h4><a id="user-content-uma-breve-introdução-ao-kind" class="anchor" aria-hidden="true" href="#uma-breve-introdução-ao-kind"><span aria-hidden="true" class="octicon octicon-link"></span></a>Uma breve introdução ao Kind</h4>
-<p>Neste estudo, abordaremos o uso de provas formais para validar nossos
-programas, para tanto, devemos compreender algumas coisas sobre o que
-usaremos, isto é, as ferramentas que temos acesso para o nosso objetivo.</p>
-<p>Logo de cara percebemos que temos um elemento que pode ser novo para muitos
-de nós, o kind e até para quem já possui uma noção de provas formais, pode
-ficar a pergunta no ar, <strong>o que é o kind</strong>?</p>
-<ul>
-<li>
-<h4><a id="user-content-o-kind" class="anchor" aria-hidden="true" href="#o-kind"><span aria-hidden="true" class="octicon octicon-link"></span></a>O kind</h4>
-</li>
-</ul>
-<p>Kind é uma linguagem de programação funcional, mínima, eficiente, pratica e um assistente de provas.</p>
-<p>Essa poderosa linguagem nos permite o uso de provas formais de forma eficiente e veloz, o que nos dá segurança a um custo computacional baixíssimo.</p>
-<p>No kind, por ser uma linguagem de programação funcional, tudo é uma
-função, desde a propria função em si a até mesmo os construtores e tipos.</p>
-<p>Falando em tipos, vamos usar um como exemplo, o tipo <em>Booleano</em>:</p>
-<pre lang="Bhaskelrust"><code>Bool: Type
-Bool.true   : Bool
-Bool.false  : Bool
-</code></pre>
-<p>No tipo <em>Bool</em> nós temos o Bool.<strong>true</strong> e o Bool.<strong>false</strong>. Para criar o
-tipo Bool nós declaramos que ele é um tipo (Type) e depois que o
-Bool.<strong>true</strong> e o Bool.<strong>false</strong> são do tipo Bool. Vendo como é, fica bem
-mais simples. Muitas vezes nos assombramos ao ver o nome "funcional", mas
-Kind é uma linguagem muito amigável, veremos bem sobre isso mais para a
-frente.</p>
-<p>Outro exemplo possível é o <em>Nat</em>, dos números naturais. Números
-naturais são todos os números inteiros maiores ou igual a zero. Ou seja, eles começam com o número zero e vão até o infinito, mas não possuem valores decimais. Ou seja, o <strong>3</strong> é um número natural, mas o <strong>3,14</strong> não é, da mesma forma que o <strong>-3</strong> também não é. Então sabemos que o número natural é feito de <em>zero</em> e dos <em>sucessores</em> dele. Vamos ver como isso é no kind:</p>
-<pre><code>Nat: Type
-Nat.zero              : Nat
-Nat.succ (pred:Nat)   : Nat
-</code></pre>
-<p>Percebemos que a construção é similar aos <em>Booleanos</em>, mas há um
-elemento extra no Nat.<strong>succ</strong>, que é o "(pred: Nat)", e isso se deve ao
-fato de que, enquanto no outro nós tinhamos apenas duas opções de retorno
-(<em>True</em> ou <em>False</em>), agora temos uma infinidade de números que o código
-precisa compreender, além de que deve haver uma forma do código parar de rodar
-(veremos mais sobre isso ao decorrer desse estudo), uma vez que um código que
-nunca para de rodar é um código que nunca nos dará o resultado.</p>
-<p>Porém, de qualquer forma, percebemos que a estrutura do <strong>Nat</strong> é basicamente
-a mesma do <strong>Bool</strong>, isso nos mostra que podemos criar qualquer tipo,
-desde que sigamos a mesma estrutura. Vamos criar o tipo suco:</p>
-<pre><code>Suco : Type
-Suco.laranja  : Suco
-Suco.caju     : Suco
-</code></pre>
-<p>O suco de laranja possui dois construtores, o Suco.<strong>laranja</strong> e o
-Suco.<strong>caju</strong>. Esse tipo é fictício, ele não existia até então, mas agora
-podemos usar ele como um tipo e isso nos mostra que, graças ao design do Kind,
-podemos criar uma infinidade de tipos, pois todo tipo é uma função.</p>
-<p>Já vimos dois tipos e ainda nem começamos a programar de fato, vejam como o
-Kind é amigável conosco, mas isso é porque ainda nem começamos a ver as provas
-formais, lá nós veremos que ele é muito mais amigável do que só na sintaxe
-dele.</p>
-<p>Mas falando em provas formais, o que é uma prova formal?</p>
-<ul>
-<li>
-<h4><a id="user-content-provas-formais" class="anchor" aria-hidden="true" href="#provas-formais"><span aria-hidden="true" class="octicon octicon-link"></span></a>Provas formais.</h4>
-</li>
-</ul>
-
+                        <h1><a id="user-content-capítulo-3" class="anchor" aria-hidden="true" href="#capítulo-3"><span aria-hidden="true" class="octicon octicon-link"></span></a>CAPÍTULO 3</h1>
+<h2><a id="user-content-indução-prova-por-indução" class="anchor" aria-hidden="true" href="#indução-prova-por-indução"><span aria-hidden="true" class="octicon octicon-link"></span></a>Indução: Prova por Indução</h2>
+<h3><a id="user-content-módulo-de-indução" class="anchor" aria-hidden="true" href="#módulo-de-indução"><span aria-hidden="true" class="octicon octicon-link"></span></a>módulo de indução</h3>
+<p>Nesse capítulo nós veremos sobre provas por indução, mas antes de prosseguirmos
+para a indução em si, podemos analisar casos simples onde apenas a reflexão do
+caso já prova o teorema.</p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-en">t0</span> <span class="pl-kos">(</span>n<span class="pl-kos">:</span> <span class="pl-v">Nat</span><span class="pl-kos">)</span> <span class="pl-kos">:</span> <span class="pl-kos">(</span><span class="pl-v">Equal</span> <span class="pl-v">Nat</span> <span class="pl-kos">(</span><span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">add</span> <span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">zero</span> n<span class="pl-kos">)</span> n<span class="pl-kos">)</span><span class="pl-kos"></span></pre></div>
+<p>Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:</p>
+<div class="highlight highlight-source-shell"><pre>Inspection.
+- Goal: (Equal Nat n n)
+Kind.Context:
+- n <span class="pl-c1">:</span> Nat
+On <span class="pl-s"><span class="pl-pds">'</span>problems0.kind2<span class="pl-pds">'</span></span>:
+   64 <span class="pl-k">|</span> Problems.t0 n              = <span class="pl-k">?</span></pre></div>
+<p>No <em>Problems.t0</em> o Kind reduz a soma de "<em>0 + n</em>" automaticamente para <em>n</em> e
+que devemos provar a igualdade entre <em>n</em> e <em>n</em>. Nesse caso basta escrever "<em>Equal</em>.<strong>refl</strong>" e obtemos a resposta de
+confirmação:</p>
+<p>"<em>All terms check.</em>"</p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-en">t1</span> <span class="pl-kos">(</span>n<span class="pl-kos">:</span> <span class="pl-v">Nat</span><span class="pl-kos">)</span> <span class="pl-kos">:</span> <span class="pl-kos">(</span><span class="pl-v">Equal</span> <span class="pl-v">Nat</span> <span class="pl-kos">(</span><span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">add</span> n <span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">zero</span><span class="pl-kos">)</span> n<span class="pl-kos">)</span><span class="pl-kos"></span></pre></div>
+<p>Feito o primeiro problema, o seguinte é muito similar, é a soma de "<em>n + 0 = n</em>" e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:</p>
+<div class="highlight highlight-source-shell"><pre>Inspection.
+- Goal: (Equal _ (Nat.add n Nat.zero) n)
+Kind.Context:
+- n <span class="pl-c1">:</span> Nat
+On <span class="pl-s"><span class="pl-pds">'</span>problems01.kind2<span class="pl-pds">'</span></span>:
+   67 <span class="pl-k">|</span> Problems.t1 n = <span class="pl-k">?</span></pre></div>
+<p>No primeiro caso o Kind reduz pois o <em>zero</em> está à direita e o <em>Type
+Checker</em> já reduz automaticamente, a soma de entre <em>0</em> e <em>n</em> para <em>n</em>.
+Entretanto, quando o primeiro <em>input</em> é uma variável, o Kind necessita
+verificar para cada caso e como é um número natural, há infinitos casos a serem
+testatos, isto é, de zero a infinito.</p>
+<p>De início podemos pensar que são tantos casos e que é impossível analisar todos
+eles, já que são infinitos, mas logo percebemos que é possível reduzir a dois,
+um é o número <em>zero</em> e o outro é um número que <em>sucede</em> o <em>zero</em> <em>n</em> vezes
+depois.</p>
+<p>Analizando para o caso de <em>zero</em> nosso objetivo é provar que <em>zero</em> é igual
+a <em>zero</em>:</p>
+<div class="highlight highlight-source-shell"><pre>- Goal: (Equal _ Nat.zero Nat.zero)</pre></div>
+<p>Agora basta dar o <em>Equal</em>.<strong>refl</strong> e o caso zero já foi comprovado, basta
+apenas responder para o <em>sucessor</em> de <em>zero</em></p>
+<p>Nosso objetivo é provar que para todo número <em>n</em>, ao adicionar <em>0</em> o
+resultado será <em>n</em>, mas já temos uma nova ferramenta que nos auxilia nessa
+prova e é a prova para o caso <em>zero</em>, basta reduzir <em>n</em> até que o
+necessário seja apenas a reflexão e podemos fazer isso por meio da
+recursão e para isso definimos o novo <em>n</em> como o antecessor dele. No Kind nós
+podemos fazer isso simplesmente definindo o <em>n</em> atual como sendo o sucessor
+do próximo <em>n</em> e chamar a função para n recursivamente. Isso é feito da
+seguinte forma:</p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-en">t1</span> <span class="pl-kos">(</span><span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">succ</span> n<span class="pl-kos">)</span>   = ?</pre></div>
+<p>e temos como novo objetivo provar que o sucessor da soma entre <em>n</em> e <em>0</em> é
+igual ao sucessor de <em>n</em></p>
+<div class="highlight highlight-source-shell"><pre>- Goal: (Equal _ (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))</pre></div>
+<p>Para trabalhar com a indução nessa recursão, devemos definir uma variável para
+o caso original de <em>n</em></p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-en">t1</span> <span class="pl-kos">(</span>n<span class="pl-kos">:</span> <span class="pl-v">Nat</span><span class="pl-kos">)</span>       <span class="pl-kos">:</span> <span class="pl-kos">(</span><span class="pl-v">Equal</span> <span class="pl-kos">(</span><span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">add</span> n <span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">zero</span><span class="pl-kos">)</span> n<span class="pl-kos">)</span>
+<span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-c1">t1</span> <span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">zero</span>       = <span class="pl-v">Equal</span><span class="pl-kos">.</span><span class="pl-c1">refl</span>
+<span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-en">t1</span> <span class="pl-kos">(</span><span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">succ</span> n<span class="pl-kos">)</span>   =
+     let ind = <span class="pl-v">Problems</span><span class="pl-kos">.</span><span class="pl-c1">t1</span> n
+     ?<span class="pl-kos"></span></pre></div>
+<p>Ao dar o <em>Type Check</em> temos como retorno a seguinte resposta:</p>
+<div class="highlight highlight-source-shell"><pre>Inspection.
+- Goal: (Equal _ (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
+Kind.Context:
+- n   <span class="pl-c1">:</span> Nat
+- ind <span class="pl-c1">:</span> (Equal _ (Nat.add n Nat.zero) n)
+- ind = (Problems.t1 n)
+On <span class="pl-s"><span class="pl-pds">'</span>problems01.kind2<span class="pl-pds">'</span></span>:
+   72 <span class="pl-k">|</span>     <span class="pl-k">?</span></pre></div>
+<p>Ao analizar nosso objetivo e a indução, percebemos que a única diferença entre
+o objetivo e a nossa variável <em>ind</em> é o <em>Nat</em>.<strong>succ</strong>, basta então
+incrementar a variável <em>ind</em> com o <em>Nat</em>.<strong>succ</strong>, para isso nós criamos uma
+nova variável e usamos uma função <em>lambda</em>:</p>
+<div class="highlight highlight-source-rust"><pre><span class="pl-k">let</span> app = <span class="pl-kos">(</span><span class="pl-v">Equal</span><span class="pl-kos">.</span><span class="pl-en">apply</span> <span class="pl-kos">(</span>x =&gt; <span class="pl-kos">(</span><span class="pl-v">Nat</span><span class="pl-kos">.</span><span class="pl-c1">succ</span> x<span class="pl-kos">)</span><span class="pl-kos">)</span> ind<span class="pl-kos">)</span><span class="pl-kos"></span></pre></div>
+<p>No caso acima nós chamamos a função <em>Equal</em>.<strong>apply</strong> para aplicar a nossa
+função <em>lambda</em> ao <em>ind</em>. A função <code>x =&gt; (Nat.succ x)</code> serve para adicionar
+<em>Nat</em>.<strong>succ</strong> a todo elemento recebido na variável. Como nossa variável <em>ind</em>
+é uma função que recebe uma outra variável <em>n</em>, a nossa função <em>lambda</em>
+incrementa a <em>n</em> com <em>Nat</em>.<strong>succ</strong>, o que retorna exatamente o nosso
+objetivo:</p>
+<div class="highlight highlight-source-shell"><pre>Inspection.
+- Goal: (Equal Nat (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
+Kind.Context:
+- n   <span class="pl-c1">:</span> Nat
+- ind <span class="pl-c1">:</span> (Equal Nat (Nat.add n Nat.zero) n)
+- ind = (Problems.t1 n)
+- app <span class="pl-c1">:</span> (Equal Nat (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
+- app = (Equal.apply Nat Nat (Nat.add n Nat.zero) n (x =<span class="pl-k">&gt;</span> (Nat.succ x)) ind)
+On <span class="pl-s"><span class="pl-pds">'</span>problems01.kind2<span class="pl-pds">'</span></span>:
+   72 <span class="pl-k">|</span>     <span class="pl-k">?</span></pre></div>
+<p>Podemos perceber que o <em>app</em> é exatamente igual ao <em>Goal</em>, que é o nosso
+objetivo e basta apenas retornar ele, o app para que o <em>Type Check</em> valide
+a nossa prova:
+<em>All terms check.</em></p>
 
                       </article>
                     </div>
