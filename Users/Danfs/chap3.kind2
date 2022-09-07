@@ -48,3 +48,178 @@ Double_plus (Nat.succ n) =
 // 1.0.3
 Evenb_S (n : Nat) : Equal (Nat.is_even (Nat.succ n)) (Bool.not (Nat.is_even n))
 Evenb_S n = Equal.refl
+
+// 3.0.1
+Plus_swap (n : Nat) (m : Nat) (p : Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add m (Nat.add n p))
+Plus_swap  Nat.zero    m p = Equal.refl
+Plus_swap (Nat.succ n) m p =
+  let ind = Plus_swap n m p
+  let app = Equal.apply (x => Nat.succ x) ind
+  let chn = Equal.chain app (Plus_n_Sm m (Nat.add n p))
+  chn
+
+// Mult_one_r (n: Nat) : Equal (Nat.mul n (Nat.succ Nat.zero)) n
+// Mult_one_r  Nat.zero    = Equal.refl
+// Mult_one_r (Nat.succ n) =
+//   let ind = Mult_one_r n
+//   let app = Equal.apply (x => Nat.add x (Nat.succ Nat.zero)) ind
+//   let e0  = Plus_comm n (Nat.succ Nat.zero)
+//   let chn = Equal.chain app e0
+//   chn
+
+Mult_succ_r (m: Nat) (n : Nat) : Equal (Nat.mul m (Nat.succ n)) (Nat.add m (Nat.mul m n))
+Mult_succ_r  Nat.zero    n = Equal.refl
+Mult_succ_r (Nat.succ m) n =
+  // Goal: m(n + 1) + (n + 1) == (m + (mn + n)) + 1
+
+  // m(n + 1) == m + mn 
+  let ind = Mult_succ_r m n
+  // m(n + 1) + (n + 1) == (mn + m) + (n + 1)
+  let app = Equal.apply (x => Nat.add x (Nat.succ n)) ind
+
+  let e0 = Plus_n_Sm (Nat.add m (Nat.mul m n)) n
+  let proof = Equal.chain app (Equal.mirror e0)
+
+  let e1 = Plus_assoc m (Nat.mul m n) n
+  let e1 = Equal.apply (x => Nat.succ x) e1
+  let proof = Equal.chain proof (Equal.mirror e1)
+  proof
+
+Mult_comm (m : Nat) (n : Nat) : Equal (Nat.mul m n) (Nat.mul n m)
+Mult_comm  Nat.zero    n = Equal.mirror (Mult_0_r n)
+Mult_comm (Nat.succ m) n =
+  let ind = Mult_comm m n
+  let app = Equal.apply (x => Nat.add x n) ind
+  let e0  = Mult_succ_r n m
+  let e1  = Plus_comm n (Nat.mul n m)
+  let e2  = Equal.chain e0 e1
+  let proof = Equal.chain app (Equal.mirror e2)
+  proof
+
+// 3.0.2
+// Indução trivial
+Lte_refl (n : Nat) : Equal Bool.true (Nat.lte n n)
+Lte_refl  Nat.zero    = Equal.refl
+Lte_refl (Nat.succ n) =
+  let ind = Lte_refl n
+  ind
+
+// Só um Refl
+Zero_nbeq_S (n : Nat) : Equal (Nat.equal Nat.zero (Nat.succ n)) Bool.false
+Zero_nbeq_S n = Equal.refl
+
+// Análise de casos
+Andb_false_r (b : Bool) : Equal (Bool.and b Bool.false) Bool.false
+Andb_false_r Bool.true  = Equal.refl
+Andb_false_r Bool.false = Equal.refl
+
+// Indução básica no p
+Plus_ble_compat_l (n : Nat) (m : Nat) (p : Nat) (e : Equal (Nat.lte n m) Bool.true) : Equal (Nat.lte (Nat.add p n) (Nat.add p m)) Bool.true
+Plus_ble_compat_l n m  Nat.zero    e = e
+Plus_ble_compat_l n m (Nat.succ p) e =
+  let ind = Plus_ble_compat_l n m p e
+  ind
+
+// Só um Refl
+S_nbeq_0 (n : Nat) : Equal (Nat.equal (Nat.succ n) Nat.zero) Bool.false
+S_nbeq_0 n = Equal.refl
+
+// Só um Refl
+Mult_1_l (n : Nat) : Equal (Nat.mul (Nat.succ Nat.zero) n) n
+Mult_1_l n = Equal.refl
+
+// Análise de casos
+All3_spec (b : Bool) (c : Bool) : Equal (Bool.or (Bool.and b c) (Bool.or (Bool.not b) (Bool.not c))) Bool.true
+All3_spec Bool.false c = Equal.refl
+All3_spec Bool.true  Bool.true  = Equal.refl
+All3_spec Bool.true  Bool.false = Equal.refl
+
+// Indução no p, talvez?
+Mult_plus_distr_r (n : Nat) (m : Nat) (p : Nat) : Equal (Nat.mul (Nat.add n m) p) (Nat.add (Nat.mul n p) (Nat.mul m p))
+Mult_plus_distr_r  Nat.zero    m p = Equal.refl
+Mult_plus_distr_r (Nat.succ n) m p =
+  let ind = Mult_plus_distr_r n m p
+  let app = Equal.apply (x => Nat.add x p) ind
+
+  let e0  = Plus_assoc (Nat.mul n p) p (Nat.mul m p)
+  let e1  = Plus_swap (Nat.mul n p) p (Nat.mul m p)
+  let e2  = Equal.chain (Equal.mirror e0) e1
+
+  let e3  = Plus_comm p (Nat.add (Nat.mul n p) (Nat.mul m p))
+  let e3  = Equal.chain e2 e3
+
+  let chn = Equal.chain app (Equal.mirror e3)
+  chn
+
+// Muitas coisas
+Mult_assoc (n : Nat) (m : Nat) (p : Nat) : Equal (Nat.mul n (Nat.mul m p)) (Nat.mul (Nat.mul n m) p)
+Mult_assoc  Nat.zero    m p = Equal.refl
+Mult_assoc (Nat.succ n) m p =
+  let ind = Mult_assoc n m p
+  let app = Equal.apply (x => Nat.add x (Nat.mul m p)) ind
+  let e0  = Mult_plus_distr_r (Nat.mul n m) m p
+  let chn = Equal.chain app (Equal.mirror e0)
+  chn
+
+// 3.0.3
+Beq_nat_refl (n : Nat) : Equal Bool.true (Nat.equal n n)
+Beq_nat_refl  Nat.zero    = Equal.refl
+Beq_nat_refl (Nat.succ n) =
+  let ind = Beq_nat_refl n
+  ind
+
+// 3.0.5
+Bin : Type
+Bin.zero : Bin
+Bin.even (b : Bin) : Bin
+Bin.odd  (b : Bin) : Bin
+
+Bin.inc (b: Bin) : Bin
+Bin.inc  Bin.zero    = Bin.odd Bin.zero
+Bin.inc (Bin.even b) = Bin.odd b
+Bin.inc (Bin.odd  b) = Bin.even (Bin.inc b)
+
+Bin.to_nat (b: Bin) : Nat
+Bin.to_nat  Bin.zero    = Nat.zero
+Bin.to_nat (Bin.even b) = Nat.double (Bin.to_nat b)
+Bin.to_nat (Bin.odd  b) = Nat.succ (Bin.to_nat (Bin.even b))
+
+Bin.commute (b: Bin) : Equal (Bin.to_nat (Bin.inc b)) (Nat.succ (Bin.to_nat b))
+Bin.commute  Bin.zero    = Equal.refl
+Bin.commute (Bin.even b) = Equal.refl
+Bin.commute (Bin.odd  b) =
+  let ind = Bin.commute b
+  let app = Equal.apply (x => Nat.double x) ind
+  app
+
+// 3.0.6
+// a)
+Nat.to_bin (n: Nat) : Bin
+Nat.to_bin  Nat.zero    = Bin.zero
+Nat.to_bin (Nat.succ n) = Bin.inc (Nat.to_bin n)
+
+Bin.to_nat_to_bin (n: Nat) : Equal (Bin.to_nat (Nat.to_bin n)) n
+Bin.to_nat_to_bin  Nat.zero    = Equal.refl
+Bin.to_nat_to_bin (Nat.succ n) =
+  let ind = Bin.to_nat_to_bin n
+  let app = Equal.apply (x => Nat.succ x) ind
+  let e0  = Bin.commute (Nat.to_bin n)
+  let chn = Equal.chain e0 app
+  chn
+
+// b)
+// Porque o valor 0 em binário tem infinitas possibilidades válidas:
+// Bin.zero, (Bin.even Bin.zero), (Bin.even (Bin.even Bin.zero)), etc
+// Dando assim, múltiplas entradas diferentes onde Bin.to_nat retorna Nat.zero
+
+// c)
+Bin.normalize (b: Bin) : Bin
+Bin.normalize  Bin.zero           = Bin.zero
+Bin.normalize (Bin.even Bin.zero) = Bin.zero
+Bin.normalize (Bin.even b       ) = Bin.even (Bin.normalize b)
+Bin.normalize (Bin.odd  b       ) = Bin.odd  (Bin.normalize b)
+
+// Bin.to_bin_to_nat (b : Bin) : Equal (Nat.to_bin (Bin.to_nat b)) (Bin.normalize b)
+// Bin.to_bin_to_nat  Bin.zero           = Equal.refl
+// Bin.to_bin_to_nat (Bin.even b)        = ?
+// Bin.to_bin_to_nat (Bin.odd  b)        = ?
