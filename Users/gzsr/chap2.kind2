@@ -1,3 +1,75 @@
-Bool : Type 
-Bool.true : Bool 
-Bool.false : Bool 
+//3.0.1. Exercise: 1 star (nandb). Fill in the hole ?nandb_rhs and complete the
+//following function; then make sure that the assertions below can each be verified
+//by Idris. (Fill in each of the holes, following the model of the orb tests above.) The
+//function should return True if either or both of its inputs are False
+
+//Nandb (b1 : Bool) (b2: Bool): Bool 
+//Nandb Bool.true Bool.false = Bool.true 
+//Nandb Bool.false Bool.true = Bool.true 
+//Nandb Bool.false Bool.false = Bool.true 
+//Nandb Bool.true Bool.true = Bool.false
+
+//Nandb (b1: Bool) (b2: Bool) : Bool 
+//Nandb  Bool.true Bool.true = Bool.false 
+//Nandb  Bool.false Bool.false = Bool.true 
+//Nandb  b1 b2 = Bool.true
+
+Nandb (b1: Bool) (b2: Bool) : Bool 
+Nandb b1 b2 = (Bool.if (Bool) (Bool.equal b1 b2) (Bool.not b1) (Bool.true))
+
+Test_Nandb1 : Equal (Nandb Bool.true Bool.false) Bool.true 
+Test_Nandb1 = Equal.refl
+
+Test_Nandb2 : Equal (Nandb Bool.false Bool.false) Bool.true 
+Test_Nandb2 = Equal.refl 
+
+Test_Nandb3 : Equal (Nandb Bool.false Bool.true) Bool.true 
+Test_Nandb3 = Equal.refl 
+
+Test_Nandb4 : Equal (Nandb Bool.true Bool.true) Bool.false 
+Test_Nandb4 = Equal.refl 
+
+//3.0.2. Exercise: 1 star (andb3). Do the same for the andb3 function below. This
+//function should return True when all of its inputs are True, and False otherwise.
+
+//Andb3 (b1: Bool) (b2: Bool) (b3: Bool): Bool 
+//Andb3 b1 b2 b3 = (Bool.and (Bool.and b1 b2) b3)
+
+Andb3 (b1: Bool) (b2: Bool) (b3: Bool) : Bool 
+Andb3 Bool.false b2 b3 = Bool.false 
+Andb3 b1 Bool.false b3 = Bool.false 
+Andb3 b1 b2 Bool.false = Bool.false 
+Andb3 b1 b2 b3 = Bool.true 
+
+Test_Andb31 : Equal (Andb3 Bool.true Bool.true Bool.true) Bool.true 
+Test_Andb31 = Equal.refl 
+
+Test_Andb32 : Equal (Andb3 Bool.false Bool.true Bool.true) Bool.false 
+Test_Andb32 = Equal.refl 
+
+Test_Andb33 : Equal (Andb3 Bool.true Bool.false Bool.true) Bool.false 
+Test_Andb33 = Equal.refl 
+
+Test_Andb34 : Equal (Andb3 Bool.true Bool.true Bool.false) Bool.false 
+Test_Andb34 = Equal.refl 
+
+//6.0.1. Exercise: 1 star (factorial). Recall the standard mathematical factorial
+//function:
+//𝑓𝑎𝑐𝑡𝑜𝑟𝑖𝑎𝑙(𝑛) = {1, if 𝑛 = 0
+//𝑛 × 𝑓𝑎𝑐𝑡𝑜𝑟𝑖𝑎𝑙(𝑛 − 1), otherwise
+//Translate this into Kind2.
+
+Factorial (n: Nat) : Nat 
+Factorial Nat.zero = Nat.succ (Nat.zero)
+Factorial (Nat.succ n) = Nat.mul (Nat.succ n) (Factorial n)
+
+TestFactorial1 : Equal (Factorial (U60.to_nat 3)) (U60.to_nat 6)
+TestFactorial1 = Equal.refl
+
+TestFactorial2 : Equal (Factorial (U60.to_nat 5)) (Nat.mul (U60.to_nat 10) (U60.to_nat 12))
+TestFactorial2 = Equal.refl
+
+//8.0.1. Exercise: 1 star (plus_id_exercise). Fill in the proof.
+//plus_id_exercise : (n, m, o : Nat) ౏> (n = m) ౏> (m = o) ౏> n + m = m + o
+//plus_id_exercise n m o prf prf1 = ?plus_id_exercise_rhs
+
