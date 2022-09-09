@@ -1,0 +1,108 @@
+//1.0.1. Exercise: 2 stars, recommended (basic_induction). Prove the following
+//using induction. You might need previously proven results.~
+
+Add_0_r (n : Nat) : Equal (Nat.add n Nat.zero) n
+Add_0_r  Nat.zero    = Equal.refl
+Add_0_r (Nat.succ n) = Equal.apply (x => Nat.succ x) (Add_0_r n)
+
+Mult_0_r (n : Nat) : Equal (Nat.mul n Nat.zero) Nat.zero
+Mult_0_r  Nat.zero    = Equal.refl
+Mult_0_r (Nat.succ n) =
+  let a0 = Mult_0_r n
+  let a1 = (Add_0_r (Nat.mul n Nat.zero))
+  Equal.chain a1 a0
+
+Plus_n_Sm (n: Nat) (m: Nat) : Equal (Nat.succ (Nat.add n m)) (Nat.add n (Nat.succ m))
+Plus_n_Sm Nat.zero m = Equal.refl 
+Plus_n_Sm (Nat.succ n) m = Equal.apply (x => Nat.succ x) (Plus_n_Sm n m)
+
+Plus_comm (n: Nat) (m : Nat) : Equal (Nat.add n m) (Nat.add m n)
+Plus_comm Nat.zero m = Equal.mirror (Add_0_r m)
+Plus_comm (Nat.succ n) m =
+ let a0 = Equal.apply (x => Nat.succ x) (Plus_comm n m)
+ Equal.chain a0 (Plus_n_Sm m n)
+
+Plus_assoc (n : Nat) (m : Nat) (p : Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add n m) p)
+Plus_assoc  Nat.zero    m p = Equal.refl
+Plus_assoc (Nat.succ n) m p = Equal.apply (x => Nat.succ x) (Plus_assoc n m p)
+
+//Exercise: 2 stars (double_plus). Consider the following function, which
+//doubles its argument:
+//double : (n : Nat) ౏> Nat
+//double Z = Z
+//double (S k) = S (S (double k))
+//Use induction to prove this simple fact about double:
+
+Double_plus (n: Nat) : Equal (Nat.dbl n) (Nat.add n n)
+Double_plus Nat.zero = Equal.refl 
+Double_plus (Nat.succ n) = 
+ let a0 = Equal.apply (x => Nat.succ x) (Double_plus n)
+ let a1 = Equal.chain a0 (Plus_n_Sm n n)
+ Equal.apply (x => Nat.succ x) a1
+
+//1.0.3. Exercise: 2 stars, optional (evenb_S). One inconvenient aspect of our
+//definition of evenb n is that it may need to perform a recursive call on n - 2. This
+//makes proofs about evenb n harder when done by induction on n, since we may
+//need an induction hypothesis about n - 2. The following lemma gives a better
+//characterization of evenb (S n):
+//evenb_S : (n : Nat) ౏> evenb (S n) = not (evenb n)
+//evenb_S n = ?evenb_S_rhs 
+
+Evenb_S (n : Nat) : Equal (Nat.is_even (Nat.succ n)) (Bool.not (Nat.is_even n))
+Evenb_S n = Equal.refl
+
+//3.0.1. Exercise: 3 stars, recommended (mult_comm). Use rewrite to help
+//prove this theorem. You shouldn’t need to use induction on plus_swap.
+//plus_swap : (n, m, p : Nat) ౏> n + (m + p) = m + (n + p)
+//plus_swap n m p = ?plus_swap_rhs
+
+Plus_swap (n : Nat) (m : Nat) (p : Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add m (Nat.add n p))
+Plus_swap  Nat.zero    m p = Equal.refl
+Plus_swap (Nat.succ n) m p = Equal.chain (Equal.apply (x => Nat.succ x) (Plus_swap n m p)) (Plus_n_Sm m (Nat.add n p))
+  
+//
+//3.0.2. Exercise: 3 stars, optional (more_exercises).
+//Edit
+//Take a piece of paper. For each of the following theorems, first think about whether
+//(a) it can be proved using only simplification and rewriting, (b) it also requires case
+//analysis (destruct), or (c) it also requires induction. Write down your prediction.
+//Then fill in the proof. (There is no need to turn in your piece of paper; this is just
+//to encourage you to reflect before you hack!)
+
+Lte_refl (n : Nat) : Equal Bool.true (Nat.lte n n)
+Lte_refl  Nat.zero    = Equal.refl
+Lte_refl (Nat.succ n) = Lte_refl n
+
+Zero_nbeq_S (n : Nat) : Equal (Nat.equal Nat.zero (Nat.succ n)) Bool.false
+Zero_nbeq_S n = Equal.refl
+
+Andb_false_r (b : Bool) : Equal (Bool.and b Bool.false) Bool.false
+Andb_false_r Bool.true  = Equal.refl
+Andb_false_r Bool.false = Equal.refl
+
+Plus_ble_compat_l (n : Nat) (m : Nat) (p : Nat) (e : Equal (Nat.lte n m) Bool.true) : Equal (Nat.lte (Nat.add p n) (Nat.add p m)) Bool.true
+Plus_ble_compat_l n m  Nat.zero    e = e
+Plus_ble_compat_l n m (Nat.succ p) e = (Plus_ble_compat_l n m p e)
+
+S_nbeq_0 (n : Nat) : Equal (Nat.equal (Nat.succ n) Nat.zero) Bool.false
+S_nbeq_0 n = Equal.refl
+
+Mult_1_l (n : Nat) : Equal (Nat.mul (Nat.succ Nat.zero) n) n
+Mult_1_l n = Equal.refl
+
+All3_spec (b : Bool) (c : Bool) : Equal (Bool.or (Bool.and b c) (Bool.or (Bool.not b) (Bool.not c))) Bool.true
+All3_spec Bool.false c = Equal.refl
+All3_spec Bool.true  Bool.true  = Equal.refl
+All3_spec Bool.true  Bool.false = Equal.refl
+
+//3.0.3. Exercise: 2 stars, optional (beq_nat_refl).
+//Prove the following theorem. (Putting the True on the left-hand side of the equality
+//may look odd, but this is how the theorem is stated in the Coq standard library,
+//so we follow suit. Rewriting works equally well in either direction, so we will have
+//no problem using the theorem no matter which way we state it.)
+//beq_nat_refl : (n : Nat) ౏> True = n తథ n
+//beq_nat_refl n = ?beq_nat_refl_rhs
+
+Beq_nat_refl (n : Nat) : Equal Bool.true (Nat.equal n n)
+Beq_nat_refl  Nat.zero    = Equal.refl
+Beq_nat_refl (Nat.succ n) = (Beq_nat_refl n)
