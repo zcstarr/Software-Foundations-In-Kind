@@ -30,6 +30,7 @@ que podem ser usadas para provar propriedades em programas em Kind.
 
 ### 2.2 Tipos Enumerados
 
+
 ### 2.6 Números
 Os tipos que definimos até agora são exemplos de tipos enumerados: suas definições enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessante de definir um tipo é estabelecer uma coleção de regras indutivas descrevendo seus elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira: 
 ```rust
@@ -171,15 +172,58 @@ TestLte3 = Equal.refl
 A função `blt_nat` testa numeros naturais para o menor ou igual. Em vez de criar uma nova função recursiva, defina em termos de funções previamente definidas.
 ```rust
 Blt_nat (n: Nat) (m: Nat) : Bool
-Blt_nat n m = Bool.and (Lte n m) (Bool.not (Nat.equal n m))
+Blt_nat n m = ?
 ```
 ```rust
 Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.false
-Test_blt_nat_1 = Equal.refl
+Test_blt_nat_1 = ?
 
 Test_blt_nat_2 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 4)) Bool.true
-Test_blt_nat_2 = Equal.refl
+Test_blt_nat_2 = ?
 
 Test_blt_nat_3 : Equal (Blt_nat (U60.to_nat 4) (U60.to_nat 2)) Bool.false
-Test_blt_nat_3 = Equal.refl
+Test_blt_nat_3 = ?
 ```
+### 2.7 Prova por Simplificação
+Agora que definimos alguns tipos de dados e funções, vamoscomeçar a provar propriedades de seus comportamentos. Na verdade, ja começamos a fazer isso: cada função que começa com `Test` nas seções anteriores, fazem uma afirmação precisa sobre o comportamento de alguma função para algumas entradas especificas. As provas dessas afirmações foram sempre a mesma: use `Equal.refl` para checar que ambos os lados contém valores idênticos.
+
+O mesmo tipo de "prova por simplificação" pode ser usada para provar propriedades mais interessasntes. Por exemplo, o fato que o `Nat.zero` é um "elemento neutro" para a adição no lado esquerdo pode ser provado apenas observando que `Plus Nat.zero n` reduz para n, independente do que é n, fato esse que pode ser lido diretamente da definição de `Plus`.
+```rust
+Plus_Z_n (n: Nat) : Equal (Plus Nat.zero n) n
+Plus_Z_n n = Equal.refl
+```
+Outros teoremas parecidos podem ser provados de forma parecida.
+
+```rust
+Plus_1_l (n: Nat) : Equal (Plus (Nat.succ Nat.zero) n) (Nat.succ n)
+Plus_1_l n = Equal.refl
+
+Mult_0_l (n: Nat) : Equal (Mult Nat.zero n) Nat.zero
+Mult_0_l n = Equal.refl 
+```
+Embora a simplificação seja poderosa o suficiente para provar alguns fatos bastante gerais, existem muitas declarações que não podem ser demonstradas só com a simplificação. Por exemplo, não podemos usá-la para provar que `Nat.zero` é um elemento neutro para a dição no lado direito.
+```rust
+Plus_n_Z (n: Nat) : Equal n (Plus n Nat.zero)
+Plus_n_Z n = Equal.refl
+```
+```rust
+Type mismatch.
+- Expected: (Equal _ n (Plus n Nat.zero))
+- Detected: (Equal _ n n)
+Context:
+- n : Nat
+```
+Você consegue explicar por que isso acontece?
+
+O próximo capítulo vai introduzir a indução, uma técnica poderosa que pode ser usada para demonstrar esse teorema. Por agora, vamos ver mais alguns tipos de prova. 
+
+### 2.8 Prova por Reescrita
+Esse teorema é mais interessante que os outros que vimos:
+```rust
+Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
+```
+Em vez de fazer uma afirmação sobre todos os naturais `n` e `m`, ele fala sobre uma propriedade mais especializada que so vale quando `Equal n m`.
+
+Como nos teoremas anteriores, nós precisamos assumir a existencia dos numeros `n` e `m`. Também precisamos assumir a hipótese `Equal n m`.
+
+Como n e m são números arbitrários, não podemos simplesmente usar a simplificação para demonstrar esse teorema. Em vez disso, provamos observando que, se estamos assumindo `Equal n m`, então pode substituir n por m no objetivo e obter uma igualdade com a mesma expressão em ambos os lados. A função que usamos para fazer isso é a `Equal.rewrite`.
