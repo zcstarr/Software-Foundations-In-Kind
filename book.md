@@ -39,7 +39,7 @@ Nat.succ (pred:Nat)   : Nat
 ```
 Essa definição pode ser lida:
 * `Nat` é um tipo
-* `Nat.zero` é do tipo Nat
+* `Nat.zero` é do tipo `Nat`
 * `Nat.succ` é um construtor que recebe um `Nat` e constrói outro `Nat`, ou seja, se n é `Nat`, então `(Nat.succ n)` também é `Nat`
 
 Todo tipo definido indutivamente (`Nat`, `Bool`, `Day`, etc.) é um conjunto de expressões.
@@ -50,7 +50,7 @@ A definição de `Nat` diz como expressões do tipo `Nat` podem ser construídas
 
 As mesmas regras se aplicam para nossas definições de `Day` e `Bool`. As anotações que usamos para seus construtures são análogas à do construtor `Nat.zero`, indicando que elas não recebem nenhum argumento.
 
-Essas três condiçõesimplicam que a expressão `Nat.zero`, a expressão (Nat.succ Nat.zero), a expressão `(Nat.succ (Nat.succ Nat.zero))` e assim por diante tem tipo `Nat`, enquanto outras expressões como `Bool.true`, `(Bool.and Bool.true Bool.false)`, e `(Nat.succ (Nat.succ Bool.false))` não.
+Essas três condiçõesimplicam que a expressão `Nat.zero`, a expressão `(Nat.succ Nat.zero)`, a expressão `(Nat.succ (Nat.succ Nat.zero))` e assim por diante tem tipo `Nat`, enquanto outras expressões como `Bool.true`, `(Bool.and Bool.true Bool.false)`, e `(Nat.succ (Nat.succ Bool.false))` não.
 
 Nós podemos escrever funções simples que usam pattern matching em números naturais da mesma forma que fizemos acima - por exemplo, a função predecessor:
 
@@ -59,14 +59,19 @@ Pred (n: Nat) : Nat
 Pred Nat.zero     = Nat.zero
 Pred (Nat.succ k) = k
 ```
-A segunda linha pode ser lida: "se n tem a forma `(Nat.succ k)` para algum k, então retorne k.
+A segunda linha pode ser lida: se n tem a forma `(Nat.succ k)` para algum k, então retorne k.
 ```rust
 MinusTwo (n: Nat) : Nat
 MinusTwo Nat.zero               = Nat.zero
 MinusTwo (Nat.succ Nat.zero)    = Nat.zero
 MinusTwo (Nat.succ (Nat.succ k) = k
 ```
-Para a maioria das definições de funções de números, só pattern matching não é suficiente: nós precisaremos também da recursão. Por exemplo, para checar que um número n é pa, nós talvez precisemos checar recursivamente se `n-2` é par.
+Para evitar ter que escever uma sequencia de `Nat.succ` toda vez que quiser um `Nat` é possível usar a função `U60.to_nat`, que recebe um número escrito na forma usual (do tipo `U60`) e retorna o `Nat` correspondente. 
+```rust
+TestU60 : (Equal (U60.to_nat 6) (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
+TestU60 = Equal.refl
+```
+Para a maioria das definições de funções de números, só pattern matching não é suficiente: nós precisaremos também da recursão. Por exemplo, para checar que um número n é par, nós talvez precisemos checar recursivamente se `n-2` é par.
 ```rust
 Evenb (n: Nat) : Bool
 Evenb Nat.zero                = Bool.true
@@ -111,7 +116,7 @@ Mult (Nat.succ k) m = Plus m (Mult k m)
 TestMult1: (Equal (Mult (U60.to_nat 3) (U60.to_nat 3)) (U60.to_nat 9))
 TestMult1 = Equal.refl
 ```
-Você pode usar o patter matching em duas expressões ao mesmo tempo:
+Você pode usar o pattern matching em duas expressões ao mesmo tempo:
 ```rust
 Minus (n: Nat) (m: Nat) : Nat
 Minus Nat.zero     m            = Nat.zero
@@ -123,4 +128,58 @@ O função Exp pode ser definida usando o Mult (de forma semelhante ao feito com
 Exp (base: Nat) (power: Nat) : Nat
 Exp base Nat.zero     = Nat.succ Nat.zero
 Exp base (Nat.succ k) = Mult base (Exp base k)
+```
+#### 6.0.1. Exercício
+Escreva a função fatorial em Kind2:
+```rust
+Factorial (n: Nat) : Nat
+Factorial n = ?
+```
+```rust
+TestFactorial1 : Equal (Factorial (U60.to_nat 3)) (U60.to_nat 6)
+TestFactorial1 = ?
+
+TestFactorial2 : Equal (Factorial (U60.to_nat 5)) (U60.to_nat 120)
+TestFactorial2 = ?
+```
+A função Nat.equal testa a igualdade entre Naturais, retornando um booleano
+```rust
+Nat.equal (n: Nat) (m: Nat) : Bool
+Nat.equal Nat.zero     Nat.zero     = Bool.true
+Nat.equal Nat.zero     (Nat.succ j) = Bool.false
+Nat.equal (Nat.succ k) Nat.zero     = Bool.false
+Nat.equal (Nat.succ k) (Nat.succ j) = Nat.equal k j
+```
+A função `Lte` testa se o primeiro argumento é menor ou igual ao segundo, retornando um booleano
+```rust
+Lte (n: Nat) (m: Nat) : Bool
+Lte Nat.zero     m            = Bool.true
+Lte (Nat.succ k) Nat.zero     = Bool.false
+Lte (Nat.succ k) (Nat.succ j) = Lte k j
+```
+```rust
+TestLte1 : Equal (Lte (U60.to_nat 2) (U60.to_nat 2)) Bool.true
+TestLte1 = Equal.refl
+
+TestLte2 : Equal (Lte (U60.to_nat 2) (U60.to_nat 4)) Bool.true
+TestLte2 = Equal.refl
+
+TestLte3 : Equal (Lte (U60.to_nat 4) (U60.to_nat 2)) Bool.false
+TestLte3 = Equal.refl
+```
+#### 6.0.2. Exercício
+A função `blt_nat` testa numeros naturais para o menor ou igual. Em vez de criar uma nova função recursiva, defina em termos de funções previamente definidas.
+```rust
+Blt_nat (n: Nat) (m: Nat) : Bool
+Blt_nat n m = Bool.and (Lte n m) (Bool.not (Nat.equal n m))
+```
+```rust
+Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.false
+Test_blt_nat_1 = Equal.refl
+
+Test_blt_nat_2 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 4)) Bool.true
+Test_blt_nat_2 = Equal.refl
+
+Test_blt_nat_3 : Equal (Blt_nat (U60.to_nat 4) (U60.to_nat 2)) Bool.false
+Test_blt_nat_3 = Equal.refl
 ```
