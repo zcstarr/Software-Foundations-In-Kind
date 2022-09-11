@@ -73,3 +73,12 @@ TestFactorial2 = Equal.refl
 //plus_id_exercise : (n, m, o : Nat) ౏> (n = m) ౏> (m = o) ౏> n + m = m + o
 //plus_id_exercise n m o prf prf1 = ?plus_id_exercise_rhs
 
+Plus_id_exercise (n : Nat) (m : Nat) (o : Nat) (e1 : Equal Nat n m) (e2 : Equal Nat m o) : Equal (Nat.add n m) (Nat.add m o)
+Plus_id_exercise n m o e1 e2 =
+  let app = Equal.apply (x => Nat.add x m) e1
+  let rwt = Equal.rewrite e2 (x => (Equal (Nat.add n m) (Nat.add m x))) app
+  rwt
+
+//Test (x: Nat) (n: Nat) (a: Nat) (b: Nat) (e1: Equal x n) (e2: Equal (Nat.add x a)  (Nat.add n b)) : (Equal  a b)
+//Equal.rewrite (Equal.mirror e1) (k => (Equal (Nat.add x a)  (Nat.add k b)))) e2
+
