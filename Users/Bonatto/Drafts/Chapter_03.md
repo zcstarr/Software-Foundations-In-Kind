@@ -149,4 +149,22 @@ a nossa prova:
 *All terms check.* 
 
 
+## Usando outros teoremas
 
+Em Kind, como na matemática informal, grandes provas são frequentemente divididas em uma sequência de
+teoremas, com provas posteriores referindo-se a teoremas anteriores. Mas às vezes uma prova
+exigirá algum fato variado que é muito trivial e de muito pouco geral
+interesse em dar-lhe o seu próprio nome de nível superior. Nesses casos, é conveniente
+ser capaz de simplesmente enunciar e provar o “sub-teorema” necessário exatamente no ponto
+onde é usado.
+
+Analisemos o seguinte teorema: 
+
+```rust
+Problems.t2 (n: Nat)  (m: Nat):     (Equal Nat (Nat.add (Nat.add n Nat.zero) m) (Nat.add n m))
+```
+
+Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
+que a adição entre *n* e *zero* é igual a *n*, então podemos usar isso ao nosso
+favor
+```
