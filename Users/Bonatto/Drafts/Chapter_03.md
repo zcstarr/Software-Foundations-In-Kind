@@ -58,7 +58,7 @@ depois.
 Analizando para o caso de *zero* nosso objetivo é provar que *zero* é igual
 a *zero*:
 
-```bash
+```rust
 - Goal: (Equal _ Nat.zero Nat.zero)
 ```
 
@@ -82,7 +82,7 @@ e temos como novo objetivo provar que o sucessor da soma entre *n* e *0* é
 igual ao sucessor de *n* 
 
 
-```bash
+```rust
 - Goal: (Equal _ (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
 ```
 
@@ -99,7 +99,6 @@ Problems.t1 (Nat.succ n)   =
 ```
 
 Ao dar o *Type Check* temos como retorno a seguinte resposta: 
-
 
 
 ```bash
@@ -148,27 +147,27 @@ objetivo e basta apenas retornar ele, o app para que o *Type Check* valide
 a nossa prova:
 *All terms check.* 
 
-### Outrio caso
+### Outro caso
 
 Vamos verificar se a a igualdade "n +(*m* + 1) = 1 + (*n* + *m*)" é verdadeira
 
 Primeiro, o nosso problema:
-``````rust
+```rust
 Problems.t2 (n: Nat) (m: Nat)  : (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ(Nat.add n m))) 
-``````
+```
 Verificamos o primeiro caso, quando *n* é zero:
 ```rust
 Problems.t2 Nat.zero m         = Equal.refl
-``````
+```
 e partimos para o caso seguinte
 ```rust
-Problems.t16 (Nat.succ n) m     = ?
-``````
+Problems.t2 (Nat.succ n) m     = ?
+```
 
 e o nosso objetivo atual vira:
-```bash
+```rust
 Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
-`````````
+```
 
 Traduzindo, o sucessor da adição de *n* e o sucessor de *m* é igual ao
 sucessor do sucessor da adição de *n* e *m*. Para resolver esse problema,
@@ -176,17 +175,17 @@ invocaremos a indução:
 
 ```rust
 let ind = Problems.t16 n m
-`````````
+```
 e o nosso objetivo atual é provar que:
 ```rust
 Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
-`````````
+```
 Traduzindo novamente, que o *sucessor* da adição de *n* e o *sucessor* de *m* é igual ao *sucessor* do *sucessor* da adição de *n* e *m*. 
 
 mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:
 ```rust
 (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ (Nat.add n m)))
-``````
+```
 Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
 basta dar um *Nat*.**succ** em ambos os lados da indução e ela ficará
 exatamente igual ao nosso objetivo, para isso usaremos uma função
@@ -214,8 +213,8 @@ onde é usado.
 
 Analisemos o seguinte teorema da comutação da adição: 
 ```rust
-Problems.t3 (n: Nat) (m: Nat)      : (Equal Nat (Nat.add n  m) (Nat.add m n))```
-
+Problems.t3 (n: Nat) (m: Nat)      : (Equal Nat (Nat.add n  m) (Nat.add m n))
+```
 No primeiro caso, para *n* e *m* igual a zero nós temos uma reflexão:
 ```rust
 Problems.t3 Nat.zero Nat.zero      = Equal.refl
@@ -226,9 +225,8 @@ Problems.t3 (Nat.succ n) m         = ?
 ```
 
 E aqui parece que temos um novo problema: 
-``````rust
+```rust
 Goal: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n)))
-
 ```
 Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
 que o *sucessor* da adição de dois números é igual a adição de um número com o
@@ -237,7 +235,8 @@ favor.
 
 Começaremos aplicando um *Nat*.**succ** no nosso problema original:
 ```rust
- let inda    = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))```
+let inda    = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
+```
 
 
 Depois invocaremos nosso problema já resolvido, o *Problems*.**t2**:
@@ -268,7 +267,8 @@ apenas organizar e juntar as partes necessárias. Para isso usaremos a
 *Equal*.**mirror** e a *Equal*.**chain**.
 
 ```rust
-let indc    = Equal.chain indb (Equal.mirror inda)```
+let indc    = Equal.chain indb (Equal.mirror inda)
+```
 
 
 E o indc nos retorna um valor similar ao desejado:
@@ -280,8 +280,8 @@ indc : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add n m)))
 Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
 *Equal*.**mirror** novamente:
 ```rust
-let app     = Equal.mirror indc```
-
+let app     = Equal.mirror indc
+```
 
 Ao chamar o *app* o *Type Check* nos retorna a mensagem *All terms check* e
 desta forma provamos, por meio da indução e usando uma outra prova, a comutação
