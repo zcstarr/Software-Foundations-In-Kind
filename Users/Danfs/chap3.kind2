@@ -51,21 +51,12 @@ Evenb_S n = Equal.refl
 
 // 3.0.1
 Plus_swap (n : Nat) (m : Nat) (p : Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add m (Nat.add n p))
-Plus_swap  Nat.zero    m p = Equal.refl
-Plus_swap (Nat.succ n) m p =
-  let ind = Plus_swap n m p
-  let app = Equal.apply (x => Nat.succ x) ind
-  let chn = Equal.chain app (Plus_n_Sm m (Nat.add n p))
+Plus_swap n m p =
+  let e0  = Plus_assoc n m p
+  let e1  = Plus_assoc m n p
+  let e1  = Equal.rewrite (Plus_comm m n) (x => Equal (Nat.add m (Nat.add n p)) (Nat.add x p)) e1
+  let chn = Equal.chain e0 (Equal.mirror e1)
   chn
-
-// Mult_one_r (n: Nat) : Equal (Nat.mul n (Nat.succ Nat.zero)) n
-// Mult_one_r  Nat.zero    = Equal.refl
-// Mult_one_r (Nat.succ n) =
-//   let ind = Mult_one_r n
-//   let app = Equal.apply (x => Nat.add x (Nat.succ Nat.zero)) ind
-//   let e0  = Plus_comm n (Nat.succ Nat.zero)
-//   let chn = Equal.chain app e0
-//   chn
 
 Mult_succ_r (m: Nat) (n : Nat) : Equal (Nat.mul m (Nat.succ n)) (Nat.add m (Nat.mul m n))
 Mult_succ_r  Nat.zero    n = Equal.refl
@@ -184,11 +175,11 @@ Bin.to_nat  Bin.zero    = Nat.zero
 Bin.to_nat (Bin.even b) = Nat.double (Bin.to_nat b)
 Bin.to_nat (Bin.odd  b) = Nat.succ (Bin.to_nat (Bin.even b))
 
-Bin.commute (b: Bin) : Equal (Bin.to_nat (Bin.inc b)) (Nat.succ (Bin.to_nat b))
-Bin.commute  Bin.zero    = Equal.refl
-Bin.commute (Bin.even b) = Equal.refl
-Bin.commute (Bin.odd  b) =
-  let ind = Bin.commute b
+Bin.to_nat_pres_incr (b: Bin) : Equal (Bin.to_nat (Bin.inc b)) (Nat.succ (Bin.to_nat b))
+Bin.to_nat_pres_incr  Bin.zero    = Equal.refl
+Bin.to_nat_pres_incr (Bin.even b) = Equal.refl
+Bin.to_nat_pres_incr (Bin.odd  b) =
+  let ind = Bin.to_nat_pres_incr b
   let app = Equal.apply (x => Nat.double x) ind
   app
 
@@ -203,7 +194,7 @@ Bin.to_nat_to_bin  Nat.zero    = Equal.refl
 Bin.to_nat_to_bin (Nat.succ n) =
   let ind = Bin.to_nat_to_bin n
   let app = Equal.apply (x => Nat.succ x) ind
-  let e0  = Bin.commute (Nat.to_bin n)
+  let e0  = Bin.to_nat_pres_incr (Nat.to_bin n)
   let chn = Equal.chain e0 app
   chn
 
@@ -219,7 +210,7 @@ Bin.normalize (Bin.even Bin.zero) = Bin.zero
 Bin.normalize (Bin.even b       ) = Bin.even (Bin.normalize b)
 Bin.normalize (Bin.odd  b       ) = Bin.odd  (Bin.normalize b)
 
-// Bin.to_bin_to_nat (b : Bin) : Equal (Nat.to_bin (Bin.to_nat b)) (Bin.normalize b)
-// Bin.to_bin_to_nat  Bin.zero           = Equal.refl
-// Bin.to_bin_to_nat (Bin.even b)        = ?
-// Bin.to_bin_to_nat (Bin.odd  b)        = ?
+Bin.to_bin_to_nat (b : Bin) : Equal (Nat.to_bin (Bin.to_nat b)) (Bin.normalize b)
+Bin.to_bin_to_nat  Bin.zero           = Equal.refl
+Bin.to_bin_to_nat (Bin.odd  b)        = ?
+Bin.to_bin_to_nat (Bin.even b)        = ?

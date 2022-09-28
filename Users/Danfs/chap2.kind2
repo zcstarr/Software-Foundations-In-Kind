@@ -72,16 +72,16 @@ Zero_nbeq_plus_1 (n : Nat) : Equal (Nat.equal Nat.zero (Nat.add n (Nat.succ Nat.
 Zero_nbeq_plus_1  Nat.zero    = Equal.refl
 Zero_nbeq_plus_1 (Nat.succ n) = Equal.refl
 
-// TODO 11.0.1
-// Identity_fn_applied_twice 
-//   (f : Bool -> Bool)
-//   (e : [x : Bool] Equal (f x) x)
-//   (b : Bool) 
-// : Equal (f (f b)) b
-// Identity_fn_applied_twice f e b =
-//   let e2 = Equal.apply (x => f (f x)) (Equal Bool b b)
-//   let rwt = Equal.rewrite e (x => (Equal (f (f b)) (f x))) e2
-//   ?
+// 11.0.1
+Identity_fn_applied_twice 
+  (f : Bool -> Bool)
+  (e : (x : Bool) -> Equal (f x) x)
+  (b : Bool) 
+: Equal (f (f b)) b
+Identity_fn_applied_twice f e b =
+  let e0 = (e b)
+  let rwt = Equal.rewrite (Equal.mirror e0) (x => (Equal (f x) b)) e0
+  rwt
 
 // 11.0.2
 Andb_eq_orb (b : Bool) (c : Bool) (e : Equal (Bool.and b c) (Bool.or b c)) : Equal b c
