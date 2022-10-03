@@ -14,4 +14,8 @@ Toda semana:
 
 ## Semana 1
 
-- Capítulos 3 e 4
+- Capítulos 2 e 3
+
+## Semana 2
+
+- Capítulos 4 e 5
