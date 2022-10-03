@@ -1,0 +1,27 @@
+Problems.savio (a: Nat) (b: Nat) (c: Nat) : (Equal Nat (Nat.mul a (Nat.add b c)) (Nat.add (Nat.mul a b) (Nat.mul a c)))
+Problems.savio Nat.zero b c  = Equal.refl
+Problems.savio (Nat.succ a) b c = 
+                                let ind = Problems.savio a b c 
+                                let app = Equal.apply (x => Nat.add x (Nat.add b c)) ind
+                                let mir = Equal.mirror app
+                                // let chn = Equal.chain 
+                                ?
+                                
+                                // (Equal.rewrite mir (x => (Equal Nat (Nat.mul (Nat.succ a) (Nat.add b c)) (Nat.add (Nat.mul (Nat.succ x) b) (Nat.mul (Nat.succ x) c))) ) i
+                               
+
+// - ind : (Equal Nat (Nat.mul a (Nat.add b c)) (Nat.add (Nat.mul a b) (Nat.mul a c)))
+// - app : (Equal Nat (Nat.add (Nat.mul a (Nat.add b c)) (Nat.add b c) (Nat.add (Nat.add (Nat.mul a b) (Nat.mul a c)) (Nat.add b c)))
+// (Equal Nat (Nat.mul (Nat.add b c) (Nat.mul a (Nat.add b c))) (Nat.mul (Nat.add b c) (Nat.add (Nat.mul a b) (Nat.mul a c))))
+// - mir : (Equal Nat (Nat.add (Nat.add (Nat.mul a b) (Nat.mul a c)) (Nat.add b c)) (Nat.add (Nat.mul a (Nat.add b c)) (Nat.add b c)))
+// - Goal: (Equal Nat 
+                // (Nat.add (Nat.mul a (Nat.add b c)) (Nat.add b c)) 
+                // (Nat.add (Nat.add (Nat.mul a b) b) (Nat.add (Nat.mul a c) c)))
+
+
+
+
+// Main {
+//     // Nat.add (U60.to_nat 3) (U60.to_nat 4)
+//     Nat.mul (U60.to_nat 3) (U60.to_nat 4)
+// }
