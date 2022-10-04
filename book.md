@@ -17,7 +17,7 @@ O outro sentido na qual programação funcional é "funcional" é que ela enfati
 o uso de funções "ou métodos" como valores de primeira classe - ou seja, valores
 que podem ser passados como argumentos para outras funções, retornados como
 resultados, incluídos em estruturas de dados, etc. O reconhecimento de que funções
-podem ser tratadas desse jeito como dados habilita uma gama de idiomas úteis.
+podem ser tratadas desse jeito como dados habilita uma gama de comandos úteis.
 
 Outras funcionalidades comuns de linguagens funcionais incluem *algebraic data types*
 e *pattern matching*, o que torna fácil construir e manipular estruturas de dados,
@@ -175,7 +175,7 @@ Blt_nat (n: Nat) (m: Nat) : Bool
 Blt_nat n m = ?
 ```
 ```rust
-Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.false
+Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.true
 Test_blt_nat_1 = ?
 
 Test_blt_nat_2 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 4)) Bool.true
@@ -201,7 +201,7 @@ Plus_1_l n = Equal.refl
 Mult_0_l (n: Nat) : Equal (Mult Nat.zero n) Nat.zero
 Mult_0_l n = Equal.refl 
 ```
-Embora a simplificação seja poderosa o suficiente para provar alguns fatos bastante gerais, existem muitas declarações que não podem ser demonstradas só com a simplificação. Por exemplo, não podemos usá-la para provar que `Nat.zero` é um elemento neutro para a dição no lado direito.
+Embora a simplificação seja poderosa o suficiente para provar alguns fatos bastante gerais, existem muitas declarações que não podem ser demonstradas só com a simplificação. Por exemplo, não podemos usá-la para provar que `Nat.zero` é um elemento neutro para adição no lado direito.
 ```rust
 Plus_n_Z (n: Nat) : Equal n (Plus n Nat.zero)
 Plus_n_Z n = Equal.refl
@@ -224,7 +224,7 @@ Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
 ```
 Em vez de fazer uma afirmação sobre todos os naturais `n` e `m`, ele fala sobre uma propriedade mais especializada que so vale quando `Equal n m`.
 
-Como nos teoremas anteriores, nós precisamos assumir a existencia dos numeros `n` e `m`. Também precisamos assumir a hipótese `Equal n m`.
+Como nos teoremas anteriores, alem de assumir a existencia dos numeros n e m. Também precisamos assumir a hipótese Equal n m..
 
 Como n e m são números arbitrários, não podemos simplesmente usar a simplificação para demonstrar esse teorema. Em vez disso, provamos observando que, se estamos assumindo `Equal n m`, então pode substituir n por m no objetivo e obter uma igualdade com a mesma expressão em ambos os lados. A função que usamos para fazer isso é a `Equal.rewrite`.
 
