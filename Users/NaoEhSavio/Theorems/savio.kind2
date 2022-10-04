@@ -21,7 +21,39 @@ Problems.savio (Nat.succ a) b c =
 
 
 
-// Main {
-//     // Nat.add (U60.to_nat 3) (U60.to_nat 4)
-//     Nat.mul (U60.to_nat 3) (U60.to_nat 4)
-// }
+Problems.t16 (n: Nat) (m: Nat) : (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ(Nat.add n m)))
+Problems.t16 Nat.zero m = Equal.refl
+Problems.t16 (Nat.succ n.pred) m = 
+                            let ind = Problems.t16 n.pred m
+                            let app = Equal.apply (x => Nat.succ x) ind 
+                            app 
+
+// Nat.pred (n: Nat) : Nat
+// Nat.pred  Nat.zero       = Nat.zero
+// Nat.pred (Nat.succ pred) = pred
+
+Prova.rewrite (n: Nat) (m: Nat) (e: Equal Nat n m) : (Equal Nat (Nat.add n n) (Nat.add m m))
+Prova.rewrite Nat.zero Nat.zero e = Equal.refl
+// Prova.rewrite n m e = 
+//                 let app = Equal.apply (x => Nat.add x x ) e
+//                 app
+Prova.rewrite (Nat.succ n.pred) (Nat.succ m.pred) e = 
+            let e.pred = Equal.apply (x => Nat.pred x) e 
+            let ind = Prova.rewrite n.pred  m.pred e.pred
+            // let ind2 = Prova.rewrite (Nat.succ n.pred) (Nat.succ m.pred) e
+            let app = Equal.apply (x => Nat.succ x) ind
+            // let app2 = Equal.apply (x => Nat.succ x) ind2
+            let rrt = Equal.rewrite (Equal.mirror e.pred) (x => (Equal Nat (Nat.succ (Nat.add n.pred n.pred)) (Nat.succ (Nat.add m.pred x)))) app
+            let rrt2 = Equal.rewrite (Equal.mirror e) (x => (Equal Nat (Nat.succ (Nat.add n.pred x)) (Nat.succ (Nat.add m.pred x)))) _
+            let rrt3 = Equal.rewrite e.pred (x => (Equal Nat (Nat.succ (Nat.add n.pred (Nat.succ n.pred))) (Nat.succ (Nat.add m.pred (Nat.succ x))))) rrt2
+            // (Equal.rewrite e (x => (Equal Nat (Nat.succ (Nat.add n.pred x)) (Nat.succ (Nat.add m.pred x)))) _)
+            rrt3
+
+
+// - ind : (Equal Nat (Nat.add n.pred n.pred) (Nat.add m.pred m.pred))
+// - app : (Equal Nat (Nat.succ (Nat.add n.pred n.pred)) (Nat.succ (Nat.add m.pred m.pred)))
+// - rrt : (Equal Nat (Nat.succ (Nat.add n.pred m.pred)) (Nat.succ (Nat.add m.pred m.pred)))
+// - rrt2: (Equal Nat (Nat.succ (Nat.add n.pred (Nat.succ n.pred))) (Nat.succ (Nat.add m.pred (Nat.succ n.pred))))
+// - rrt3: (Equal Nat (Nat.succ (Nat.add n.pred (Nat.succ n.pred))) (Nat.succ (Nat.add m.pred (Nat.succ m.pred))))
+// - Goal: (Equal Nat (Nat.succ (Nat.add n.pred (Nat.succ n.pred))) (Nat.succ (Nat.add m.pred (Nat.succ m.pred))))
+// - ind2: (Equal Nat (Nat.succ (Nat.add n.pred (Nat.succ n.pred))) (Nat.succ (Nat.add m.pred (Nat.succ m.pred))))

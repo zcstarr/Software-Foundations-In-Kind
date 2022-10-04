@@ -1,4 +1,4 @@
- // ::::::::::::::
+// ::::::::::::::
 // :: Theorems ::
 // ::::::::::::::
 
@@ -180,19 +180,43 @@ Problems.t26 (List.cons x xs ) ys =
 // - ind : (Equal Nat (Nat.add (List.length Nat xs) (List.length Nat ys)) (List.length Nat (List.concat Nat xs ys)))
 // - app : (Equal Nat (Nat.succ (Nat.add (List.length Nat xs) (List.length Nat ys))) (Nat.succ (List.length Nat (List.concat Nat xs ys))))
 // - Goal: (Equal Nat (Nat.succ (Nat.add (List.length Nat xs) (List.length Nat ys))) (Nat.succ (List.length Nat (List.concat Nat xs ys))))
+// List.reverse <a> (xs: List a) : List a
+// List.reverse a xs = List.reverse.go xs List.nil
+
+// List.reverse.go <a> (xs: List a) (ys: List a) : List a
+// List.reverse.go a (List.nil  a_)           ys = ys
+// List.reverse.go a (List.cons a_ x xs) ys = List.reverse.go xs (List.cons x ys)
+
+// List.reverse <a: Type> (xs: List a) : (List a)
+// List.reverse a xs = List.reverse.go (List.nil a) xs
+
+// List.reverse.go <a: Type> (new_list: List a) (old_list: List a) : (List a)
+// List.reverse.go a new_list (List.nil old_list) = new_list
+// List.reverse.go a new_list (List.cons old_list head tail) = List.reverse.go (List.cons head new_list) tail
+
 Problems.t27 (xs: List Nat) : (Equal (List Nat) (List.reverse Nat (List.reverse Nat (xs))) xs)
 Problems.t27 (List.nil) = Equal.refl
-Problems.t27 (List.cons x xs) = 
-                            let ind = Problems.t27 xs 
-                            let app = Equal.apply (l => List.cons x l) ind
-                            ?
+// Problems.t27 xs = 
+//             let ind = Problems.t27 xs
+//             let app =  Equal.apply (x => x) (Problems.t27 xs)   
+
 // - ind : (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
-// - app : (Equal (List t0_) (List.cons t0_ x (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _))) (List.cons t0_ x xs))
-// - Goal: (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.cons _ x (List.nil _))) (List.nil _)) (List.cons t0_ x xs))
+// - app : (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
+// - Goal: (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
+// Problems.t27 (List.cons Nat x xs) = 
+//                             let ind = Problems.t27 xs 
+//                             let app = Equal.apply (l => List.cons x l) ind
+//                             // let rrt = Equal.rewrite ind (x => (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs ( x )) (List.nil _)) xs))
+//- ind : (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
+//- app : (Equal (List Nat) (List.cons Nat x (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _))) (List.cons Nat x xs))
+//- Goal: (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.cons _ x (List.nil _))) (List.nil _)) (List.cons Nat x xs))
 
-
+// Prova.8 : (Not (Equal Bool Bool.true Bool.false))
+// Prova.8 = true_is_false => Equal.rewrite true_is_false (x => if x { String } else { Empty }) "ola mundo"
 Problems.t28:  Not(Equal Bool Bool.true Bool.false)
-
+// Problems.t28 = 
+//             let empty =  x => Equal.rewrite x (y => if y {String} else {Empty}) "é um jogas"
+//             empty
 Problems.t29:  Not(Equal Nat (Nat.succ(Nat.succ(Nat.zero))) (Nat.succ(Nat.zero)))
 
 Problems.t30 (a: Bool) : Not(Equal Bool (Bool.or(Bool.true) (a)) Bool.false)
@@ -204,7 +228,33 @@ Problems.t32 (a: Bool) : Not(Equal Bool (Bool.and(Bool.false) (a))  Bool.true)
 Problems.t33 (a: Bool) : Not(Equal Bool (Bool.and(a) (Bool.false)) Bool.true)
 
 Problems.t34 (a: Nat) (b: Nat)  (e:Equal a b):  Equal Nat (b) (a)
-
+Problems.t34 Nat.zero Nat.zero  e = Equal.refl
+Problems.t34 (Nat.succ a) (Nat.succ b) e = 
+                                    let mir = Equal.mirror e
+                                    mir
+// - e   : (Equal _   (Nat.succ a) (Nat.succ b))
+// - mir : (Equal _   (Nat.succ b) (Nat.succ a))
+// - Goal: (Equal Nat (Nat.succ b) (Nat.succ a))
 Problems.t35 (a: Nat) (b: Nat) (c: Nat) (e0: Equal a b) (e1: Equal b c): Equal Nat (a) (c) 
-
+Problems.t35 Nat.zero Nat.zero Nat.zero e0 e1 = Equal.refl
+Problems.t35 (Nat.succ a) (Nat.succ b) (Nat.succ c) e0 e1 = 
+                                                    let chn = Equal.chain e0 e1 
+                                                    chn
+//   chn : (Equal _   (Nat.succ a) (Nat.succ c))
+// - Goal: (Equal Nat (Nat.succ a) (Nat.succ c))
 Problems.t36 (a: Nat) (f: Nat -> Type) (p: (f a)) : f (Nat.same a)
+Problems.t36 Nat.zero f p = p
+Problems.t36 (Nat.succ a.pred) f p =
+                                let ind = Problems.t11 a.pred
+                                let app = Equal.apply (x => Nat.succ x) ind
+                                let mir = Equal.mirror app
+                                let rrt = Equal.rewrite mir f p
+                                rrt
+
+// - f   : (Nat -> Type)
+// - p   : (f (Nat.succ a.pred))
+// - ind : (Equal Nat (Nat.same a.pred) a.pred)
+// - app : (Equal Nat (Nat.succ (Nat.same a.pred)) (Nat.succ a.pred))
+// - mir : (Equal Nat (Nat.succ a.pred) (Nat.succ (Nat.same a.pred)))
+// - rrt : (f (Nat.succ (Nat.same a.pred)))
+// - Goal: (f (Nat.succ (Nat.same a.pred)))
