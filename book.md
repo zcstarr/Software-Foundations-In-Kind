@@ -30,21 +30,140 @@ que podem ser usadas para provar propriedades em programas em Kind.
 
 ### 2.2 Tipos Enumerados
 
+Um aspecto incomum do Kind, similar a outras linguagens de prova como Idris e Coq,
+é que o seu conjunto de ferramentas built-in é bastante pequeno. Por exemplo,
+ao invês de fornecer o leque usual de tipos primitivos (booleanos, listas, strings, etc),
+Kind oferece um mecanismo poderoso para definir novos tipos de dados do zero,
+do qual pode-se derivar todos esses tipos já familiares e outros.
+
+<!-- TODO Esse bloco de texto será relevante quando tivermos um sistema de pacotes apropriado -->
+<!-- Naturally, the Idris distribution comes with extensive standard libraries providing
+definitions of booleans, numbers, and many common data structures like lists and
+hash tables (see the prelude and contrib packages), as well as the means to write
+type-safe effectful code (see the effects package) and pruvlioj, a toolkit for proof
+automation and program construction. But there is nothing magic or primitive
+about these library definitions. To illustrate this, we will explicitly recapitulate
+all the definitions we need in this course, rather than just getting them implicitly
+from the library. -->
+
+Para demonstrar como funciona o mecanismo de definição, vamos começar com um exemplo simples.
+
+#### 2.2.1 Dias da semana
+
+A declaração a seguir diz para o Kind que estamos declarando um novo conjunto de dados - um Tipo.
+
+```rs
+Dia : Type // Dia é um Tipo
+
+Segunda : Dia // Segunda é um Dia
+Terca   : Dia // Terça   é um Dia
+Quarta  : Dia // Quarta  é um Dia
+Quinta  : Dia // Quinta  é um Dia
+Sexta   : Dia // Sexta   é um Dia
+Sabado  : Dia // Sábado  é um Dia
+Domingo : Dia // Domingo é um Dia
+```
+
+O tipo se chama `Dia`, e seus membros são `Segunda`, `Terca`, `Quarta`, etc.
+A definição `<nome> : <tipo>` pode ser lida como: "nome é um tipo".
+Acima temos tanto um exemplo de criar um tipo novo `Dia : Type`, quanto a de
+declarar um elemento de um tipo existente `Quarta : Dia`.
+
+Agora que temos definido o que é um Dia, podemos escrever funções que operam usando esse tipo.
+Digite o seguinte:
+
+```rs
+ProximoDiaUtil (d : Dia) : Dia
+```
+
+Isso declara que temos uma função chamado `ProximoDiaUtil`, que recebe um argumento
+chamado `d`, do tipo `Dia`, e retorna um `Dia`.
+Continue a definição da função da seguinte forma:
+
+```rs
+ProximoDiaUtil Segunda = ?DiaUtil_rhs_1
+ProximoDiaUtil Terca = ?DiaUtil_rhs_2
+ProximoDiaUtil Quarta = ?DiaUtil_rhs_3
+ProximoDiaUtil Quinta = ?DiaUtil_rhs_4
+ProximoDiaUtil Sexta = ?DiaUtil_rhs_5
+ProximoDiaUtil Sabado = ?DiaUtil_rhs_6
+ProximoDiaUtil Domingo = ?DiaUtil_rhs_7
+```
+
+O que estamos fazendo aqui é o que chamamos de *pattern matching*. Estamos
+declarando como a função deve rodar para cada possibilidade da entrada `d`.
+Nem sempre será necessário fazer isso, como será mostrado em exemplos mais a frente.
+
+Por fim, complete as funções escrevendo o que cada uma deve retornar,
+e use espaços para estilizar como preferir:
+
+```rs
+ProximoDiaUtil Segunda = Terca
+ProximoDiaUtil Terca   = Quarta
+ProximoDiaUtil Quarta  = Quinta
+ProximoDiaUtil Quinta  = Sexta
+ProximoDiaUtil Sexta   = Segunda
+ProximoDiaUtil Sabado  = Segunda
+ProximoDiaUtil Domingo = Segunda
+```
+
+Com a função finalizada, nós podemos checar o funcionamento dela com alguns exemplos.
+O jeito principal de fazer isso em Kind é criar uma função `Main` no seu arquivo,
+e rodando ele com o comando `kind2 run <file>`.
+
+Por exemplo, se você escrever a seguinte `Main` e rodar o arquivo
+
+```rs
+Main {
+  // Dois dias úteis depois do sábado
+  ProximoDiaUtil (ProximoDiaUtil Sabado)
+}
+```
+
+Deve ser retornado pra você algo como:
+
+```terminal
+(Terca)
+Rewrites: 2
+```
+
+Outro jeito de testar seu código, é dizer o que esperamos que o código retorne,
+por meio de uma prova:
+
+```rs
+// O terceiro dia útil depois de uma segunda é uma quinta
+TesteDiaUtil : Equal (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Segunda))) Quinta
+TesteDiaUtil = Equal.refl
+```
+
+Os detalhes de como provas funcionam serão explicados mais a frente. No momento,
+o que precisa ser entendido disso é:
+
+* Tem-se a constatação de que `(ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Segunda)))` é igual a `Quinta`
+* Essa constatação foi nomeada `TesteDiaUtil`
+* `TesteDiaUtil = Equal.refl` diz que constatação pode ser provada usando apenas simplificação nos dois lados
+
+Para testar que essa prova (e qualquer outra prova adiante) está correta, você precisa
 
 ### 2.6 Números
+
 Os tipos que definimos até agora são exemplos de tipos enumerados: suas definições enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessante de definir um tipo é estabelecer uma coleção de regras indutivas descrevendo seus elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira: 
-```rust
+
+```rs
 Nat: Type
 Nat.zero              : Nat
 Nat.succ (pred:Nat)   : Nat
 ```
+
 Essa definição pode ser lida:
+
 * `Nat` é um tipo
 * `Nat.zero` é do tipo `Nat`
 * `Nat.succ` é um construtor que recebe um `Nat` e constrói outro `Nat`, ou seja, se n é `Nat`, então `(Nat.succ n)` também é `Nat`
 
 Todo tipo definido indutivamente (`Nat`, `Bool`, `Day`, etc.) é um conjunto de expressões.
 A definição de `Nat` diz como expressões do tipo `Nat` podem ser construídas:
+
 * A expressão `Nat.zero` tem tipo `Nat`;
 * Se n é uma expressão do tipo `Nat`, então `(Nat.succ n)` também é uma expressão do tipo `Nat`; e
 * Expressões formadas dessas duas formas são as únicas do tipo `Nat`.
@@ -60,31 +179,40 @@ Pred (n: Nat) : Nat
 Pred Nat.zero     = Nat.zero
 Pred (Nat.succ k) = k
 ```
+
 A segunda linha pode ser lida: se n tem a forma `(Nat.succ k)` para algum k, então retorne k.
+
 ```rust
 MinusTwo (n: Nat) : Nat
 MinusTwo Nat.zero               = Nat.zero
 MinusTwo (Nat.succ Nat.zero)    = Nat.zero
 MinusTwo (Nat.succ (Nat.succ k) = k
 ```
-Para evitar ter que escever uma sequencia de `Nat.succ` toda vez que quiser um `Nat` é possível usar a função `U60.to_nat`, que recebe um número escrito na forma usual (do tipo `U60`) e retorna o `Nat` correspondente. 
+
+Para evitar ter que escever uma sequencia de `Nat.succ` toda vez que quiser um `Nat` é possível usar a função `U60.to_nat`, que recebe um número escrito na forma usual (do tipo `U60`) e retorna o `Nat` correspondente.
+
 ```rust
 TestU60 : (Equal (U60.to_nat 6) (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
 TestU60 = Equal.refl
 ```
+
 Para a maioria das definições de funções de números, só pattern matching não é suficiente: nós precisaremos também da recursão. Por exemplo, para checar que um número n é par, nós talvez precisemos checar recursivamente se `n-2` é par.
+
 ```rust
 Evenb (n: Nat) : Bool
 Evenb Nat.zero                = Bool.true
 Evenb (Nat.succ Nat.zero)     = Bool.false
 Evenb (Nat.succ (Nat.succ k)) = Evenb k
 ```
+
 Nós podemos definir `Oddb` (função para checar se um número é ímpar) com uma declaração recursiva semelhante, mas aqui está uma definição mais simples
 que é um pouco mais fácil de trabalhar:
+
 ```rust
 Oddb (n: Nat) : Bool
 Oddb n = Bool.not (Evenb n)
 ```
+
 ```rust
 TestOddb1 : Equal (Oddb (Nat.succ Nat.zero)) Bool.true
 TestOddb1 = Equal.refl
@@ -92,14 +220,18 @@ TestOddb1 = Equal.refl
 TestOddb2 : Equal (Oddb (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))) Bool.false
 TestOddb2 = Equal.refl
 ```
+
 Naturalmente, nós também podemos definir funções com multiplos argumentos por recursão.
+
 ```rust
 Plus (n: Nat) (m: Nat) : Nat
 Plus Nat.zero     m = m
 Plus (Nat.succ k) m = Nat.succ (Plus k m)
 ```
+
 Adicionar 3 a 2 agora retornará 5 como esperado.
 A simplificação que o Kind realiza para chegar a esse valor pode ser vizualizada assim:
+
 ```
 Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero)))
 ~> Nat.succ (Plus (Nat.succ (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))   pela segunda regra de Plus
@@ -107,35 +239,46 @@ Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero)))
 ~> Nat.succ (Nat.succ (Nat.succ (Plus Nat.zero (Nat.succ (Nat.succ Nat.zero)))))   pela segunda regra de Plus
 ~> Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))    pela primeira regra de Plus
 ```
+
 A multiplicação pode ser definida usando a definição de Plus, da seguinte forma:
+
 ```rust
 Mult (n: Nat) (m: Nat) : Nat
 Mult Nat.zero     m = Nat.zero
 Mult (Nat.succ k) m = Plus m (Mult k m)
 ```
+
 ```rust
 TestMult1: (Equal (Mult (U60.to_nat 3) (U60.to_nat 3)) (U60.to_nat 9))
 TestMult1 = Equal.refl
 ```
+
 Você pode usar o pattern matching em duas expressões ao mesmo tempo:
+
 ```rust
 Minus (n: Nat) (m: Nat) : Nat
 Minus Nat.zero     m            = Nat.zero
 Minus n            Nat.zero     = n
 Minus (Nat.succ k) (Nat.succ j) = Minus k j
 ```
+
 O função Exp pode ser definida usando o Mult (de forma semelhante ao feito com `Mult` e `Plus`):
+
 ```rust
 Exp (base: Nat) (power: Nat) : Nat
 Exp base Nat.zero     = Nat.succ Nat.zero
 Exp base (Nat.succ k) = Mult base (Exp base k)
 ```
+
 #### 6.0.1. Exercício
+
 Escreva a função fatorial em Kind2:
+
 ```rust
 Factorial (n: Nat) : Nat
 Factorial n = ?
 ```
+
 ```rust
 TestFactorial1 : Equal (Factorial (U60.to_nat 3)) (U60.to_nat 6)
 TestFactorial1 = ?
@@ -143,7 +286,9 @@ TestFactorial1 = ?
 TestFactorial2 : Equal (Factorial (U60.to_nat 5)) (U60.to_nat 120)
 TestFactorial2 = ?
 ```
+
 A função Nat.equal testa a igualdade entre Naturais, retornando um booleano
+
 ```rust
 Nat.equal (n: Nat) (m: Nat) : Bool
 Nat.equal Nat.zero     Nat.zero     = Bool.true
@@ -151,13 +296,16 @@ Nat.equal Nat.zero     (Nat.succ j) = Bool.false
 Nat.equal (Nat.succ k) Nat.zero     = Bool.false
 Nat.equal (Nat.succ k) (Nat.succ j) = Nat.equal k j
 ```
+
 A função `Lte` testa se o primeiro argumento é menor ou igual ao segundo, retornando um booleano
+
 ```rust
 Lte (n: Nat) (m: Nat) : Bool
 Lte Nat.zero     m            = Bool.true
 Lte (Nat.succ k) Nat.zero     = Bool.false
 Lte (Nat.succ k) (Nat.succ j) = Lte k j
 ```
+
 ```rust
 TestLte1 : Equal (Lte (U60.to_nat 2) (U60.to_nat 2)) Bool.true
 TestLte1 = Equal.refl
@@ -251,7 +399,7 @@ Inspection.
 Kind.Context:
 - n : Nat
 On 'problems0.kind2':
-   64 | Problems.t0 n              = ?
+  64 | Problems.t0 n              = ?
 ```
 
 No *Problems.t0* o Kind reduz a soma de "*0 + n*" automaticamente para *n* e
@@ -272,7 +420,7 @@ Inspection.
 Kind.Context:
 - n : Nat
 On 'problems01.kind2':
-   67 | Problems.t1 n = ?
+  67 | Problems.t1 n = ?
 ```
 
 No primeiro caso o Kind reduz pois o *zero* está à direita e o *Type
@@ -325,8 +473,8 @@ o caso original de *n*
 Problems.t1 (n: Nat)       : (Equal (Nat.add n Nat.zero) n)
 Problems.t1 Nat.zero       = Equal.refl
 Problems.t1 (Nat.succ n)   =
-     let ind = Problems.t1 n
-     ?
+    let ind = Problems.t1 n
+    ?
 ```
 
 Ao dar o *Type Check* temos como retorno a seguinte resposta: 
@@ -340,7 +488,7 @@ Kind.Context:
 - ind : (Equal _ (Nat.add n Nat.zero) n)
 - ind = (Problems.t1 n)
 On 'problems01.kind2':
-   72 |     ?
+  72 |     ?
 ```
 
 Ao analizar nosso objetivo e a indução, percebemos que a única diferença entre
@@ -370,7 +518,7 @@ Kind.Context:
 - app : (Equal Nat (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
 - app = (Equal.apply Nat Nat (Nat.add n Nat.zero) n (x => (Nat.succ x)) ind)
 On 'problems01.kind2':
-   72 |     ?
+  72 |     ?
 ```
 
 Podemos perceber que o *app* é exatamente igual ao *Goal*, que é o nosso
@@ -488,7 +636,7 @@ Kind.Context:
 - indb : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add m n)))
 - indb = (Problems.t2 m n)
 On 'problems01.kind2':
-   8 |    ?
+  8 |    ?
 ```
 
 Agora podemos perceber que a primeira parte da *inda* é igual ao inverso da
@@ -517,6 +665,3 @@ let app     = Equal.mirror indc
 Ao chamar o *app* o *Type Check* nos retorna a mensagem *All terms check* e
 desta forma provamos, por meio da indução e usando uma outra prova, a comutação
 da adição, ou seja, que a soma de *n* e *m* é igual a soma de *m* e *n*.
-
-
-
