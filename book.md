@@ -143,7 +143,12 @@ o que precisa ser entendido disso é:
 * Essa constatação foi nomeada `TesteDiaUtil`
 * `TesteDiaUtil = Equal.refl` diz que constatação pode ser provada usando apenas simplificação nos dois lados
 
-Para testar que essa prova (e qualquer outra prova adiante) está correta, você precisa
+Para testar que essa prova (e qualquer outra prova adiante) está correta, você precisa checar o arquivo, usando o comando `kind2 check <file>`,
+que deve te retornar algo como:
+
+```terminal
+
+```
 
 ### 2.6 Números
 
