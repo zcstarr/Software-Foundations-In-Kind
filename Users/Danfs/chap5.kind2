@@ -1,0 +1,190 @@
+// 1.1.6
+
+App_nil_r <x> (l : List x) : Equal (List.concat l []) l
+App_nil_r  List.nil        = Equal.refl
+App_nil_r (List.cons x xs) =
+  let ind = App_nil_r xs
+  let app = Equal.apply (k => List.cons x k) ind
+  app
+
+App_assoc <a> (l : List a) (m : List a) (n : List a) : Equal (List.concat l (List.concat m n)) (List.concat (List.concat l m) n)
+App_assoc  List.nil        m n = Equal.refl
+App_assoc (List.cons x xs) m n =
+  let ind = App_assoc xs m n
+  let app = Equal.apply (k => List.cons x k) ind
+  app
+
+App_length <x> (l1 : List x) (l2 : List x) : Equal (List.length (List.concat l1 l2)) (Nat.add (List.length l1) (List.length l2))
+App_length  List.nil        l2 = Equal.refl
+App_length (List.cons x xs) l2 =
+  let ind = App_length xs l2
+  let app = Equal.apply (k => Nat.succ k) ind
+  app
+
+// 1.1.7
+// The reverse function the exercises use
+Rev <t> (l : List t) : List t
+Rev  List.nil        = List.nil
+Rev (List.cons x xs) = List.concat (Rev xs) [x]
+
+Rev_app_distr <x> (l1 : List x) (l2 : List x) : Equal (Rev (List.concat l1 l2)) (List.concat (Rev l2) (Rev l1))
+Rev_app_distr  List.nil        l2 =
+  let e0  = App_nil_r (Rev l2)
+  Equal.mirror e0
+Rev_app_distr (List.cons x xs) l2 =
+  let ind = Rev_app_distr xs l2
+  let app = Equal.apply (k => List.concat k [x]) ind
+  let assoc = App_assoc (Rev l2) (Rev xs) [x]
+  let chn = Equal.chain app (Equal.mirror assoc)
+  chn
+
+Rev_involutive <x> (l : List x) : Equal (Rev (Rev l)) l
+Rev_involutive  List.nil        = Equal.refl
+Rev_involutive (List.cons x xs) =
+  let ind = Rev_involutive xs
+  let app = Equal.apply (k => List.cons x k) ind
+  let e0  = Rev_app_distr (Rev xs) [x]
+  let chn = Equal.chain e0 app
+  chn
+
+// 1.2.2
+
+Split <x> <y> (l : List (Pair x y)) : Pair (List x) (List y)
+Split  List.nil        = Pair.new [] []
+Split (List.cons x xs) =
+  let rec = Split xs
+  Pair.get x   (h_fst => h_snd =>
+  Pair.get rec (t_fst => t_snd =>
+    Pair.new (List.cons h_fst t_fst) (List.cons h_snd t_snd)
+  ))
+
+Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new [1,2] [Bool.false, Bool.false])
+Test_split = Equal.refl
+
+// 1.2.4
+
+Hd_error <x> (l : List x) : Maybe x
+Hd_error  List.nil        = Maybe.none
+Hd_error (List.cons x _) = Maybe.some x
+
+Test_hd_error1 : Equal (Hd_error [1,2]) (Maybe.some 1)
+Test_hd_error1 = Equal.refl
+
+Test_hd_error2 : Equal (Hd_error [[1],[2]]) (Maybe.some [1])
+Test_hd_error2 = Equal.refl
+
+// 2.3.1
+
+Filter_even_gt7 (l : List U60) : List U60
+Filter_even_gt7 l = List.filter l (k => Bool.and (U60.is_even k) (U60.greater_than k 7))
+
+Test_filter_even_gt7_1 : Equal (Filter_even_gt7 [1,2,6,9,10,3,12,8]) ([10,12,8])
+Test_filter_even_gt7_1 = Equal.refl
+
+Test_filter_even_gt7_2 : Equal (Filter_even_gt7 [5,2,6,19,129]) []
+Test_filter_even_gt7_2 = Equal.refl
+
+// 2.3.2
+
+Partition <x> (test : x -> Bool) (l : List x) : Pair (List x) (List x)
+Partition f xs = Partition.aux f xs (Pair.new [] [])
+
+Partition.aux <x> (test : x -> Bool) (l : List x) (p : Pair (List x) (List x)): Pair (List x) (List x)
+Partition.aux f  List.nil        p = p
+Partition.aux f (List.cons x xs) p =
+  let rec = Partition.aux f xs p
+  Pair.get rec (fst => snd =>
+    (Bool.if (f x)
+      (Pair.new (List.cons x fst) snd)
+      (Pair.new fst (List.cons x snd))
+    )
+  )
+
+Test_partition1 : Equal (Partition (x => U60.is_odd x) [1,2,3,4,5]) (Pair.new [1,3,5] [2,4])
+Test_partition1 = Equal.refl
+
+Test_partition2 : Equal (Partition (x => Bool.false) [5,9,0]) (Pair.new [] [5,9,0])
+Test_partition2 = Equal.refl
+
+// 2.4.1
+
+Map_concat <x> <y> (f : x -> y) (l1 : List x) (l2 : List x) : Equal (List.concat (List.map l1 f) (List.map l2 f)) (List.map (List.concat l1 l2) f)
+Map_concat f  List.nil        l2 = Equal.refl
+Map_concat f (List.cons x xs) l2 =
+  let ind = Map_concat f xs l2
+  let app = Equal.apply (k => List.cons (f x) k) ind
+  app
+
+Map_rev <x> <y> (f : x -> y) (l : List x) : Equal (List.map (Rev l) f) (Rev (List.map l f))
+Map_rev f  List.nil        = Equal.refl
+Map_rev f (List.cons x xs) =
+  let ind = Map_rev f xs
+  let app = Equal.apply (k => List.concat k (List.map [x] f)) ind
+  let e0  = Map_concat f (Rev xs) [x]
+  let chn = Equal.chain (Equal.mirror e0) app
+  chn
+
+// 2.4.2
+
+Flat_map <x> <y> (f : x -> List y) (l : List x) : List y
+Flat_map f  List.nil        = List.nil
+Flat_map f (List.cons x xs) =
+  let app = (f x)
+  List.concat app (Flat_map f xs)
+
+// TODO kind2 wont check, will hang
+// Test_flat_map1 : Equal (Flat_map (n => [n, n]) [1,5,4]) [1,1,1, 5,5,5, 4,4,4]
+// Test_flat_map1 = ?test_flat_map1_rhs
+
+// 2.5.1
+// Deseja-se inserir vários elementos em uma estrutura de dados:
+// Pode-se usar um fold em cima da lista do elementos
+// A função f será a função que insere um elemento na ED e retorna a ED resultante
+
+// 3.0.1
+
+Fold_length <x> (l : List x) : Nat
+Fold_length x l = List.foldr Nat.zero (_ => k => Nat.succ k) l
+
+Test_fold_length1 : Equal (Fold_length [4,7,0]) (U60.to_nat 3)
+Test_fold_length1 = Equal.refl
+
+Fold_length_correct <x> (l : List x) : Equal (Fold_length l) (List.length l)
+Fold_length_correct  List.nil        = Equal.refl
+Fold_length_correct (List.cons x xs) =
+  let ind = Fold_length_correct xs
+  let app = Equal.apply (k => Nat.succ k) ind
+  app
+
+// 3.0.2
+
+Fold_map <x> <y> (f : x -> y) (l : List x) : List y
+Fold_map f l = List.foldr [] (elem => list => List.cons (f elem) list) l
+
+Fold_map_correct <x> <y> (l : List x) (f : x -> y) : Equal (List.map l f) (Fold_map f l)
+Fold_map_correct  List.nil        f = Equal.refl
+Fold_map_correct (List.cons x xs) f =
+  let ind = Fold_map_correct xs f
+  let app = Equal.apply (k => List.cons (f x) k) ind
+  app
+
+// 3.0.3
+
+Prod_curry <x> <y> <z> (f : (Pair x y) -> z) (x_val : x) (y_val : y) : z
+Prod_curry f x_val y_val = f (Pair.new x_val y_val)
+
+Prod_uncurry <x> <y> <z> (f : x -> y -> z) (p : (Pair x y)) : z
+Prod_uncurry f (Pair.new x y) = (f x) y
+
+Uncurry_curry <x> <y> <z> (f : x -> y -> z) (x_val : x) (y_val : y) : Equal (Prod_curry (k => Prod_uncurry f k) x_val y_val) (f x_val y_val)
+Uncurry_curry f x_val y_val = Equal.refl
+
+Curry_uncurry <x> <y> <z> (f : (Pair x y) -> z) (p : Pair x y) : Equal (Prod_uncurry (k => c => Prod_curry f k c) p) (f p)
+Curry_uncurry f (Pair.new x y) = Equal.refl
+
+// 3.0.4
+// Um índice igual ao tamanho de uma lista sempre será um índice não existente na lista (pois começamos a indexar do 0)
+// Logo, sempre que se tertar extrair esse indíce de uma lista, esse índice não existe
+
+// 3.0.5
+// TODO Absolutely confusing

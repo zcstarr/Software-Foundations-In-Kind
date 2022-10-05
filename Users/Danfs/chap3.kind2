@@ -210,6 +210,7 @@ Bin.normalize (Bin.even Bin.zero) = Bin.zero
 Bin.normalize (Bin.even b       ) = Bin.even (Bin.normalize b)
 Bin.normalize (Bin.odd  b       ) = Bin.odd  (Bin.normalize b)
 
+// TODO
 Bin.to_bin_to_nat (b : Bin) : Equal (Nat.to_bin (Bin.to_nat b)) (Bin.normalize b)
 Bin.to_bin_to_nat  Bin.zero           = Equal.refl
 Bin.to_bin_to_nat (Bin.odd  b)        = ?
