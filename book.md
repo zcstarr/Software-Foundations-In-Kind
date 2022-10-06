@@ -474,9 +474,9 @@ A função Nat.equal testa a igualdade entre Naturais, retornando um booleano
 
 ```rust
 Nat.equal (n: Nat) (m: Nat) : Bool
-Nat.equal Nat.zero     Nat.zero     = Bool.true
-Nat.equal Nat.zero     (Nat.succ j) = Bool.false
-Nat.equal (Nat.succ k) Nat.zero     = Bool.false
+Nat.equal  Nat.zero     Nat.zero    = Bool.true
+Nat.equal  Nat.zero    (Nat.succ j) = Bool.false
+Nat.equal (Nat.succ k)  Nat.zero    = Bool.false
 Nat.equal (Nat.succ k) (Nat.succ j) = Nat.equal k j
 ```
 
@@ -485,8 +485,8 @@ retornando um booleano
 
 ```rust
 Lte (n: Nat) (m: Nat) : Bool
-Lte Nat.zero     m            = Bool.true
-Lte (Nat.succ k) Nat.zero     = Bool.false
+Lte  Nat.zero     m           = Bool.true
+Lte (Nat.succ k)  Nat.zero    = Bool.false
 Lte (Nat.succ k) (Nat.succ j) = Lte k j
 ```
 
