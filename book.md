@@ -147,8 +147,134 @@ Para testar que essa prova (e qualquer outra prova adiante) está correta, você
 que deve te retornar algo como:
 
 ```terminal
+All terms check.
 
+Rewrites: 9435
 ```
+
+### 2.3 Booleanos
+
+Semelhantemente, podemos declarar o tipo `Bool`, para booleanos:
+
+```rs
+Bool : Type
+
+True : Bool
+False : Bool
+```
+
+<!-- TODO mudar isso aqui caso tenhamos um gerenciador de pacotes -->
+Nós estamos declarando nossos próprios booleano só pra demonstrar como fazer tudo do zero.
+O Kind tem a sua implementação padrão de booleanos no pacote padrão (o [Wikind](github.com/Kindelia/Wikind)),
+junto de várias outras estruturas e provas. Na verdade, no momento de escrita,
+é necessário que você esteja trabalhando dentro da pasta Wikind para fazer
+provas e teoremas, pois ainda não temos um gerenciador de pacote e os utilitários
+de resolução de provas não são built-in.
+
+Funções que funcionam sobre são definidas do mesmo jeito que visto anteriormente:
+
+```rs
+// Negação lógica
+Bool.not (b : Bool) : Bool
+Bool.not True = False
+Bool.not False = True
+
+// E lógico
+Bool.and (b1 : Bool) (b2 : Bool) : Bool
+Bool.and True b2 = b2
+Bool.and False b2 = False
+
+// OU lógico
+Bool.or (b1 : Bool) (b2 : Bool) : Bool
+Bool.or True b2 = True
+Bool.or False b2 = b2
+```
+
+As últimas duas funções demonstram como é a sintaxe do Kind para funções de
+múltiplos argumentos, e também mostra que é possível fazer *pattern matching*
+apenas em parte das variáveis da função, não necessariamente todas.
+
+Os casos da última função podem ser testados exaustivamente (todas as possibilidades)
+como mostrado a seguir, criando a tabela verdade da operação lógica.
+
+```rs
+TestOrb1 : Equal (Bool.or True False) True
+TestOrb1 = Equal.refl
+
+TestOrb2 : Equal (Bool.or False False) False
+TestOrb2 = Equal.refl
+
+TestOrb3 : Equal (Bool.or False True) True
+TestOrb3 = Equal.refl
+
+TestOrb4 : Equal (Bool.or True True) True
+TestOrb4 = Equal.refl
+```
+
+#### *Exercício 2.3.0.1 (nand)*
+
+Substitua o buraco ?nandb_rhs, completando a função seguinte; então confira
+se ela está correta usando as constatações a seguir
+(Análogo a como foi feito para a função `Bool.or`).
+A função retorna `True` se qualquer uma de suas entradas for `False`
+
+```rs
+Bool.nand (b1 : Bool) (b2 : Bool) : Bool
+Bool.nand b1 b2 = ?nandb_rhs
+
+Test_nand1 : Equal (Bool.nand True False) True
+Test_nand1 = ?test_nandb1_rhs
+
+Test_nand2 : Equal (Bool.nand False False) True
+Test_nand2 = ?test_nandb2_rhs
+
+Test_nand3 : Equal (Bool.nand False True) True
+Test_nand3 = ?test_nandb3_rhs
+
+Test_nand4 : Equal (Bool.nand True True) False
+Test_nand4 = ?test_nandb4_rhs
+```
+
+#### *Exercício 2.3.0.2 (and3)*
+
+Faça o mesmo para a função `and3` abaixo. Essa função deve retornar `True` se
+todas as entradas forem `True`, e `False` caso contrário
+
+```rs
+Bool.and3 (b1 : Bool) (b2 : Bool) (b3 : Bool) : Bool
+Bool.and3 b1 b2 b3 = ?andb3_rhs
+
+Test_and3_1 Equal (Bool.and3 True True True) True
+Test_and3_1 = ?test_andb31_rhs
+
+Test_and3_2 Equal (Bool.and3 False True True) False
+Test_and3_2 = ?test_andb32_rhs
+
+Test_and3_3 Equal (Bool.and3 True False True) False
+Test_and3_3 = ?test_andb33_rhs
+
+Test_and3_4 Equal (Bool.and3 True True False) False
+Test_and3_4 = ?test_andb34_rhs
+```
+
+### 2.4 Tipos de função
+
+Todas as expressões em Kind tem um tipo, descrevendo que tipo de coisa ela computa.
+Por exemplo: `True` tem tipo `Bool`, assim como `Bool.not True` também tem tipo `Bool`.
+
+Funções como `Bool.not`, antes de receberem argumentos, também tem um tipo, tal qual `True` ou `False`
+Os seus tipos são chamados de Tipo de Função, e são denotados com setas.
+
+`Bool.not`, por exemplo, seria denotado como `Bool -> Bool`, que pode ser lido como
+"uma função que recebe um `Bool` como entrada, e retorna um valor de tipo `Bool`".
+Similarmente, o tipo da função `Bool.and` é `Bool -> Bool -> Bool`, significando
+"uma função que recebe dois argumentos do tipo `Bool` e retorna um valor de tipo `Bool`".
+
+### 2.5 Módulos
+
+<!-- TODO preencher quando tivermos sistema de módulos -->
+Não temos sistema de módulos ainda :pensive:. Para usar funções de outros arquivos,
+precisa-se criar um arquivo dentro do mesmo diretório (Exemplo: a pasta raiz do Wikind).
 
 ### 2.6 Números
 
