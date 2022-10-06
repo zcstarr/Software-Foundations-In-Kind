@@ -33,7 +33,8 @@ que podem ser usadas para provar propriedades em programas em Kind.
 Um aspecto incomum do Kind, similar a outras linguagens de prova como Idris e Coq,
 é que o seu conjunto de ferramentas built-in é bastante pequeno. Por exemplo,
 ao invês de fornecer o leque usual de tipos primitivos (booleanos, listas, strings, etc),
-Kind oferece um mecanismo poderoso para definir novos tipos de dados do zero,
+Kind tem apenas um tipo primitivo (U60: números inteiros em 60 bits binários, sem sinal)
+e oferece um mecanismo poderoso para definir novos tipos de dados do zero,
 do qual pode-se derivar todos esses tipos já familiares e outros.
 
 <!-- TODO Esse bloco de texto será relevante quando tivermos um sistema de pacotes apropriado -->
@@ -55,13 +56,13 @@ A declaração a seguir diz para o Kind que estamos declarando um novo conjunto 
 ```rs
 Dia : Type // Dia é um Tipo
 
-Segunda : Dia // Segunda é um Dia
-Terca   : Dia // Terça   é um Dia
-Quarta  : Dia // Quarta  é um Dia
-Quinta  : Dia // Quinta  é um Dia
-Sexta   : Dia // Sexta   é um Dia
-Sabado  : Dia // Sábado  é um Dia
-Domingo : Dia // Domingo é um Dia
+Dia.segunda : Dia  // Segunda é um Dia
+Dia.terca   : Dia  // Terça   é um Dia
+Dia.quarta  : Dia  // Quarta  é um Dia
+Dia.quinta  : Dia  // Quinta  é um Dia
+Dia.sexta   : Dia  // Sexta   é um Dia
+Dia.sabado  : Dia  // Sábado  é um Dia
+Dia.domingo : Dia  // Domingo é um Dia
 ```
 
 O tipo se chama `Dia`, e seus membros são `Segunda`, `Terca`, `Quarta`, etc.
@@ -81,13 +82,13 @@ chamado `d`, do tipo `Dia`, e retorna um `Dia`.
 Continue a definição da função da seguinte forma:
 
 ```rs
-ProximoDiaUtil Segunda = ?DiaUtil_rhs_1
-ProximoDiaUtil Terca = ?DiaUtil_rhs_2
-ProximoDiaUtil Quarta = ?DiaUtil_rhs_3
-ProximoDiaUtil Quinta = ?DiaUtil_rhs_4
-ProximoDiaUtil Sexta = ?DiaUtil_rhs_5
-ProximoDiaUtil Sabado = ?DiaUtil_rhs_6
-ProximoDiaUtil Domingo = ?DiaUtil_rhs_7
+ProximoDiaUtil Dia.segunda = ?DiaUtil_rhs_1
+ProximoDiaUtil Dia.terca = ?DiaUtil_rhs_2
+ProximoDiaUtil Dia.quarta = ?DiaUtil_rhs_3
+ProximoDiaUtil Dia.quinta = ?DiaUtil_rhs_4
+ProximoDiaUtil Dia.sexta = ?DiaUtil_rhs_5
+ProximoDiaUtil Dia.sabado = ?DiaUtil_rhs_6
+ProximoDiaUtil Dia.domingo = ?DiaUtil_rhs_7
 ```
 
 O que estamos fazendo aqui é o que chamamos de *pattern matching*. Estamos
@@ -98,13 +99,13 @@ Por fim, complete as funções escrevendo o que cada uma deve retornar,
 e use espaços para estilizar como preferir:
 
 ```rs
-ProximoDiaUtil Segunda = Terca
-ProximoDiaUtil Terca   = Quarta
-ProximoDiaUtil Quarta  = Quinta
-ProximoDiaUtil Quinta  = Sexta
-ProximoDiaUtil Sexta   = Segunda
-ProximoDiaUtil Sabado  = Segunda
-ProximoDiaUtil Domingo = Segunda
+ProximoDiaUtil Dia.segunda = Dia.terca
+ProximoDiaUtil Dia.terca   = Dia.quarta
+ProximoDiaUtil Dia.quarta  = Dia.quinta
+ProximoDiaUtil Dia.quinta  = Dia.sexta
+ProximoDiaUtil Dia.sexta   = Dia.segunda
+ProximoDiaUtil Dia.sabado  = Dia.segunda
+ProximoDiaUtil Dia.domingo = Dia.segunda
 ```
 
 Com a função finalizada, nós podemos checar o funcionamento dela com alguns exemplos.
@@ -123,7 +124,7 @@ Main {
 Deve ser retornado pra você algo como:
 
 ```terminal
-(Terca)
+(Dia.terca)
 Rewrites: 2
 ```
 
@@ -132,14 +133,14 @@ por meio de uma prova:
 
 ```rs
 // O terceiro dia útil depois de uma segunda é uma quinta
-TesteDiaUtil : Equal (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Segunda))) Quinta
+TesteDiaUtil : Equal (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda))) Dia.quinta
 TesteDiaUtil = Equal.refl
 ```
 
 Os detalhes de como provas funcionam serão explicados mais a frente. No momento,
 o que precisa ser entendido disso é:
 
-* Tem-se a constatação de que `(ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Segunda)))` é igual a `Quinta`
+* Tem-se a constatação de que `(ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda)))` é igual a `Dia.quinta`
 * Essa constatação foi nomeada `TesteDiaUtil`
 * `TesteDiaUtil = Equal.refl` diz que constatação pode ser provada usando apenas simplificação nos dois lados
 
@@ -159,8 +160,8 @@ Semelhantemente, podemos declarar o tipo `Bool`, para booleanos:
 ```rs
 Bool : Type
 
-True : Bool
-False : Bool
+Bool.true  : Bool
+Bool.false : Bool
 ```
 
 <!-- TODO mudar isso aqui caso tenhamos um gerenciador de pacotes -->
@@ -175,19 +176,19 @@ Funções que funcionam sobre são definidas do mesmo jeito que visto anteriorme
 
 ```rs
 // Negação lógica
-Bool.not (b : Bool) : Bool
-Bool.not True = False
-Bool.not False = True
+Notb (b : Bool) : Bool
+Notb Bool.true  = Bool.false
+Notb Bool.false = Bool.true
 
 // E lógico
-Bool.and (b1 : Bool) (b2 : Bool) : Bool
-Bool.and True b2 = b2
-Bool.and False b2 = False
+Andb (b1 : Bool) (b2 : Bool) : Bool
+Andb Bool.true  b2 = b2
+Andb Bool.false b2 = Bool.false
 
 // OU lógico
-Bool.or (b1 : Bool) (b2 : Bool) : Bool
-Bool.or True b2 = True
-Bool.or False b2 = b2
+Orb (b1 : Bool) (b2 : Bool) : Bool
+Orb Bool.true  b2 = Bool.true
+Orb Bool.false b2 = b2
 ```
 
 As últimas duas funções demonstram como é a sintaxe do Kind para funções de
@@ -198,76 +199,76 @@ Os casos da última função podem ser testados exaustivamente (todas as possibi
 como mostrado a seguir, criando a tabela verdade da operação lógica.
 
 ```rs
-TestOrb1 : Equal (Bool.or True False) True
+TestOrb1 : Equal (Orb Bool.true Bool.false) Bool.true
 TestOrb1 = Equal.refl
 
-TestOrb2 : Equal (Bool.or False False) False
+TestOrb2 : Equal (Orb Bool.false Bool.false) Bool.false
 TestOrb2 = Equal.refl
 
-TestOrb3 : Equal (Bool.or False True) True
+TestOrb3 : Equal (Orb Bool.false Bool.true) Bool.true
 TestOrb3 = Equal.refl
 
-TestOrb4 : Equal (Bool.or True True) True
+TestOrb4 : Equal (Orb Bool.true Bool.true) Bool.true
 TestOrb4 = Equal.refl
 ```
 
-#### *Exercício 2.3.0.1 (nand)*
+#### *2.3.0.1 Exercício (nandb)*
 
 Substitua o buraco ?nandb_rhs, completando a função seguinte; então confira
 se ela está correta usando as constatações a seguir
-(Análogo a como foi feito para a função `Bool.or`).
-A função retorna `True` se qualquer uma de suas entradas for `False`
+(Análogo a como foi feito para a função `Orb`).
+A função retorna `Bool.true` se qualquer uma de suas entradas for `Bool.false`
 
 ```rs
-Bool.nand (b1 : Bool) (b2 : Bool) : Bool
-Bool.nand b1 b2 = ?nandb_rhs
+Nandb (b1 : Bool) (b2 : Bool) : Bool
+Nandb b1 b2 = ?nandb_rhs
 
-Test_nand1 : Equal (Bool.nand True False) True
-Test_nand1 = ?test_nandb1_rhs
+Test_nandb1 : Equal (Nandb Bool.true Bool.false) Bool.true
+Test_nandb1 = ?test_nandb1_rhs
 
-Test_nand2 : Equal (Bool.nand False False) True
-Test_nand2 = ?test_nandb2_rhs
+Test_nandb2 : Equal (Nandb Bool.false Bool.false) Bool.true
+Test_nandb2 = ?test_nandb2_rhs
 
-Test_nand3 : Equal (Bool.nand False True) True
-Test_nand3 = ?test_nandb3_rhs
+Test_nandb3 : Equal (Nandb Bool.false Bool.true) Bool.true
+Test_nandb3 = ?test_nandb3_rhs
 
-Test_nand4 : Equal (Bool.nand True True) False
-Test_nand4 = ?test_nandb4_rhs
+Test_nandb4 : Equal (Nandb Bool.true Bool.true) Bool.false
+Test_nandb4 = ?test_nandb4_rhs
 ```
 
-#### *Exercício 2.3.0.2 (and3)*
+#### *2.3.0.2 Exercício (and3)*
 
-Faça o mesmo para a função `and3` abaixo. Essa função deve retornar `True` se
-todas as entradas forem `True`, e `False` caso contrário
+Faça o mesmo para a função `Andb3` abaixo. Essa função deve retornar `Bool.true`
+se todas as entradas forem `Bool.true`, e `Bool.false` caso contrário
 
 ```rs
-Bool.and3 (b1 : Bool) (b2 : Bool) (b3 : Bool) : Bool
-Bool.and3 b1 b2 b3 = ?andb3_rhs
+Andb3 (b1 : Bool) (b2 : Bool) (b3 : Bool) : Bool
+Andb3 b1 b2 b3 = ?andb3_rhs
 
-Test_and3_1 Equal (Bool.and3 True True True) True
-Test_and3_1 = ?test_andb31_rhs
+Test_andb3_1 Equal (Andb3 Bool.true Bool.true Bool.true) Bool.true
+Test_andb3_1 = ?test_andb31_rhs
 
-Test_and3_2 Equal (Bool.and3 False True True) False
-Test_and3_2 = ?test_andb32_rhs
+Test_andb3_2 Equal (Andb3 Bool.false Bool.true Bool.true) Bool.false
+Test_andb3_2 = ?test_andb32_rhs
 
-Test_and3_3 Equal (Bool.and3 True False True) False
-Test_and3_3 = ?test_andb33_rhs
+Test_andb3_3 Equal (Andb3 Bool.true Bool.false Bool.true) Bool.false
+Test_andb3_3 = ?test_andb33_rhs
 
-Test_and3_4 Equal (Bool.and3 True True False) False
-Test_and3_4 = ?test_andb34_rhs
+Test_andb3_4 Equal (Andb3 Bool.true Bool.true Bool.false) Bool.false
+Test_andb3_4 = ?test_andb34_rhs
 ```
 
 ### 2.4 Tipos de função
 
 Todas as expressões em Kind tem um tipo, descrevendo que tipo de coisa ela computa.
-Por exemplo: `True` tem tipo `Bool`, assim como `Bool.not True` também tem tipo `Bool`.
+Por exemplo: `Bool.true` tem tipo `Bool`, assim como `Notb Bool.true` também tem tipo `Bool`.
 
-Funções como `Bool.not`, antes de receberem argumentos, também tem um tipo, tal qual `True` ou `False`
+Funções como `Notb`, antes de receberem argumentos, também tem um tipo, tal qual `Bool.true` ou `Bool.false`.
 Os seus tipos são chamados de Tipo de Função, e são denotados com setas.
 
-`Bool.not`, por exemplo, seria denotado como `Bool -> Bool`, que pode ser lido como
+`Notb`, por exemplo, seria denotado como `Bool -> Bool`, que pode ser lido como
 "uma função que recebe um `Bool` como entrada, e retorna um valor de tipo `Bool`".
-Similarmente, o tipo da função `Bool.and` é `Bool -> Bool -> Bool`, significando
+Similarmente, o tipo da função `Andb` é `Bool -> Bool -> Bool`, significando
 "uma função que recebe dois argumentos do tipo `Bool` e retorna um valor de tipo `Bool`".
 
 ### 2.5 Módulos
@@ -278,132 +279,183 @@ precisa-se criar um arquivo dentro do mesmo diretório (Exemplo: a pasta raiz do
 
 ### 2.6 Números
 
-Os tipos que definimos até agora são exemplos de tipos enumerados: suas definições enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessante de definir um tipo é estabelecer uma coleção de regras indutivas descrevendo seus elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira: 
+Os tipos que definimos até agora são exemplos de tipos enumerados: suas definições
+enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessante
+de definir um tipo é estabelecer uma coleção de *regras indutivas* descrevendo seus
+elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira:
 
 ```rs
-Nat: Type
+Nat : Type
 Nat.zero              : Nat
-Nat.succ (pred:Nat)   : Nat
+Nat.succ (pred : Nat) : Nat
 ```
 
-Essa definição pode ser lida:
+Essa definição pode ser lida como:
 
-* `Nat` é um tipo
-* `Nat.zero` é do tipo `Nat`
-* `Nat.succ` é um construtor que recebe um `Nat` e constrói outro `Nat`, ou seja, se n é `Nat`, então `(Nat.succ n)` também é `Nat`
+* `Nat.zero` é um número natural;
+* `Nat.succ` é um construtor que recebe um número natural, construindo outro número natural;
+  * Ou seja, se `n` é um número natural, então `(Nat.succ n)` também será.
 
-Todo tipo definido indutivamente (`Nat`, `Bool`, `Day`, etc.) é um conjunto de expressões.
+Todo tipo definido indutivamente (Como `Nat`, `Bool` ou `Dia`) é um conjunto de expressões.
 A definição de `Nat` diz como expressões do tipo `Nat` podem ser construídas:
 
-* A expressão `Nat.zero` tem tipo `Nat`;
-* Se n é uma expressão do tipo `Nat`, então `(Nat.succ n)` também é uma expressão do tipo `Nat`; e
-* Expressões formadas dessas duas formas são as únicas do tipo `Nat`.
+* A expressão `Nat.zero` pertence ao conjunto dos `Nat`;
+* Se `n` é uma expressão do conjunto dos `Nat`, então `(Nat.succ n)` também é uma expressão do conjunto dos `Nat`; e
+* Expressões formadas dessas duas formas são as únicas que pertencem à `Nat`.
 
-As mesmas regras se aplicam para nossas definições de `Day` e `Bool`. As anotações que usamos para seus construtures são análogas à do construtor `Nat.zero`, indicando que elas não recebem nenhum argumento.
+As mesmas regras se aplicam para nossas definições de `Dia` e `Bool`.
+As anotações que usamos para eles são análogas à do construtor
+`Nat.zero`, indicando que não recebem nenhum argumento.
 
-Essas três condiçõesimplicam que a expressão `Nat.zero`, a expressão `(Nat.succ Nat.zero)`, a expressão `(Nat.succ (Nat.succ Nat.zero))` e assim por diante tem tipo `Nat`, enquanto outras expressões como `Bool.true`, `(Bool.and Bool.true Bool.false)`, e `(Nat.succ (Nat.succ Bool.false))` não.
+Essas três condições demonstram o poder das declarações indutivas. Elas implicam
+que a expressão `Nat.zero`, a expressão `(Nat.succ Nat.zero)`, a expressão
+`(Nat.succ (Nat.succ Nat.zero))` e assim por diante, são do conjunto `Nat`,
+enquanto outras expressões como `Bool.true`, `(Bool.and Bool.true Bool.false)`,
+e `(Nat.succ (Nat.succ Bool.false))` não são.
 
-Nós podemos escrever funções simples que usam pattern matching em números naturais da mesma forma que fizemos acima - por exemplo, a função predecessor:
+Nós podemos escrever funções simples usando *pattern matching* em números naturais
+da mesma forma que fizemos acima - por exemplo, a função predecessor:
 
 ```rust
-Pred (n: Nat) : Nat
-Pred Nat.zero     = Nat.zero
+Pred (n : Nat) : Nat
+// Como números naturais são estritamente não-negativos,
+// usamos como convenção que qualquer coisa que seria
+// menor do que 0 retorna 0
+Pred  Nat.zero    = Nat.zero
 Pred (Nat.succ k) = k
 ```
 
-A segunda linha pode ser lida: se n tem a forma `(Nat.succ k)` para algum k, então retorne k.
+O segundo pattern pode ser lido como: "se `n` tem a forma `(Nat.succ k)`
+para algum k, retorne k."
 
 ```rust
-MinusTwo (n: Nat) : Nat
-MinusTwo Nat.zero               = Nat.zero
-MinusTwo (Nat.succ Nat.zero)    = Nat.zero
-MinusTwo (Nat.succ (Nat.succ k) = k
+MinusTwo (n : Nat) : Nat
+MinusTwo  Nat.zero               = Nat.zero
+MinusTwo (Nat.succ  Nat.zero)    = Nat.zero
+MinusTwo (Nat.succ (Nat.succ k)) = k
 ```
 
-Para evitar ter que escever uma sequencia de `Nat.succ` toda vez que quiser um `Nat` é possível usar a função `U60.to_nat`, que recebe um número escrito na forma usual (do tipo `U60`) e retorna o `Nat` correspondente.
+<!-- TODO atualizar isso aqui pro sugar de números naturais, se vier a existir -->
+Para evitar ter que escrever uma sequência de `Nat.succ` toda vez que você quiser
+um `Nat`, é possível usar a função `U60.to_nat`, que recebe um número escrito
+no tipo primitivo `U60` e retorna o `Nat` correspondente.
 
 ```rust
-TestU60 : (Equal (U60.to_nat 6) (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
+TestU60 : Equal (U60.to_nat 6) (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
 TestU60 = Equal.refl
 ```
 
-Para a maioria das definições de funções de números, só pattern matching não é suficiente: nós precisaremos também da recursão. Por exemplo, para checar que um número n é par, nós talvez precisemos checar recursivamente se `n-2` é par.
+<!-- TODO conferir q eu não estou delirando nesse parágrafo -->
+O construtor `Nat.succ` tem tipo `Nat -> Nat`, assim como as funções `MinusTwo`
+e `Pred`. Todos eles são coisas que, ao serem aplicadas a um `Nat`, retornam
+um `Nat`. A diferença essencial entre o `Nat.succ` e os outros dois, no entanto,
+é que funções vem com regras de redução - por exemplo, `Pred (Nat.succ Nat.zero)`
+é reduzível para `Nat.zero` - enquanto que o `Nat.succ` não. Apesar de ele ser
+uma função aplicável a um argumento, ela não computa nada.
+
+Para a maioria das definições de funções de números, só *pattern matching* não
+é suficiente: nós precisaremos também de recursão. Por exemplo, para checar
+que um número `n` é par, nós podemos checar recursivamente se `n-2` é par.
 
 ```rust
-Evenb (n: Nat) : Bool
-Evenb Nat.zero                = Bool.true
-Evenb (Nat.succ Nat.zero)     = Bool.false
+Evenb (n : Nat) : Bool
+Evenb  Nat.zero               = Bool.true
+Evenb (Nat.succ  Nat.zero)    = Bool.false
 Evenb (Nat.succ (Nat.succ k)) = Evenb k
 ```
 
-Nós podemos definir `Oddb` (função para checar se um número é ímpar) com uma declaração recursiva semelhante, mas aqui está uma definição mais simples
-que é um pouco mais fácil de trabalhar:
+Nós podemos definir `Oddb` (função para checar se um número é ímpar) com uma
+declaração recursiva semelhante, mas também temos uma definição mais simples
+e um pouco mais fácil de trabalhar:
 
 ```rust
-Oddb (n: Nat) : Bool
+Oddb (n : Nat) : Bool
 Oddb n = Bool.not (Evenb n)
 ```
 
 ```rust
-TestOddb1 : Equal (Oddb (Nat.succ Nat.zero)) Bool.true
+TestOddb1 : Equal (Oddb (U60.to_nat 1)) Bool.true
 TestOddb1 = Equal.refl
 
-TestOddb2 : Equal (Oddb (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))) Bool.false
+TestOddb2 : Equal (Oddb (U60.to_nat 4)) Bool.false
 TestOddb2 = Equal.refl
 ```
 
 Naturalmente, nós também podemos definir funções com multiplos argumentos por recursão.
 
 ```rust
-Plus (n: Nat) (m: Nat) : Nat
-Plus Nat.zero     m = m
+Plus (n : Nat) (m : Nat) : Nat
+Plus  Nat.zero    m = m
 Plus (Nat.succ k) m = Nat.succ (Plus k m)
 ```
 
-Adicionar 3 a 2 agora retornará 5 como esperado.
+Somar 3 e 2 retornará 5 como esperado.
 A simplificação que o Kind realiza para chegar a esse valor pode ser vizualizada assim:
 
-```
-Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero)))
-~> Nat.succ (Plus (Nat.succ (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))   pela segunda regra de Plus
-~> Nat.succ (Nat.succ (Plus (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))   pela segunda regra de Plus
-~> Nat.succ (Nat.succ (Nat.succ (Plus Nat.zero (Nat.succ (Nat.succ Nat.zero)))))   pela segunda regra de Plus
-~> Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))    pela primeira regra de Plus
+```terminal
+Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero))
+
+> Nat.succ (Plus (Nat.succ (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
+pela segunda regra de Plus
+
+> Nat.succ (Nat.succ (Plus (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
+pela segunda regra de Plus
+
+> Nat.succ (Nat.succ (Nat.succ (Plus Nat.zero (Nat.succ (Nat.succ Nat.zero)))))
+pela segunda regra de Plus
+
+> Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))
+pela primeira regra de Plus
 ```
 
 A multiplicação pode ser definida usando a definição de Plus, da seguinte forma:
 
 ```rust
-Mult (n: Nat) (m: Nat) : Nat
-Mult Nat.zero     m = Nat.zero
+Mult (n : Nat) (m : Nat) : Nat
+Mult  Nat.zero    m = Nat.zero
 Mult (Nat.succ k) m = Plus m (Mult k m)
 ```
 
 ```rust
-TestMult1: (Equal (Mult (U60.to_nat 3) (U60.to_nat 3)) (U60.to_nat 9))
+TestMult1 : Equal (Mult (U60.to_nat 3) (U60.to_nat 3)) (U60.to_nat 9)
 TestMult1 = Equal.refl
 ```
 
-Você pode usar o pattern matching em duas expressões ao mesmo tempo:
+Você também pode usar *pattern matching* em duas expressões ao mesmo tempo:
 
 ```rust
-Minus (n: Nat) (m: Nat) : Nat
-Minus Nat.zero     m            = Nat.zero
-Minus n            Nat.zero     = n
+Minus (n : Nat) (m : Nat) : Nat
+Minus  Nat.zero     m           = Nat.zero
+Minus  n            Nat.zero    = n
 Minus (Nat.succ k) (Nat.succ j) = Minus k j
 ```
 
-O função Exp pode ser definida usando o Mult (de forma semelhante ao feito com `Mult` e `Plus`):
+<!-- TODO conferir se wildcard no lhs já está funcionando -->
+<!-- The _ in the first line is a wildcard pattern. Writing _ in a
+pattern is the same as writing some variable that doesn’t get used on the
+right-hand side. This avoids the need to invent a bogus variable name. -->
+
+O função `Exp` pode ser definida usando `Mult`
+(de forma análoga a como se define `Mult` usando `Plus`):
 
 ```rust
-Exp (base: Nat) (power: Nat) : Nat
-Exp base Nat.zero     = Nat.succ Nat.zero
+Exp (base : Nat) (power : Nat) : Nat
+Exp base  Nat.zero    = Nat.succ Nat.zero
 Exp base (Nat.succ k) = Mult base (Exp base k)
 ```
 
-#### 6.0.1. Exercício
+#### *2.6.0.1 Exercício (factorial)*
 
-Escreva a função fatorial em Kind2:
+Lembrando da definição matemática básica de fatorial:
+
+$$
+fatorial(n) = \begin{cases}
+1, & \text{se $n$} = 0\\
+n * fatorial(n-1), & \text{caso contrário}
+\end{cases}
+$$
+
+Traduza a função fatorial para Kind2:
 
 ```rust
 Factorial (n: Nat) : Nat
@@ -428,7 +480,8 @@ Nat.equal (Nat.succ k) Nat.zero     = Bool.false
 Nat.equal (Nat.succ k) (Nat.succ j) = Nat.equal k j
 ```
 
-A função `Lte` testa se o primeiro argumento é menor ou igual ao segundo, retornando um booleano
+A função `Lte` testa se o primeiro argumento é menor ou igual ao segundo,
+retornando um booleano
 
 ```rust
 Lte (n: Nat) (m: Nat) : Bool
@@ -447,12 +500,17 @@ TestLte2 = Equal.refl
 TestLte3 : Equal (Lte (U60.to_nat 4) (U60.to_nat 2)) Bool.false
 TestLte3 = Equal.refl
 ```
-#### 6.0.2. Exercício
-A função `blt_nat` testa numeros naturais para o menor ou igual. Em vez de criar uma nova função recursiva, defina em termos de funções previamente definidas.
+
+#### *2.6.0.2 Exercício (blt_nat)*
+
+A função `blt_nat` testa a relação "menor que" em numeros naturais.
+Em vez de criar uma nova função recursiva, defina ela usando funções previamente definidas.
+
 ```rust
-Blt_nat (n: Nat) (m: Nat) : Bool
+Blt_nat (n : Nat) (m : Nat) : Bool
 Blt_nat n m = ?
 ```
+
 ```rust
 Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.true
 Test_blt_nat_1 = ?
@@ -463,7 +521,9 @@ Test_blt_nat_2 = ?
 Test_blt_nat_3 : Equal (Blt_nat (U60.to_nat 4) (U60.to_nat 2)) Bool.false
 Test_blt_nat_3 = ?
 ```
+
 ### 2.7 Prova por Simplificação
+
 Agora que definimos alguns tipos de dados e funções, vamoscomeçar a provar propriedades de seus comportamentos. Na verdade, ja começamos a fazer isso: cada função que começa com `Test` nas seções anteriores, fazem uma afirmação precisa sobre o comportamento de alguma função para algumas entradas especificas. As provas dessas afirmações foram sempre a mesma: use `Equal.refl` para checar que ambos os lados contém valores idênticos.
 
 O mesmo tipo de "prova por simplificação" pode ser usada para provar propriedades mais interessasntes. Por exemplo, o fato que o `Nat.zero` é um "elemento neutro" para a adição no lado esquerdo pode ser provado apenas observando que `Plus Nat.zero n` reduz para n, independente do que é n, fato esse que pode ser lido diretamente da definição de `Plus`.
