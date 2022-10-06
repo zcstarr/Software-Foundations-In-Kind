@@ -163,7 +163,7 @@ Problems.t24 xs = Equal.refl
 
 Problems.t25 (xs: List Nat) : (Equal (List Nat)   (List.map Nat Nat xs (x => x))  xs)
 Problems.t25 (List.nil) = Equal.refl
-Problems.t25 (List.cons x xs) = 
+Problems.t25 (List.cons Nat x xs) = 
                             let ind = Problems.t25 xs
                             let app = Equal.apply (l => (List.cons x l)) ind
                             app
@@ -180,12 +180,6 @@ Problems.t26 (List.cons x xs ) ys =
 // - ind : (Equal Nat (Nat.add (List.length Nat xs) (List.length Nat ys)) (List.length Nat (List.concat Nat xs ys)))
 // - app : (Equal Nat (Nat.succ (Nat.add (List.length Nat xs) (List.length Nat ys))) (Nat.succ (List.length Nat (List.concat Nat xs ys))))
 // - Goal: (Equal Nat (Nat.succ (Nat.add (List.length Nat xs) (List.length Nat ys))) (Nat.succ (List.length Nat (List.concat Nat xs ys))))
-// List.reverse <a> (xs: List a) : List a
-// List.reverse a xs = List.reverse.go xs List.nil
-
-// List.reverse.go <a> (xs: List a) (ys: List a) : List a
-// List.reverse.go a (List.nil  a_)           ys = ys
-// List.reverse.go a (List.cons a_ x xs) ys = List.reverse.go xs (List.cons x ys)
 
 // List.reverse <a: Type> (xs: List a) : (List a)
 // List.reverse a xs = List.reverse.go (List.nil a) xs
@@ -193,7 +187,6 @@ Problems.t26 (List.cons x xs ) ys =
 // List.reverse.go <a: Type> (new_list: List a) (old_list: List a) : (List a)
 // List.reverse.go a new_list (List.nil old_list) = new_list
 // List.reverse.go a new_list (List.cons old_list head tail) = List.reverse.go (List.cons head new_list) tail
-
 Problems.t27 (xs: List Nat) : (Equal (List Nat) (List.reverse Nat (List.reverse Nat (xs))) xs)
 Problems.t27 (List.nil) = Equal.refl
 // Problems.t27 xs = 
@@ -203,32 +196,92 @@ Problems.t27 (List.nil) = Equal.refl
 // - ind : (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
 // - app : (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
 // - Goal: (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
+
 // Problems.t27 (List.cons Nat x xs) = 
 //                             let ind = Problems.t27 xs 
 //                             let app = Equal.apply (l => List.cons x l) ind
-//                             // let rrt = Equal.rewrite ind (x => (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs ( x )) (List.nil _)) xs))
+//                             let rrt = Equal.rewrite ind (x => (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)) ind
 //- ind : (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _)) xs)
 //- app : (Equal (List Nat) (List.cons Nat x (List.reverse.go _ (List.reverse.go _ xs (List.nil _)) (List.nil _))) (List.cons Nat x xs))
 //- Goal: (Equal (List Nat) (List.reverse.go _ (List.reverse.go _ xs (List.cons _ x (List.nil _))) (List.nil _)) (List.cons Nat x xs))
 
+
+
 // Prova.8 : (Not (Equal Bool Bool.true Bool.false))
 // Prova.8 = true_is_false => Equal.rewrite true_is_false (x => if x { String } else { Empty }) "ola mundo"
 Problems.t28:  Not(Equal Bool Bool.true Bool.false)
-// Problems.t28 = 
-//             let empty =  x => Equal.rewrite x (y => if y {String} else {Empty}) "é um jogas"
-//             empty
+Problems.t28 = (emp => Equal.rewrite emp (e => if e {Nat} else {Empty}) Nat.zero)
+    
+// - Goal: ((Equal Bool Bool.true Bool.false) -> Empty)
+
+// Nat.pred (n: Nat) : Nat
+// Nat.pred  Nat.zero       = Nat.zero
+// Nat.pred (Nat.succ pred) = pred
+
+// Nat.is_zero (n: Nat) : Bool
+// Nat.is_zero  Nat.zero    = Bool.true
+// Nat.is_zero (Nat.succ n) = Bool.false
+
 Problems.t29:  Not(Equal Nat (Nat.succ(Nat.succ(Nat.zero))) (Nat.succ(Nat.zero)))
+Problems.t29 = 
+(emp => 
+    let app = Equal.apply (x => Nat.pred x) emp
+    let aux = Equal.apply (x => Nat.is_zero x) app
+    let mir = Equal.mirror aux
+    // ?)
+    Equal.rewrite mir (e => if e {Nat} else {Empty}) Nat.zero)
 
+// - emp : (Equal Nat (Nat.succ (Nat.succ Nat.zero)) (Nat.succ Nat.zero))
+// - app : (Equal Nat (Nat.succ Nat.zero) Nat.zero)
+// - aux : (Equal Bool Bool.false Bool.true)
+// - mir : (Equal Bool Bool.true Bool.false)
+// - Goal: ((Equal Nat (Nat.succ (Nat.succ Nat.zero)) (Nat.succ Nat.zero)) -> Empty)
 Problems.t30 (a: Bool) : Not(Equal Bool (Bool.or(Bool.true) (a)) Bool.false)
+Problems.t30 a = (emp => Equal.rewrite emp (e => if e {Nat} else {Empty}) Nat.zero)
 
+// - Goal: ((Equal Bool (Bool.or a Bool.true) Bool.false) -> Empty)
 Problems.t31 (a: Bool) : Not(Equal Bool (Bool.or(a) (Bool.true)) Bool.false)
+Problems.t31 Bool.false = (emp => Equal.rewrite emp (e => if e {Nat} else {Empty}) Nat.zero)
 
+// - Goal: ((Equal Bool Bool.true Bool.false) -> Empty)
+Problems.t31 Bool.true = (emp => Equal.rewrite emp (e => if e {Nat} else {Empty}) Nat.zero)
+
+// - Goal: ((Equal Bool Bool.true Bool.false) -> Empty)
 Problems.t32 (a: Bool) : Not(Equal Bool (Bool.and(Bool.false) (a))  Bool.true)
+Problems.t32 a = (emp => 
+                    let mir = Equal.mirror emp
+                    // ?)
+                    Equal.rewrite mir (e => if e {Nat} else {Empty}) Nat.zero)
 
+// - mir : (Equal Bool Bool.true Bool.false)
+// - Goal: ((Equal Bool Bool.false Bool.true) -> Empty)
 Problems.t33 (a: Bool) : Not(Equal Bool (Bool.and(a) (Bool.false)) Bool.true)
+Problems.t33 Bool.true = (emp => 
+                    let mir = Equal.mirror emp
+                    // ?)
+                    Equal.rewrite mir (e => if e {Nat} else {Empty}) Nat.zero)
 
+// - mir : (Equal Bool Bool.true Bool.false)
+// - Goal: ((Equal Bool Bool.false Bool.true) -> Empty)
+Problems.t33 Bool.false = (emp => 
+                    let mir = Equal.mirror emp
+                    // ?)
+                    Equal.rewrite mir (e => if e {Nat} else {Empty}) Nat.zero)
+
+// - mir : (Equal Bool Bool.true Bool.false)
+// - Goal: ((Equal Bool Bool.false Bool.true) -> Empty)
 Problems.t34 (a: Nat) (b: Nat)  (e:Equal a b):  Equal Nat (b) (a)
 Problems.t34 Nat.zero Nat.zero  e = Equal.refl
+// Problems.t34 Nat.zero (Nat.succ b) e =?// Equal.mirror e
+                                    // (emp => 
+                                    // let aux = Equal.apply (x => Nat.is_zero x) emp
+                                    // let mir = Equal.mirror aux
+                                    // ?)
+                                    // Equal.rewrite mir (e => if e {Nat} else {Empty}) Nat.zero)
+
+// - Goal: (Equal Nat (Nat.succ b) Nat.zero) 
+// - Goal: (Equal Nat (Nat.succ b) Nat.zero) -> Empty
+// Problems.t34 (Nat.succ a) Nat.zero e =
 Problems.t34 (Nat.succ a) (Nat.succ b) e = 
                                     let mir = Equal.mirror e
                                     mir
@@ -250,7 +303,6 @@ Problems.t36 (Nat.succ a.pred) f p =
                                 let mir = Equal.mirror app
                                 let rrt = Equal.rewrite mir f p
                                 rrt
-
 // - f   : (Nat -> Type)
 // - p   : (f (Nat.succ a.pred))
 // - ind : (Equal Nat (Nat.same a.pred) a.pred)
