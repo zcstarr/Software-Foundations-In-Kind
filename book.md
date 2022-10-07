@@ -524,13 +524,22 @@ Test_blt_nat_3 = ?
 
 ### 2.7 Prova por Simplificação
 
-Agora que definimos alguns tipos de dados e funções, vamoscomeçar a provar propriedades de seus comportamentos. Na verdade, ja começamos a fazer isso: cada função que começa com `Test` nas seções anteriores, fazem uma afirmação precisa sobre o comportamento de alguma função para algumas entradas especificas. As provas dessas afirmações foram sempre a mesma: use `Equal.refl` para checar que ambos os lados contém valores idênticos.
+Agora que definimos alguns tipos de dados e funções, vamos começar a provar propriedades
+de seus comportamentos. Na verdade, já estamos fazendo isso: cada função das seções
+anteriores que começa com `Test`, faz uma afirmação precisa sobre o comportamento de
+alguma função para algumas entradas especificas. As provas dessas afirmações foram
+sempre a mesma: use `Equal.refl` para checar que ambos os lados são de fato idênticos.
 
-O mesmo tipo de "prova por simplificação" pode ser usada para provar propriedades mais interessasntes. Por exemplo, o fato que o `Nat.zero` é um "elemento neutro" para a adição no lado esquerdo pode ser provado apenas observando que `Plus Nat.zero n` reduz para n, independente do que é n, fato esse que pode ser lido diretamente da definição de `Plus`.
+O mesmo tipo de "prova por simplificação" pode ser usada para provar propriedades mais interessantes.
+Por exemplo, o fato que o `Nat.zero` é um "elemento neutro" no lado esquerdo da
+adição pode ser provado apenas observando que `Plus Nat.zero n` reduz para `n`,
+independente do que é `n`, fato que pode ser lido diretamente na definição do `Plus`.
+
 ```rust
 Plus_Z_n (n: Nat) : Equal (Plus Nat.zero n) n
 Plus_Z_n n = Equal.refl
 ```
+
 Outros teoremas parecidos podem ser provados de forma parecida.
 
 ```rust
@@ -540,33 +549,83 @@ Plus_1_l n = Equal.refl
 Mult_0_l (n: Nat) : Equal (Mult Nat.zero n) Nat.zero
 Mult_0_l n = Equal.refl 
 ```
-Embora a simplificação seja poderosa o suficiente para provar alguns fatos bastante gerais, existem muitas declarações que não podem ser demonstradas só com a simplificação. Por exemplo, não podemos usá-la para provar que `Nat.zero` é um elemento neutro para adição no lado direito.
+
+O `_l` indica que a prova envolve o valor no lado esquerdo. Por exemplo:
+A prova da soma por 1 no lado esquerdo (`Plus_1_l`)
+ou a prova da multilicação por zero no lado esquerdo (`Mult_0_l`)
+
+Embora a simplificação seja poderosa o suficiente para provar alguns fatos gerais,
+existem várias declarações que não podem ser demonstradas só com simplificação.
+Por exemplo, não podemos usá-la para provar que `Nat.zero` é um elemento neutro para adição no lado direito.
+
 ```rust
 Plus_n_Z (n: Nat) : Equal n (Plus n Nat.zero)
 Plus_n_Z n = Equal.refl
 ```
-```rust
+
+```terminal
 Type mismatch.
 - Expected: (Equal _ n (Plus n Nat.zero))
 - Detected: (Equal _ n n)
 Context:
 - n : Nat
 ```
-Você consegue explicar por que isso acontece?
 
-O próximo capítulo vai introduzir a indução, uma técnica poderosa que pode ser usada para demonstrar esse teorema. Por agora, vamos ver mais alguns tipos de prova. 
+(Você consegue explicar por que isso acontece?)
 
+O próximo capítulo vai introduzir o conceito de indução,
+uma técnica poderosa que pode ser usada para demonstrar esse teorema.
+Por agora, no entanto, vamos ver mais alguns tipos simples de prova.
+
+<!-- TODO Reescrita no Kind2 é uma caixa de minhocas por si só,
+talvez colocar mais pro final do capítulo,
+ao talvez até colocar depois desse capítulo -->
 ### 2.8 Prova por Reescrita
-Esse teorema é mais interessante que os outros que vimos:
+
+Esse teorema é um pouco mais interessante que anteriores:
+
 ```rust
 Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
 ```
-Em vez de fazer uma afirmação sobre todos os naturais `n` e `m`, ele fala sobre uma propriedade mais especializada que so vale quando `Equal n m`.
 
-Como nos teoremas anteriores, alem de assumir a existencia dos numeros n e m. Também precisamos assumir a hipótese Equal n m..
+Em vez de fazer uma afirmação sobre todos os naturais `n` e `m`,
+ele fala sobre uma propriedade específica que só vale quando `Equal n m`.
 
-Como n e m são números arbitrários, não podemos simplesmente usar a simplificação para demonstrar esse teorema. Em vez disso, provamos observando que, se estamos assumindo `Equal n m`, então pode substituir n por m no objetivo e obter uma igualdade com a mesma expressão em ambos os lados. A função que usamos para fazer isso é a `Equal.rewrite`.
+Assim como antes, precisamos assumir a existência dos números `n` e `m`.
+Precisamos também assumir a hipótese `Equal n m`, ou seja, que `n` e `m` são iguais.
 
+Como n e m são números arbitrários, não podemos só usar simplificação para demonstrar o teorema.
+Em vez disso, nós observando que, já que temos assumimos que `Equal n m`, podemos substituir `n` por `m`
+no objetivo e os dois lados ficarão iguais. A função que usamos para fazer essa substituição é a `Equal.rewrite`.
+
+<!-- TODO Essa prova nem dá pra fazer SÓ com rewrite, precisa fazer um apply antes
+Inclusive, seria interessante, antes desse capítulo, um capítulo falando algo tipo
+"Provas por aplicação nos dois lados", usando como exemplo:
+(Equal Nat m n) -> (Equal Nat (Nat.succ m) (Nat.succ n))-->
+
+<!-- TODO2 testar fazer rewrites direto no Equal.refl -->
+```rust
+Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
+
+Plus_id_example n m e =
+  // app : Equal (Plus n n) (Plus m n)
+  let app = Equal.apply (k => Plus k n) e
+
+  // Equal (Plus n n) (Plus m m)
+  Equal.rewrite e (x => Equal (Plus n n) (Plus m x)) app
+```
+
+As primeiras duas variáveis do nosso contexto representam dois números quaisqueres.
+A terceira variável é a hipótese de que esses números são iguais.
+<!-- TODO -->
+The right side tells Idris to rewrite the current goal (n + n = m + m) by replacing the
+left side of the equality hypothesis `e` with the right side.
+
+#### *Exercício 2.8.0.1 (plus_id_exercise)*
+
+#### *Exercício 2.8.0.2 (Mult_S_1)*
+
+### 2.9 Prova por análise de casos
 
 # CAPÍTULO 3
 ## Indução: Prova por Indução
