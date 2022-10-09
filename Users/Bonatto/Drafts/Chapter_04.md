@@ -116,4 +116,4 @@ A lista possui o `head` `1` e a `tail` `[2, [3, 4]]`, que, por sua vez, possui a
 
 Pode parecer assustador, mas é um monstro amigável:
 
-[img!](lismonster.png)
+[img!](listmonster.png)
