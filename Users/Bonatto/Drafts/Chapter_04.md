@@ -78,4 +78,42 @@ Fst_swap_is_inverse p a b = ?
 
 ## Listas de números
 
+Generalizando a definição de pares, podemos descrever o tipo de listas de números assim: “Uma lista ou é a lista vazia ou então um conjuto de um elemento e outra Lista", esse tipo não é composto de um `head` e uma `tail`.
+```rust
+List (t: Type) : Type
 
+type List <t: Type> {
+   nil
+   cons (head: t) (tail: List t)
+} ``````
+
+Outra forma de construir os tipos é com a seguinte notação, usando o caso do
+tilo `List`
+```rust 
+List <a: Type> : Type
+List.nil <a> : (List a)
+List.cons <a> (head: a) (tail: List a) : (List a)```
+
+Podemos perceber que em ambas as notações, há um `head` e um `tail`, sendo que o
+*head* recebe um elemento de um tipo e a *tail* recebe uma lista desse tipo. 
+
+Por exemplo, uma lista de três números naturais 1, 2 e 3 seria escrita da
+seguinte forma:
+
+`[1, 2, 3]`
+
+O Kind, entretanto, lê de outra forma:
+
+`[1, [2, 3]]`
+
+onde o `1` é a head e o `[2, 3]` é a tail. Da mesma forma, ao olhar para uma
+lista de 4 elementos `[1, 2, 3, 4]`, agora veremos da seguinte forma:
+ 
+`[1, [2, [3, 4]]]`
+
+A lista possui o `head` `1` e a `tail` `[2, [3, 4]]`, que, por sua vez, possui a
+`head` `2` e a `tail` `[3, 4]` que também possui sua `head` `3` e sua tail `4`.
+
+Pode parecer assustador, mas é um monstro amigável:
+
+[img!](lismonster.png)
