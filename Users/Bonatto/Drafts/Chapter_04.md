@@ -45,10 +45,37 @@ Vamos tentar provar alguns fatos simples sobre pares. Se declararmos as coisas d
 
 ```rust```
 Surjective_pairing (p: Pair Nat Nat) : (Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
-
+Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
+```
+Mas *Equal.***refl** não é suficiente caso a declaração seja:
+```rust```
+Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 ```
 
-resolver
+Já que o Kind espera 
+```rust i```
+(Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
+`````````
+E recebeu 
+```rust
+(Equal p p)```
 
+Nós devemos "expor" a estrutura interna do *par* para que o *Type Checker*
+possa verificar se `p` é realmente igual a `Pair.new (Pair.fst p) (Pair.snd p)` 
+
+### Execícios:
+
+1.1
+```rust
+Snd_fst_is_swap (p: Pair Nat Nat )            : (Equal (Pair Nat Nat) (Pair.swap Nat Nat (Pair.swap Nat Nat p)) p)
+Snd_fst_is_swap (Pair.new Nat Nat fst snd)    = ? ```
+
+1.2
+```rust
+Fst_swap_is_inverse (p: Pair Nat Nat) (a: Nat) (b: Nat) : (Equal (Pair Nat Nat) (Pair.swap Nat Nat (Pair.new a b) ) (Pair.new b a))
+Fst_swap_is_inverse p a b = ?
+`````````
+
+## Listas de números
 
 
