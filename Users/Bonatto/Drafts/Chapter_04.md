@@ -126,4 +126,5 @@ A lista possui o `head` `1` e a `tail` `[2, [3, 4]]`, que, por sua vez, possui a
 Pode parecer assustador, mas é um monstro amigável:
 
 ![img](./listmonster.png)
+
 [fonte da imagem: http://learnyouahaskell.com/starting-out]
