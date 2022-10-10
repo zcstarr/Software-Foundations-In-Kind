@@ -17,19 +17,14 @@ o segundo, o `snd`.
       new (fst: a) (snd: b)
    }  
    ```
-
-
 A forma de construir um par é a seguinte:
-
 ```rust 
 Pair.new <a: Type> <b: Type> (fst: a) (snd: b) : (Pair a b)
 ```
 Aplicando dois `*Nat*` ao nosso tipo `*Pair*`, onde ``**a**``  e `**b**` são dois números naturais, podemos contruir da seguinte forma:
-
 ```rust
 Pair.new a b  : (Pair a b)
 ```
-
 Aqui estão duas funções simples para extrair o primeiro e o segundo componentes de um par. As definições também ilustram como fazer a correspondência de padrões em dois argumentos construtores.
 
 Exemplo 1: (Pair.fst Nat (List Nat) (Pair 2 [1,2,3])) ->  2
@@ -37,7 +32,6 @@ Exemplo 1: (Pair.fst Nat (List Nat) (Pair 2 [1,2,3])) ->  2
 Pair.fst <a> <b> (pair: Pair a b) : a
 Pair.fst a b (Pair.new p.a p.b fst snd) = fst
 ```
-
 Exemplo 2: (Pair.snd Nat (List Nat) (Pair 2 [1,2,3])) -> [1,2,3]
 ```rust
 Pair.snd <a> <b> (pair: Pair a b) : b
@@ -47,7 +41,6 @@ Pair.snd a b (Pair.new p.a p.b fst snd) = snd
 ### Algumas provas
 
 Vamos tentar provar alguns fatos simples sobre pares. Se declararmos as coisas de uma maneira particular (e ligeiramente peculiar), podemos completar provas com apenas reflexividade:
-
 ```rust
 Surjective_pairing (p: Pair Nat Nat) : (Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
@@ -56,8 +49,7 @@ Mas *Equal.***refl** não é suficiente caso a declaração seja:
 ```rust
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 ```
-
-Já que o Kind espera 
+Uma vez que o Kind espera 
 ```rust
 (Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
 ```
@@ -128,3 +120,50 @@ Pode parecer assustador, mas é um monstro amigável:
 ![img](./listmonster.png)
 
 [fonte da imagem: http://learnyouahaskell.com/starting-out]
+
+
+### 2.1 List.repeat
+A função repeat recebe um número *n* e um valor, retornando uma lista de tamanho *n* onde todos os elementos é o valor declarado.
+```rust
+// Exemplo: (List.repeat 3 Bool.true) -> [True, True, True]
+List.repeat <a> (times: Nat) (val: a) : List a
+List.repeat a Nat.zero        val = List.nil
+List.repeat a (Nat.succ pred) val = List.cons val (List.repeat pred val)
+```
+
+### 2.2 List.length
+A função *length* calcula o tamanho da lista 
+```rust
+// Exemplo: (List.length [1,2,3]) -> 3
+List.length <a> (xs: List a) : Nat
+List.length a (List.nil t)            = Nat.zero
+List.length a (List.cons t head tail) = (Nat.succ (List.length a tail))
+```
+
+### 2.3 List.append
+A função append concatena (anexa) duas listas.
+```rust
+List.append <a: Type> (xs: List a) (x: a) : List a
+List.append a (List.nil xs.a)            x = List.pure x
+List.append a (List.cons xs.a xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
+```
+
+### 2.4 List.head e List.tail 
+ A função head retorna o primeiro elemento (a “cabeça”) da
+list, enquanto tail retorna tudo menos o primeiro elemento (a “cauda”). Claro, o
+lista vazia não tem primeiro elemento, então devemos tratar esse caso com um tipo *Maybe*,
+recebendo um *Maybe*.**none** caso a lista seja vazia ou um *Maybe*.**some**
+caso tenha um valor.
+```rust
+// Exemplo: (List.head Nat [1,2,3]) -> (Maybe.some 1)
+List.head <a> (xs: List a) : Maybe a
+List.head a (List.nil t)            = Maybe.none
+List.head a (List.cons t head tail) = Maybe.some head
+```
+
+```rust
+// Exemplo: (List.tail Nat [1,2,3]) -> [2,3]
+List.tail <a> (xs: List a) : List a
+List.tail a (List.nil  t)           = List.nil
+List.tail a (List.cons t head tail) = tail
+```
