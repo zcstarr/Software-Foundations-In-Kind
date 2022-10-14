@@ -8,4 +8,8 @@
   * 2.5 - Translated
   * 2.6 - Revised
   * 2.7 - Revised
-  * 2.8 - Half-translated, Half-revised
+  * 2.8 - Wrote (Someone else should revise it)
+  * 2.9
+  * 2.10 - Half-translated, Half-revised
+  * 2.11
+* Chapter 3
