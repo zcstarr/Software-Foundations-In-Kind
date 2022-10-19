@@ -577,10 +577,71 @@ O próximo capítulo vai introduzir o conceito de indução,
 uma técnica poderosa que pode ser usada para demonstrar esse teorema.
 Por agora, no entanto, vamos ver mais alguns tipos simples de prova.
 
+### 2.8 Prova por aplicação
+
+A nossa primeira ferramenta para resolver provas que não são reduzíveis de cara
+será a aplicação dos dois lados. Para isso, usaremos a função `Equal.apply`, que
+recebe uma igualdade (um `Equal`) e uma função, e aplica essa função dos dois lados
+da igualdade, gerando uma nova igualdade.
+
+Por exemplo:
+
+```rust
+Example_apply (n : Nat) (m : Nat) (e : Equal m n) : Equal (Nat.succ m) (Nat.succ n)
+Example_apply n m e = ?
+```
+
+O que exatamente temos aqui? Temos uma prova que recebe como argumento uma outra
+prova/igualdade. Isso quer dizer que vamos realizar a nossa prova supondo que a
+prova dada como argumento também é verdadeira. Então, lendo a declaração da prova,
+temos que: "Dados dois naturais, `m` e `n`, e uma prova de que eles são iguais,
+provar que `Nat.succ m` e `Nat.succ n` também são iguais".
+
+Nós aprendemos, nas nossas aulas de matématica, que aplicar uma função dos dois
+lados de uma igualdade mantém a igualdade (`x/2 = 3 -> 2*x/2 = 2*3`), e podemos
+ver que para provar o que a gente quer, precisamos aplicar a função `Nat.succ`
+nos dois lados de `e`, usando `Equal.apply`
+
+```rust
+Example_apply (n : Nat) (m : Nat) (e : Equal m n) : Equal (Nat.succ m) (Nat.succ n)
+Example_apply n m e =
+  let e_apply = Equal.apply (x => Nat.succ x) e
+  ?
+```
+
+Como o `Equal.apply` funciona: Ele recebe como primeiro argumento a função a ser
+aplicada dos dois lados, e como segundo argumento a igualdade aonde aplicar a função.
+Se você não entendeu muito bem a passagem da função de argumento (`x => Nat.succ x`),
+ela é o que chamamos de função lambda, e é também conhecida como função anônima.
+Funções lambda são identificadas pela sua seta `=>`, sendo que do lado esquerdo
+da seta fica o nome do argumento da função (use o nome que quiser) e do lado direito
+fica o corpo da função, o que ela retorna. A nossa função lambda atual é uma função
+que recebe um `x` qualquer e retorna `Nat.succ x`.
+
+Podemos confirmar isso dando `check` no arquivo:
+
+<!-- TODO -->
+
+Como `e_apply` é uma igualdade do tipo `Equal Nat (Nat.succ m) (Nat.suuc n),
+a prova que procuramos, é só retornar ele e concluiremos a nossa prova.
+
+```rust
+Example_apply (n : Nat) (m : Nat) (e : Equal m n) : Equal (Nat.succ m) (Nat.succ n)
+Example_apply n m e =
+  let e_apply = Equal.apply (x => Nat.succ x) e
+  e_apply
+```
+
+```terminal
+All terms check.
+```
+
+### 2.9 Prova por análise de casos
+
 <!-- TODO Reescrita no Kind2 é uma caixa de minhocas por si só,
 talvez colocar mais pro final do capítulo,
 ao talvez até colocar depois desse capítulo -->
-### 2.8 Prova por Reescrita
+### 2.10 Prova por Reescrita
 
 Esse teorema é um pouco mais interessante que anteriores:
 
@@ -598,12 +659,6 @@ Como n e m são números arbitrários, não podemos só usar simplificação par
 Em vez disso, nós observando que, já que temos assumimos que `Equal n m`, podemos substituir `n` por `m`
 no objetivo e os dois lados ficarão iguais. A função que usamos para fazer essa substituição é a `Equal.rewrite`.
 
-<!-- TODO Essa prova nem dá pra fazer SÓ com rewrite, precisa fazer um apply antes
-Inclusive, seria interessante, antes desse capítulo, um capítulo falando algo tipo
-"Provas por aplicação nos dois lados", usando como exemplo:
-(Equal Nat m n) -> (Equal Nat (Nat.succ m) (Nat.succ n))-->
-
-<!-- TODO2 testar fazer rewrites direto no Equal.refl -->
 ```rust
 Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
 
@@ -621,11 +676,9 @@ A terceira variável é a hipótese de que esses números são iguais.
 The right side tells Idris to rewrite the current goal (n + n = m + m) by replacing the
 left side of the equality hypothesis `e` with the right side.
 
-#### *Exercício 2.8.0.1 (plus_id_exercise)*
+#### *Exercício 2.10.0.1 (plus_id_exercise)*
 
-#### *Exercício 2.8.0.2 (Mult_S_1)*
-
-### 2.9 Prova por análise de casos
+#### *Exercício 2.10.0.2 (Mult_S_1)*
 
 # CAPÍTULO 3
 ## Indução: Prova por Indução
@@ -708,16 +761,14 @@ Problems.t1 (Nat.succ n)   = ?
 ```
 
 e temos como novo objetivo provar que o sucessor da soma entre *n* e *0* é
-igual ao sucessor de *n* 
-
+igual ao sucessor de *n*
 
 ```rust
 - Goal: (Equal _ (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
 ```
 
 Para trabalhar com a indução nessa recursão, devemos definir uma variável para
-o caso original de *n* 
-
+o caso original de *n*
 
 ```rust
 Problems.t1 (n: Nat)       : (Equal (Nat.add n Nat.zero) n)
@@ -727,8 +778,7 @@ Problems.t1 (Nat.succ n)   =
     ?
 ```
 
-Ao dar o *Type Check* temos como retorno a seguinte resposta: 
-
+Ao dar o *Type Check* temos como retorno a seguinte resposta:
 
 ```bash
 Inspection.
@@ -745,7 +795,6 @@ Ao analizar nosso objetivo e a indução, percebemos que a única diferença ent
 o objetivo e a nossa variável *ind* é o *Nat*.**succ**, basta então
 incrementar a variável *ind* com o *Nat*.**succ**, para isso nós criamos uma
 nova variável e usamos uma função *lambda*:
-
 
 ```rust
 let app = (Equal.apply (x => (Nat.succ x)) ind)
@@ -781,19 +830,25 @@ a nossa prova:
 Vamos verificar se a a igualdade "n +(*m* + 1) = 1 + (*n* + *m*)" é verdadeira
 
 Primeiro, o nosso problema:
+
 ```rust
 Problems.t2 (n: Nat) (m: Nat)  : (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ(Nat.add n m))) 
 ```
+
 Verificamos o primeiro caso, quando *n* é zero:
+
 ```rust
 Problems.t2 Nat.zero m         = Equal.refl
 ```
+
 e partimos para o caso seguinte
+
 ```rust
 Problems.t2 (Nat.succ n) m     = ?
 ```
 
 e o nosso objetivo atual vira:
+
 ```rust
 Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
 ```
