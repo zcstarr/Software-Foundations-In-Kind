@@ -22,7 +22,7 @@ Provas formais são nada mais do que provas matemáticas de que uma função “
  	
 
 
-a
+
  
 a continuar…
 
