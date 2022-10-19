@@ -1,16 +1,17 @@
       Bom dia!!!
+      
 
-	Seja bem-vindo ao livro da Fundação Kindelia sobre Kind e provas formais. Neste documento iremos tentar aproximar você leitor(a) 
+ Seja bem-vindo ao livro da Fundação Kindelia sobre Kind e provas formais. Neste documento iremos tentar aproximar você leitor(a) 
 de um mundo pouco conhecido que é o universo da programação funcional e das provas formais. 
 
-Programação funcional muitas vezes é visto como algo complexo e avançado dentro da comunidade de programação, normalmente as pessoas indicam paradigmas que parecem mais simples à primeira vista, porem este livro vai quebrar todas 
+ Programação funcional muitas vezes é visto como algo complexo e avançado dentro da comunidade de programação, normalmente as pessoas indicam paradigmas que parecem mais simples à primeira vista, porem este livro vai quebrar todas 
 as grandes dificuldades e lhe mostrar que funcional é tão fácil quanto qualquer outro paradigma. Também iremos abordar 
 o conceito de provas formais neste livro, com uma aproximação bastante acessível para que pessoas com pouco ou nenhum 
 conhecimento matemático, possam compreender e aprender mais sobre o assunto.
 
       Visão geral sobre programação funcional e provas formais
 
-O paradigma da programação funcional se aproxima das funções matemática de uma maneira simples e elegante, sendo sua base funções como aquelas que aprendemos ainda no ensino fundamental. Tudo em torno da programação funcional gira em torno de funções, por este motivo é extremamente simples trazer teoremas matemáticos para a programação funcional. Também é bastante interessante como a reutilização de funções é útil, isso torna a programação funcional bastante organizada e fácil de ser compreendida quando se esta lendo um código muito extenso. 
+ O paradigma da programação funcional se aproxima das funções matemática de uma maneira simples e elegante, sendo sua base funções como aquelas que aprendemos ainda no ensino fundamental. Tudo em torno da programação funcional gira em torno de funções, por este motivo é extremamente simples trazer teoremas matemáticos para a programação funcional. Também é bastante interessante como a reutilização de funções é útil, isso torna a programação funcional bastante organizada e fácil de ser compreendida quando se esta lendo um código muito extenso. 
 Na história de programação funcional 
 
 
