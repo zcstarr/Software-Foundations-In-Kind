@@ -1,7 +1,6 @@
       Bom dia!!!
 
-Seja bem-vindo ao livro da Fundação Kindelia sobre Kind e provas formais. Neste documento iremos tentar aproximar você leitor(a) de um mundo pouco conhecido que é o universo da programação funcional e das provas formais.
-
+	Seja bem-vindo ao livro da Fundação Kindelia sobre Kind e provas formais. Neste documento iremos tentar aproximar você leitor(a) de um mundo pouco conhecido que é o universo da programação funcional e das provas formais. 
 	Programação funcional muitas vezes é visto como algo complexo e avançado dentro da comunidade de programação, 
 normalmente as pessoas indicam paradigmas que parecem mais simples à primeira vista, porem este livro vai quebrar todas 
 as grandes dificuldades e lhe mostrar que funcional é tão fácil quanto qualquer outro paradigma. Também iremos abordar 
