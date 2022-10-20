@@ -401,4 +401,134 @@ Test_rev2 = Equal.refl
 
 ### 3.2.1
 
+Agora vamos provar alguns teoremas sobre o rev que acabamos de definir. Para algo um pouco mais desafiador do que vimos, vamos provar
+que inverter uma lista não altera seu comprimento. Nossa primeira tentativa fica presa
+o caso sucessor...
+
+```rust
+Rev_length_firsttry (xs: List Nat)              : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length_firsttry List.nil                    = Equal.refl
+Rev_length_firsttry (List.cons xs.head xs.tail) =
+   let ind = Rev_length_firsttry xs.tail
+   ?
+```
+
+O Type Check nos retorna o seguinte objetivo e contexto:
+```bash
+Inspection.
+- Goal: (Equal Nat (List.length _ (List.concat _ (Rev _ xs.tail) (List.cons _ xs.head (List.nil _)))) (Nat.succ (List.length _ xs.tail)))
+Kind.Context:
+- t1_     : Type
+- t1_     = Nat
+- xs.head : t1_
+- xs.tail : (List t1_)
+- ind     : (Equal Nat (List.length _ (Rev _ xs.tail)) (List.length _ xs.tail))
+- ind     = (Rev_length_firsttry xs.tail)
+On 'rescunhos.kind2':
+   40 |   ?
+
+Rewrites: 76033
+```
+
+Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:
+
+```rust
+App_length <a> (xs: List a) (ys: List a)  : (Equal Nat (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys)))
+App_length List.nil ys                    = Equal.refl
+App_length (List.cons xs.head xs.tail) ys =
+   let ind = App_length xs.tail ys
+   let app = Equal.apply (x => (Nat.succ x)) ind
+   app
+```
+
+Além dessa prova, usaremos outras já provadas nos  capítulos anteriores:
+```rust
+Plus_n_z (n: Nat)     : (Equal Nat n (Nat.add n Nat.zero))
+Plus_n_sn (n: Nat) (m: Nat) : (Equal Nat (Nat.succ (Nat.add n m))(Nat.add n (Nat.succ m)))
+Plus_comm (n: Nat) (m: Nat) : (Equal Nat (Nat.add n m) (Nat.add m n))
+```
+
+E agora é possível provar o nosso teorema:
+```rust
+Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length List.nil                     = Equal.refl
+Rev_length (List.cons xs.head xs.tail)  =
+   let ind   = Rev_length xs.tail
+   ?
+```
+```bash
+Inspection.
+- Goal: (Equal Nat (List.length _ (List.concat _ (Rev _ xs.tail) (List.cons _ xs.head (List.nil _)))) (Nat.succ (List.length _ xs.tail)))
+Kind.Context:
+- a3_     : Type
+- t2_     : Type
+- t2_     = a3_
+- xs.head : t2_
+- xs.tail : (List t2_)
+- ind     : (Equal Nat (List.length _ (Rev _ xs.tail)) (List.length _ xs.tail))
+- ind     = (Rev_length t2_ xs.tail)
+On 'aula04.kind2':
+   289 |   ?```
+
+Nós criamos uma variavel com nossa auxiliar `App_length`:
+```rust
+Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length List.nil                     = Equal.refl
+Rev_length (List.cons xs.head xs.tail)  =
+   let ind   = Rev_length xs.tail
+   let aux1  = App_length (Rev xs.tail) [xs.head]
+   ?
+```
+Recebemos um novo contexto para nos auxiliar, o 
+```bash
+- aux1    : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.add (List.length _ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)))```
+
+A `aux1` é igual ao lado esquerdo do nosso `Goal`, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a `aux2`:
+```rust 
+let aux2  = Plus_comm (List.length (Rev xs.tail)) (Nat.succ Nat.zero)```
+
+Agora nosso contexto está ainda melhor: 
+```bash
+- aux2    : (Equal Nat (Nat.add (List.length t2_ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))```
+
+Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da `aux2` é igual ao direito da `aux1` e podemos encadear um no outro com o `Equal.chain`:
+```rust
+let chn   = Equal.chain aux1 aux2
+```
+
+Ao dar o Type Check, vemos nosso novo contexto:
+```bash
+- chn     : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))```
+
+Nossa variável `chn` é praticamente identica ao nosso `Goal` só diferindo na parte final, pois `Goal` espera um `Nat.succ (List.length xs.tail)` e o `chn` nos dá `Nat.succ (List.length (Rev xs.tail))`, mas nós temos a variável `ind` que nos retorna essa igualdade. Vamos relembrar:
+```bash
+ind     : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))```
+
+Incrivel, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da `tail` é igual ao tamanho da `tail`, então basta reescrever a variável `ind` na nossa `chn`:
+```rust
+let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
+```
+Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais fácil:
+```bash
+Inspection.
+- Goal: (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
+Kind.Context:
+- ind : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))
+- aux1: (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.add (List.length (Rev xs.tail)) (Nat.succ Nat.zero)))
+- aux2: (Equal Nat (Nat.add (List.length (Rev xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length (Rev xs.tail))))
+- chn : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length (Rev xs.tail))))
+- rwt : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
+```
+Agpra é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
+```rust
+Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length List.nil                     = Equal.refl
+Rev_length (List.cons xs.head xs.tail)  =
+   let ind   = Rev_length xs.tail
+   let aux1  = App_length (Rev xs.tail) [xs.head]
+   let aux2  = Plus_comm (List.length (Rev xs.tail)) (Nat.succ Nat.zero)
+   let chn   = Equal.chain aux1 aux2
+   let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
+   rwt
+```
 
