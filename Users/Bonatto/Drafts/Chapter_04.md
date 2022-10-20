@@ -383,10 +383,10 @@ O Type Check nos retorna tipos `t2`, `t3` e outros gerados no mesmo estilo e pod
 ```
 e apagando os tipos gerados e os `holes`:
 
-`
+```
 - Goal: (Equal (List) (List.cons xs.head (List.concat (List.concat xs.tail ys) zs)) (List.cons xs.head (List.concat xs.tail (List.concat ys zs))))
 - app : (Equal (List) (List.cons xs.head (List.concat (List.concat xs.tail ys) zs)) (List.cons xs.head (List.concat xs.tail (List.concat ys zs))))
-`
+```
 Dessa forma fica mais fácil perceber que o `app` e o `goal` são identicos, então não é necessário se assustar ao ver esses tipos gerados 
 
 ### 3.1.1 Invertendo uma lista. 
