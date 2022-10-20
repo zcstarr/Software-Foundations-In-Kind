@@ -359,22 +359,28 @@ Para isso nós verificamos para o caso de `xs` ser uma lista vazia, então receb
 
 Em seguida nós "abrimos" o `xs` para obter o `xs.tail` para a nossa indução, e recebemos como objetivo:
 
-`- Goal: (Equal _ (List.cons _ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons _ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))`
+``` 
+- Goal: (Equal _ (List.cons _ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons _ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
+```
 
 e a nossa variável `ind` é:
-`- ind : (Equal _ (List.concat _ (List.concat _ xs.tail ys) zs) (List.concat _ xs.tail (List.concat _ ys zs)))`
+``` 
+- ind : (Equal _ (List.concat _ (List.concat _ xs.tail ys) zs) (List.concat _ xs.tail (List.concat _ ys zs)))
+```
 
 bastando apenas aplicar um `List.cons xs.head` em ambos os lados da igualdade para ter o objetivo final e é isso o que fazemos no `app`:
 
-`- app : (Equal (List t2_) (List.cons t2_ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons t2_ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))`
+``` 
+- app : (Equal (List t2_) (List.cons t2_ xs.head (List.concat _ (List.concat _ xs`tail ys) zs)) (List.cons t2_ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
+```
 
 *OBSERVAÇÃO* 
 O Type Check nos retorna tipos `t2`, `t3` e outros gerados no mesmo estilo e podemos ignorar e até mesmo apagar na hora de comparar o retorno das variáveis como vemos no seguinte caso:
 
-`
+```
 - Goal: (Equal (List t2_) (List.cons _ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons _ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
 - app : (Equal (List t2_) (List.cons t2_ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons t2_ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
-`
+```
 e apagando os tipos gerados e os `holes`:
 
 `
