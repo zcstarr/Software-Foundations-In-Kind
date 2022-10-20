@@ -320,7 +320,7 @@ On 'rescunhos.kind2':
    6 | Tl_length_pred xs                     = Equal.refl
 
 Rewrites: 23936
-kind2 check rescunhos.kind2  0,11s user 0,03s system 90% cpu 0,157 total
+kind2 check rascunhos.kind2  0,11s user 0,03s system 90% cpu 0,157 total
 ```
 Da mesma forma, alguns teoremas precisam de indução para suas provas. 
 
@@ -329,21 +329,21 @@ Da mesma forma, alguns teoremas precisam de indução para suas provas.
 
 ### 3.1. Indução em Listas. 
 
-Provas por indução sobre tipos de dados como ``List`` são um pouco menos familiares do que a indução de números naturais padrão, mas a ideia é igualmente simples. Cada declaração de dados define um conjunto de valores de dados que podem ser construídos usando os construtores declarados: um booleano pode ser True ou False; um número pode ser Zero ou Succ aplicado a outro número; uma lista de naturais pode ser Nil ou Cons aplicado a um número e uma lista.
+Provas por indução sobre tipos de dados como `List` são um pouco menos familiares do que a indução de números naturais padrão, mas a ideia é igualmente simples. Cada declaração de dados define um conjunto de valores de dados que podem ser construídos usando os construtores declarados: um booleano pode ser True ou False; um número pode ser Zero ou Succ aplicado a outro número; uma lista de naturais pode ser Nil ou Cons aplicado a um número e uma lista.
 
 Além disso, as aplicações dos construtores declarados entre si são as únicas
 possíveis formas que os elementos de um conjunto definido indutivamente podem ter, e este fato
 diretamente dá origem a uma maneira de raciocinar sobre conjuntos indutivamente definidos: um número
 é Zero ou então é Succ aplicado a um número menor; uma lista é Nil ou então
 é um Cons aplicado a algum número e a alguma lista menor; etc. Então, se tivermos e mente
- alguma proposição ``p`` que menciona uma lista ``l`` e queremos argumentar que ``p`` vale
+ alguma proposição `p` que menciona uma lista `l` e queremos argumentar que `p` vale
 para todas as listas, podemos raciocinar da seguinte forma:
 
-- Primeiro, mostre que ``p`` é verdadeiro para ``l`` quando ``l`` é ``Nil``.
-- Então mostre que `p` é verdadeiro para ``l`` quando ``l`` é ``Cons n l`` para algum número ``n`` e alguma lista menor ``l``, assumindo que ``p`` é verdadeiro para ``l``.
+- Primeiro, mostre que `p` é verdadeiro para `l` quando `l` é `Nil`.
+- Então mostre que `p` é verdadeiro para `l` quando `l` é `Cons n l` para algum número `n` e alguma lista menor `l`, assumindo que `p` é verdadeiro para `l`.
 
-Como listas maiores só podem ser construídas a partir de listas menores, eventualmente chegando a ``Nil``,
-esses dois argumentos juntos estabelecem a verdade de ``p`` para todas as listas ``l``. Aqui está um
+Como listas maiores só podem ser construídas a partir de listas menores, eventualmente chegando a `Nil`,
+esses dois argumentos juntos estabelecem a verdade de `p` para todas as listas `l`. Aqui está um
 exemplo concreto:
 ```rust
 App_assoc <t> (xs : List t) (ys : List t) (zs : List t) : Equal (List.concat (List.concat xs ys) zs) (List.concat xs (List.concat ys zs))
@@ -385,7 +385,7 @@ Dessa forma fica mais fácil perceber que o `app` e o `goal` são identicos, ent
 
 ### 3.1.1 Invertendo uma lista. 
 
-Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos ``app`` para definir uma função de reversão de lista ``rev``:
+Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos `app` para definir uma função de reversão de lista `rev`:
 
 ```rust
 Rev <a> (xs: List a)            : List a
@@ -424,7 +424,7 @@ Kind.Context:
 - xs.tail : (List t1_)
 - ind     : (Equal Nat (List.length _ (Rev _ xs.tail)) (List.length _ xs.tail))
 - ind     = (Rev_length_firsttry xs.tail)
-On 'rescunhos.kind2':
+On 'rascunhos.kind2':
    40 |   ?
 
 Rewrites: 76033
@@ -468,7 +468,8 @@ Kind.Context:
 - ind     : (Equal Nat (List.length _ (Rev _ xs.tail)) (List.length _ xs.tail))
 - ind     = (Rev_length t2_ xs.tail)
 On 'aula04.kind2':
-   289 |   ?```
+   289 |   ?
+   ```
 
 Nós criamos uma variavel com nossa auxiliar `App_length`:
 ```rust
@@ -481,15 +482,18 @@ Rev_length (List.cons xs.head xs.tail)  =
 ```
 Recebemos um novo contexto para nos auxiliar, o 
 ```bash
-- aux1    : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.add (List.length _ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)))```
+- aux1    : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.add (List.length _ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)))
+```
 
 A `aux1` é igual ao lado esquerdo do nosso `Goal`, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a `aux2`:
 ```rust 
-let aux2  = Plus_comm (List.length (Rev xs.tail)) (Nat.succ Nat.zero)```
+let aux2  = Plus_comm (List.length (Rev xs.tail)) (Nat.succ Nat.zero)
+```
 
 Agora nosso contexto está ainda melhor: 
 ```bash
-- aux2    : (Equal Nat (Nat.add (List.length t2_ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))```
+- aux2    : (Equal Nat (Nat.add (List.length t2_ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))
+```
 
 Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da `aux2` é igual ao direito da `aux1` e podemos encadear um no outro com o `Equal.chain`:
 ```rust
@@ -498,11 +502,14 @@ let chn   = Equal.chain aux1 aux2
 
 Ao dar o Type Check, vemos nosso novo contexto:
 ```bash
-- chn     : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))```
+- chn     : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))
+```
 
 Nossa variável `chn` é praticamente identica ao nosso `Goal` só diferindo na parte final, pois `Goal` espera um `Nat.succ (List.length xs.tail)` e o `chn` nos dá `Nat.succ (List.length (Rev xs.tail))`, mas nós temos a variável `ind` que nos retorna essa igualdade. Vamos relembrar:
+
 ```bash
-ind     : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))```
+ind     : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))
+```
 
 Incrivel, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da `tail` é igual ao tamanho da `tail`, então basta reescrever a variável `ind` na nossa `chn`:
 ```rust
@@ -519,7 +526,7 @@ Kind.Context:
 - chn : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length (Rev xs.tail))))
 - rwt : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
 ```
-Agpra é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
+Agora é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
 ```rust
 Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length List.nil                     = Equal.refl
