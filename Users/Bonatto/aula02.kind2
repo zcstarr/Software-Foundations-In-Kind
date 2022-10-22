@@ -125,10 +125,39 @@ Mult_s1 n m eq  =
 // andb_true_elim_2 : (b, c : Bool) →  (b && c = True) →  c = True
 // andb_true_elim_2 b c prf = ?andb_true_elim_2_rhs
 And_true_elim_2 (b: Bool) (c: Bool) (e: Equal Bool (Bool.and b c) Bool.true) : (Equal Bool c Bool.true)
-And_true_elim_2 Bool.true   Bool.true e = Equal.refl
-// And_true_elim_2 Bool.false  Bool.false e = ?
-// TODO: o que fazer aqui? FIXME: logica do xablau
+// And_true_elim_2 Bool.true   c e = ?
+And_true_elim_2 b Bool.true e   = Equal.refl
+// And_true_elim_2 b Bool.false e  = ?
+// And_true_elim_2 b Bool.false e  = ?
+// And_true_elim_2 Bool.false  c e = ?
 
+
+// - Goal: (Equal Bool Bool.false Bool.true)
+
+// True_is_false : Not (Equal Bool Bool.true Bool.false)
+// True_is_false = ?
+
+
+
+// And1 (b: Bool) (c: Bool)      : (Equal Bool (Bool.and b c) (Bool.and c b))
+// And1 Bool.true  Bool.true     = Equal.refl
+// And1 Bool.true  Bool.false    = Equal.refl
+// And1 Bool.false Bool.true     = Equal.refl
+// And1 Bool.false Bool.false    = Equal.refl
+
+And_true_elim_2 Bool.true   Bool.true   e = Equal.refl
+And_true_elim_2 Bool.false  Bool.false  e =
+  let hip2  = Equal.mirror e
+  let hip   = True_is_false
+  let hip3  = hip hip2
+  let hip4  = Empty.absurd hip3
+  hip4
+// ?
+
+True_is_false : Not ( Equal Bool Bool.true Bool.false)
+// True_is_false =
+  // let hip = (x => (Equal.rewrite x (k => if k { Nat } else { Empty  }  ) Nat.zero))
+  // ?
 // 9.0.2
 // zero_nbeq_plus_1 : (n : Nat) →  0 →  (n + 1) = False
 // zero_nbeq_plus_1 n = ?zero_nbeq_plus_1_rh
@@ -151,11 +180,8 @@ Identity_fn_applied_twice f e b =
 // andb_eq_orb : (b, c : Bool) → (b && c = b || c) → b = c
 // andb_eq_orb b c prf = ?andb_eq_orb_rhs
 Andb_eq_orb (b: Bool) (c: Bool) (e: Equal Bool (Bool.and b c) (Bool.or b c)) : (Equal Bool b c)
-Andb_eq_orb Bool.true Bool.true   e = Equal.refl
-// Andb_eq_orb Bool.true Bool.false  e = ?
-// Andb_eq_orb Bool.false Bool.true  e = ?
-Andb_eq_orb Bool.false Bool.false e = Equal.refl
-
+Andb_eq_orb Bool.true b  e = Equal.mirror e
+Andb_eq_orb Bool.false b e = e
 
 
 
