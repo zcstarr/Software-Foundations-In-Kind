@@ -544,4 +544,25 @@ Rev_length (List.cons xs.head xs.tail)  =
    let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
    rwt
 ```
+<!-- Para comparação, aqui está a explicação da prova formal desses dois teoremas: -->
+<!-- Teorema: Para todas as listas xs e ys, -->
+<!-- ```rust -->
+<!-- App_length <a> (xs: List a) (ys: List a)  : (Equal Nat (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys))) -->
+<!-- ``` -->
+<!-- - Primeiro, supomos que a lista xs seja List.nil, nosso objetivo é provar que  -->
+<!-- ```bash -->
+<!-- - Goal: (Equal Nat (List.length _ ys) (List.length _ ys)) -->
+<!-- ``` -->
+<!-- e isso é um `Equal.refl`. -->
+<!--  -->
+<!-- - Depois nós supomos que xs é composto por uma head e uma tail e aplicamos uma indução, -->
+<!-- ```rust -->
+<!-- let ind = App_length xs.tail ys -->
+<!-- let app = Equal.apply (x => (Nat.succ x)) ind -->
+<!-- ``` -->
+<!-- Nos bastando apenas retornar a nossa aplicação. -->
+<!--  -->
+<!--  -->
 
+
+### 3.2
