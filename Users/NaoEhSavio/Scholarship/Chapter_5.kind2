@@ -1,0 +1,171 @@
+// 1.1. Polymorphic Lists.
+BoolList = (List Bool)
+
+List <a: Type> : Type
+List.nil <a> : List a  
+List.cons <a> (head: a) (tail: List a) : List a  
+
+List.repeat <x_ty: Type> (x: x_ty) (count: Nat) : List x_ty
+List.repeat x_ty x Nat.zero = (List.nil x_ty)
+List.repeat x_ty x (Nat.succ count) = List.cons x (List.repeat x_ty x count)
+
+Test_repeat1 : Equal (List.repeat Nat (U60.to_nat 4) (U60.to_nat 2)) (List.cons (U60.to_nat 4) (List.cons (U60.to_nat 4) (List.nil Nat)))
+Test_repeat1 = Equal.refl
+
+Test_repeat2 : Equal BoolList (List.repeat Bool (Bool.false) (U60.to_nat 1)) (List.cons (Bool.false) (List.nil Bool))
+Test_repeat2 = Equal.refl
+
+// 1.1.1. Exercise: 
+
+// 1.1.4. Implicit Arguments
+
+List.app <a: Type> (l1: List a) (l2: List a) : List a
+List.app a (List.nil ) l2 = l2
+List.app a (List.cons x head tail) l2 = List.cons head (List.app tail l2) 
+
+List.rev <x: Type> (l: List x) : List x
+List.rev [] = []                                         // #######[head]#######
+List.rev (List.cons x head tail) = List.app (List.rev tail) (List.cons head []) 
+
+
+List.length <x: Type> (l: List x) : Nat
+List.length [] = Nat.zero
+List.length (List.cons x head tail) = Nat.succ (List.length tail)
+
+Test_rev1 : Equal (List.rev ([])) ([])
+Test_rev1 = Equal.refl
+
+Test_rev2 : Equal (List.rev ([])) ([])
+Test_rev2 = Equal.refl
+
+Test_length1 : Equal (List.length ([])) (Nat.zero)
+Test_length1 = Equal.refl
+
+// 1.1.6. Exercise: 
+App_nil_r <x: Type> (l: List x) : (Equal (List.concat l []) l)
+
+// app_assoc : 
+App_assoc <a: Type> (l: List a) (m: List a) (n: List a) : (Equal (List.concat l (List.concat m n)) (List.concat (List.concat l m) n)) 
+
+
+App_length <x: Type> (l1: List x) (l2: List x) : (Equal Nat (List.length (List.concat l1 l2)) (Nat.add (List.length l1) (List.length l2)))
+
+// 1.1.7. Exercise: 
+Rev_app_distr <x: Type> (l1: List x) (l2: List x) : (Equal (List x) (List.rev (List.app l1 l2)) (List.app (List.rev l2) (List.rev l1)))
+Rev_app_distr (List.cons x xs) l2 =
+
+
+Rev_involutive <x: Type> (l: List x) : (Equal (List.rev (List.rev l)) l)
+
+// 1.2. Polymorphic Pairs. Following the same pattern, the type definition
+// we gave in the last chapter for pairs of numbers can be generalized to polymorphic
+// pairs, often called products:
+
+Prod <x: Type> <y: Type> : Type
+Prod x y = (Pair x y)
+
+Prod.fst <x: Type> <y: Type> (P: Prod x y) : x
+Prod.fst (Pair.new fst snd) = fst
+
+Prod.snd <x: Type> <y: Type> (P: Prod x y) : y
+Prod.snd (Pair.new fst snd) = snd
+
+
+List.zip <x: Type> <y: Type> (lx: List x) (ly: List y) : (List (Prod x y))
+List.zip [] ly = []
+List.zip lx [] = []
+List.zip x y (List.cons lx lx.head lx.tail) (List.cons ly ly.head ly.tail) = List.cons (Pair.new lx.head ly.head) (List.zip lx.tail ly.tail)
+
+// 1.2.1. Exercise: 
+
+// 1.2.2. Exercise: 
+
+List.split <x: Type> <y: Type> (l: List (Prod x y)) : Prod (List x) (List y)
+
+// 1.2.3. Polymorphic Options. 
+
+Option <x> : Type 
+Option x = Maybe x
+
+Nth_error <x> (l: List x) (n: Nat) : Option x
+Nth_error x [] n = (Maybe.none x)
+Nth_error x (List.cons l head tail) n = if (Nat.equal n Nat.zero) {Maybe.some head} else {(Nth_error tail (Nat.pred n))}
+
+
+// 1.2.4. Exercise: 
+
+Hd_error <x> (l: List x) : Option x
+Hd_error x (List.nil l) = (Maybe.none x)
+Hd_error x (List.cons l head tail) = (Maybe.some head)
+
+// 2.1. Higher-Order Functions. 
+Doit3times <x> (func: x -> x) (n: x) : x
+Doit3times x func n = (func (func (func n)))
+
+Numbers.minusTwo (n: Nat) : Nat
+Numbers.minusTwo Nat.zero = Nat.zero
+Numbers.minusTwo (Nat.succ Nat.zero) = Nat.zero
+Numbers.minusTwo (Nat.succ (Nat.succ k)) = k
+
+Test_doit3times : (Equal (Doit3times (x => Numbers.minusTwo x) (U60.to_nat 9)) (U60.to_nat 3))
+Test_doit3times = Equal.refl
+
+Test_doit3times2 : (Equal (Doit3times (x => Bool.not x) Bool.true) Bool.false)
+Test_doit3times2 = Equal.refl
+// - Goal: (Equal _ Bool.false Bool.false)
+
+// 2.2. Filter.
+
+List.filter <x> (func: x -> Bool) (l: (List x)) : (List x)
+List.filter x func (List.nil l) = (List.nil)
+List.filter x func (List.cons l head tail) = 
+  Bool.match (func head) ( x => _ ) (List.cons head (List.filter func tail)) (List.filter func tail)
+
+Length_is_1 <x> (l: List x ) : Bool
+Length_is_1 l = Nat.equal (List.length l) (Nat.succ Nat.zero)
+
+Nat.odd (n: Nat) : Bool
+Nat.odd Nat.zero = Bool.false
+Nat.odd (Nat.succ Nat.zero) = Bool.true
+Nat.odd (Nat.succ (Nat.succ k)) = Nat.odd k
+
+Countoddmembers (l: List Nat) : Nat
+Countoddmembers l = List.length (List.filter (x => Nat.odd x) l)
+
+
+// 2.3. Anonymous Functions. 
+
+// 2.3.1. Exercise: 
+
+// 2.3.2. Exercise: 
+
+// 2.4. Map. 
+
+List.map <x> <y> (func: x -> y) (l: (List x)): (List y)
+List.map x y func [] = []
+
+// 2.4.1. Exercise: 
+
+// 2.4.2. Exercise:
+
+// 2.4.3. Exercise: 
+
+// 2.5. Fold. 
+
+List.fold <x> <y> (func: x -> y -> y) (l: List x) (b: y) : y
+List.fold x y func [] b = b
+List.fold x y func (List.cons l head tail) b = (func head) (List.fold func tail b)
+
+// 2.5.1. Exercise: 
+
+// 2.6. Functions That Construct Functions. 
+
+// 3.0.1. Exercise: 
+
+// 3.0.2. Exercise: 
+
+// 3.0.3. Exercise: 
+
+// 3.0.4. Exercise:
+
+// 3.0.5. Exercise: 
