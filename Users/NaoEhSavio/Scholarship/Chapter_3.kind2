@@ -138,12 +138,58 @@ Mult_n_one (Nat.succ n.pred) =
 Mult_0_plus (n: Nat) (m: Nat) : (Equal Nat (Nat.mul (Nat.add Nat.zero n) m) (Nat.mul n m))
 Mult_0_plus n m = Equal.refl
 
+Mult_n_Sm (n: Nat) (m: Nat) : (Equal Nat (Nat.mul n (Nat.succ m)) (Nat.add (Nat.mul n m) n))
+Mult_n_Sm Nat.zero m = Equal.refl
+// - Goal: (Equal Nat Nat.zero Nat.zero)
+Mult_n_Sm (Nat.succ n.pred) m = 
+                        let ind = Mult_n_Sm n.pred m
+                        let app1 = Equal.apply (x => Nat.add x (Nat.succ m)) ind
+                        let aux2 = Plus_comm n.pred m
+                        let aux3 = Plus_n_Sm m n.pred
+                        let app2 = Equal.apply (x => (Nat.succ x)) aux2
+                        let chn1 = Equal.chain app2 aux3
+                        let mir1 = Equal.mirror chn1
+                        let aux4 = Plus_n_Sm n.pred m
+                        let chn2 = Equal.chain mir1 aux4
+                        let aux5 = Plus_assoc (Nat.mul n.pred m) m (Nat.succ n.pred)
+                        let aux6 = Plus_assoc (Nat.mul n.pred m) n.pred (Nat.succ m)
+                        let rrt1 = Equal.rewrite chn2 (x => (Equal Nat (Nat.add (Nat.mul n.pred m) (x)) (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)))) aux5
+                        let mir2 = Equal.mirror aux6
+                        let chn3 = Equal.chain mir2 rrt1
+                        let chn4 = Equal.chain app1 chn3
+                        chn4
+// - ind : (Equal Nat (Nat.mul n.pred (Nat.succ m)) (Nat.add (Nat.mul n.pred m) n.pred))
+// - app1: (Equal Nat (Nat.add (Nat.mul n.pred (Nat.succ m)) (Nat.succ m)) (Nat.add (Nat.add (Nat.mul n.pred m) n.pred) (Nat.succ m)))
+// - aux2: (Equal Nat (Nat.add n.pred m) (Nat.add m n.pred))
+// - aux3: (Equal Nat (Nat.succ (Nat.add m n.pred)) (Nat.add m (Nat.succ n.pred)))
+// - app2: (Equal Nat (Nat.succ (Nat.add n.pred m)) (Nat.succ (Nat.add m n.pred)))
+// - chn1: (Equal Nat (Nat.succ (Nat.add n.pred m)) (Nat.add m (Nat.succ n.pred)))
+// - mir1: (Equal Nat (Nat.add m (Nat.succ n.pred)) (Nat.succ (Nat.add n.pred m)))
+// - aux4: (Equal Nat (Nat.succ (Nat.add n.pred m)) (Nat.add n.pred (Nat.succ m)))
+// - chn2: (Equal Nat (Nat.add m (Nat.succ n.pred)) (Nat.add n.pred (Nat.succ m)))
+// - aux5: (Equal Nat (Nat.add (Nat.mul n.pred m) (Nat.add m (Nat.succ n.pred))) (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)))
+// - aux6: (Equal Nat (Nat.add (Nat.mul n.pred m) (Nat.add n.pred (Nat.succ m))) (Nat.add (Nat.add (Nat.mul n.pred m) n.pred) (Nat.succ m)))
+// - rrt1: (Equal Nat (Nat.add (Nat.mul n.pred m) (Nat.add n.pred (Nat.succ m))) (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)))
+// - mir2: (Equal Nat (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)) (Nat.add (Nat.mul n.pred m) (Nat.add n.pred (Nat.succ m))))
+// - chn3: (Equal Nat (Nat.add (Nat.add (Nat.mul n.pred m) n.pred) (Nat.succ m)) (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)))
+// - chn4: (Equal Nat (Nat.add (Nat.mul n.pred (Nat.succ m)) (Nat.succ m)) (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)))
+// - Goal: (Equal Nat (Nat.add (Nat.mul n.pred (Nat.succ m)) (Nat.succ m)) (Nat.add (Nat.add (Nat.mul n.pred m) m) (Nat.succ n.pred)))
+
 Mult_comm (n: Nat) (m: Nat) : (Equal Nat (Nat.mul m n) (Nat.mul n m))
 Mult_comm Nat.zero m = 
                   let ind = Mult_0_r m
                   ind
 // - ind : (Equal Nat (Nat.mul n Nat.zero) Nat.zero)
 // - Goal: (Equal Nat (Nat.mul n Nat.zero) Nat.zero)
+Mult_comm (Nat.succ n.pred) m = 
+                          let ind = Mult_comm n.pred m 
+                          let aux1 = Mult_n_Sm m n.pred
+                          let rrt1 = Equal.rewrite ind (x => (Equal Nat (Nat.mul m (Nat.succ n.pred)) (Nat.add (x) m))) aux1
+                          rrt1
+// - ind : (Equal Nat (Nat.mul m n.pred) (Nat.mul n.pred m))
+// - aux1: (Equal Nat (Nat.mul m (Nat.succ n.pred)) (Nat.add (Nat.mul m n.pred) m))
+// - rrt1: (Equal Nat (Nat.mul m (Nat.succ n.pred)) (Nat.add (Nat.mul n.pred m) m))
+// - Goal: (Equal Nat (Nat.mul m (Nat.succ n.pred)) (Nat.add (Nat.mul n.pred m) m))
 
 // 3.0.2. Exercise:
 Lte (n: Nat) (m: Nat) : Bool
@@ -189,17 +235,48 @@ All3_spec Bool.true Bool.false = Equal.refl
 // - Goal: (Equal Bool Bool.true Bool.true)
 All3_spec Bool.false c = Equal.refl
 //  Goal: (Equal Bool Bool.true Bool.true)
-
-// TODO: continue...                                                      
+                                                 
 Mult_plus_distr_r (n: Nat) (m: Nat) (p: Nat) : (Equal Nat (Nat.mul (Nat.add n m) p) (Nat.add (Nat.mul n p) (Nat.mul m p)))
 Mult_plus_distr_r Nat.zero m p = Equal.refl
 // - Goal: (Equal Nat (Nat.mul m p) (Nat.mul m p))
+Mult_plus_distr_r (Nat.succ n.pred) m p = 
+                                    let ind = Mult_plus_distr_r n.pred m p
+                                    let app1 = Equal.apply (x => Nat.add x p) ind
+                                    let aux1 = Plus_comm (Nat.mul m p) p
+                                    let aux2 = Plus_assoc (Nat.mul n.pred p) p (Nat.mul m p)
+                                    let aux3 = Plus_assoc (Nat.mul n.pred p) (Nat.mul m p) p
+                                    let rrt1 = Equal.rewrite aux1 (x => (Equal Nat (Nat.add (Nat.mul n.pred p) (x)) (Nat.add (Nat.add (Nat.mul n.pred p) (Nat.mul m p)) p))) aux3
+                                    let mir1 = Equal.mirror rrt1
+                                    let chn1 = Equal.chain mir1 aux2
+                                    let chn2 = Equal.chain app1 chn1
+                                    chn2
+// - ind : (Equal Nat (Nat.mul (Nat.add n.pred m) p) (Nat.add (Nat.mul n.pred p) (Nat.mul m p)))
+// - app1: (Equal Nat (Nat.add (Nat.mul (Nat.add n.pred m) p) p) (Nat.add (Nat.add (Nat.mul n.pred p) (Nat.mul m p)) p))
+// - aux1: (Equal Nat (Nat.add (Nat.mul m p) p) (Nat.add p (Nat.mul m p)))
+// - aux2: (Equal Nat (Nat.add (Nat.mul n.pred p) (Nat.add p (Nat.mul m p))) (Nat.add (Nat.add (Nat.mul n.pred p) p) (Nat.mul m p)))
+// - aux3: (Equal Nat (Nat.add (Nat.mul n.pred p) (Nat.add (Nat.mul m p) p)) (Nat.add (Nat.add (Nat.mul n.pred p) (Nat.mul m p)) p))
+// - rrt1: (Equal Nat (Nat.add (Nat.mul n.pred p) (Nat.add p (Nat.mul m p))) (Nat.add (Nat.add (Nat.mul n.pred p) (Nat.mul m p)) p))
+// - mir1: (Equal Nat (Nat.add (Nat.add (Nat.mul n.pred p) (Nat.mul m p)) p) (Nat.add (Nat.mul n.pred p) (Nat.add p (Nat.mul m p))))
+// - chn1: (Equal Nat (Nat.add (Nat.add (Nat.mul n.pred p) (Nat.mul m p)) p) (Nat.add (Nat.add (Nat.mul n.pred p) p) (Nat.mul m p)))
+// - chn2: (Equal Nat (Nat.add (Nat.mul (Nat.add n.pred m) p) p) (Nat.add (Nat.add (Nat.mul n.pred p) p) (Nat.mul m p)))
+// - Goal: (Equal Nat (Nat.add (Nat.mul (Nat.add n.pred m) p) p) (Nat.add (Nat.add (Nat.mul n.pred p) p) (Nat.mul m p)))
 
-
-// TODO: continue...
-Mult_assoc (n: Nat) (m: Nat) (p: Nat) : (Equal Nat (Nat.mul n (Nat.mul m p)) (Nat.mul (Nat.mul n p) p))
+Mult_assoc (n: Nat) (m: Nat) (p: Nat) : (Equal Nat (Nat.mul n (Nat.mul m p)) (Nat.mul (Nat.mul n m) p))
 Mult_assoc Nat.zero m p = Equal.refl
-
+// - Goal: (Equal Nat Nat.zero Nat.zero)
+Mult_assoc (Nat.succ n.pred) m p = 
+                            let ind = Mult_assoc n.pred m p 
+                            let aux = Mult_plus_distr_r (Nat.mul n.pred m) m p 
+                            let mir = Equal.mirror ind
+                            let rrt = Equal.rewrite mir (x => (Equal Nat (Nat.mul (Nat.add (Nat.mul n.pred m) m) p) (Nat.add (x) (Nat.mul m p)))) aux
+                            let mir = Equal.mirror rrt
+                            mir
+// - ind : (Equal Nat (Nat.mul n.pred (Nat.mul m p)) (Nat.mul (Nat.mul n.pred m) p))
+// - aux : (Equal Nat (Nat.mul (Nat.add (Nat.mul n.pred m) m) p) (Nat.add (Nat.mul (Nat.mul n.pred m) p) (Nat.mul m p)))
+// - mir : (Equal Nat (Nat.mul (Nat.mul n.pred m) p) (Nat.mul n.pred (Nat.mul m p)))
+// - rrt : (Equal Nat (Nat.mul (Nat.add (Nat.mul n.pred m) m) p) (Nat.add (Nat.mul n.pred (Nat.mul m p)) (Nat.mul m p)))
+// - mir : (Equal Nat (Nat.add (Nat.mul n.pred (Nat.mul m p)) (Nat.mul m p)) (Nat.mul (Nat.add (Nat.mul n.pred m) m) p))
+// - Goal: (Equal Nat (Nat.add (Nat.mul n.pred (Nat.mul m p)) (Nat.mul m p)) (Nat.mul (Nat.add (Nat.mul n.pred m) m) p))
 
 // 3.0.3. Exercise: 
 Beq_nat_refl (n : Nat) : (Equal Bool Bool.true (Nat.equal n n))
@@ -213,7 +290,7 @@ Beq_nat_refl (Nat.succ n.pred) =
 
 // TODO: continue...
 // 3.0.4. Exercise:
-Plus_swap_not (n: Nat) (m: Nat) (p: Nat) : (Equal Nat (Nat.add n (Nat.add p m)) (Nat.add m (Nat.add p m)))
+Plus_swap_not_plus_com (n: Nat) (m: Nat) (p: Nat) : (Equal Nat (Nat.add n (Nat.add p m)) (Nat.add m (Nat.add p m)))
 
 // 3.0.5. Exercise:  
 
