@@ -53,9 +53,9 @@ Agora podemos voltar e fazer versões polimórficas de todas as listas de proces
 funções que escrevemos antes. Aqui está a repetição, por exemplo:
 
 ```rust
-Repeat <a: Type> (xs: a) (count: Nat)  : List a
-Repeat xs Nat.zero                     = List.nil
-Repeat xs (Nat.succ count)             = List.concat [xs] (Repeat xs count)
+List.repeat <a: Type> (xs: a) (count: Nat)  : List a
+List.repeat xs Nat.zero                     = List.nil
+List.repeat xs (Nat.succ count)             = List.cons xs (List.repeat xs count)
  ```
 
 Tal como acontece com Nil e Contras, podemos usar repeat aplicando-o primeiro a um tipo e depois a
