@@ -108,14 +108,14 @@ Main {
   // (Nat.add c b)
   // (Nat.sub c b)
   // (Nat.mul b c)
-  (Nat.fac c)
+  // (Nat.fac c)
   // (Nat.eql a b)
   // (Nat.gtn a c)
   // (Nat.ltn b c)
   // (Nat.hlf b)
   // (Nat.min c a)
   // (Nat.max c b)
-  // (Nat.div c b)
+  (Nat.div c b)
 }
 
 

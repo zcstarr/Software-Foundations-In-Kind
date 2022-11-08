@@ -40,10 +40,6 @@ Nat.eql (Nat.succ a) (Nat.succ b) = (Nat.eql a b)
 Nat.min (a: Nat) (b: Nat): Nat
 Nat.min a b = if (Nat.ltn a b) { a } else { b }
 
-Repeat <a: Type> (xs:  a) (count: Nat)  : List a
-Repeat xs Nat.zero                     = List.nil
-Repeat xs (Nat.succ count)             = List.cons xs (Repeat xs count)
-
 // Returns pairs of the elements of the 2 input lists on the same index
 // Ex: zip!!([1,2], ["a","b","c"]) == [{1, "a"}, {2 , "b"}]
 // Ex: zip!!(["a", "b"], [3, 5])   == [{"a", 3}, {2 , "b"}]
@@ -118,8 +114,7 @@ Main {
     // List_sort_descending a
     // List_sort_ascending (List_sort_descending a)
     // List_get (Nat.zero) List.nil
-    // List_filter (x => Nat.is_odd x) a
-    Repeat "3" (Nat.succ (Nat.succ Nat.zero))
+    List_filter (x => Nat.is_odd x) a 
 }
 //
 // (List.cons _ (Pair.new _ _ (Nat.succ Nat.zero) 'a')
@@ -142,25 +137,3 @@ Main {
 // (List.cons _ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))
 // (List.cons _ (Nat.succ (Nat.succ Nat.zero))
 // (List.cons _ (Nat.succ Nat.zero) (List.nil _))))))
-
-// repeat : (x_ty : Type) → (x : x_ty) → (count : Nat) → List x_ty
-// repeat x_ty x Z = Nil
-// repeat x_ty x (S count') = x :: repeat x_ty x count'
-
-// test_repeat1 : repeat Nat 4 2 = 4 :: (4 :: Nil)
-// test_repeat1 = Refl
-Test_repeat1 : (Equal (Repeat 4 (U60.to_nat 2))(List.cons 4 (List.cons 4 List.nil)))
-Test_repeat1 = Equal.refl
-
-Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false List.nil))
-Test_repeat2 = Equal.refl
-// (List.cons _ (Nat.succ Nat.zero)
-// (List.cons _ (Nat.succ (Nat.succ Nat.zero))
-// (List.cons _ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))
-// (List.cons _ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))
-// (List.cons _ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))))
-// (List.cons _ (Nat.succ Nat.zero)
-// (List.cons _ (Nat.succ (Nat.succ Nat.zero))
-// (List.cons _ (Nat.succ (Nat.succ (Nat.succ Nat.zero)))
-// (List.cons _ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))
-// (List.cons _ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))) (List.nil _)))))))))))

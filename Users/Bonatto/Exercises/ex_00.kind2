@@ -1,6 +1,6 @@
-// Bool : Type
-// Bool.true : Bool
-// Bool.false : Bool
+Bool : Type
+Bool.true : Bool
+Bool.false : Bool
 
 // Is true
 // Returns true if input is true
