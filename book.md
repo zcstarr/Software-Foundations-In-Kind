@@ -828,8 +828,6 @@ resultado que convertê-lo primeiro e então incrementar o Nat
 ## Indução: Prova por Indução
 ### módulo de indução
 
-
-
 Nesse capítulo nós veremos sobre provas por indução, mas antes de prosseguirmos
 para a indução em si, podemos analisar casos simples onde apenas a reflexão do
 caso já prova o teorema.
@@ -967,7 +965,7 @@ On 'problems01.kind2':
 Podemos perceber que o *app* é exatamente igual ao *Goal*, que é o nosso
 objetivo e basta apenas retornar ele, o app para que o *Type Check* valide
 a nossa prova:
-*All terms check.* 
+*All terms check.*
 
 ### Outro caso
 
@@ -1066,7 +1064,6 @@ Começaremos aplicando um *Nat*.**succ** no nosso problema original:
 let inda    = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
 ```
 
-
 Depois invocaremos nosso problema já resolvido, o *Problems*.**t2**:
 ```rust 
 let indb    = Problems.t2 m n
@@ -1097,7 +1094,6 @@ apenas organizar e juntar as partes necessárias. Para isso usaremos a
 ```rust
 let indc    = Equal.chain indb (Equal.mirror inda)
 ```
-
 
 E o indc nos retorna um valor similar ao desejado:
 ```rust
@@ -1175,11 +1171,11 @@ Mas *Equal.***refl** não é suficiente caso a declaração seja:
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 ```
 
-Já que o Kind espera 
+Já que o Kind espera
 ```rust
 (Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
 ```
-E recebeu 
+E recebeu
 ```rust
 (Equal p p)
 ```
@@ -1215,7 +1211,7 @@ type List <t: Type> {
 
 Outra forma de construir os tipos é com a seguinte notação, usando o caso do
 tilo `List`
-```rust 
+```rust
 List <a: Type> : Type
 List.nil <a> : (List a)
 List.cons <a> (head: a) (tail: List a) : (List a)
@@ -1451,8 +1447,7 @@ Da mesma forma, alguns teoremas precisam de indução para suas provas.
 
 - 3.0.1. Micro-Sermão. Simplesmente ler scripts de prova de exemplo não o levará muito longe! É importante trabalhar os detalhes de cada um, usando Kind e pensando no que cada passo alcança. Caso contrário, é mais ou menos garantido que os exercícios não farão sentido quando você chegar a eles. ( ಠ ʖ̯ ಠ)
 
-
-### 3.1. Indução em Listas. 
+### 3.1. Indução em Listas.
 
 Provas por indução sobre tipos de dados como `List` são um pouco menos familiares do que a indução de números naturais padrão, mas a ideia é igualmente simples. Cada declaração de dados define um conjunto de valores de dados que podem ser construídos usando os construtores declarados: um booleano pode ser True ou False; um número pode ser Zero ou Succ aplicado a outro número; uma lista de naturais pode ser Nil ou Cons aplicado a um número e uma lista.
 
@@ -1658,6 +1653,7 @@ Kind.Context:
 - rwt : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
 ```
 Agora é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
+
 ```rust
 Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length List.nil                     = Equal.refl
@@ -1668,7 +1664,7 @@ Rev_length (List.cons xs.head xs.tail)  =
    let chn   = Equal.chain aux1 aux2
    let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
    rwt
-
+```
 
 # Capítulo 5
 ### 1 Polimorfismo
@@ -1739,10 +1735,8 @@ Test_repeat1 = Equal.refl
 ```
 
 Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:
+
 ```rust
 Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false List.nil))
 Test_repeat2 = Equal.refl
-```
-
-
 ```
