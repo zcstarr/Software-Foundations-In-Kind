@@ -85,10 +85,8 @@ Identity_fn_applied_twice f e b =
 
 // 11.0.2
 Andb_eq_orb (b : Bool) (c : Bool) (e : Equal (Bool.and b c) (Bool.or b c)) : Equal b c
-Andb_eq_orb Bool.true  Bool.true  e = Equal.refl
-Andb_eq_orb Bool.true  Bool.false e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
-Andb_eq_orb Bool.false Bool.true  e = Empty.absurd (Bool.true_not_false (Equal.mirror e))
-Andb_eq_orb Bool.false Bool.false e = Equal.refl
+Andb_eq_orb Bool.true  c e = Equal.mirror e
+Andb_eq_orb Bool.false c e = e
 
 // 11.0.3
 // a)

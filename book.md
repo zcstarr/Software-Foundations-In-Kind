@@ -165,14 +165,14 @@ Bool.false : Bool
 ```
 
 <!-- TODO mudar isso aqui caso tenhamos um gerenciador de pacotes -->
-Nós estamos declarando nossos próprios booleano só pra demonstrar como fazer tudo do zero.
+Nós estamos declarando nossos próprios booleanos só para demonstrar como fazer tudo do zero.
 O Kind tem a sua implementação padrão de booleanos no pacote padrão (o [Wikind](github.com/Kindelia/Wikind)),
 junto de várias outras estruturas e provas. Na verdade, no momento de escrita,
 é necessário que você esteja trabalhando dentro da pasta Wikind para fazer
 provas e teoremas, pois ainda não temos um gerenciador de pacote e os utilitários
 de resolução de provas não são built-in.
 
-Funções que funcionam sobre são definidas do mesmo jeito que visto anteriormente:
+Funções que funcionam sobre booleanos são definidas do mesmo jeito que visto anteriormente:
 
 ```rs
 // Negação lógica
@@ -614,13 +614,22 @@ aplicada dos dois lados, e como segundo argumento a igualdade aonde aplicar a fu
 Se você não entendeu muito bem a passagem da função de argumento (`x => Nat.succ x`),
 ela é o que chamamos de função lambda, e é também conhecida como função anônima.
 Funções lambda são identificadas pela sua seta `=>`, sendo que do lado esquerdo
-da seta fica o nome do argumento da função (use o nome que quiser) e do lado direito
-fica o corpo da função, o que ela retorna. A nossa função lambda atual é uma função
+da seta fica o nome do argumento da função - use o nome que quiser - e do lado direito
+fica o corpo da função: o que ela retorna. A nossa função lambda atual é uma função
 que recebe um `x` qualquer e retorna `Nat.succ x`.
 
-Podemos confirmar isso dando `check` no arquivo:
+Podemos ver o resultado disso dando `check` no arquivo:
 
-<!-- TODO -->
+```terminal
+Inspection.
+- Goal: (Equal _ (Nat.succ m) (Nat.succ n))
+Kind.Context:
+- n       : Nat
+- m       : Nat
+- e       : (Equal Nat m n)
+- e_apply : (Equal Nat (Nat.succ m) (Nat.succ n))
+- e_apply = (Equal.apply Nat Nat m n (x => (Nat.succ x)) e)
+```
 
 Como `e_apply` é uma igualdade do tipo `Equal Nat (Nat.succ m) (Nat.suuc n),
 a prova que procuramos, é só retornar ele e concluiremos a nossa prova.
@@ -638,6 +647,37 @@ All terms check.
 
 ### 2.9 Prova por análise de casos
 
+A próxima ferramenta de provas formais será análise de casos, que significa usar *pattern matching* na prova.
+Por exemplo, vamos provar que o E lógico de qualquer coisa e Falso sempre é falso:
+
+```rust
+Example_case_analysis (b1 : Bool) : Equal (Andb b1 Bool.false) Bool.false
+Example_case_analysis b1 = ?
+```
+
+Apesar de parecer uma prova que deveria ser resolvida simplesmente com `Equal.refl`,
+não é o caso. Isso é por conta de a função `Andb` fazer *pattern matching* no primeiro
+argumento, e nós não temos o valor dele na prova, então ele fica "agarrado".
+
+Para darmos um valor pra ele, e mostrar que a prova está correta para ambos os valores de `Bool`,
+nós fazemos *pattern matching* na prova, criando assim duas provas diferentes:
+uma pra quando `b1` for `Bool.true` e uma pra quando for `Bool.false`.
+
+```rust
+Example_case_analysis (b1 : Bool) : Equal (Andb b1 Bool.false) Bool.false
+Example_case_analysis Bool.true  = ?
+Example_case_analysis Bool.false = ?
+```
+
+E ambas essas provas são resolvivéis diretamente com `Equal.refl`, pois o *type checker*
+consegue reduzir ambos para `Equal Bool.false Bool.false` direto.
+
+```rust
+Example_case_analysis (b1 : Bool) : Equal (Andb b1 Bool.false) Bool.false
+Example_case_analysis Bool.true  = Equal.refl
+Example_case_analysis Bool.false = Equal.refl
+```
+
 <!-- TODO Reescrita no Kind2 é uma caixa de minhocas por si só,
 talvez colocar mais pro final do capítulo,
 ao talvez até colocar depois desse capítulo -->
@@ -649,15 +689,28 @@ Esse teorema é um pouco mais interessante que anteriores:
 Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
 ```
 
-Em vez de fazer uma afirmação sobre todos os naturais `n` e `m`,
-ele fala sobre uma propriedade específica que só vale quando `Equal n m`.
-
-Assim como antes, precisamos assumir a existência dos números `n` e `m`.
-Precisamos também assumir a hipótese `Equal n m`, ou seja, que `n` e `m` são iguais.
+Assim como mostrado anteriormente, essa é uma prova que dentro de seus argumentos temos
+uma outra prova, ou hipótese: no caso, temos `Equal n m` - ou seja, `n` e `m` são iguais.
 
 Como n e m são números arbitrários, não podemos só usar simplificação para demonstrar o teorema.
-Em vez disso, nós observando que, já que temos assumimos que `Equal n m`, podemos substituir `n` por `m`
+Em vez disso, nós observando que, já que assumimos `Equal n m`, poderiamos substituir `n` por `m`
 no objetivo e os dois lados ficarão iguais. A função que usamos para fazer essa substituição é a `Equal.rewrite`.
+
+<!-- TODO revisar esse parágrafo -->
+Como não podemos reescrever diretamente no objetivo, nós usamos uma outra igualdade e fazemos ela ser igual ao objetivo.
+No nosso caso, usaremos um `Equal.apply` em `e` para conseguir essa igualdade.
+
+```rust
+Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
+
+Plus_id_example n m e =
+  // app : Equal (Plus n n) (Plus m n)
+  let app = Equal.apply (k => Plus k n) e
+  ?
+```
+
+Esse `app` será do tipo `Equal (Plus n n) (Plus m n)`, como mostrado no comentário.
+Com isso feito, precisamos trocar o `n` por `m` no lado direito da igualdade, e pra isso usamos o rewrite:
 
 ```rust
 Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
@@ -670,15 +723,106 @@ Plus_id_example n m e =
   Equal.rewrite e (x => Equal (Plus n n) (Plus m x)) app
 ```
 
-As primeiras duas variáveis do nosso contexto representam dois números quaisqueres.
-A terceira variável é a hipótese de que esses números são iguais.
-<!-- TODO -->
-The right side tells Idris to rewrite the current goal (n + n = m + m) by replacing the
-left side of the equality hypothesis `e` with the right side.
+O retorno da operação `Equal.rewrite` já será a prova que precisamos,
+então só retornamos direto o resultado da função.
 
 #### *Exercício 2.10.0.1 (plus_id_exercise)*
 
-#### *Exercício 2.10.0.2 (Mult_S_1)*
+Prove que:
+
+```rust
+Plus_id_exercise (n : Nat) (m : Nat) (o : Nat) (e1 : Equal n m) (e2 : Equal m o) : Equal (Nat.add n m) (Nat.add m o)
+Plus_id_exercise n m o e1 e2 = ?plus_id_exercise_rhs
+```
+
+### 2.11 `Equal.chain` e `Equal.mirror`
+
+Nessa parte não falaremos de nenhuma ferramenta inerentemente nova,
+mas sim de alguns utilitários de provas para facilitar o uso das ferramentas anteriores.
+
+Imagine o exemplo:
+
+```rust
+Example_mirror (a : Nat) (b : Nat) (e : Equal a b) : Equal b a
+```
+
+Parece um exemplo trivial. Se `a` é igual a `b`, `b` é igual a `a`, correto?
+Apesar de correto, o *type checker* do Kind não reconhece essa igualdade, pois para ele, a ordem é importante.
+Para esse tipo de situação, temos a função `Equal.mirror`, que simplesmente troca os lados de uma igualdade.
+
+```rust
+Example_mirror (a : Nat) (b : Nat) (e : Equal a b) : Equal b a
+Example_mirror a b e = Equal.mirror e
+```
+
+Apesar de não parecer muito útil no momento, essa operação é muito útil para nosso segundo utilitário: `Equal.chain`.
+`Equal.chain` é um caso específico do `Equal.rewrite`, no qual você reescreve um lado inteiro de uma igualdade usando outra.
+
+```rust
+Example_chain (a : Nat) (b : Nat) (c : Nat) (e1: Equal b (Nat.add a a)) (e2 : Equal c (Nat.add a a)) : Equal b c
+```
+
+Como nós já conhecemos o `Equal.rewrite`, poderiamos usar ele para resolver esse teorema, mas ao invês disso vamos usar o `Equal.chain`.
+`Equal.chain` funciona "encadeando" duas igualdades que tenham a mesma expressão no lado direito da primeira igualdade e no lado esquerdo da segunda,
+"grudando" essas igualdades pela expressão em comum, gerando uma nova igualdade com as outras duas expressões (`Equal.chain (a=b) (b=c) = (a=c)`).
+Por exemplo, no nosso exemplo, o lado direito das duas igualdades é igual. Se usarmos `Equal.mirror` em uma delas, podemos dar `Equal.chain` nelas:
+
+```rust
+Example_chain (a : Nat) (b : Nat) (c : Nat) (e1: Equal b (Nat.add a a)) (e2 : Equal c (Nat.add a a)) : Equal b c
+Example_chain a b c e1 e2 =
+  let e3 = Equal.mirror e2
+  Equal.chain e1 e3
+```
+
+### 2.12 Mais exercícios
+
+#### *2.12.0.1 (boolean_functions)*
+
+Use os conhecimentos ensinados até aqui para resolver o teorema:
+
+```rust
+Identity_fn_applied_twice 
+  (f : Bool -> Bool)
+  (e : (x : Bool) -> Equal (f x) x)
+  (b : Bool) 
+: Equal (f (f b)) b
+Identity_fn_applied_twice f e b = ?identity_fn_applied_twice_rhs
+```
+
+Depois, resolva o teorema `negation_fn_applied_twice`, que é o mesmo que o anterior,
+mas mudando a hipótese para `Equal (f x) (Not x)`
+
+#### *2.12.0.2 (andb_eq_orb)*
+
+Prove o seguinte teorema (Lembre-se que voce pode provar teoremas intermediários separadamente)
+
+```rust
+Andb_eq_orb (b : Bool) (c : Bool) (e : Equal (Bool.and b c) (Bool.or b c)) : Equal b c
+Andb_eq_orb b c prf = ?andb_eq_orb_rhs
+```
+
+#### *2.12.0.3 (binary)*
+
+Considere uma representação diferente de números naturais, usando um sistema binário ao
+invês de unário. Ou seja, ao invês de termos apenas zero ou um sucessor de um número,
+nós podemos ter:
+
+* zero;
+* o dobro de um número;
+* o dobro de um número mais 1.
+
+1. Primeiro, escreva uma definição indutiva desse tipo, chamando-o de `Bin`.
+(Lembre-se que, no fundo, a própria definição de `Nat` como `zero` ou `succ n`
+não tem sentido intríseco. Ela só diz que um elemento de `Nat` pode ser um `zero`
+ou um `succ n` se `n` também for `Nat`. A interpretação disso como um sistema de valores
+0, 1, 2, etc, vem de como nós trabalhamos com esse tipo `Nat`. A sua definição de `Bin`
+idealmente também será tão simples quanto. Serão as funções que você fizer sobre `Bin`
+que darão sentido matemático a ele).
+2. Então, escreva uma função `Incr` para incrementar um `Bin`, e uma função
+`Bin_to_nat` para converter de `Bin` para `Nat`.
+3. Escreva cinco provas que testam suas funções de incremento e de conversão.
+Note que incrementar um binário e então convertê-lo deve ser chegar no mesmo
+resultado que convertê-lo primeiro e então incrementar o Nat
 
 # CAPÍTULO 3
 ## Indução: Prova por Indução
