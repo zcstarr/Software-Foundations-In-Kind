@@ -72,4 +72,53 @@ Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false L
 Test_repeat2 = Equal.refl
 ```
 
+############################################################################
 
+1.1.2 Inferência de anotação de tipo.
+
+Vamos escrever a definição do `repeat` novamente, mas dessa vez omitindo o tipo, mas atenção, essa não é uma boa prática usar o `hole`, servirá apenas para compreender o poder do Kind e como ele pode ajudar o usuário a encontrar o que deseja.
+
+```rust
+List.repeat (val: _) (count: Nat)   : List _
+List.repeat val Nat.zero            = ?
+```
+Ao rodar o *Type Check* o terminal nos retorna:
+```bash
+Inspection.
+- Goal: (List _)
+Kind.Context:
+- val : _
+On 'main.kind2':
+   3 | List.repeat val Nat.zero          =  ? 
+```
+Para o caso do contador ser zero, que é o nosso ponto de parada, nós precisamos retornar uma lista do tipo não definido. 
+Como fizemos quando nosso tipo era definido, estamos criando uma lista que não repete o termo nenhuma vez, retornamos um *List.nil*, depois nós verificamos para o caso de uma lista que repetirá o valor *count* vezes, para isso nós usaremos a recursão por meio do `Nat.succ pred`, isto é, o nosso *count* é igual ao sucessor do predecessor dele. 
+
+```rust
+List.repeat val (Nat.succ pred)          = ?
+```
+
+E o o *Type Check* nos retorna:
+
+```bash
+Inspection.
+- Goal: (List _)
+Kind.Context:
+- val   : _
+- pred : Nat
+On 'main.kind2':
+   4 | List.repeat val (Nat.succ pred)   = ? 
+```
+Agora basta construir a lista com o valor e chamar a função para o predecessor de count, assim construindo a lista até que chegue a zero.
+
+```rust
+List.repeat (val: _) (count: Nat)    : List _
+List.repeat val Nat.zero             = List.nil
+List.repeat val (Nat.succ pred)      = List.cons val (List.repeat val pred)
+```
+
+Podemos perceber que, apesar de não definir o tipo de *val*, o *Kind* é poderoso para descobrir o tipo que é nosso val quando usamos o *hole* `_`. Embora seja possível e possa até facilitar construir uma aplicação inteira usando essa notação, não é uma boa prática, já que, a depender do caso, pode ser inferido um tipo diferente do que o desejado. É interessante sempre definir o tipo do nosso elemento, mesmo que seja um tipo polimórico. 
+
+No primeiro caso, quando definimos o tipo `a`, já abarcamos todos os tipos possíveis, não sendo necessário o uso do hole e essa é a mágica do polimorfismo, ele nos permite usar uma mesma função para diversos tipos diferentes.
+
+Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do *repeat*, nós passamos o tipo `a`, `<a: Type>`, e que cada elemento da nossa lista é desse tipo e nós já fizemos isso várias vezes, fizemos isso com o tipo *Pair* que recebia dois argumentos 
