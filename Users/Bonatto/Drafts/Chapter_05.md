@@ -121,4 +121,18 @@ Podemos perceber que, apesar de não definir o tipo de *val*, o *Kind* é podero
 
 No primeiro caso, quando definimos o tipo `a`, já abarcamos todos os tipos possíveis, não sendo necessário o uso do hole e essa é a mágica do polimorfismo, ele nos permite usar uma mesma função para diversos tipos diferentes.
 
-Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do *repeat*, nós passamos o tipo `a`, `<a: Type>`, e que cada elemento da nossa lista é desse tipo e nós já fizemos isso várias vezes, fizemos isso com o tipo *Pair* que recebia dois argumentos 
+Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do *repeat*, nós passamos o tipo `<a: Type>` e que cada elemento da nossa lista é desse tipo. Fizemos o mesmo com o tipo *Pair*, que recebia como argumento dois tipos *a* e *b*. 
+
+Agora fica muito mais fácil compreender os exemplos que usamos no capítulo anterior, quando apresentamos funções como a de *length* e *append*:
+
+```rust
+List.length <a> (xs: List a) : Nat
+List.length a (List.nil t)            = Nat.zero
+List.length a (List.cons t head tail) = (Nat.succ (List.length a tail))
+
+List.append <a: Type> (xs: List a) (x: a) : List a
+List.append a (List.nil xs.a)            x = List.pure x
+List.append a (List.cons xs.a xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
+```
+Perceba, há duas notações, uma onde apenas usamos `<a>` e outra onde usamos `<a: Type>`, podemos usar qualquer uma delas, o *Kind* é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.
+
