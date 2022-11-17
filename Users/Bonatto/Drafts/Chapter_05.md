@@ -136,3 +136,45 @@ List.append a (List.cons xs.a xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
 ```
 Perceba, há duas notações, uma onde apenas usamos `<a>` e outra onde usamos `<a: Type>`, podemos usar qualquer uma delas, o *Kind* é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.
 
+Agora é a hora de implementar nossas funçõe com o tipo implícito, usando o `hole` e `sugar syntax`:
+
+```rust
+App_implicito (xs: List _) (x: _)       : List _
+App_implicito [] x                      = []
+App_implicito (List.cons xs.h xs.t) x   = List.cons xs.h (App_implicito xs.t x)
+```
+Aqui nós aprendemos mais uma coisa, o *sugar syntax* para uma lista vazia e que é apenas `[] `e isso poderia nos induzir a escrever o nosso *List.cons* com `[xs.h, xs.t]`, mas isso está errado, uma vez que o *head* é um elemento de um tipo e o *tail* é uma lista de elementos desse tipo e, dessa forma, estariamos fazendo uma lista de lista. Ao usar o *sugar syntax* erraado, o que o *Kind* esperaria seria:
+```bash
+- Expected: (List t3_)
+- Detected: (List (List t3_))
+```
+Perceba, ele espera uma lista e recebe uma lista de lista, pois nós declaramos o nosso *tail* como sendo ualgo do tipo t3_ (ignore a escrita do tipo, isso ocorre porque não definimos o tipo e o Kind cria um temporário apenas para retorno da mensagem), o que faz com que ela deixe de ser uma lista, causando essa incongruência no retorno. 
+
+Portanto, é sempre importante saber exatamente o que está sendo feito, ainda mais quando usamos *sugar syntax*, ela serve pra facilitar a nossa vida, mas pode causar alguns problemas quando usada de forma indevida e isso serve igualmente para o *hole* e tipos polimórficos nos auxiliam a excrever um programa mais seguro e, ao mesmo tempo, capaz de servir para inúmeros casos. 
+
+
+Outra função que podemos reescrever é a de reverse:
+
+```rust
+Rev <a> (xs: List a)        : List a
+Rev []                      = []
+Rev (List.cons xs.h xs.t)   = (List.concat (Rev xs.t)[xs.h])
+```
+```rust
+Length <a> (xs: List a)      : Nat
+Length []                    = Nat.zero
+Length (List.cons xs.h xs.t) = Nat.succ (Length xs.t)
+```
+Feito isso, basta apenas provar que nossas funções são verdadeiras:
+
+```rust
+Test_rev1 : Equal (Rev [1, 2, 3]) [3, 2, 1]
+Test_rev1 = Equal.refl
+
+Test_rev2 : Equal (Rev (Bool.true)) (List.cons Bool.true List.nil)
+Test_rev2 = Equal.refl
+
+Test_length1 : Equal (Length [1, 2, 3]) (U60.to_nat 3)
+Test_length1 = Equal.refl
+```
+
