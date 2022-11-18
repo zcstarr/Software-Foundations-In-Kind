@@ -177,4 +177,29 @@ Test_rev2 = Equal.refl
 Test_length1 : Equal (Length [1, 2, 3]) (U60.to_nat 3)
 Test_length1 = Equal.refl
 ```
+1.1.3
+
+Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.
+```rust
+App_nil_r <a> (xs: List a) : Equal (List.concat xs List.nil) xs
+App_nil_r xs = ?
+
+App_assoc <a> (xs: List a) (ys: List a) (zs: List a) : Equal (List.concat xs (List.concat ys zs)) (List.concat (List.concat xs ys) zs)
+App_assoc xs ys zs = ?
+
+App_length <a> (xs: List a) (ys: List a) : Equal (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys))
+App_length xs ys = ?
+```
+1.1.4
+
+Aqui estão alguns um pouco mais interessantes...
+```rust
+Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (List.concat xs ys)) (List.concat (Rev ys) (Rev xs))
+Rev_app_distr xs ys = ?
+
+Rev_involutive <a> (xs: List a) : Equal (Rev (Rev xs)) xs
+Rev_involutive xs = ?
+```
+1.2 Pares polimórficos 
+
 
