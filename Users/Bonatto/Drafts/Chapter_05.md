@@ -202,4 +202,14 @@ Rev_involutive xs = ?
 ```
 1.2 Pares polimórficos 
 
+Seguindo o mesmo padrão, a definição de tipo
+que demos no último capítulo para pares de números podem ser generalizados para polimórficos
+pares:
+
+```rust
+   type Pair <a: Type> <b: Type> {
+      new (fst: a) (snd: b)
+   }  
+```
+
 
