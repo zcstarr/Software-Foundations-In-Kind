@@ -631,7 +631,7 @@ Kind.Context:
 - e_apply = (Equal.apply Nat Nat m n (x => (Nat.succ x)) e)
 ```
 
-Como `e_apply` é uma igualdade do tipo `Equal Nat (Nat.succ m) (Nat.suuc n),
+Como `e_apply` é uma igualdade do tipo `Equal Nat (Nat.succ m) (Nat.suuc n)`,
 a prova que procuramos, é só retornar ele e concluiremos a nossa prova.
 
 ```rust
@@ -1115,6 +1115,8 @@ da adição, ou seja, que a soma de *n* e *m* é igual a soma de *m* e *n*.
 # Capítulo 4
 ## Listas: trabalhando com dados estruturados
 
+A partir de agora, veremos dados estruturados, em especial as listas e pares, e que podem conter elementos de diversos tipos. Na definição do tipo, já mostraremos eles com tipos *polimórficos*, mas não se assombre, veremos sobre isso no próximo capítulo, apenas vamos ignorar o tipo e acompanhar a explicação, fará mais sentido ao decorrer do nosso estudo.
+
 ### 1. Pares de Números
 
 Em uma definição de tipo indutivo, cada construtor pode receber qualquer número
@@ -1131,31 +1133,21 @@ o segundo, o `snd`.
       new (fst: a) (snd: b)
    }  
    ```
-
-
-A forma de construir um par é a seguinte:
-
-```rust 
-Pair.new <a: Type> <b: Type> (fst: a) (snd: b) : (Pair a b)
-```
-Aplicando dois `*Nat*` ao nosso tipo `*Pair*`, onde ``**a**``  e `**b**` são dois números naturais, podemos contruir da seguinte forma:
-
+A forma de construir um par de *Nat* é a seguinte:
 ```rust
-Pair.new a b  : (Pair a b)
+Pair.new Nat Nat a b  : (Pair a b)
 ```
-
 Aqui estão duas funções simples para extrair o primeiro e o segundo componentes de um par. As definições também ilustram como fazer a correspondência de padrões em dois argumentos construtores.
 
 Exemplo 1: (Pair.fst Nat (List Nat) (Pair 2 [1,2,3])) ->  2
 ```rust
-Pair.fst <a> <b> (pair: Pair a b) : a
-Pair.fst a b (Pair.new p.a p.b fst snd) = fst
+Pair.fst (pair: Pair Nat Nat) : Nat
+Pair.fst (Pair.new Nat Nat fst snd) = fst
 ```
-
 Exemplo 2: (Pair.snd Nat (List Nat) (Pair 2 [1,2,3])) -> [1,2,3]
 ```rust
-Pair.snd <a> <b> (pair: Pair a b) : b
-Pair.snd a b (Pair.new p.a p.b fst snd) = snd
+Pair.snd (pair: Pair Nat Nat) : Nat
+Pair.snd (Pair.new Nat Nat fst snd) = snd
 ```
 
 ### Algumas provas
@@ -1212,13 +1204,20 @@ type List <t: Type> {
 Outra forma de construir os tipos é com a seguinte notação, usando o caso do
 tilo `List`
 ```rust
-List <a: Type> : Type
+List <Nat: Type) : Type
 List.nil <a> : (List a)
 List.cons <a> (head: a) (tail: List a) : (List a)
 ```
+Como vamos tratar de apenas um tipo, é interessante reescrever o tipo de lista para um definido, o escolhido foi o *Nat*:
+
+```rust
+List (Nat: Type) : Type
+List.nil : (List Nat)
+List.cons (head: Nat) (tail: List Nat) : (List Nat)
+```
 
 Podemos perceber que em ambas as notações, há um `head` e um `tail`, sendo que o
-*head* recebe um elemento de um tipo e a *tail* recebe uma lista desse tipo. 
+*head* recebe um elemento do tipo *Nat* e a *tail* recebe uma lista do tipo *Nat*. 
 
 Por exemplo, uma lista de três números naturais 1, 2 e 3 seria escrita da
 seguinte forma:
@@ -1256,17 +1255,17 @@ List.repeat (Nat.succ pred) val     = List.cons val (List.repeat pred val)
 A função *length* calcula o tamanho da lista 
 ```rust
 // Exemplo: (List.length [1,2,3]) -> 3
-List.length <a> (xs: List a) : Nat
-List.length a (List.nil t)            = Nat.zero
-List.length a (List.cons t head tail) = (Nat.succ (List.length a tail))
+List.length (xs: List Nat) : Nat
+List.length (List.nil)            = Nat.zero
+List.length (List.cons head tail) = (Nat.succ (List.length tail))
 ```
 
 ### 2.3 List.append
 A função append concatena (anexa) duas listas.
 ```rust
-List.append <a: Type> (xs: List a) (x: a) : List a
-List.append a (List.nil xs.a)            x = List.pure x
-List.append a (List.cons xs.a xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
+List.append (xs: List Nat) (x: Nat) : List Nat
+List.append (List.nil) x            = List.pure x
+List.append (List.cons xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
 ```
 
 ### 2.4 List.head e List.tail 
@@ -1277,16 +1276,15 @@ recebendo um *Maybe*.**none** caso a lista seja vazia ou um *Maybe*.**some**
 caso tenha um valor.
 ```rust
 // Exemplo: (List.head Nat [1,2,3]) -> (Maybe.some 1)
-List.head <a> (xs: List a) : Maybe a
-List.head a (List.nil t)            = Maybe.none
-List.head a (List.cons t head tail) = Maybe.some head
+List.head (xs: List Nat)        : Maybe Nat
+List.head (List.nil)            = Maybe.none
+List.head (List.cons head tail) = Maybe.some head
 ```
-
 ```rust
 // Exemplo: (List.tail Nat [1,2,3]) -> [2,3]
-List.tail <a> (xs: List a) : List a
-List.tail a (List.nil  t)           = List.nil
-List.tail a (List.cons t head tail) = tail
+List.tail (xs: List Nat)        : List Nat
+List.tail (List.nil)            = List.nil
+List.tail (List.cons head tail) = tail
 ```
 ```rust
 Test_head1 (xs: List Nat) : (Equal (List.head (List.to_nat [1, 2, 3])) (Maybe.some(U60.to_nat 1)))
@@ -1466,9 +1464,9 @@ Como listas maiores só podem ser construídas a partir de listas menores, event
 esses dois argumentos juntos estabelecem a verdade de `p` para todas as listas `l`. Aqui está um
 exemplo concreto:
 ```rust
-App_assoc <t> (xs : List t) (ys : List t) (zs : List t) : Equal (List.concat (List.concat xs ys) zs) (List.concat xs (List.concat ys zs))
-App_assoc List.nil ys  zs                               = Equal.refl
-App_assoc (List.cons xs.head xs.tail) ys zs             = 
+App_assoc (xs : List Nat) (ys : List Nat) (zs : List Nat)   : Equal (List.concat (List.concat xs ys) zs) (List.concat xs (List.concat ys zs))
+App_assoc List.nil ys  zs                                   = Equal.refl
+App_assoc (List.cons xs.head xs.tail) ys zs                 = 
   let ind = App_assoc xs.tail ys zs
   let app = Equal.apply (x => (List.cons xs.head x)) ind
   app
@@ -1514,7 +1512,7 @@ Dessa forma fica mais fácil perceber que o `app` e o `goal` são identicos, ent
 Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos `app` para definir uma função de reversão de lista `rev`:
 
 ```rust
-Rev <a> (xs: List a)            : List a
+Rev (xs: List Nat)              : List Nat
 Rev List.nil                    = List.nil 
 Rev (List.cons xs.head xs.tail) = List.concat (Rev xs.tail) [xs.head]
 
@@ -1559,7 +1557,7 @@ Rewrites: 76033
 Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:
 
 ```rust
-App_length <a> (xs: List a) (ys: List a)  : (Equal Nat (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys)))
+App_length (xs: List Nat) (ys: List Nat)  : (Equal Nat (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys)))
 App_length List.nil ys                    = Equal.refl
 App_length (List.cons xs.head xs.tail) ys =
    let ind = App_length xs.tail ys
@@ -1576,7 +1574,7 @@ Plus_comm (n: Nat) (m: Nat) : (Equal Nat (Nat.add n m) (Nat.add m n))
 
 E agora é possível provar o nosso teorema:
 ```rust
-Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length (xs: List Nat)               : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length List.nil                     = Equal.refl
 Rev_length (List.cons xs.head xs.tail)  =
    let ind   = Rev_length xs.tail
@@ -1599,7 +1597,7 @@ On 'aula04.kind2':
 
 Nós criamos uma variavel com nossa auxiliar `App_length`:
 ```rust
-Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length (xs: List Nat)               : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length List.nil                     = Equal.refl
 Rev_length (List.cons xs.head xs.tail)  =
    let ind   = Rev_length xs.tail
@@ -1655,7 +1653,7 @@ Kind.Context:
 Agora é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
 
 ```rust
-Rev_length <a> (xs: List a)             : (Equal Nat (List.length (Rev xs)) (List.length xs))
+Rev_length (xs: List Nat)               : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length List.nil                     = Equal.refl
 Rev_length (List.cons xs.head xs.tail)  =
    let ind   = Rev_length xs.tail
