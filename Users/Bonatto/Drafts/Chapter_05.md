@@ -212,4 +212,44 @@ pares:
    }  
 ```
 
+Essa é exatamente a primeira definição de pares que vimos no capítulo anterior e, agora, podemos compreender perfeitamente o que são os tipos `a` e `b` na definição do tipo *Pair*.
 
+Nós podemos refazer as funções de *Pares*, mas agora para tipos polimórficos:
+
+```rusti
+Pair.fst <a> <b> (pair: Pair a b) : a
+Pair.fst (Pair.new fst snd) = fst
+
+Pair.snd <a> <b> (pair: Pair a b) : b
+Pair.snd (Pair.new fst snd) = snd
+```
+
+A seguinte função recebe duas listas e combina elas numa lista de pares. Nas linguagens funcionais, isso é comumente chamada de *Zip*. 
+
+```rust
+Zip <a> <b> (xs: List a) (ys: List b)           : (List (Pair a b))
+Zip List.nil ys                                 = List.nil
+Zip xs List.nil                                 = List.nil
+Zip (List.cons xs.h xs.t) (List.cons ys.h ys.t) = (List.cons (Pair.new xs.h xs.t) (Zip xs.t ys.t))
+```
+
+Exercício 1.2.1
+Sem rodar o programa, tente responder a seguinte pergunta:
+- O que a combinação de [1, 2] e [Bool.true, Bool.false, Bool.false, Bool.true] retornará? 
+ 
+Agora rode o código e veja se acertou. 
+
+Exercício 1.2.2
+A função *Split* é o inverso da *Zip*, ela recebe uma lista de pares e retorna um par de listas. Em muitas linguagens funcionais ela é chamada de *Unzip*. 
+
+Preencha a definição de divisão abaixo. Certifique-se de que ela passe no teste unitário fornecido.
+
+```rust
+Split <a> <b> (xs: List (Pair a b)) : Pair (List a) (List b)
+Split xs = ?
+
+Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new ([1, 2]) ([Bool.false, Bool.false]))
+Test_split = ?
+```
+Exercício 1.2.3 
+Maybe polimórfico.
