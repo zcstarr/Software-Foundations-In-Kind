@@ -1663,6 +1663,79 @@ Rev_length (List.cons xs.head xs.tail)  =
    let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
    rwt
 ```
+## 3.3
+#### 3.3.1
+Vamos praticar um pouco mais com as listas:
+```rust
+App_nil_r (xs: List Nat)    : (Equal (List.concat xs List.nil) xs)
+App_nil_r xs                = ?
+
+App_assoc (xs : List Nat) (ys : List Nat) (zs : List Nat)   : Equal (List.concat (List.concat xs ys) zs) (List.concat xs (List.concat ys zs))
+App_assoc xs ys  zs                                         = ?
+
+Rev_app_distr (xs: List Nat) (ys: List Nat) : (Equal (Rev (List.concat xs ys)) (List.concat (Rev ys) (Rev xs)))
+Rev_app_distr xs ys                         = ?
+
+Rev_involutive (xs: List Nat)   : (Equal (Rev (Rev xs)) xs)
+Rev_involutive xs               = ?
+```
+
+Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
+recue e tente procurar uma maneira mais simples.
+
+```rust
+App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat)  : (Equal (List Nat) (List.concat l1 (List.concat l2 (List.concat l3 l4))) (List.concat (List.concat (List.concat l1 l2) l3) l4))
+App_assoc4 l1 l2 l3 l4                                                  = ? 
+```
+Um exercício sobre sua implementação de *nonzeros*:
+```rust
+Nonzeros_app (xs: List Nat) (ys: List Nat)  : (Equal (List Nat) (Nonzeros (List.concat xs ys)) (List.concat (Nonzeros xs) (Nonzeros ys)))
+Nonzeros_app xs ys                          = ?
+```
+#### 3.3.2 
+Preencha a definição de beq_NatList, que compara listas de números para igualdade. Prove que beq_NatList xs ys produz *Bool.true* para cada lista.
+```rust
+Beq_NatList (xs: List Nat) (ys: List Nat)   : Bool
+Beq_NatList xs ys                           = ? 
+
+Test_beq_natlist1 : (Equal Bool (Beq_list List.nil List.nil) Bool.true)
+Test_beq_natlist1 = ?
+
+Test_beq_natlist2 : (Equal Bool (Beq_list (List.to_nat [1, 2, 3]) (List.to_nat [1, 2, 3])) Bool.true)
+Test_beq_natlist2 = ?
+
+Test_beq_natlist3 : (Equal Bool (Beq_list (List.to_nat [1, 2, 3])(List.to_nat [1, 2, 4])) Bool.false)
+Test_beq_natlist3 = ?
+
+Beq_natlist_refl (xs: List Nat) : (Equal Bool Bool.true (Beq_list xs xs))
+Beq_natlist_refl xs             = ?
+```
+### 3.4 Exercícios de Listas, parte 2
+#### 3.4.1
+Prove o seguinte teorema, ele ajudará você na prova seguinte
+```rust
+Ble_n_succ_n (n: Nat)   : (Equal Bool (Nat.lte n (Nat.succ n)) Bool.true)
+Ble_n_succ_n n          = ? 
+```
+Aqui estão mais alguns pequenos teoremas para provar sobre suas definições sobre listas.
+```rust
+Count_member_nonzero (xs: List Nat) : (Equal (Nat.lte (U60.to_nat 1)(Count (U60.to_nat 1)(List.cons (U60.to_nat 1) xs))) Bool.true)
+Count_member_nonzero xs             =
+```
+
+#### 3.4.2
+Prove que a função *Rev* é injetiva - isto é
+```rust
+Rev_injective (xs: List Nat) (ys: List Nat) (e0: Equal (Rev xs) (Rev ys))   : (Equal xs ys)
+Rev_injective xs ys e0                                                      = ? 
+```
+
+### 4.1
+Suponha que queremos escrever uma função que retorne o enésimo elemento de alguma lista.
+```rust
+Nth_error (n: Nat)(xs: List Nat)    : Maybe Nat
+Nth_error n xs                      = ?
+```
 
 # Capítulo 5
 ### 1 Polimorfismo
@@ -1738,3 +1811,64 @@ Para usar repeat para construir outros tipos de listas, simplesmente instanciamo
 Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false List.nil))
 Test_repeat2 = Equal.refl
 ```
+
+### 4 Maybe
+Suponha que a gente queira escrever uma função que retorna o enésimo número de uma lista.
+Nós então definimos um número que é aplicado a uma lista de naturais e então retorna o número que ocupa essa posição. Dessa forma, nós precisamos definir um número para ser retornado caso o número seja maior do que o tamanho da lista.
+
+```rust
+Nth_bad (n: Nat)(xs: List Nat)                : Nat
+Nth_bad n List.nil                            = Nat.zero // Valor arbitrário 
+Nth_bad Nat.zero (List.cons xs.h xs.t)        = xs.h
+Nth_bad (Nat.succ n) (List.cons xs.h xs.t)    = Nth_bad n xs.t
+```
+
+Esta solução não é tão boa: se nth_bad retornar 0, não podemos dizer se esse valor
+realmente aparece na entrada sem processamento adicional. Uma alternativa melhor é
+para alterar o tipo de retorno de nth_bad para incluir um valor de erro como um possível resultado.
+Chamamos esse tipo *Maybe*, pois ele pode ou não ter algo, se tiver é um *Maybe.some* desse algo, se não tiver, é um *Maybe.none*.
+
+```rust
+Maybe <a: Type> : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
+```
+
+Podemos então alterar a definição acima de nth_bad para retornar None quando a lista for
+muito curto e Some a quando a lista tem membros suficientes e aparece na posição
+n. Chamamos essa nova função de nth_error para indicar que pode resultar em um erro.
+
+Essa prova ainda serve pra nos apresentar outro recurso do Kind, expressões condicionais, o *if* e *else*
+```rust
+Nth_error (n: Nat)(xs: List Nat)                    : Maybe Nat
+Nth_error n List.nil                                = Maybe.none
+Nth_error Nat.zero xs                               = List.head xs
+Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
+  let ind = Nth_error n xs.tail
+  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
+
+Test_nth_error1 : (Equal (Nth_error (U60.to_nat 0)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 4))))
+Test_nth_error1 = Equal.refl
+
+Test_nth_error2 : (Equal (Nth_error (U60.to_nat 3)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 7))))
+Test_nth_error2 = Equal.refl
+
+Test_nth_error3 : (Equal (Nth_error (U60.to_nat 9)(List.to_nat [4,5,6,7]))(Maybe.none))
+Test_nth_error3 = Equal.refl
+```
+
+#### 4.0.1
+```rust
+Head_error (xs: List Nat)   : Maybe Nat
+Head_error xs               = ?
+
+Test_head_error1 : (Equal (Head_error List.nil) Maybe.none)
+Test_head_error1 = ?
+
+Test_head_error2 : (Equal (Head_error (List.to_nat [1]))(Maybe.some((U60.to_nat 1))))
+Test_head_error2 = ?
+
+Test_head_error3 : (Equal (Head_error (List.to_nat [5, 6]))(Maybe.some((U60.to_nat 5))))
+Test_head_error3 = ?
+```
+

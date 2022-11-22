@@ -252,4 +252,12 @@ Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (P
 Test_split = ?
 ```
 Exercício 1.2.3 
-Maybe polimórfico.
+No capítulo anterior, nós vimos que as funções *List.head* nos retornava um tipo *Maybe*, mas não chegamos a explicar o que era esse tipo. Pois bem, o tipo *Maybe* é quando podemos ou não ter o que buscamos. Ele é composto por dois construtores, o *none* e o *some*. 
+
+```rust
+Maybe <a: Type> : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
+```
+
+
