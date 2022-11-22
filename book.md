@@ -1729,12 +1729,59 @@ Prove que a função *Rev* é injetiva - isto é
 Rev_injective (xs: List Nat) (ys: List Nat) (e0: Equal (Rev xs) (Rev ys))   : (Equal xs ys)
 Rev_injective xs ys e0                                                      = ? 
 ```
-
-### 4.1
-Suponha que queremos escrever uma função que retorne o enésimo elemento de alguma lista.
+### 4 Maybe
+Suponha que a gente queira escrever uma função que retorna o enésimo número de uma lista.
+Nós então definimos um número que é aplicado a uma lista de naturais e então retorna o número que ocupa essa posição. Dessa forma, nós precisamos definir um número para ser retornado caso o número seja maior do que o tamanho da lista.
 ```rust
-Nth_error (n: Nat)(xs: List Nat)    : Maybe Nat
-Nth_error n xs                      = ?
+Nth_bad (n: Nat)(xs: List Nat)                : Nat
+Nth_bad n List.nil                            = Nat.zero // Valor arbitrário 
+Nth_bad Nat.zero (List.cons xs.h xs.t)        = xs.h
+Nth_bad (Nat.succ n) (List.cons xs.h xs.t)    = Nth_bad n xs.t
+```
+Esta solução não é tão boa: se nth_bad retornar 0, não podemos dizer se esse valor
+realmente aparece na entrada sem processamento adicional. Uma alternativa melhor é
+para alterar o tipo de retorno de nth_bad para incluir um valor de erro como um possível resultado.
+Chamamos esse tipo *Maybe*, pois ele pode ou não ter algo, se tiver é um *Maybe.some* desse algo, se não tiver, é um *Maybe.none*.
+```rust
+Maybe <a: Type> : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
+```
+Podemos então alterar a definição acima de nth_bad para retornar None quando a lista for
+muito curto e Some a quando a lista tem membros suficientes e aparece na posição
+n. Chamamos essa nova função de nth_error para indicar que pode resultar em um erro.
+
+Essa prova ainda serve pra nos apresentar outro recurso do Kind, expressões condicionais, o *if* e *else*
+```rust
+Nth_error (n: Nat)(xs: List Nat)                    : Maybe Nat
+Nth_error n List.nil                                = Maybe.none
+Nth_error Nat.zero xs                               = List.head xs
+Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
+  let ind = Nth_error n xs.tail
+  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
+
+Test_nth_error1 : (Equal (Nth_error (U60.to_nat 0)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 4))))
+Test_nth_error1 = Equal.refl
+
+Test_nth_error2 : (Equal (Nth_error (U60.to_nat 3)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 7))))
+Test_nth_error2 = Equal.refl
+
+Test_nth_error3 : (Equal (Nth_error (U60.to_nat 9)(List.to_nat [4,5,6,7]))(Maybe.none))
+Test_nth_error3 = Equal.refl
+```
+#### 4.0.1
+```rust
+Head_error (xs: List Nat)   : Maybe Nat
+Head_error xs               = ?
+
+Test_head_error1 : (Equal (Head_error List.nil) Maybe.none)
+Test_head_error1 = ?
+
+Test_head_error2 : (Equal (Head_error (List.to_nat [1]))(Maybe.some((U60.to_nat 1))))
+Test_head_error2 = ?
+
+Test_head_error3 : (Equal (Head_error (List.to_nat [5, 6]))(Maybe.some((U60.to_nat 5))))
+Test_head_error3 = ?
 ```
 
 # Capítulo 5
@@ -1812,65 +1859,6 @@ Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false L
 Test_repeat2 = Equal.refl
 ```
 
-### 4 Maybe
-Suponha que a gente queira escrever uma função que retorna o enésimo número de uma lista.
-Nós então definimos um número que é aplicado a uma lista de naturais e então retorna o número que ocupa essa posição. Dessa forma, nós precisamos definir um número para ser retornado caso o número seja maior do que o tamanho da lista.
-
-```rust
-Nth_bad (n: Nat)(xs: List Nat)                : Nat
-Nth_bad n List.nil                            = Nat.zero // Valor arbitrário 
-Nth_bad Nat.zero (List.cons xs.h xs.t)        = xs.h
-Nth_bad (Nat.succ n) (List.cons xs.h xs.t)    = Nth_bad n xs.t
-```
-
-Esta solução não é tão boa: se nth_bad retornar 0, não podemos dizer se esse valor
-realmente aparece na entrada sem processamento adicional. Uma alternativa melhor é
-para alterar o tipo de retorno de nth_bad para incluir um valor de erro como um possível resultado.
-Chamamos esse tipo *Maybe*, pois ele pode ou não ter algo, se tiver é um *Maybe.some* desse algo, se não tiver, é um *Maybe.none*.
-
-```rust
-Maybe <a: Type> : Type
-Maybe.none <a> : (Maybe a)
-Maybe.some <a> (value: a) : (Maybe a)
-```
-
-Podemos então alterar a definição acima de nth_bad para retornar None quando a lista for
-muito curto e Some a quando a lista tem membros suficientes e aparece na posição
-n. Chamamos essa nova função de nth_error para indicar que pode resultar em um erro.
-
-Essa prova ainda serve pra nos apresentar outro recurso do Kind, expressões condicionais, o *if* e *else*
-```rust
-Nth_error (n: Nat)(xs: List Nat)                    : Maybe Nat
-Nth_error n List.nil                                = Maybe.none
-Nth_error Nat.zero xs                               = List.head xs
-Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
-  let ind = Nth_error n xs.tail
-  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
-
-Test_nth_error1 : (Equal (Nth_error (U60.to_nat 0)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 4))))
-Test_nth_error1 = Equal.refl
-
-Test_nth_error2 : (Equal (Nth_error (U60.to_nat 3)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 7))))
-Test_nth_error2 = Equal.refl
-
-Test_nth_error3 : (Equal (Nth_error (U60.to_nat 9)(List.to_nat [4,5,6,7]))(Maybe.none))
-Test_nth_error3 = Equal.refl
-```
-
-#### 4.0.1
-```rust
-Head_error (xs: List Nat)   : Maybe Nat
-Head_error xs               = ?
-
-Test_head_error1 : (Equal (Head_error List.nil) Maybe.none)
-Test_head_error1 = ?
-
-Test_head_error2 : (Equal (Head_error (List.to_nat [1]))(Maybe.some((U60.to_nat 1))))
-Test_head_error2 = ?
-
-Test_head_error3 : (Equal (Head_error (List.to_nat [5, 6]))(Maybe.some((U60.to_nat 5))))
-Test_head_error3 = ?
-```
 
 1.1.2 Inferência de anotação de tipo.
 
