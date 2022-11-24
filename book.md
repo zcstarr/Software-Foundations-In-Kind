@@ -2002,7 +2002,7 @@ Essa é exatamente a primeira definição de pares que vimos no capítulo anteri
 
 Nós podemos refazer as funções de *Pares*, mas agora para tipos polimórficos:
 
-```rusti
+```rust
 Pair.fst <a> <b> (pair: Pair a b) : a
 Pair.fst (Pair.new fst snd) = fst
 
@@ -2037,5 +2037,8 @@ Split xs = ?
 Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new ([1, 2]) ([Bool.false, Bool.false]))
 Test_split = ?
 ```
+
 Exercício 1.2.3 
-Maybe polimórfico.
+Maybe polimórfico. No capítulo anterior, nós também vimos o tipo *Maybe*, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo *Maybe* também é polimórfico e é isso o que veremos agora.
+
+
