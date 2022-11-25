@@ -42,10 +42,12 @@ Com esta definição, quando usamos os construtores Nil e Cons para construir li
 precisamos dizer ao Kind o tipo dos elementos nas listas que estamos construindo - isto
 é, que Nil e Cons agora são construtores polimórficos. Observe os tipos de
 construtores:
+
 ```rust
 Pair (a: Type) (b: Type) : Type
 Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b)
 ```
+
 Nosso tipo *Pair* recebe outros dois tipos, o `a` e o `b` e retorna um par dos dois tipos. Não foi necessário definir se o par era de números naturais,
 booleanos, listas, bits ou outros pares, nós deixamos a função apta a tratar todos os pares possíveis e isso é graças ao *polimorfismo*.
 
@@ -67,12 +69,11 @@ Test_repeat1 = Equal.refl
 ```
 
 Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:
+
 ```rust
 Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false List.nil))
 Test_repeat2 = Equal.refl
 ```
-
-############################################################################
 
 1.1.2 Inferência de anotação de tipo.
 
@@ -82,6 +83,7 @@ Vamos escrever a definição do `repeat` novamente, mas dessa vez omitindo o tip
 List.repeat (val: _) (count: Nat)   : List _
 List.repeat val Nat.zero            = ?
 ```
+
 Ao rodar o *Type Check* o terminal nos retorna:
 ```bash
 Inspection.
@@ -91,6 +93,7 @@ Kind.Context:
 On 'main.kind2':
    3 | List.repeat val Nat.zero          =  ? 
 ```
+
 Para o caso do contador ser zero, que é o nosso ponto de parada, nós precisamos retornar uma lista do tipo não definido. 
 Como fizemos quando nosso tipo era definido, estamos criando uma lista que não repete o termo nenhuma vez, retornamos um *List.nil*, depois nós verificamos para o caso de uma lista que repetirá o valor *count* vezes, para isso nós usaremos a recursão por meio do `Nat.succ pred`, isto é, o nosso *count* é igual ao sucessor do predecessor dele. 
 
@@ -109,6 +112,7 @@ Kind.Context:
 On 'main.kind2':
    4 | List.repeat val (Nat.succ pred)   = ? 
 ```
+
 Agora basta construir a lista com o valor e chamar a função para o predecessor de count, assim construindo a lista até que chegue a zero.
 
 ```rust
@@ -134,6 +138,7 @@ List.append <a: Type> (xs: List a) (x: a) : List a
 List.append a (List.nil xs.a)            x = List.pure x
 List.append a (List.cons xs.a xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
 ```
+
 Perceba, há duas notações, uma onde apenas usamos `<a>` e outra onde usamos `<a: Type>`, podemos usar qualquer uma delas, o *Kind* é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.
 
 Agora é a hora de implementar nossas funçõe com o tipo implícito, usando o `hole` e `sugar syntax`:
@@ -143,15 +148,16 @@ App_implicito (xs: List _) (x: _)       : List _
 App_implicito [] x                      = []
 App_implicito (List.cons xs.h xs.t) x   = List.cons xs.h (App_implicito xs.t x)
 ```
+
 Aqui nós aprendemos mais uma coisa, o *sugar syntax* para uma lista vazia e que é apenas `[] `e isso poderia nos induzir a escrever o nosso *List.cons* com `[xs.h, xs.t]`, mas isso está errado, uma vez que o *head* é um elemento de um tipo e o *tail* é uma lista de elementos desse tipo e, dessa forma, estariamos fazendo uma lista de lista. Ao usar o *sugar syntax* erraado, o que o *Kind* esperaria seria:
 ```bash
 - Expected: (List t3_)
 - Detected: (List (List t3_))
 ```
+
 Perceba, ele espera uma lista e recebe uma lista de lista, pois nós declaramos o nosso *tail* como sendo ualgo do tipo t3_ (ignore a escrita do tipo, isso ocorre porque não definimos o tipo e o Kind cria um temporário apenas para retorno da mensagem), o que faz com que ela deixe de ser uma lista, causando essa incongruência no retorno. 
 
 Portanto, é sempre importante saber exatamente o que está sendo feito, ainda mais quando usamos *sugar syntax*, ela serve pra facilitar a nossa vida, mas pode causar alguns problemas quando usada de forma indevida e isso serve igualmente para o *hole* e tipos polimórficos nos auxiliam a excrever um programa mais seguro e, ao mesmo tempo, capaz de servir para inúmeros casos. 
-
 
 Outra função que podemos reescrever é a de reverse:
 
@@ -159,12 +165,11 @@ Outra função que podemos reescrever é a de reverse:
 Rev <a> (xs: List a)        : List a
 Rev []                      = []
 Rev (List.cons xs.h xs.t)   = (List.concat (Rev xs.t)[xs.h])
-```
-```rust
 Length <a> (xs: List a)      : Nat
 Length []                    = Nat.zero
 Length (List.cons xs.h xs.t) = Nat.succ (Length xs.t)
 ```
+
 Feito isso, basta apenas provar que nossas funções são verdadeiras:
 
 ```rust
@@ -177,9 +182,11 @@ Test_rev2 = Equal.refl
 Test_length1 : Equal (Length [1, 2, 3]) (U60.to_nat 3)
 Test_length1 = Equal.refl
 ```
+
 1.1.3
 
 Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.
+
 ```rust
 App_nil_r <a> (xs: List a) : Equal (List.concat xs List.nil) xs
 App_nil_r xs = ?
@@ -190,9 +197,11 @@ App_assoc xs ys zs = ?
 App_length <a> (xs: List a) (ys: List a) : Equal (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys))
 App_length xs ys = ?
 ```
+
 1.1.4
 
 Aqui estão alguns um pouco mais interessantes...
+
 ```rust
 Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (List.concat xs ys)) (List.concat (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
@@ -200,6 +209,7 @@ Rev_app_distr xs ys = ?
 Rev_involutive <a> (xs: List a) : Equal (Rev (Rev xs)) xs
 Rev_involutive xs = ?
 ```
+
 1.2 Pares polimórficos 
 
 Seguindo o mesmo padrão, a definição de tipo
@@ -216,7 +226,7 @@ Essa é exatamente a primeira definição de pares que vimos no capítulo anteri
 
 Nós podemos refazer as funções de *Pares*, mas agora para tipos polimórficos:
 
-```rusti
+```rust
 Pair.fst <a> <b> (pair: Pair a b) : a
 Pair.fst (Pair.new fst snd) = fst
 
@@ -251,13 +261,51 @@ Split xs = ?
 Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new ([1, 2]) ([Bool.false, Bool.false]))
 Test_split = ?
 ```
+
 Exercício 1.2.3 
-No capítulo anterior, nós vimos que as funções *List.head* nos retornava um tipo *Maybe*, mas não chegamos a explicar o que era esse tipo. Pois bem, o tipo *Maybe* é quando podemos ou não ter o que buscamos. Ele é composto por dois construtores, o *none* e o *some*. 
+No capítulo anterior, nós vimos que as funções *List.head* nos retornava um tipo *Maybe*, mas vimos apenas para o tipo *Nat*, agora é a hora de tornar nossa função polimórfica. 
 
 ```rust
 Maybe <a: Type> : Type
 Maybe.none <a> : (Maybe a)
 Maybe.some <a> (value: a) : (Maybe a)
+```
+
+Dessa forma, podemos escrever a função do *enésimo* erro para ele ser usado com todos os tipos de listas:
+
+```rust
+Nth_error <a> (n: Nat)(xs: List a)                    : Maybe a
+Nth_error n List.nil                                = Maybe.none
+Nth_error Nat.zero xs                               = List.head xs
+Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
+  let ind = Nth_error n xs.tail
+  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
+
+
+Test_nth_error1 : Equal (Nth_error Nat.zero [4, 5, 5, 7]) (Maybe.some 4)
+Test_nth_error1 = Equal.refl
+
+Test_nth_error2 : Equal (Nth_error (Nat.succ (Nat.succ Nat.zero)) [Bool.true]) Maybe.none
+Test_nth_error2 = Equal.refl
+
+Test_nth_error3 : Equal (Nth_error (Nat.succ Nat.zero) [[1], [2]]) (Maybe.some [2])
+Test_nth_error3 = Equal.refl
+
+```
+
+1.2.4 
+Complete a definição de
+uma versão polimórfica da função hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.
+
+```rust
+Hd_error <a> (xs: Lista a) : Maybe a
+hd_error xs = ?
+
+Test_hd_error1 : Equal (Hd_error [1, 2]) (Maybe.some 1)
+Test_hd_error1 = ?
+
+Test_hd_error2 : Equal (Hd_error [[1], [2]]) (Maybe.some [1])
+Test_hd_error2 = ?
 ```
 
 
