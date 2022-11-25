@@ -2085,4 +2085,69 @@ Test_hd_error2 = ?
 ```
 
 
+### Funções como dados
+
+Como muitas outras linguagens de programação modernas – incluindo todas as linguagens funcionais (ML, Haskell, Scheme, Scala, Clojure etc.) – o Kind trata as funções como cidadãos de primeira classe, permitindo que sejam passadas como argumentos para outras funções,
+retornados como resultados, armazenados em estruturas de dados, etc.
+
+#### 2.1 Funções de Alta Ordem (Higher-Order Functions.)
+
+Funções que manipulam outras funções são frequentemente chamadas de funções de alta ordem (ou ainda de "ordem superior"). Aqui está um exemplo simples:
+
+```rust
+Doit3times <x> (f: x -> x) (n: x) : x
+Doit3times f x = (f (f (f x)))
+
+Test_doit3times1 : Equal (Doit3times (x => Nat.sub x (U60.to_nat 2))) (U60.to_nat 3)
+Test_doit3times1 = Equal.refl
+
+Test_doit3times2 : Equal (Doit3times (x => Bool.not x) Bool.true) (Bool.false)
+Test_doit3times2 = Equal.refl
+```
+
+#### 2.2 Filtro
+Aqui está uma função de alta ordem mais útil, pegando uma lista de xs e um predicado em x (uma função de x para Bool) e “filtrando” a lista, retornando uma nova lista contendo apenas aqueles elementos para os quais o predicado retorna True.
+
+```rust
+Filter <x> (test: x -> Bool) (xs: List x) : List x
+Filter test List.nil                      = List.nil
+Filter test (List.cons xs.h xs.t)         =
+   Bool.if (text xs.h) (List.cons xs.h (Filter test xs.t)) (Filter test xs.t)
+```
+
+Por exemplo, se aplicarmos o filtro de "é par" numa lista de números, ela nos retornará uma outra lista apena com os números pares
+
+```rust
+Test_filter1 : Equal (Filter (x => Nat.is_even x) (List.to_nat [1, 2, 3, 4, 5])) (List.to_nat [2, 4])  
+Test_filter1 = Equal.refl
+
+Length_is_one <x> (xs: List x)   : Bool
+Length_is_one xs                 = Nat.equal (List.length xs) (Nat.succ Nat.zero)
+
+Test_filter2 : Equal (Filter (x => Length_is_one x) ([[1], [1, 2], [3], [1, 2, 3], [21]])) ([[1], [3], [21]])
+Test_filter2 = Equal.refl
+```
+
+Podemos usar filter para fornecer uma versão concisa da função countoddmembers do capítulo Listas.
+
+```rust
+CountOddMembers (xs: List Nat)   : Nat
+CountOddMembers xs               = List.length (Filter (x => Nat.is_odd x) xs)
+
+Test_CountOddMembers1 : Equal (CountOddMembers (List.to_nat ([1, 0, 3, 1, 4, 5]))) (U60.to_nat 4)
+Test_CountOddMembers1 = Equal.refl
+
+Test_CountOddMembers2 : Equal (CountOddMembers (List.to_nat ([0, 2, 4]))) (Nat.zero)
+Test_CountOddMembers2 = Equal.refl
+
+Test_CountOddMembers3 : Equal (CountOddMembers (List.nil)) (Nat.zero)
+Test_CountOddMembers3 = Equal.refl
+```
+
+
+#### 2.3. Funções anônimas. 
+É indiscutivelmente um pouco triste, no exemplo acima, ser forçado a definir a função *Length_is_one* e dar-lhe um nome apenas para poder passá-la como um argumento para filtrar, já que provavelmente nunca a usaremos novamente.
+Além disso, este não é um exemplo isolado: ao usar funções de ordem superior, muitas vezes queremos passar como argumentos funções “únicas” que nunca mais usaremos; ter que dar um nome a cada uma dessas funções seria tedioso.
+Felizmente, existe uma maneira melhor. Podemos construir uma função “on the fly” sem declará-la no nível superior ou dar-lhe um nome.
+
 
