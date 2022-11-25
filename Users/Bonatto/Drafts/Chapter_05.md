@@ -307,5 +307,11 @@ Test_hd_error1 = ?
 Test_hd_error2 : Equal (Hd_error [[1], [2]]) (Maybe.some [1])
 Test_hd_error2 = ?
 ```
+=== === === === === === continuar daqui === === === === === === 
 
+### Funções como dados
 
+Como muitas outras linguagens de programação modernas – incluindo todas as linguagens funcionais (ML, Haskell, Scheme, Scala, Clojure etc.) – o Kind trata as funções como cidadãos de primeira classe, permitindo que sejam passadas como argumentos para outras funções,
+retornados como resultados, armazenados em estruturas de dados, etc.
+
+#### 2.1 Funções de Alta Ordem (Higher-Order Functions.)
