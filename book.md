@@ -2041,4 +2041,48 @@ Test_split = ?
 Exercício 1.2.3 
 Maybe polimórfico. No capítulo anterior, nós também vimos o tipo *Maybe*, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo *Maybe* também é polimórfico e é isso o que veremos agora.
 
+```rust
+Maybe <a: Type> : Type
+Maybe.none <a> : (Maybe a)
+Maybe.some <a> (value: a) : (Maybe a)
+```
+
+Dessa forma, podemos escrever a função do *enésimo* erro para ele ser usado com todos os tipos de listas:
+
+```rust
+Nth_error <a> (n: Nat)(xs: List a)                    : Maybe a
+Nth_error n List.nil                                = Maybe.none
+Nth_error Nat.zero xs                               = List.head xs
+Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
+  let ind = Nth_error n xs.tail
+  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
+
+
+Test_nth_error1 : Equal (Nth_error Nat.zero [4, 5, 5, 7]) (Maybe.some 4)
+Test_nth_error1 = Equal.refl
+
+Test_nth_error2 : Equal (Nth_error (Nat.succ (Nat.succ Nat.zero)) [Bool.true]) Maybe.none
+Test_nth_error2 = Equal.refl
+
+Test_nth_error3 : Equal (Nth_error (Nat.succ Nat.zero) [[1], [2]]) (Maybe.some [2])
+Test_nth_error3 = Equal.refl
+
+```
+
+1.2.4
+Complete a definição de
+uma versão polimórfica da função hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.
+
+```rust
+Hd_error <a> (xs: Lista a) : Maybe a
+hd_error xs = ?
+
+Test_hd_error1 : Equal (Hd_error [1, 2]) (Maybe.some 1)
+Test_hd_error1 = ?
+
+Test_hd_error2 : Equal (Hd_error [[1], [2]]) (Maybe.some [1])
+Test_hd_error2 = ?
+```
+
+
 
