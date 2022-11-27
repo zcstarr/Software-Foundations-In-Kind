@@ -967,30 +967,75 @@ objetivo e basta apenas retornar ele, o app para que o *Type Check* valide
 a nossa prova:
 *All terms check.*
 
+Há casos em que a indução é ainda mais simples, basta compreender o que está acontecendo. Imagine que você quer provar que um número `n` menos ele mesmo é igual a *zero*, independente de qual seja esse número. Como faríamos?
+Primeiro, nós verificamos para o caso dele ser *zero* e é uma igualdade verdadeira, *zero* menos *zero* é igual a *zero*. Depois, nós induzimos o caso para o caso de *zero*, que sabemos ser verdadeiro. Parece complicado? Não é, é absurdamente simples, vamos ver como fica isso em *Kind*:
+
+```rs
+Minus_diag (n: Nat)     : Equal Nat (Nat.sub n n) Nat.zero
+Minus_diag Nat.zero     = Equal.refl
+Minus_diag (Nat.succ n) = Minus_diag n
+```
+
+Perceba, essa é uma indução simples, nós falamos que a prova vale para o número e o antecessor dele e, por usarmos uma recursão, para todos os antecessores até *zero*, que é o caso que verificamos ser verdadeiro.
+Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesmo sempre dará *zero*, independente de qual for esse número.
+
+#### 1.0.1 Exercícios 
+Prove o seguinte usando indução. Você pode precisar de resultados previamente comprovados.
+
+```rust
+Mult_0_r (n: Nat) : Equal Nat (Nat.mul n Nat.zero) Nat.zero
+Mult_0_r n = ?
+
+Plus_n_sm (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Nat.add n m)) (Nat.add n (Nat.succ m))
+Plus_n_sm n m = ?
+
+Plus_comm (n: Nat) (m: Nat) : Equal Nat (Nat.add n m) (Nat.add m n)
+Plus_comm n m = ?
+
+Add_0_r (n: Nat) : Equal Nat (Nat.add n Nat.zero) n
+Add_0_r n = ?
+
+Plus_assoc (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (Nat.add n m) p)
+Plus_assoc n m p = ?
+```
+
+#### 1.0.2
+Considere a seguinte função que dobra o argumento recebido
+```rust
+Double (n: Nat)     : Nat
+Double Nat.zero     = Nat.zero
+Double (Nat.succ n) = Nat.succ (Nat.succ (Double n))
+```
+
+Use indução para provar esses seguintes teoremas sobre *Double*:
+```rust
+Double_plus (n: Nat) : Equal Nat (Double n) (Nat.add n n)
+Double_plus n = ?
+```
+
+#### 1.0.3
+
+
 ### Outro caso
 
 Vamos verificar se a a igualdade "n +(*m* + 1) = 1 + (*n* + *m*)" é verdadeira
 
 Primeiro, o nosso problema:
-
 ```rust
 Problems.t2 (n: Nat) (m: Nat)  : (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ(Nat.add n m))) 
 ```
 
 Verificamos o primeiro caso, quando *n* é zero:
-
 ```rust
 Problems.t2 Nat.zero m         = Equal.refl
 ```
 
 e partimos para o caso seguinte
-
 ```rust
 Problems.t2 (Nat.succ n) m     = ?
 ```
 
 e o nosso objetivo atual vira:
-
 ```rust
 Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
 ```
@@ -998,32 +1043,35 @@ Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.ad
 Traduzindo, o sucessor da adição de *n* e o sucessor de *m* é igual ao
 sucessor do sucessor da adição de *n* e *m*. Para resolver esse problema,
 invocaremos a indução:
-
 ```rust
 let ind = Problems.t16 n m
 ```
+
 e o nosso objetivo atual é provar que:
 ```rust
 Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
 ```
+
 Traduzindo novamente, que o *sucessor* da adição de *n* e o *sucessor* de *m* é igual ao *sucessor* do *sucessor* da adição de *n* e *m*. 
 
 mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:
 ```rust
 (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ (Nat.add n m)))
 ```
+
 Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
 basta dar um *Nat*.**succ** em ambos os lados da indução e ela ficará
 exatamente igual ao nosso objetivo, para isso usaremos uma função
 *lambda*:
-
 ```rust
 let app = (Equal.apply (x => (Nat.succ x)) ind)
 ```
+
 E a nossa variável *app* retornará o nosso objetivo:
 ```rust
 (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
 ```
+
 Bastando apenas retornar o *app* para e o Kind nos retornará o tão almejado
 *All terms check*.
 
@@ -1090,7 +1138,6 @@ primeira parte do nosso
 objetivo e a primeira parte da *indb* é igual a segunda do objetivo, basta
 apenas organizar e juntar as partes necessárias. Para isso usaremos a
 *Equal*.**mirror** e a *Equal*.**chain**.
-
 ```rust
 let indc    = Equal.chain indb (Equal.mirror inda)
 ```
@@ -1153,7 +1200,6 @@ Pair.snd (Pair.new Nat Nat fst snd) = snd
 ### Algumas provas
 
 Vamos tentar provar alguns fatos simples sobre pares. Se declararmos as coisas de uma maneira particular (e ligeiramente peculiar), podemos completar provas com apenas reflexividade:
-
 ```rust
 Surjective_pairing (p: Pair Nat Nat) : (Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
@@ -1209,7 +1255,6 @@ List.nil <a> : (List a)
 List.cons <a> (head: a) (tail: List a) : (List a)
 ```
 Como vamos tratar de apenas um tipo, é interessante reescrever o tipo de lista para um definido, o escolhido foi o *Nat*:
-
 ```rust
 List (Nat: Type) : Type
 List.nil : (List Nat)
@@ -1306,7 +1351,6 @@ Test_head3                = Equal.refl
 
 List.to_nat (xs : List U60) : List Nat
 List.to_nat xs = List.map xs (x => U60.to_nat x)`
-
 ```rust
 Nonzeros (l : List Nat) : List Nat
 
@@ -1499,18 +1543,19 @@ O Type Check nos retorna tipos `t2`, `t3` e outros gerados no mesmo estilo e pod
 - Goal: (Equal (List t2_) (List.cons _ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons _ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
 - app : (Equal (List t2_) (List.cons t2_ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons t2_ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
 ```
+
 e apagando os tipos gerados e os `holes`:
 
 ```
 - Goal: (Equal (List) (List.cons xs.head (List.concat (List.concat xs.tail ys) zs)) (List.cons xs.head (List.concat xs.tail (List.concat ys zs))))
 - app : (Equal (List) (List.cons xs.head (List.concat (List.concat xs.tail ys) zs)) (List.cons xs.head (List.concat xs.tail (List.concat ys zs))))
 ```
+
 Dessa forma fica mais fácil perceber que o `app` e o `goal` são identicos, então não é necessário se assustar ao ver esses tipos gerados 
 
 ### 3.1.1 Invertendo uma lista. 
 
 Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos `app` para definir uma função de reversão de lista `rev`:
-
 ```rust
 Rev (xs: List Nat)              : List Nat
 Rev List.nil                    = List.nil 
@@ -1528,7 +1573,6 @@ Test_rev2 = Equal.refl
 Agora vamos provar alguns teoremas sobre o rev que acabamos de definir. Para algo um pouco mais desafiador do que vimos, vamos provar
 que inverter uma lista não altera seu comprimento. Nossa primeira tentativa fica presa
 o caso sucessor...
-
 ```rust
 Rev_length_firsttry (xs: List Nat)              : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length_firsttry List.nil                    = Equal.refl
@@ -1555,7 +1599,6 @@ Rewrites: 76033
 ```
 
 Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:
-
 ```rust
 App_length (xs: List Nat) (ys: List Nat)  : (Equal Nat (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys)))
 App_length List.nil ys                    = Equal.refl
@@ -1630,7 +1673,6 @@ Ao dar o Type Check, vemos nosso novo contexto:
 ```
 
 Nossa variável `chn` é praticamente identica ao nosso `Goal` só diferindo na parte final, pois `Goal` espera um `Nat.succ (List.length xs.tail)` e o `chn` nos dá `Nat.succ (List.length (Rev xs.tail))`, mas nós temos a variável `ind` que nos retorna essa igualdade. Vamos relembrar:
-
 ```bash
 ind     : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))
 ```
@@ -1651,7 +1693,6 @@ Kind.Context:
 - rwt : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
 ```
 Agora é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
-
 ```rust
 Rev_length (xs: List Nat)               : (Equal Nat (List.length (Rev xs)) (List.length xs))
 Rev_length List.nil                     = Equal.refl
@@ -1682,7 +1723,6 @@ Rev_involutive xs               = ?
 
 Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
 recue e tente procurar uma maneira mais simples.
-
 ```rust
 App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat)  : (Equal (List Nat) (List.concat l1 (List.concat l2 (List.concat l3 l4))) (List.concat (List.concat (List.concat l1 l2) l3) l4))
 App_assoc4 l1 l2 l3 l4                                                  = ? 
@@ -1795,7 +1835,6 @@ Nos últimos dois capítulos, trabalhamos com listas polimórficas, você pode s
 manipular listas com elementos de outros tipos – listas de strings, listas de booleanos,
 listas de listas, etc. Poderíamos apenas definir um novo tipo de dados indutivo para cada um deles,
 por exemplo...
-
 ```rust
 ListBool : Type
 ListBool.nil : (List Bool)
@@ -1809,7 +1848,6 @@ para cada nova definição de tipo de dados.
 
 Para evitar toda essa repetição, o *Kind* suporta definições de tipos indutivos polimórficos.
 Por exemplo, aqui está um tipo de dados de lista polimórfica e que já vimos no capítulo anterior:
-
 ```rust
 List <a: Type> : Type
 List.nil <a> : (List a)
@@ -1837,7 +1875,6 @@ booleanos, listas, bits ou outros pares, nós deixamos a função apta a tratar 
 
 Agora podemos voltar e fazer versões polimórficas de todas as listas de processamento
 funções que escrevemos antes. Aqui está a repetição, por exemplo:
-
 ```rust
 List.repeat <a: Type> (xs: a) (count: Nat)  : List a
 List.repeat xs Nat.zero                     = List.nil
@@ -1846,14 +1883,12 @@ List.repeat xs (Nat.succ count)             = List.cons xs (List.repeat xs count
 
 Tal como acontece com Nil e Contras, podemos usar repeat aplicando-o primeiro a um tipo e depois a
 seu argumento de lista:
-
 ```rust
 Test_repeat1 : (Equal (Repeat 4 (U60.to_nat 2))(List.cons 4 (List.cons 4 List.nil)))
 Test_repeat1 = Equal.refl
 ```
 
 Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:
-
 ```rust
 Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false List.nil))
 Test_repeat2 = Equal.refl
@@ -1863,7 +1898,6 @@ Test_repeat2 = Equal.refl
 1.1.2 Inferência de anotação de tipo.
 
 Vamos escrever a definição do `repeat` novamente, mas dessa vez omitindo o tipo, mas atenção, essa não é uma boa prática usar o `hole`, servirá apenas para compreender o poder do Kind e como ele pode ajudar o usuário a encontrar o que deseja.
-
 ```rust
 List.repeat (val: _) (count: Nat)   : List _
 List.repeat val Nat.zero            = ?
@@ -1879,13 +1913,11 @@ On 'main.kind2':
 ```
 Para o caso do contador ser zero, que é o nosso ponto de parada, nós precisamos retornar uma lista do tipo não definido. 
 Como fizemos quando nosso tipo era definido, estamos criando uma lista que não repete o termo nenhuma vez, retornamos um *List.nil*, depois nós verificamos para o caso de uma lista que repetirá o valor *count* vezes, para isso nós usaremos a recursão por meio do `Nat.succ pred`, isto é, o nosso *count* é igual ao sucessor do predecessor dele. 
-
 ```rust
 List.repeat val (Nat.succ pred)          = ?
 ```
 
 E o o *Type Check* nos retorna:
-
 ```bash
 Inspection.
 - Goal: (List _)
@@ -1896,7 +1928,6 @@ On 'main.kind2':
    4 | List.repeat val (Nat.succ pred)   = ? 
 ```
 Agora basta construir a lista com o valor e chamar a função para o predecessor de count, assim construindo a lista até que chegue a zero.
-
 ```rust
 List.repeat (val: _) (count: Nat)    : List _
 List.repeat val Nat.zero             = List.nil
@@ -1910,7 +1941,6 @@ No primeiro caso, quando definimos o tipo `a`, já abarcamos todos os tipos poss
 Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do *repeat*, nós passamos o tipo `<a: Type>` e que cada elemento da nossa lista é desse tipo. Fizemos o mesmo com o tipo *Pair*, que recebia como argumento dois tipos *a* e *b*. 
 
 Agora fica muito mais fácil compreender os exemplos que usamos no capítulo anterior, quando apresentamos funções como a de *length* e *append*:
-
 ```rust
 List.length <a> (xs: List a) : Nat
 List.length a (List.nil t)            = Nat.zero
@@ -1923,7 +1953,6 @@ List.append a (List.cons xs.a xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
 Perceba, há duas notações, uma onde apenas usamos `<a>` e outra onde usamos `<a: Type>`, podemos usar qualquer uma delas, o *Kind* é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.
 
 Agora é a hora de implementar nossas funçõe com o tipo implícito, usando o `hole` e `sugar syntax`:
-
 ```rust
 App_implicito (xs: List _) (x: _)       : List _
 App_implicito [] x                      = []
@@ -1934,10 +1963,10 @@ Aqui nós aprendemos mais uma coisa, o *sugar syntax* para uma lista vazia e que
 - Expected: (List t3_)
 - Detected: (List (List t3_))
 ```
+
 Perceba, ele espera uma lista e recebe uma lista de lista, pois nós declaramos o nosso *tail* como sendo ualgo do tipo t3_ (ignore a escrita do tipo, isso ocorre porque não definimos o tipo e o Kind cria um temporário apenas para retorno da mensagem), o que faz com que ela deixe de ser uma lista, causando essa incongruência no retorno. 
 
 Portanto, é sempre importante saber exatamente o que está sendo feito, ainda mais quando usamos *sugar syntax*, ela serve pra facilitar a nossa vida, mas pode causar alguns problemas quando usada de forma indevida e isso serve igualmente para o *hole* e tipos polimórficos nos auxiliam a excrever um programa mais seguro e, ao mesmo tempo, capaz de servir para inúmeros casos. 
-
 
 Outra função que podemos reescrever é a de reverse:
 
@@ -1945,12 +1974,12 @@ Outra função que podemos reescrever é a de reverse:
 Rev <a> (xs: List a)        : List a
 Rev []                      = []
 Rev (List.cons xs.h xs.t)   = (List.concat (Rev xs.t)[xs.h])
-```
-```rust
+
 Length <a> (xs: List a)      : Nat
 Length []                    = Nat.zero
 Length (List.cons xs.h xs.t) = Nat.succ (Length xs.t)
 ```
+
 Feito isso, basta apenas provar que nossas funções são verdadeiras:
 
 ```rust
@@ -1963,9 +1992,11 @@ Test_rev2 = Equal.refl
 Test_length1 : Equal (Length [1, 2, 3]) (U60.to_nat 3)
 Test_length1 = Equal.refl
 ```
+
 1.1.3
 
 Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.
+
 ```rust
 App_nil_r <a> (xs: List a) : Equal (List.concat xs List.nil) xs
 App_nil_r xs = ?
@@ -1976,9 +2007,11 @@ App_assoc xs ys zs = ?
 App_length <a> (xs: List a) (ys: List a) : Equal (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys))
 App_length xs ys = ?
 ```
+
 1.1.4
 
 Aqui estão alguns um pouco mais interessantes...
+
 ```rust
 Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (List.concat xs ys)) (List.concat (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
@@ -1986,6 +2019,7 @@ Rev_app_distr xs ys = ?
 Rev_involutive <a> (xs: List a) : Equal (Rev (Rev xs)) xs
 Rev_involutive xs = ?
 ```
+
 1.2 Pares polimórficos 
 
 Seguindo o mesmo padrão, a definição de tipo
