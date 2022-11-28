@@ -1014,8 +1014,11 @@ Double_plus n = ?
 ```
 
 #### 1.0.3
-
-
+Alguns teoremas é necessário analisar a melhor forma de se provar, por exemplo, para provar que um numero é par, poderiamos provar pelo sucessor dele, mas isso nos faria ter que provar para o sucessor do succesor dele, isso faz com a que a prova de *evenb* ser mais difícil por indução, então é importante perceber quando é necessário e quando não é.
+```rust
+Evenb_s (n: Nat) : Equal Bool (Nat.is_even (Nat.succ n)) (Bool.not (Nat.is_even n))
+Evenb_s n = ?
+```
 ### Outro caso
 
 Vamos verificar se a a igualdade "n +(*m* + 1) = 1 + (*n* + *m*)" é verdadeira
@@ -1158,6 +1161,20 @@ Ao chamar o *app* o *Type Check* nos retorna a mensagem *All terms check* e
 desta forma provamos, por meio da indução e usando uma outra prova, a comutação
 da adição, ou seja, que a soma de *n* e *m* é igual a soma de *m* e *n*.
  
+### 3 Mais exercícios
+#### 3.0.1
+Você pode usar a *rewrite* ou *chain* nessa prova, escolha o que achar mais fácil
+```rust
+Plus_swap (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add m (Nat.add n p))
+Plus_swap n m p = ?
+```
+
+Agora prove a comutatividade da multiplicação. (Você provavelmente precisará definir e provar um teorema auxiliar separado para ser usado na prova deste. Você pode descobrir que *Plus_swap* é útil.
+
+```rust
+Mult_comm (n: Nat) (m: Nat) : Equal (Nat.mul n m) (Nat.mul m n)
+Mult_comm n m = ?
+```
 
 # Capítulo 4
 ## Listas: trabalhando com dados estruturados
