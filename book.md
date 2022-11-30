@@ -602,12 +602,7 @@ lados de uma igualdade mantém a igualdade (`x/2 = 3 -> 2*x/2 = 2*3`), e podemos
 ver que para provar o que a gente quer, precisamos aplicar a função `Nat.succ`
 nos dois lados de `e`, usando `Equal.apply`
 
-```rust
-Example_apply (n : Nat) (m : Nat) (e : Equal m n) : Equal (Nat.succ m) (Nat.succ n)
-Example_apply n m e =
-  let e_apply = Equal.apply (x => Nat.succ x) e
-  ?
-```
+![Example_apply](./Imgs/example-apply.png)
 
 Como o `Equal.apply` funciona: Ele recebe como primeiro argumento a função a ser
 aplicada dos dois lados, e como segundo argumento a igualdade aonde aplicar a função.
@@ -620,16 +615,7 @@ que recebe um `x` qualquer e retorna `Nat.succ x`.
 
 Podemos ver o resultado disso dando `check` no arquivo:
 
-```terminal
-Inspection.
-- Goal: (Equal _ (Nat.succ m) (Nat.succ n))
-Kind.Context:
-- n       : Nat
-- m       : Nat
-- e       : (Equal Nat m n)
-- e_apply : (Equal Nat (Nat.succ m) (Nat.succ n))
-- e_apply = (Equal.apply Nat Nat m n (x => (Nat.succ x)) e)
-```
+![Example_apply](./Imgs/example-apply-ind.png)
 
 Como `e_apply` é uma igualdade do tipo `Equal Nat (Nat.succ m) (Nat.suuc n)`,
 a prova que procuramos, é só retornar ele e concluiremos a nossa prova.
@@ -651,7 +637,7 @@ A próxima ferramenta de provas formais será análise de casos, que significa u
 Por exemplo, vamos provar que o E lógico de qualquer coisa e Falso sempre é falso:
 
 ```rust
-Example_case_analysis (b1 : Bool) : Equal (Andb b1 Bool.false) Bool.false
+Example_case_analysis (b1 : Bool) : Equal (Bool.and b1 Bool.false) Bool.false
 Example_case_analysis b1 = ?
 ```
 
@@ -664,7 +650,7 @@ nós fazemos *pattern matching* na prova, criando assim duas provas diferentes:
 uma pra quando `b1` for `Bool.true` e uma pra quando for `Bool.false`.
 
 ```rust
-Example_case_analysis (b1 : Bool) : Equal (Andb b1 Bool.false) Bool.false
+Example_case_analysis (b1 : Bool) : Equal (Bool.and b1 Bool.false) Bool.false
 Example_case_analysis Bool.true  = ?
 Example_case_analysis Bool.false = ?
 ```
@@ -714,7 +700,6 @@ Com isso feito, precisamos trocar o `n` por `m` no lado direito da igualdade, e 
 
 ```rust
 Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
-
 Plus_id_example n m e =
   // app : Equal (Plus n n) (Plus m n)
   let app = Equal.apply (k => Plus k n) e
@@ -838,14 +823,7 @@ Problems.t0 (n: Nat) : (Equal Nat (Nat.add Nat.zero n) n)
 
 Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:
 
-```bash
-Inspection.
-- Goal: (Equal Nat n n)
-Kind.Context:
-- n : Nat
-On 'problems0.kind2':
-  64 | Problems.t0 n              = ?
-```
+![mensagem de erro](./Imgs/problemst0.png)
 
 No *Problems.t0* o Kind reduz a soma de "*0 + n*" automaticamente para *n* e
 que devemos provar a igualdade entre *n* e *n*. Nesse caso basta escrever "*Equal*.**refl**" e obtemos a resposta de
