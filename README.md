@@ -16,10 +16,10 @@ Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.githu
 
 
 ## TODO:
-[x] - Definir padrão;
-[ ] - Refazer exemplos com o novo type check e mensagens de erro;
-[ ] - Revisar e corrigir erros;
-[ ] - Continuar do capitulo 5;
+- [x] - Definir padrão;
+- [ ] - Refazer exemplos com o novo type check e mensagens de erro;
+- [ ] - Revisar e corrigir erros;
+- [ ] - Continuar do capitulo 5;
 
 
 Toda semana:
