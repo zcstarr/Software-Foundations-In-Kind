@@ -4,10 +4,10 @@ Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.githu
 
 ## padrão de formatação:
 
-- 1. # Nome do capítulo;
-- 2. ## Título;
-- 3. ### Subtítulo;
-- 4. #### Título de exercício, exemplo etc;
+- 1. \# Nome do capítulo;
+- 2. \## Título;
+- 3. \### Subtítulo;
+- 4. \#### Título de exercício, exemplo etc;
 - 5. `Codigo`;
 - 6. Mensagem de erro: print;
 - 7. Citação de função, tipo ou parametro dentro do texto: em itálico (*Tipo*);
