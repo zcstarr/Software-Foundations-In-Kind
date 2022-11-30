@@ -837,14 +837,7 @@ Problems.t1 (n: Nat) : (Equal Nat (Nat.add n Nat.zero) n)
 
 Feito o primeiro problema, o seguinte é muito similar, é a soma de "*n + 0 = n*" e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:
 
-```bash
-Inspection.
-- Goal: (Equal _ (Nat.add n Nat.zero) n)
-Kind.Context:
-- n : Nat
-On 'problems01.kind2':
-  67 | Problems.t1 n = ?
-```
+![Problems.t1](./Imgs/problemst1.png)
 
 No primeiro caso o Kind reduz pois o *zero* está à direita e o *Type
 Checker* já reduz automaticamente, a soma de entre *0* e *n* para *n*.
@@ -861,7 +854,7 @@ Analizando para o caso de *zero* nosso objetivo é provar que *zero* é igual
 a *zero*:
 
 ```rust
-- Goal: (Equal _ Nat.zero Nat.zero)
+• Expected: (Equal Nat Nat.zero Nat.zero)
 ```
 
 Agora basta dar o *Equal*.**refl** e o caso zero já foi comprovado, basta
@@ -900,16 +893,7 @@ Problems.t1 (Nat.succ n)   =
 
 Ao dar o *Type Check* temos como retorno a seguinte resposta:
 
-```bash
-Inspection.
-- Goal: (Equal _ (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
-Kind.Context:
-- n   : Nat
-- ind : (Equal _ (Nat.add n Nat.zero) n)
-- ind = (Problems.t1 n)
-On 'problems01.kind2':
-  72 |     ?
-```
+![indução no problems.t1](./Imgs/problemst1-ind.png)
 
 Ao analizar nosso objetivo e a indução, percebemos que a única diferença entre
 o objetivo e a nossa variável *ind* é o *Nat*.**succ**, basta então
@@ -927,18 +911,7 @@ função *lambda* ao *ind*. A função `x => (Nat.succ x)` serve para adicionar
 incrementa a *n* com *Nat*.**succ**, o que retorna exatamente o nosso
 objetivo:
 
-```bash
-Inspection.
-- Goal: (Equal Nat (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
-Kind.Context:
-- n   : Nat
-- ind : (Equal Nat (Nat.add n Nat.zero) n)
-- ind = (Problems.t1 n)
-- app : (Equal Nat (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
-- app = (Equal.apply Nat Nat (Nat.add n Nat.zero) n (x => (Nat.succ x)) ind)
-On 'problems01.kind2':
-  72 |     ?
-```
+![Aplicação na indução do Problems.t1](./Imgs/problemst1-app.png)
 
 Podemos perceber que o *app* é exatamente igual ao *Goal*, que é o nosso
 objetivo e basta apenas retornar ele, o app para que o *Type Check* valide
@@ -1018,19 +991,19 @@ Problems.t2 (Nat.succ n) m     = ?
 
 e o nosso objetivo atual vira:
 ```rust
-Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
+• Expected: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
 ```
 
 Traduzindo, o sucessor da adição de *n* e o sucessor de *m* é igual ao
 sucessor do sucessor da adição de *n* e *m*. Para resolver esse problema,
 invocaremos a indução:
 ```rust
-let ind = Problems.t16 n m
+let ind = Problems.t2 n m
 ```
 
 e o nosso objetivo atual é provar que:
 ```rust
-Goal: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
+• Expected: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
 ```
 
 Traduzindo novamente, que o *sucessor* da adição de *n* e o *sucessor* de *m* é igual ao *sucessor* do *sucessor* da adição de *n* e *m*. 
@@ -1090,52 +1063,40 @@ favor.
 
 Começaremos aplicando um *Nat*.**succ** no nosso problema original:
 ```rust
-let inda    = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
+let ind_a    = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
 ```
 
 Depois invocaremos nosso problema já resolvido, o *Problems*.**t2**:
 ```rust 
-let indb    = Problems.t2 m n
+let ind_b    = Problems.t2 m n
 ```
 
 Ao dar o *Type Check*, o terminal nos retorna:
-```bash
-Aperte ENTER ou digite um comando para continuar
-Inspection.
-- Goal: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n)))
-Kind.Context:
-- n    : Nat
-- m    : Nat
-- inda : (Equal Nat (Nat.succ (Nat.add n m)) (Nat.succ (Nat.add m n)))
-- inda = (Equal.apply Nat Nat (Nat.add n m) (Nat.add m n) (x => (Nat.succ x)) (Problems.t3 n m))
-- indb : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add m n)))
-- indb = (Problems.t2 m n)
-On 'problems01.kind2':
-  8 |    ?
-```
 
-Agora podemos perceber que a primeira parte da *inda* é igual ao inverso da
+![Problems.t3](./Imgs/problemst3.png)
+
+Agora podemos perceber que a primeira parte da *ind_a* é igual ao inverso da
 primeira parte do nosso
-objetivo e a primeira parte da *indb* é igual a segunda do objetivo, basta
+objetivo e a primeira parte da *ind_b* é igual a segunda do objetivo, basta
 apenas organizar e juntar as partes necessárias. Para isso usaremos a
 *Equal*.**mirror** e a *Equal*.**chain**.
 ```rust
-let indc    = Equal.chain indb (Equal.mirror inda)
+let ind_c    = Equal.chain ind_b (Equal.mirror ind_a)
 ```
 
-E o indc nos retorna um valor similar ao desejado:
+E o ind_c nos retorna um valor similar ao desejado:
 ```rust
-Goal: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n)))
-indc : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add n m)))
+• Expected: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n)))
+•   ind_c : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add n m)))
 ```
 
 Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
 *Equal*.**mirror** novamente:
 ```rust
-let app     = Equal.mirror indc
+let app     = Equal.mirror ind_c
 ```
 
-Ao chamar o *app* o *Type Check* nos retorna a mensagem *All terms check* e
+Ao chamar o *app* o *Type Check* nos retorna a mensagem *All terms checked* e
 desta forma provamos, por meio da indução e usando uma outra prova, a comutação
 da adição, ou seja, que a soma de *n* e *m* é igual a soma de *m* e *n*.
  
