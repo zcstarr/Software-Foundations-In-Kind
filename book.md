@@ -1115,8 +1115,38 @@ Mult_comm (n: Nat) (m: Nat) : Equal (Nat.mul n m) (Nat.mul m n)
 Mult_comm n m = ?
 ```
 
+#### 3.0.2
+Pegue um pedaço de papel. Para cada um dos teoremas a seguir, primeiro pense se (a) pode ser provado usando apenas simplificação e reescrita, (b) também requer análise de caso (destruição) ou (c) também requer indução. Anote sua previsão.
+Em seguida, preencha a prova. (Não há necessidade de entregar seu pedaço de papel; isso é apenas para incentivá-lo a refletir antes de hackear!)
+
+```rust
+Lte_refl (n: Nat) : Equal Bool Bool.true (Nat.lte n n)
+Lte_refl n = ?
+
+Zero_nbeq_s (n: Nat) : Equal Bool (Nat.equal (Nat.zero) (Nat.succ n)) Bool.false
+Zero_nbeq_s n = ?
+
+And_false_r (b: Bool) : Equal Bool (Bool.and b Bool.false) Bool.false
+And_false b = ?
+
+S_nbeq_0 (n: Nat) : Equal Bool (Nat.equal (Nat.succ n) Nat.zero) Bool.false
+
+Mult_1_l (n: Nat) : Equal Nat (Nat.mul (Nat.succ Nat.zero) n) n
+Mult_1_l n = ?
+
+All3_spec (b: Bool) (c: Bool) : Equal Bool (Bool.or (Bool.or (Bool.and b c) (Bool.not b)) (Bool.not c)) Bool.true
+All3_spec b c = ?
+
+Mult_plus_distr_r (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.mul (Nat.add n m) p) (Nat.add (Nat.mul n p) (Nat.mul m p))
+Mult_plus_distr_r n m p = ?
+
+Mult_assoc (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.mul (Nat.mul m p)) (Nat.mul (Nat.mul n m) p)
+Mult_assoc n m p = ?
+```
+
 # Capítulo 4
 ## Listas: trabalhando com dados estruturados
+zsh:1: command not found: book.md
 
 A partir de agora, veremos dados estruturados, em especial as listas e pares, e que podem conter elementos de diversos tipos. Na definição do tipo, já mostraremos eles com tipos *polimórficos*, mas não se assombre, veremos sobre isso no próximo capítulo, apenas vamos ignorar o tipo e acompanhar a explicação, fará mais sentido ao decorrer do nosso estudo.
 
