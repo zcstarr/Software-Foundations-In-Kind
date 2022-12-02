@@ -2170,4 +2170,12 @@ Test_CountOddMembers3 = Equal.refl
 Além disso, este não é um exemplo isolado: ao usar funções de ordem superior, muitas vezes queremos passar como argumentos funções “únicas” que nunca mais usaremos; ter que dar um nome a cada uma dessas funções seria tedioso.
 Felizmente, existe uma maneira melhor. Podemos construir uma função “on the fly” sem declará-la no nível superior ou dar-lhe um nome.
 
+```rust
+Test_anon_fun : Equal (Doit3times (x => (Nat.mul x x)) (Nat.succ (Nat.succ Nat.zero))) (U60.to_nat 256)
+Test_anon_fun = Equal.refl
+```
+
+A expressão `x => (Nat.mul x x)` pode ser lida como *a função recebe um número `n` e retorna `n * n`* 
+
+Aqui está o exemplo de *Filter* reescrita pra usar uma função anonima:
 
