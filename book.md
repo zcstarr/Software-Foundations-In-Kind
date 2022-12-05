@@ -2132,7 +2132,7 @@ Aqui está uma função de alta ordem mais útil, pegando uma lista de xs e um p
 Filter <x> (test: x -> Bool) (xs: List x) : List x
 Filter test List.nil                      = List.nil
 Filter test (List.cons xs.h xs.t)         =
-   Bool.if (text xs.h) (List.cons xs.h (Filter test xs.t)) (Filter test xs.t)
+   Bool.if (test xs.h) (List.cons xs.h (Filter test xs.t)) (Filter test xs.t)
 ```
 
 Por exemplo, se aplicarmos o filtro de "é par" numa lista de números, ela nos retornará uma outra lista apena com os números pares
@@ -2179,3 +2179,38 @@ A expressão `x => (Nat.mul x x)` pode ser lida como *a função recebe um núme
 
 Aqui está o exemplo de *Filter* reescrita pra usar uma função anonima:
 
+```rust
+Test_filter2 : Equal (Filter (x => (Length_is_one x))([[1], [1, 2], [2], [1, 2, 3], [21]]))([[1], [2], [21]])
+Test_filter2 = Equal.refl
+
+```
+
+2.3.1. Exercício:(filter_even_gt7). Use *Filter* com funções anônimas (em vez de definição de função) para escrever uma função filter_even_gt7 que recebe uma lista de números naturais como entrada e retorna uma lista apenas daqueles que são pares e maiores que 7.
+
+```rust
+Filter_even_gt7 (xs: List Nat) : List Nat
+Filter_even_gt7 xs  = ?
+
+Test_filter_even_gt7a: Equal (Filter_even_gt7 [1n, 2n, 3n, 4n, 5n, 7n, 8n, 9n, 10n, 11n, 12n]) ([8n, 10n, 12n])
+Test_filter_even_gt7a = ?
+
+Test_filter_even_gt7b : Equal (Filter_even_gt7 [5n, 2n, 6n, 19n, 129n]) ([])
+Test_filter_even_gt7b = ?
+```
+
+Uma pequena observação, o leitor mais atento percebeu que usamos uma nova notação, os *n* após os números, esse é um *sugar syntax* que o *Kind* possui, nós podemos escrever números naturais apenas acrescentando um *n* ao número, entretanto essa é uma sintaxe que pode acabar pesando para Kind. Imagine que o usuário pretende apenas adicionar o número *1* ao *1000000*, é um cálculo simples e que o Kind faz com uma mão nas costas, mas fica um pouco mais pesado quando usado o *sugar syntax* dos números naturais, a soma será um `Nat.add 1n 1000000n`, mas o *Kind* precisará verificar cada *Nat.succ* até o *um milhão e um*, ou seja, serão *um milhão e um* "Nat.succs" computados de forma desnecessárias. Essa sintaxe é bem útil, mas devemos usar com cuidado, o ideal é que para números grandes seja usado um *U60.to_nat*, que é bem mais leve para o Kind.
+
+2.3.2 Use *Filter* para escrever uma função *Partition* em *Kind*
+
+```rust
+Partition <x> (test: x -> Bool) (xs: List x) : Pair (List x) (List x)
+Partition test xs = ?
+```
+
+Dado um conjunto x, uma função de teste do tipo x -> Bool e uma Lista x, a função Partition deve retornar um par de listas. O primeiro membro do par é a sublista da lista original contendo os elementos que satisfazem o teste, e o segundo é a sublista contendo aqueles que falham no teste. A ordem dos elementos nas duas sublistas deve ser a mesma da lista original.
+
+```rust
+Test_partition1 : Equal (Partition (x => Nat.is_odd x) [1n, 2n, 3n, 4n, 5n]) (Pair.new [1n, 3n, 5n] [2n, 4n])
+Test_partition1 = ?
+
+```
