@@ -53,7 +53,7 @@ Para demonstrar como funciona o mecanismo de definição, vamos começar com um 
 
 A declaração a seguir diz para o Kind que estamos declarando um novo conjunto de dados - um Tipo.
 
-```rs
+```rust
 Dia : Type // Dia é um Tipo
 
 Dia.segunda : Dia  // Segunda é um Dia
@@ -73,22 +73,22 @@ declarar um elemento de um tipo existente `Quarta : Dia`.
 Agora que temos definido o que é um Dia, podemos escrever funções que operam usando esse tipo.
 Digite o seguinte:
 
-```rs
-ProximoDiaUtil (d : Dia) : Dia
+```rust
+ProximoDiaUtil (d: Dia) : Dia
 ```
 
 Isso declara que temos uma função chamado `ProximoDiaUtil`, que recebe um argumento
 chamado `d`, do tipo `Dia`, e retorna um `Dia`.
 Continue a definição da função da seguinte forma:
 
-```rs
-ProximoDiaUtil Dia.segunda = ?DiaUtil_rhs_1
-ProximoDiaUtil Dia.terca = ?DiaUtil_rhs_2
-ProximoDiaUtil Dia.quarta = ?DiaUtil_rhs_3
-ProximoDiaUtil Dia.quinta = ?DiaUtil_rhs_4
-ProximoDiaUtil Dia.sexta = ?DiaUtil_rhs_5
-ProximoDiaUtil Dia.sabado = ?DiaUtil_rhs_6
-ProximoDiaUtil Dia.domingo = ?DiaUtil_rhs_7
+```rust
+ProximoDiaUtil Dia.segunda = ?
+ProximoDiaUtil Dia.terca = ?
+ProximoDiaUtil Dia.quarta = ?
+ProximoDiaUtil Dia.quinta = ?
+ProximoDiaUtil Dia.sexta = ?
+ProximoDiaUtil Dia.sabado = ?
+ProximoDiaUtil Dia.domingo = ?
 ```
 
 O que estamos fazendo aqui é o que chamamos de *pattern matching*. Estamos
@@ -98,7 +98,7 @@ Nem sempre será necessário fazer isso, como será mostrado em exemplos mais a 
 Por fim, complete as funções escrevendo o que cada uma deve retornar,
 e use espaços para estilizar como preferir:
 
-```rs
+```rust
 ProximoDiaUtil Dia.segunda = Dia.terca
 ProximoDiaUtil Dia.terca   = Dia.quarta
 ProximoDiaUtil Dia.quarta  = Dia.quinta
@@ -114,7 +114,7 @@ e rodando ele com o comando `kind2 run <file>`.
 
 Por exemplo, se você escrever a seguinte `Main` e rodar o arquivo
 
-```rs
+```rust
 Main {
   // Dois dias úteis depois do sábado
   ProximoDiaUtil (ProximoDiaUtil Sabado)
@@ -125,15 +125,14 @@ Deve ser retornado pra você algo como:
 
 ```terminal
 (Dia.terca)
-Rewrites: 2
 ```
 
 Outro jeito de testar seu código, é dizer o que esperamos que o código retorne,
 por meio de uma prova:
 
-```rs
+```rust
 // O terceiro dia útil depois de uma segunda é uma quinta
-TesteDiaUtil : Equal (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda))) Dia.quinta
+TesteDiaUtil : Equal Dia (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda))) Dia.quinta
 TesteDiaUtil = Equal.refl
 ```
 
@@ -149,15 +148,13 @@ que deve te retornar algo como:
 
 ```terminal
 All terms check.
-
-Rewrites: 9435
 ```
 
 ### 2.3 Booleanos
 
 Semelhantemente, podemos declarar o tipo `Bool`, para booleanos:
 
-```rs
+```rust
 Bool : Type
 
 Bool.true  : Bool
@@ -174,19 +171,19 @@ de resolução de provas não são built-in.
 
 Funções que funcionam sobre booleanos são definidas do mesmo jeito que visto anteriormente:
 
-```rs
+```rust
 // Negação lógica
-Notb (b : Bool) : Bool
+Notb (b: Bool) : Bool
 Notb Bool.true  = Bool.false
 Notb Bool.false = Bool.true
 
 // E lógico
-Andb (b1 : Bool) (b2 : Bool) : Bool
+Andb (b1: Bool) (b2: Bool) : Bool
 Andb Bool.true  b2 = b2
 Andb Bool.false b2 = Bool.false
 
 // OU lógico
-Orb (b1 : Bool) (b2 : Bool) : Bool
+Orb (b1: Bool) (b2: Bool) : Bool
 Orb Bool.true  b2 = Bool.true
 Orb Bool.false b2 = b2
 ```
@@ -198,42 +195,42 @@ apenas em parte das variáveis da função, não necessariamente todas.
 Os casos da última função podem ser testados exaustivamente (todas as possibilidades)
 como mostrado a seguir, criando a tabela verdade da operação lógica.
 
-```rs
-TestOrb1 : Equal (Orb Bool.true Bool.false) Bool.true
+```rust
+TestOrb1 : Equal Bool (Orb Bool.true Bool.false) Bool.true
 TestOrb1 = Equal.refl
 
-TestOrb2 : Equal (Orb Bool.false Bool.false) Bool.false
+TestOrb2 : Equal Bool (Orb Bool.false Bool.false) Bool.false
 TestOrb2 = Equal.refl
 
-TestOrb3 : Equal (Orb Bool.false Bool.true) Bool.true
+TestOrb3 : Equal Bool (Orb Bool.false Bool.true) Bool.true
 TestOrb3 = Equal.refl
 
-TestOrb4 : Equal (Orb Bool.true Bool.true) Bool.true
+TestOrb4 : Equal Bool (Orb Bool.true Bool.true) Bool.true
 TestOrb4 = Equal.refl
 ```
 
 #### *2.3.0.1 Exercício (nandb)*
 
-Substitua o buraco ?nandb_rhs, completando a função seguinte; então confira
+Substitua o buraco "?", completando a função seguinte; então confira
 se ela está correta usando as constatações a seguir
 (Análogo a como foi feito para a função `Orb`).
 A função retorna `Bool.true` se qualquer uma de suas entradas for `Bool.false`
 
-```rs
-Nandb (b1 : Bool) (b2 : Bool) : Bool
-Nandb b1 b2 = ?nandb_rhs
+```rust
+Nandb (b1: Bool) (b2: Bool) : Bool
+Nandb b1 b2 = ?
 
-Test_nandb1 : Equal (Nandb Bool.true Bool.false) Bool.true
-Test_nandb1 = ?test_nandb1_rhs
+Test_nandb1 : Equal Bool (Nandb Bool.true Bool.false) Bool.true
+Test_nandb1 = ?
 
-Test_nandb2 : Equal (Nandb Bool.false Bool.false) Bool.true
-Test_nandb2 = ?test_nandb2_rhs
+Test_nandb2 : Equal Bool (Nandb Bool.false Bool.false) Bool.true
+Test_nandb2 = ?
 
-Test_nandb3 : Equal (Nandb Bool.false Bool.true) Bool.true
-Test_nandb3 = ?test_nandb3_rhs
+Test_nandb3 : Equal Bool (Nandb Bool.false Bool.true) Bool.true
+Test_nandb3 = ?
 
-Test_nandb4 : Equal (Nandb Bool.true Bool.true) Bool.false
-Test_nandb4 = ?test_nandb4_rhs
+Test_nandb4 : Equal Bool (Nandb Bool.true Bool.true) Bool.false
+Test_nandb4 = ?
 ```
 
 #### *2.3.0.2 Exercício (and3)*
@@ -241,21 +238,21 @@ Test_nandb4 = ?test_nandb4_rhs
 Faça o mesmo para a função `Andb3` abaixo. Essa função deve retornar `Bool.true`
 se todas as entradas forem `Bool.true`, e `Bool.false` caso contrário
 
-```rs
-Andb3 (b1 : Bool) (b2 : Bool) (b3 : Bool) : Bool
-Andb3 b1 b2 b3 = ?andb3_rhs
+```rust
+Andb3 (b1: Bool) (b2: Bool) (b3: Bool) : Bool
+Andb3 b1 b2 b3 = ?
 
-Test_andb3_1 Equal (Andb3 Bool.true Bool.true Bool.true) Bool.true
-Test_andb3_1 = ?test_andb31_rhs
+Test_andb3_1 Equal Bool (Andb3 Bool.true Bool.true Bool.true) Bool.true
+Test_andb3_1 = ?
 
-Test_andb3_2 Equal (Andb3 Bool.false Bool.true Bool.true) Bool.false
-Test_andb3_2 = ?test_andb32_rhs
+Test_andb3_2 Equal Bool (Andb3 Bool.false Bool.true Bool.true) Bool.false
+Test_andb3_2 = ?
 
-Test_andb3_3 Equal (Andb3 Bool.true Bool.false Bool.true) Bool.false
-Test_andb3_3 = ?test_andb33_rhs
+Test_andb3_3 Equal Bool (Andb3 Bool.true Bool.false Bool.true) Bool.false
+Test_andb3_3 = ?
 
-Test_andb3_4 Equal (Andb3 Bool.true Bool.true Bool.false) Bool.false
-Test_andb3_4 = ?test_andb34_rhs
+Test_andb3_4 Equal Bool (Andb3 Bool.true Bool.true Bool.false) Bool.false
+Test_andb3_4 = ?
 ```
 
 ### 2.4 Tipos de função
@@ -284,10 +281,10 @@ enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessan
 de definir um tipo é estabelecer uma coleção de *regras indutivas* descrevendo seus
 elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira:
 
-```rs
+```rust
 Nat : Type
 Nat.zero              : Nat
-Nat.succ (pred : Nat) : Nat
+Nat.succ (pred: Nat) : Nat
 ```
 
 Essa definição pode ser lida como:
@@ -310,14 +307,14 @@ As anotações que usamos para eles são análogas à do construtor
 Essas três condições demonstram o poder das declarações indutivas. Elas implicam
 que a expressão `Nat.zero`, a expressão `(Nat.succ Nat.zero)`, a expressão
 `(Nat.succ (Nat.succ Nat.zero))` e assim por diante, são do conjunto `Nat`,
-enquanto outras expressões como `Bool.true`, `(Bool.and Bool.true Bool.false)`,
+enquanto outras expressões como `Bool.true`, `(Andb Bool.true Bool.false)`,
 e `(Nat.succ (Nat.succ Bool.false))` não são.
 
 Nós podemos escrever funções simples usando *pattern matching* em números naturais
 da mesma forma que fizemos acima - por exemplo, a função predecessor:
 
 ```rust
-Pred (n : Nat) : Nat
+Pred (n: Nat) : Nat
 // Como números naturais são estritamente não-negativos,
 // usamos como convenção que qualquer coisa que seria
 // menor do que 0 retorna 0
@@ -329,7 +326,7 @@ O segundo pattern pode ser lido como: "se `n` tem a forma `(Nat.succ k)`
 para algum k, retorne k."
 
 ```rust
-MinusTwo (n : Nat) : Nat
+MinusTwo (n: Nat) : Nat
 MinusTwo  Nat.zero               = Nat.zero
 MinusTwo (Nat.succ  Nat.zero)    = Nat.zero
 MinusTwo (Nat.succ (Nat.succ k)) = k
@@ -337,12 +334,13 @@ MinusTwo (Nat.succ (Nat.succ k)) = k
 
 <!-- TODO atualizar isso aqui pro sugar de números naturais, se vier a existir -->
 Para evitar ter que escrever uma sequência de `Nat.succ` toda vez que você quiser
-um `Nat`, é possível usar a função `U60.to_nat`, que recebe um número escrito
-no tipo primitivo `U60` e retorna o `Nat` correspondente.
+um `Nat`, é possível usar sufixo `n` ao final de número qualquer, exemplo o`5n`, que recebe um número escrito no tipo primitivo `U60` mais o sufixo `n` e retorna o `Nat` correspondente.
+{...}
+<!-- TODO -->
 
 ```rust
-TestU60 : Equal (U60.to_nat 6) (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
-TestU60 = Equal.refl
+Test : Equal Nat 6n (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
+Test = Equal.refl
 ```
 
 <!-- TODO conferir q eu não estou delirando nesse parágrafo -->
@@ -358,7 +356,7 @@ Para a maioria das definições de funções de números, só *pattern matching*
 que um número `n` é par, nós podemos checar recursivamente se `n-2` é par.
 
 ```rust
-Evenb (n : Nat) : Bool
+Evenb (n: Nat) : Bool
 Evenb  Nat.zero               = Bool.true
 Evenb (Nat.succ  Nat.zero)    = Bool.false
 Evenb (Nat.succ (Nat.succ k)) = Evenb k
@@ -369,27 +367,27 @@ declaração recursiva semelhante, mas também temos uma definição mais simple
 e um pouco mais fácil de trabalhar:
 
 ```rust
-Oddb (n : Nat) : Bool
-Oddb n = Bool.not (Evenb n)
+Oddb (n: Nat) : Bool
+Oddb n = Notb  (Evenb n)
 ```
 
 ```rust
-TestOddb1 : Equal (Oddb (U60.to_nat 1)) Bool.true
+TestOddb1 : Equal Bool (Oddb 1n) Bool.true
 TestOddb1 = Equal.refl
 
-TestOddb2 : Equal (Oddb (U60.to_nat 4)) Bool.false
+TestOddb2 : Equal Bool (Oddb 4n) Bool.false
 TestOddb2 = Equal.refl
 ```
 
 Naturalmente, nós também podemos definir funções com multiplos argumentos por recursão.
 
 ```rust
-Plus (n : Nat) (m : Nat) : Nat
+Plus (n: Nat) (m: Nat) : Nat
 Plus  Nat.zero    m = m
 Plus (Nat.succ k) m = Nat.succ (Plus k m)
 ```
 
-Somar 3 e 2 retornará 5 como esperado.
+Somar 3n e 2n retornará 5n como esperado.
 A simplificação que o Kind realiza para chegar a esse valor pode ser vizualizada assim:
 
 ```terminal
@@ -411,20 +409,20 @@ pela primeira regra de Plus
 A multiplicação pode ser definida usando a definição de Plus, da seguinte forma:
 
 ```rust
-Mult (n : Nat) (m : Nat) : Nat
+Mult (n: Nat) (m: Nat) : Nat
 Mult  Nat.zero    m = Nat.zero
 Mult (Nat.succ k) m = Plus m (Mult k m)
 ```
 
 ```rust
-TestMult1 : Equal (Mult (U60.to_nat 3) (U60.to_nat 3)) (U60.to_nat 9)
+TestMult1 : Equal Nat (Mult 3n 3n) 9n
 TestMult1 = Equal.refl
 ```
 
 Você também pode usar *pattern matching* em duas expressões ao mesmo tempo:
 
 ```rust
-Minus (n : Nat) (m : Nat) : Nat
+Minus (n: Nat) (m: Nat) : Nat
 Minus  Nat.zero     m           = Nat.zero
 Minus  n            Nat.zero    = n
 Minus (Nat.succ k) (Nat.succ j) = Minus k j
@@ -439,7 +437,7 @@ O função `Exp` pode ser definida usando `Mult`
 (de forma análoga a como se define `Mult` usando `Plus`):
 
 ```rust
-Exp (base : Nat) (power : Nat) : Nat
+Exp (base: Nat) (power: Nat) : Nat
 Exp base  Nat.zero    = Nat.succ Nat.zero
 Exp base (Nat.succ k) = Mult base (Exp base k)
 ```
@@ -463,21 +461,21 @@ Factorial n = ?
 ```
 
 ```rust
-TestFactorial1 : Equal (Factorial (U60.to_nat 3)) (U60.to_nat 6)
+TestFactorial1 : Equal Nat (Factorial 3n ) 6n
 TestFactorial1 = ?
 
-TestFactorial2 : Equal (Factorial (U60.to_nat 5)) (U60.to_nat 120)
+TestFactorial2 : Equal Nat (Factorial 5n) 120n
 TestFactorial2 = ?
 ```
 
-A função Nat.equal testa a igualdade entre Naturais, retornando um booleano
+A função `Eql` testa a igualdade entre Naturais, retornando um booleano
 
 ```rust
-Nat.equal (n: Nat) (m: Nat) : Bool
-Nat.equal  Nat.zero     Nat.zero    = Bool.true
-Nat.equal  Nat.zero    (Nat.succ j) = Bool.false
-Nat.equal (Nat.succ k)  Nat.zero    = Bool.false
-Nat.equal (Nat.succ k) (Nat.succ j) = Nat.equal k j
+Eql (n: Nat) (m: Nat) : Bool
+Eql  Nat.zero     Nat.zero    = Bool.true
+Eql  Nat.zero    (Nat.succ j) = Bool.false
+Eql (Nat.succ k)  Nat.zero    = Bool.false
+Eql (Nat.succ k) (Nat.succ j) = Eql k j
 ```
 
 A função `Lte` testa se o primeiro argumento é menor ou igual ao segundo,
@@ -491,13 +489,13 @@ Lte (Nat.succ k) (Nat.succ j) = Lte k j
 ```
 
 ```rust
-TestLte1 : Equal (Lte (U60.to_nat 2) (U60.to_nat 2)) Bool.true
+TestLte1 : Equal Bool (Lte 2n 2n) Bool.true
 TestLte1 = Equal.refl
 
-TestLte2 : Equal (Lte (U60.to_nat 2) (U60.to_nat 4)) Bool.true
+TestLte2 : Equal Bool (Lte 2n 4n) Bool.true
 TestLte2 = Equal.refl
 
-TestLte3 : Equal (Lte (U60.to_nat 4) (U60.to_nat 2)) Bool.false
+TestLte3 : Equal Bool (Lte 4n 2n) Bool.false
 TestLte3 = Equal.refl
 ```
 
@@ -507,18 +505,18 @@ A função `blt_nat` testa a relação "menor que" em numeros naturais.
 Em vez de criar uma nova função recursiva, defina ela usando funções previamente definidas.
 
 ```rust
-Blt_nat (n : Nat) (m : Nat) : Bool
+Blt_nat (n: Nat) (m: Nat) : Bool
 Blt_nat n m = ?
 ```
 
 ```rust
-Test_blt_nat_1 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 2)) Bool.true
+Test_blt_nat_1 : Equal Bool (Blt_nat 2n 2n) Bool.false
 Test_blt_nat_1 = ?
 
-Test_blt_nat_2 : Equal (Blt_nat (U60.to_nat 2) (U60.to_nat 4)) Bool.true
+Test_blt_nat_2 : Equal Bool (Blt_nat 2n 4n) Bool.true
 Test_blt_nat_2 = ?
 
-Test_blt_nat_3 : Equal (Blt_nat (U60.to_nat 4) (U60.to_nat 2)) Bool.false
+Test_blt_nat_3 : Equal Bool (Blt_nat 4n 2n) Bool.false
 Test_blt_nat_3 = ?
 ```
 
@@ -536,17 +534,17 @@ adição pode ser provado apenas observando que `Plus Nat.zero n` reduz para `n`
 independente do que é `n`, fato que pode ser lido diretamente na definição do `Plus`.
 
 ```rust
-Plus_Z_n (n: Nat) : Equal (Plus Nat.zero n) n
+Plus_Z_n (n: Nat) : Equal Nat (Plus Nat.zero n) n
 Plus_Z_n n = Equal.refl
 ```
 
 Outros teoremas parecidos podem ser provados de forma parecida.
 
 ```rust
-Plus_1_l (n: Nat) : Equal (Plus (Nat.succ Nat.zero) n) (Nat.succ n)
+Plus_1_l (n: Nat) : Equal Nat (Plus (Nat.succ Nat.zero) n) (Nat.succ n)
 Plus_1_l n = Equal.refl
 
-Mult_0_l (n: Nat) : Equal (Mult Nat.zero n) Nat.zero
+Mult_0_l (n: Nat) : Equal Nat (Mult Nat.zero n) Nat.zero
 Mult_0_l n = Equal.refl 
 ```
 
@@ -559,16 +557,22 @@ existem várias declarações que não podem ser demonstradas só com simplifica
 Por exemplo, não podemos usá-la para provar que `Nat.zero` é um elemento neutro para adição no lado direito.
 
 ```rust
-Plus_n_Z (n: Nat) : Equal n (Plus n Nat.zero)
+Plus_n_Z (n: Nat) : Equal Nat n (Plus n Nat.zero)
 Plus_n_Z n = Equal.refl
 ```
+```diff
+- ERROR Type mismatch  
 
-```terminal
-Type mismatch.
-- Expected: (Equal _ n (Plus n Nat.zero))
-- Detected: (Equal _ n n)
-Context:
-- n : Nat
+   • Got      : (Equal Nat n n) 
+   • Expected : (Equal Nat n (Plus n 0n)) 
+
+   • Context: 
+   •   n : Nat 
+
+   Plus_n_Z (n: Nat) : Equal Nat n (Plus n Nat.zero)
+   Plus_n_Z n = Equal.refl
+                ┬─────────
+                └Here!
 ```
 
 (Você consegue explicar por que isso acontece?)
@@ -587,7 +591,7 @@ da igualdade, gerando uma nova igualdade.
 Por exemplo:
 
 ```rust
-Example_apply (n : Nat) (m : Nat) (e : Equal m n) : Equal (Nat.succ m) (Nat.succ n)
+Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e = ?
 ```
 
@@ -621,14 +625,14 @@ Como `e_apply` é uma igualdade do tipo `Equal Nat (Nat.succ m) (Nat.suuc n)`,
 a prova que procuramos, é só retornar ele e concluiremos a nossa prova.
 
 ```rust
-Example_apply (n : Nat) (m : Nat) (e : Equal m n) : Equal (Nat.succ m) (Nat.succ n)
+Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e =
   let e_apply = Equal.apply (x => Nat.succ x) e
   e_apply
 ```
 
 ```terminal
-All terms check.
+  All terms checked.
 ```
 
 ### 2.9 Prova por análise de casos
@@ -637,8 +641,8 @@ A próxima ferramenta de provas formais será análise de casos, que significa u
 Por exemplo, vamos provar que o E lógico de qualquer coisa e Falso sempre é falso:
 
 ```rust
-Example_case_analysis (b1 : Bool) : Equal (Bool.and b1 Bool.false) Bool.false
-Example_case_analysis b1 = ?
+Example_case_analysis (b: Bool) : Equal Bool (Andb b1 Bool.false) Bool.false
+Example_case_analysis b = ?
 ```
 
 Apesar de parecer uma prova que deveria ser resolvida simplesmente com `Equal.refl`,
@@ -647,10 +651,10 @@ argumento, e nós não temos o valor dele na prova, então ele fica "agarrado".
 
 Para darmos um valor pra ele, e mostrar que a prova está correta para ambos os valores de `Bool`,
 nós fazemos *pattern matching* na prova, criando assim duas provas diferentes:
-uma pra quando `b1` for `Bool.true` e uma pra quando for `Bool.false`.
+uma pra quando `b` for `Bool.true` e uma pra quando for `Bool.false`.
 
 ```rust
-Example_case_analysis (b1 : Bool) : Equal (Bool.and b1 Bool.false) Bool.false
+Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = ?
 Example_case_analysis Bool.false = ?
 ```
@@ -659,7 +663,7 @@ E ambas essas provas são resolvivéis diretamente com `Equal.refl`, pois o *typ
 consegue reduzir ambos para `Equal Bool.false Bool.false` direto.
 
 ```rust
-Example_case_analysis (b1 : Bool) : Equal (Andb b1 Bool.false) Bool.false
+Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = Equal.refl
 Example_case_analysis Bool.false = Equal.refl
 ```
@@ -672,7 +676,7 @@ ao talvez até colocar depois desse capítulo -->
 Esse teorema é um pouco mais interessante que anteriores:
 
 ```rust
-Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
+Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
 ```
 
 Assim como mostrado anteriormente, essa é uma prova que dentro de seus argumentos temos
@@ -687,25 +691,53 @@ Como não podemos reescrever diretamente no objetivo, nós usamos uma outra igua
 No nosso caso, usaremos um `Equal.apply` em `e` para conseguir essa igualdade.
 
 ```rust
-Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
+Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
 
 Plus_id_example n m e =
-  // app : Equal (Plus n n) (Plus m n)
   let app = Equal.apply (k => Plus k n) e
-  ?
+  ? 
+```
+```diff
++ INFO  Inspection.
+
+   • Expected: (Equal Nat (Plus n n) (Plus m m)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   m   : Nat 
+   •   e   : (Equal Nat n m) 
+   •   app : (Equal Nat (Plus n n) (Plus m n)) 
+   •   app = (Equal.apply Nat Nat n m (k => (Plus k n)) e) 
+    
+   let app = Equal.apply (k => Plus k n) e
+      ?
+      ┬
+      └Here!
 ```
 
 Esse `app` será do tipo `Equal (Plus n n) (Plus m n)`, como mostrado no comentário.
 Com isso feito, precisamos trocar o `n` por `m` no lado direito da igualdade, e pra isso usamos o rewrite:
 
 ```rust
-Plus_id_example (n: Nat) (m: Nat) (e : Equal n m) : Equal (Plus n n) (Plus m m)
+Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
 Plus_id_example n m e =
-  // app : Equal (Plus n n) (Plus m n)
   let app = Equal.apply (k => Plus k n) e
+  let rrt = Equal.rewrite e (x => Equal (Plus n n) (Plus m x)) app
+  rrt
+```
+```diff  
++ INFO  Inspection.
 
-  // Equal (Plus n n) (Plus m m)
-  Equal.rewrite e (x => Equal (Plus n n) (Plus m x)) app
+   • Expected: (Equal Nat (Plus n n) (Plus m m)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   m   : Nat 
+   •   e   : (Equal Nat n m) 
+   •   app : (Equal Nat (Plus n n) (Plus m n)) 
+   •   app = (Equal.apply Nat Nat n m (k => (Plus k n)) e) 
+   •   rrt : (Equal Nat (Plus n n) (Plus m m)) 
+   •   rrt = (Equal.rewrite Nat n m e (x => (Equal Nat (Plus n n) (Plus m x))) app) 
 ```
 
 O retorno da operação `Equal.rewrite` já será a prova que precisamos,
@@ -716,8 +748,8 @@ então só retornamos direto o resultado da função.
 Prove que:
 
 ```rust
-Plus_id_exercise (n : Nat) (m : Nat) (o : Nat) (e1 : Equal n m) (e2 : Equal m o) : Equal (Nat.add n m) (Nat.add m o)
-Plus_id_exercise n m o e1 e2 = ?plus_id_exercise_rhs
+Plus_id_exercise (n: Nat) (m: Nat) (o: Nat) (e1: Equal Nat n m) (e2: Equal Nat m o) : Equal Nat (Plus n m) (Plus m o)
+Plus_id_exercise n m o e1 e2 = ?
 ```
 
 ### 2.11 `Equal.chain` e `Equal.mirror`
@@ -728,7 +760,7 @@ mas sim de alguns utilitários de provas para facilitar o uso das ferramentas an
 Imagine o exemplo:
 
 ```rust
-Example_mirror (a : Nat) (b : Nat) (e : Equal a b) : Equal b a
+Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a
 ```
 
 Parece um exemplo trivial. Se `a` é igual a `b`, `b` é igual a `a`, correto?
@@ -736,15 +768,29 @@ Apesar de correto, o *type checker* do Kind não reconhece essa igualdade, pois 
 Para esse tipo de situação, temos a função `Equal.mirror`, que simplesmente troca os lados de uma igualdade.
 
 ```rust
-Example_mirror (a : Nat) (b : Nat) (e : Equal a b) : Equal b a
-Example_mirror a b e = Equal.mirror e
+Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a
+Example_mirror a b e = 
+   let mir = Equal.mirror e
+   mir
+```
+```diff
++ INFO  Inspection.
+
+   • Expected: (Equal Nat b a) 
+
+   • Context: 
+   •   a   : Nat 
+   •   b   : Nat 
+   •   e   : (Equal Nat a b) 
+   •   mir : (Equal Nat b a) 
+   •   mir = (Equal.mirror Nat a b e) 
 ```
 
 Apesar de não parecer muito útil no momento, essa operação é muito útil para nosso segundo utilitário: `Equal.chain`.
 `Equal.chain` é um caso específico do `Equal.rewrite`, no qual você reescreve um lado inteiro de uma igualdade usando outra.
 
 ```rust
-Example_chain (a : Nat) (b : Nat) (c : Nat) (e1: Equal b (Nat.add a a)) (e2 : Equal c (Nat.add a a)) : Equal b c
+Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c
 ```
 
 Como nós já conhecemos o `Equal.rewrite`, poderiamos usar ele para resolver esse teorema, mas ao invês disso vamos usar o `Equal.chain`.
@@ -753,12 +799,28 @@ Como nós já conhecemos o `Equal.rewrite`, poderiamos usar ele para resolver es
 Por exemplo, no nosso exemplo, o lado direito das duas igualdades é igual. Se usarmos `Equal.mirror` em uma delas, podemos dar `Equal.chain` nelas:
 
 ```rust
-Example_chain (a : Nat) (b : Nat) (c : Nat) (e1: Equal b (Nat.add a a)) (e2 : Equal c (Nat.add a a)) : Equal b c
+Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c
 Example_chain a b c e1 e2 =
-  let e3 = Equal.mirror e2
-  Equal.chain e1 e3
-```
+  let eql = Equal.mirror e2
+  let chn = Equal.chain e1 e3
 
+```
+```diff
++ INFO  Inspection.
+
+   • Expected: (Equal Nat b c) 
+
+   • Context: 
+   •   a   : Nat 
+   •   b   : Nat 
+   •   c   : Nat 
+   •   e1  : (Equal Nat b (Plus a a)) 
+   •   e2  : (Equal Nat c (Plus a a)) 
+   •   e3  : (Equal Nat (Plus a a) c) 
+   •   e3  = (Equal.mirror Nat c (Plus a a) e2) 
+   •   chn : (Equal Nat b c) 
+   •   chn = (Equal.chain Nat b (Plus a a) c e1 e3) 
+```
 ### 2.12 Mais exercícios
 
 #### *2.12.0.1 (boolean_functions)*
@@ -766,12 +828,8 @@ Example_chain a b c e1 e2 =
 Use os conhecimentos ensinados até aqui para resolver o teorema:
 
 ```rust
-Identity_fn_applied_twice 
-  (f : Bool -> Bool)
-  (e : (x : Bool) -> Equal (f x) x)
-  (b : Bool) 
-: Equal (f (f b)) b
-Identity_fn_applied_twice f e b = ?identity_fn_applied_twice_rhs
+Identity_fn_applied_twice (f: Bool -> Bool) (e: (x: Bool) -> (Equal Bool (f x) x)) (b : Bool) : Equal Bool (f (f b)) b
+Identity_fn_applied_twice f e b = ?
 ```
 
 Depois, resolva o teorema `negation_fn_applied_twice`, que é o mesmo que o anterior,
@@ -782,8 +840,8 @@ mas mudando a hipótese para `Equal (f x) (Not x)`
 Prove o seguinte teorema (Lembre-se que voce pode provar teoremas intermediários separadamente)
 
 ```rust
-Andb_eq_orb (b : Bool) (c : Bool) (e : Equal (Bool.and b c) (Bool.or b c)) : Equal b c
-Andb_eq_orb b c prf = ?andb_eq_orb_rhs
+Andb_eq_orb (b: Bool) (c: Bool) (e: Equal Bool (Andb b c) (Orb b c)) : Equal Bool b c
+Andb_eq_orb b c prf = ?
 ```
 
 #### *2.12.0.3 (binary)*
@@ -818,7 +876,7 @@ para a indução em si, podemos analisar casos simples onde apenas a reflexão d
 caso já prova o teorema.
 
 ```rust
-Problems.t0 (n: Nat) : (Equal Nat (Nat.add Nat.zero n) n)
+Problems.t0 (n: Nat) : (Equal Nat (Plus Nat.zero n) n)
 ```
 
 Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:
@@ -832,7 +890,7 @@ confirmação:
 "*All terms check.*"
 
 ```rust
-Problems.t1 (n: Nat) : (Equal Nat (Nat.add n Nat.zero) n)
+Problems.t1 (n: Nat) : (Equal Nat (Plus n Nat.zero) n)
 ```
 
 Feito o primeiro problema, o seguinte é muito similar, é a soma de "*n + 0 = n*" e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:
@@ -877,14 +935,14 @@ e temos como novo objetivo provar que o sucessor da soma entre *n* e *0* é
 igual ao sucessor de *n*
 
 ```rust
-- Goal: (Equal _ (Nat.succ (Nat.add n Nat.zero)) (Nat.succ n))
+- Goal: (Equal Nat (Nat.succ (Plus n Nat.zero)) (Nat.succ n))
 ```
 
 Para trabalhar com a indução nessa recursão, devemos definir uma variável para
 o caso original de *n*
 
 ```rust
-Problems.t1 (n: Nat)       : (Equal (Nat.add n Nat.zero) n)
+Problems.t1 (n: Nat)       : (Equal (Plus n Nat.zero) n)
 Problems.t1 Nat.zero       = Equal.refl
 Problems.t1 (Nat.succ n)   =
     let ind = Problems.t1 n
@@ -922,7 +980,7 @@ Há casos em que a indução é ainda mais simples, basta compreender o que est�
 Primeiro, nós verificamos para o caso dele ser *zero* e é uma igualdade verdadeira, *zero* menos *zero* é igual a *zero*. Depois, nós induzimos o caso para o caso de *zero*, que sabemos ser verdadeiro. Parece complicado? Não é, é absurdamente simples, vamos ver como fica isso em *Kind*:
 
 ```rs
-Minus_diag (n: Nat)     : Equal Nat (Nat.sub n n) Nat.zero
+Minus_diag (n: Nat)     : Equal Nat (Minus  n n) Nat.zero
 Minus_diag Nat.zero     = Equal.refl
 Minus_diag (Nat.succ n) = Minus_diag n
 ```
@@ -934,19 +992,19 @@ Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesm
 Prove o seguinte usando indução. Você pode precisar de resultados previamente comprovados.
 
 ```rust
-Mult_0_r (n: Nat) : Equal Nat (Nat.mul n Nat.zero) Nat.zero
+Mult_0_r (n: Nat) : Equal Nat (Mult n Nat.zero) Nat.zero
 Mult_0_r n = ?
 
-Plus_n_sm (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Nat.add n m)) (Nat.add n (Nat.succ m))
+Plus_n_sm (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Plus n m)) (Plus n (Nat.succ m))
 Plus_n_sm n m = ?
 
-Plus_comm (n: Nat) (m: Nat) : Equal Nat (Nat.add n m) (Nat.add m n)
+Plus_comm (n: Nat) (m: Nat) : Equal Nat (Plus n m) (Plus m n)
 Plus_comm n m = ?
 
-Add_0_r (n: Nat) : Equal Nat (Nat.add n Nat.zero) n
+Add_0_r (n: Nat) : Equal Nat (Plus n Nat.zero) n
 Add_0_r n = ?
 
-Plus_assoc (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (Nat.add n m) p)
+Plus_assoc (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Plus n (Plus m p)) (Plus (Plus n m) p)
 Plus_assoc n m p = ?
 ```
 
@@ -960,14 +1018,14 @@ Double (Nat.succ n) = Nat.succ (Nat.succ (Double n))
 
 Use indução para provar esses seguintes teoremas sobre *Double*:
 ```rust
-Double_plus (n: Nat) : Equal Nat (Double n) (Nat.add n n)
+Double_plus (n: Nat) : Equal Nat (Double n) (Plus n n)
 Double_plus n = ?
 ```
 
 #### 1.0.3
 Alguns teoremas é necessário analisar a melhor forma de se provar, por exemplo, para provar que um numero é par, poderiamos provar pelo sucessor dele, mas isso nos faria ter que provar para o sucessor do succesor dele, isso faz com a que a prova de *evenb* ser mais difícil por indução, então é importante perceber quando é necessário e quando não é.
 ```rust
-Evenb_s (n: Nat) : Equal Bool (Nat.is_even (Nat.succ n)) (Bool.not (Nat.is_even n))
+Evenb_s (n: Nat) : Equal Bool (Evenb (Nat.succ n)) (Notb  (Evenb n))
 Evenb_s n = ?
 ```
 ### Outro caso
@@ -976,22 +1034,22 @@ Vamos verificar se a a igualdade "n +(*m* + 1) = 1 + (*n* + *m*)" é verdadeira
 
 Primeiro, o nosso problema:
 ```rust
-Problems.t2 (n: Nat) (m: Nat)  : (Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ(Nat.add n m))) 
+Problems.t2 (n: Nat) (m: Nat) : (Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))) 
 ```
 
 Verificamos o primeiro caso, quando *n* é zero:
 ```rust
-Problems.t2 Nat.zero m         = Equal.refl
+Problems.t2 Nat.zero m = Equal.refl
 ```
 
 e partimos para o caso seguinte
 ```rust
-Problems.t2 (Nat.succ n) m     = ?
+Problems.t2 (Nat.succ n) m = ?
 ```
 
 e o nosso objetivo atual vira:
 ```rust
-• Expected: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
+• Expected: (Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))
 ```
 
 Traduzindo, o sucessor da adição de *n* e o sucessor de *m* é igual ao
@@ -1003,14 +1061,14 @@ let ind = Problems.t2 n m
 
 e o nosso objetivo atual é provar que:
 ```rust
-• Expected: (Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
+• Expected: (Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))
 ```
 
 Traduzindo novamente, que o *sucessor* da adição de *n* e o *sucessor* de *m* é igual ao *sucessor* do *sucessor* da adição de *n* e *m*. 
 
 mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:
 ```rust
-(Equal Nat (Nat.add n (Nat.succ m)) (Nat.succ (Nat.add n m)))
+(Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m)))
 ```
 
 Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
@@ -1023,7 +1081,7 @@ let app = (Equal.apply (x => (Nat.succ x)) ind)
 
 E a nossa variável *app* retornará o nosso objetivo:
 ```rust
-(Equal Nat (Nat.succ (Nat.add n (Nat.succ m))) (Nat.succ (Nat.succ (Nat.add n m))))
+(Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))
 ```
 
 Bastando apenas retornar o *app* para e o Kind nos retornará o tão almejado
@@ -1041,20 +1099,20 @@ onde é usado.
 
 Analisemos o seguinte teorema da comutação da adição: 
 ```rust
-Problems.t3 (n: Nat) (m: Nat)      : (Equal Nat (Nat.add n  m) (Nat.add m n))
+Problems.t3 (n: Nat) (m: Nat) : (Equal Nat (Plus n  m) (Plus m n))
 ```
 No primeiro caso, para *n* e *m* igual a zero nós temos uma reflexão:
 ```rust
-Problems.t3 Nat.zero Nat.zero      = Equal.refl
+Problems.t3 Nat.zero Nat.zero = Equal.refl
 ```
 Então partimos para o próximo caso:
 ```rust
-Problems.t3 (Nat.succ n) m         = ?
+Problems.t3 (Nat.succ n) m = ?
 ```
 
 E aqui parece que temos um novo problema: 
 ```rust
-Goal: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n)))
+Expected: (Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))
 ```
 Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
 que o *sucessor* da adição de dois números é igual a adição de um número com o
@@ -1063,12 +1121,12 @@ favor.
 
 Começaremos aplicando um *Nat*.**succ** no nosso problema original:
 ```rust
-let ind_a    = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
+let ind_a = (Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
 ```
 
 Depois invocaremos nosso problema já resolvido, o *Problems*.**t2**:
 ```rust 
-let ind_b    = Problems.t2 m n
+let ind_b = Problems.t2 m n
 ```
 
 Ao dar o *Type Check*, o terminal nos retorna:
@@ -1081,19 +1139,19 @@ objetivo e a primeira parte da *ind_b* é igual a segunda do objetivo, basta
 apenas organizar e juntar as partes necessárias. Para isso usaremos a
 *Equal*.**mirror** e a *Equal*.**chain**.
 ```rust
-let ind_c    = Equal.chain ind_b (Equal.mirror ind_a)
+let ind_c = Equal.chain ind_b (Equal.mirror ind_a)
 ```
 
 E o ind_c nos retorna um valor similar ao desejado:
 ```rust
-• Expected: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n)))
-•   ind_c : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add n m)))
+• Expected: (Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))
+•   ind_c : (Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m)))
 ```
 
 Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
 *Equal*.**mirror** novamente:
 ```rust
-let app     = Equal.mirror ind_c
+let app = Equal.mirror ind_c
 ```
 
 Ao chamar o *app* o *Type Check* nos retorna a mensagem *All terms checked* e
@@ -1104,14 +1162,14 @@ da adição, ou seja, que a soma de *n* e *m* é igual a soma de *m* e *n*.
 #### 3.0.1
 Você pode usar a *rewrite* ou *chain* nessa prova, escolha o que achar mais fácil
 ```rust
-Plus_swap (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add m (Nat.add n p))
+Plus_swap (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Plus n (Plus m p)) (Plus m (Plus n p))
 Plus_swap n m p = ?
 ```
 
 Agora prove a comutatividade da multiplicação. (Você provavelmente precisará definir e provar um teorema auxiliar separado para ser usado na prova deste. Você pode descobrir que *Plus_swap* é útil.
 
 ```rust
-Mult_comm (n: Nat) (m: Nat) : Equal (Nat.mul n m) (Nat.mul m n)
+Mult_comm (n: Nat) (m: Nat) : Equal Nat (Mult n m) (Mult m n)
 Mult_comm n m = ?
 ```
 
@@ -1120,27 +1178,27 @@ Pegue um pedaço de papel. Para cada um dos teoremas a seguir, primeiro pense se
 Em seguida, preencha a prova. (Não há necessidade de entregar seu pedaço de papel; isso é apenas para incentivá-lo a refletir antes de hackear!)
 
 ```rust
-Lte_refl (n: Nat) : Equal Bool Bool.true (Nat.lte n n)
+Lte_refl (n: Nat) : Equal Bool Bool.true (Lte n n)
 Lte_refl n = ?
 
-Zero_nbeq_s (n: Nat) : Equal Bool (Nat.equal (Nat.zero) (Nat.succ n)) Bool.false
+Zero_nbeq_s (n: Nat) : Equal Bool (Eql (Nat.zero) (Nat.succ n)) Bool.false
 Zero_nbeq_s n = ?
 
-And_false_r (b: Bool) : Equal Bool (Bool.and b Bool.false) Bool.false
+And_false_r (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 And_false b = ?
 
-S_nbeq_0 (n: Nat) : Equal Bool (Nat.equal (Nat.succ n) Nat.zero) Bool.false
+S_nbeq_0 (n: Nat) : Equal Bool (Eql (Nat.succ n) Nat.zero) Bool.false
 
-Mult_1_l (n: Nat) : Equal Nat (Nat.mul (Nat.succ Nat.zero) n) n
+Mult_1_l (n: Nat) : Equal Nat (Mult (Nat.succ Nat.zero) n) n
 Mult_1_l n = ?
 
-All3_spec (b: Bool) (c: Bool) : Equal Bool (Bool.or (Bool.or (Bool.and b c) (Bool.not b)) (Bool.not c)) Bool.true
+All3_spec (b: Bool) (c: Bool) : Equal Bool (Orb (Orb (Andb b c) (Notb  b)) (Notb  c)) Bool.true
 All3_spec b c = ?
 
-Mult_plus_distr_r (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.mul (Nat.add n m) p) (Nat.add (Nat.mul n p) (Nat.mul m p))
+Mult_plus_distr_r (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Mult (Plus n m) p) (Plus (Mult n p) (Mult m p))
 Mult_plus_distr_r n m p = ?
 
-Mult_assoc (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.mul (Nat.mul m p)) (Nat.mul (Nat.mul n m) p)
+Mult_assoc (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Mult (Mult m p)) (Mult (Mult n m) p)
 Mult_assoc n m p = ?
 ```
 
@@ -1187,7 +1245,7 @@ Pair.snd (Pair.new Nat Nat fst snd) = snd
 
 Vamos tentar provar alguns fatos simples sobre pares. Se declararmos as coisas de uma maneira particular (e ligeiramente peculiar), podemos completar provas com apenas reflexividade:
 ```rust
-Surjective_pairing (p: Pair Nat Nat) : (Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
+Surjective_pairing (p: Pair Nat Nat) : (Equal (Pair Nat Nat) p (Pair.new (Pair.fst p) (Pair.snd p)))
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 ```
 Mas *Equal.***refl** não é suficiente caso a declaração seja:
@@ -1197,7 +1255,7 @@ Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 
 Já que o Kind espera
 ```rust
-(Equal p (Pair.new (Pair.fst p) (Pair.snd p)))
+(Equal (Pair Nat Nat) p (Pair.new (Pair.fst p) (Pair.snd p)))
 ```
 E recebeu
 ```rust
@@ -1236,36 +1294,41 @@ type List <t: Type> {
 Outra forma de construir os tipos é com a seguinte notação, usando o caso do
 tilo `List`
 ```rust
-List <Nat: Type) : Type
+List (a: Type) : Type
 List.nil <a> : (List a)
 List.cons <a> (head: a) (tail: List a) : (List a)
 ```
 Como vamos tratar de apenas um tipo, é interessante reescrever o tipo de lista para um definido, o escolhido foi o *Nat*:
 ```rust
-List (Nat: Type) : Type
-List.nil : (List Nat)
-List.cons (head: Nat) (tail: List Nat) : (List Nat)
+NatList : Type
+NatList.nil  : NatList
+NatList.cons (head: Nat) (tail: NatList) : NatList
+```
+ou
+```rust
+NatList : Type
+NatList = (List Nat)
 ```
 
 Podemos perceber que em ambas as notações, há um `head` e um `tail`, sendo que o
 *head* recebe um elemento do tipo *Nat* e a *tail* recebe uma lista do tipo *Nat*. 
 
-Por exemplo, uma lista de três números naturais 1, 2 e 3 seria escrita da
+Por exemplo, uma lista de três números naturais 1n, 2n e 3n seria escrita da
 seguinte forma:
 
-`[1, 2, 3]`
+`[1n, 2n, 3n]`
 
 O Kind, entretanto, lê de outra forma:
 
-`[1, [2, 3]]`
+`[1n, [2n, 3n]]`
 
-onde o `1` é a head e o `[2, 3]` é a tail. Da mesma forma, ao olhar para uma
-lista de 4 elementos `[1, 2, 3, 4]`, agora veremos da seguinte forma:
+onde o `1n` é a head e o `[2n, 3n]` é a tail. Da mesma forma, ao olhar para uma
+lista de 4 elementos `[1n, 2n, 3n, 4n]`, agora veremos da seguinte forma:
  
-`[1, [2, [3, 4]]]`
+`[1n, [2n, [3n, 4n]]]`
 
-A lista possui o `head` `1` e a `tail` `[2, [3, 4]]`, que, por sua vez, possui a
-`head` `2` e a `tail` `[3, 4]` que também possui sua `head` `3` e sua tail `4`.
+A lista possui o `head` `1n` e a `tail` `[2n, [3n, 4n]]`, que, por sua vez, possui a
+`head` `2n` e a `tail` `[3n, 4n]` que também possui sua `head` `3n` e sua tail `4n`.
 
 Pode parecer assustador, mas é um monstro amigável:
 
@@ -1278,8 +1341,8 @@ A função repeat recebe um número *n* e um valor, retornando uma lista de tama
 ```rust
 // Exemplo: (List.repeat 3 Bool.true) -> [True, True, True]
 List.repeat (times: Nat) (val: Nat) : List Nat
-List.repeat Nat.zero        val     = List.nil
-List.repeat (Nat.succ pred) val     = List.cons val (List.repeat pred val)
+List.repeat Nat.zero         val    = List.nil Nat 
+List.repeat (Nat.succ times) val    = List.cons Nat val (List.repeat times val)
 ```
 
 ### 2.2 List.length
@@ -1294,9 +1357,9 @@ List.length (List.cons head tail) = (Nat.succ (List.length tail))
 ### 2.3 List.append
 A função append concatena (anexa) duas listas.
 ```rust
-List.append (xs: List Nat) (x: Nat) : List Nat
-List.append (List.nil) x            = List.pure x
-List.append (List.cons xs.h xs.t) x = List.cons xs.h (List.append xs.t x)
+List.append (xs: List Nat) (ys: List Nat) : List Nat
+List.append (List.nil)            ys = ys
+List.append (List.cons head tail) ys = List.cons Nat head (List.append tail ys)
 ```
 
 ### 2.4 List.head e List.tail 
@@ -1308,136 +1371,175 @@ caso tenha um valor.
 ```rust
 // Exemplo: (List.head Nat [1,2,3]) -> (Maybe.some 1)
 List.head (xs: List Nat)        : Maybe Nat
-List.head (List.nil)            = Maybe.none
-List.head (List.cons head tail) = Maybe.some head
+List.head (List.nil)            = Maybe.none Nat
+List.head (List.cons head tail) = Maybe.some Nat head
 ```
 ```rust
 // Exemplo: (List.tail Nat [1,2,3]) -> [2,3]
 List.tail (xs: List Nat)        : List Nat
-List.tail (List.nil)            = List.nil
+List.tail (List.nil)            = List.nil Nat
 List.tail (List.cons head tail) = tail
 ```
 ```rust
-Test_head1 (xs: List Nat) : (Equal (List.head (List.to_nat [1, 2, 3])) (Maybe.some(U60.to_nat 1)))
-Test_head1                = Equal.refl
+Test_head1 : (Equal (Maybe Nat) (List.head [1n, 2n, 3n]) (Maybe.some Nat 1n))
+Test_head1 = Equal.refl
 ```
 ```rust
-Test_head2 (xs: List Nat) : (Equal (List.head (List.nil)) (Maybe.none))
-Test_head2                = Equal.refl
+Test_head2 : (Equal (Maybe Nat) (List.head (List.nil Nat)) (Maybe.none Nat))
+Test_head2 = Equal.refl
 ```
 ```rust
-Test_head3 (xs: List Nat) : (Equal (List.tail (List.to_nat [1, 2, 3])) (List.to_nat [2, 3]))
-Test_head3                = Equal.refl
+Test_head3 : (Equal (List Nat) (List.tail [1n, 2n, 3n]) [2n, 3n])
+Test_head3 = Equal.refl
 ```
 
 ### 2.5 Exercícios
 - 2.5.1 Complete as definições de nonzeros, oddmembers e countoddmembers abaixo. Dê uma olhada nos testes para entender o que essas funções devem fazer.
 
-`Dica: Use a função List.to_nat para usar números mais fáceis de ler
-
-List.to_nat (xs : List U60) : List Nat
-List.to_nat xs = List.map xs (x => U60.to_nat x)`
 ```rust
-Nonzeros (l : List Nat) : List Nat
-
-Test_nonzeros : Equal (Nonzeros (List.to_nat [0,1,0,2,3,0,0])) (List.to_nat [1,2,3])
+Nonzeros (xs: List Nat) : List Nat
+Nonzeros xs = ?
+```
+```rust
+Test_nonzeros : Equal (List Nat) (Nonzeros [0n,1n,0n,2n,3n,0n,0n]) [1n,2n,3n]
 Test_nonzeros = ?
-
+```
+```rust
 Oddmembers (xs: List Nat) : List Nat
-
-Test_oddmembers : (Equal ( Oddmembers (List.to_nat [0, 1, 0, 2, 3, 0, 0])) (List.to_nat [1, 3]))
+Oddmembers xs = ?
+```
+```rust
+Test_oddmembers : Equal (List Nat) (Oddmembers [0n,1n,0n,2n,3n,0n,0n]) [1n,3n]
 Test_oddmembers = ?
-
+```
+```rust
 CountOddMembers (xs: List Nat)  : Nat
-
-Test_countoddmembers1 : (Equal Nat (CountOddMembers (List.to_nat [1, 0, 3, 1, 4, 5])) (U60.to_nat 4))
+CountOddMembers xs = ?
+```
+```rust
+Test_countoddmembers1 : (Equal Nat (CountOddMembers [1n,0n,3n,1n,4n,5n]) 4n)
 Test_countoddmembers1 = ?
 ```
 - 2.5.2 Complete a definição de alternate, que “compacta” duas listas em uma, alternando entre os elementos tomados da primeira lista e elementos da segunda. Veja os testes abaixo para mais exemplos específicos.
 ```rust
 Alternate (xs: List Nat) (ys: List Nat) : List Nat
-
-Test_alternate1 : (Equal (List Nat) (Alternate (List.to_nat [1, 2, 3] ) (List.to_nat [4, 5, 6])) (List.to_nat [1, 4, 2, 5, 3, 6]))
+Alternate xs ys = ?
+```
+```rust
+Test_alternate1 : Equal (List Nat) (Alternate [1n,2n,3n] [4n,5n,6n]) [1n,4n,2n,5n,3n,6n]
 Test_alternate1 = ?
-
-Test_alternate2 : (Equal (List Nat) (Alternate (List.to_nat [1]) (List.to_nat [4, 5, 6]))  (List.to_nat [1, 4, 5, 6]))
+```
+```rust
+Test_alternate2 : Equal (List Nat) (Alternate [1n] [4n,5n,6n]) [1n,4n,5n,6n]
 Test_alternate2 = ?
-
-Test_alternate3 : (Equal (List Nat) (Alternate (List.to_nat [1, 2, 3]) (List.to_nat [4])) (List.to_nat [1, 4, 2, 3]))
+```
+```rust
+Test_alternate3 : Equal (List Nat) (Alternate  [1n,2n,3n] [4n]) [1n,4n,2n,3n]
 Test_alternate3 = ? 
-
-Test_alternate4 : (Equal (List Nat) (Alternate (List.nil) (List.to_nat [20, 30])) (List.to_nat [20, 30]))
+```
+```rust
+Test_alternate4 : Equal (List Nat) (Alternate (List.nil Nat) [20n,30n]) [20n,30n]
 Test_alternate4 = ?
 ```
 
 - 2.6.1 Complete as seguintes definições para as funções count, sum, add, e member das listas de naturais
 ```rust
 Count (v: Nat) (xs: List Nat) : Nat
-
-Test_count1 : (Equal Nat ( Count (U60.to_nat 1) (List.to_nat [1, 2, 3, 1, 4, 1])) (U60.to_nat 3))
+Count v xs = ?
+```
+```rust
+Test_count1 : Equal Nat (Count 1n [1n,2n,3n,1n,4n,1n]) 3n
 Test_count1 = ?
-
-Test_count2  : (Equal Nat (Count (U60.to_nat 6) (List.to_nat [1, 2, 3, 1, 4, 1])) (U60.to_nat 0))
-Test_count2  = ?
-
+```
+```rust
+Test_count2 : Equal Nat (Count 6n [1n,2n,3n,1n,4n,1n]) 0n
+Test_count2 = ?
+```
+```rust
 Sum (xs: List Nat) (ys: List Nat) : List Nat
-
-Test_sum1 : (Equal Nat (Count (U60.to_nat 1) (Sum (List.to_nat [1, 2, 3]) (List.to_nat [1, 4, 1]))) (U60.to_nat 3))
+Sum xs ys = ?
+```
+```rust
+Test_sum1 : Equal Nat (Count 1n (Sum [1n,2n,3n] [1n,4n,1n])) 3n
 Test_sum1 = ?
-
+```
+```rust
 Add (n: Nat) (xs: List Nat) : List Nat
-
-Test_add : (Equal Nat (Count (U60.to_nat 1) (Add (U60.to_nat 1) (List.to_nat [1, 4, 1])))(U60.to_nat 3))
-Test_add = ?
-
-Test_add2 : (Equal Nat (Count (U60.to_nat 5) (Add (U60.to_nat 1) (List.to_nat [1, 4, 1])))(U60.to_nat 0))
+Add n xs = ?
+```
+```rust
+Test_add1 : Equal Nat (Count 1n (Add 1n [1n,4n,1n])) 3n
+Test_add1 = ?
+```
+```rust
+Test_add2 : Equal Nat (Count 5n (Add 1n [1n,4n,1n])) 0n
 Test_add2 = ?
-
+```
+```rust
 Member (v: Nat) (xs: List Nat) : Bool
-
-Test_member1 : (Equal Bool (Member (U60.to_nat 1) (List.to_nat [1, 4, 1])) Bool.true)
+Member v xs = ?
+```
+```rust
+Test_member1 : Equal Bool (Member 1n [1n,4n,1n]) Bool.true
 Test_member1 = ?
-
-Test_member2 : (Equal Bool (Member (U60.to_nat 2) (List.to_nat [1, 4, 1])) Bool.false)
+```
+```rust
+Test_member2 : Equal Bool (Member 2n [1n,4n,1n]) Bool.false
 Test_member2 = ?
 ```
 
 - 2.6.2 Aqui estão mais algumas funções de `List Nat` para você praticar. Quando remove_one é aplicado a uma lista sem o número a ser removido, ele deve retornar a mesma lista inalterada
+
 ```rust
 Remove_one (v: Nat) (xs: List Nat) : List Nat
-
-Test_remove_one1 : (Equal Nat (Count (U60.to_nat 5)(Remove_one (U60.to_nat 5) (List.to_nat [2, 1, 5, 4, 1])))(U60.to_nat 0))
+Remove_one v xs = ?
+```
+```rust
+Test_remove_one1 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,5n,4n,1n])) 0n
 Test_remove_one1 = ?
-
-Test_remove_one2 : (Equal Nat (Count (U60.to_nat 5)(Remove_one (U60.to_nat 5) (List.to_nat [2, 1, 4, 1])))(U60.to_nat 0))
+```
+```rust
+Test_remove_one2 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,4n,1n])) 0n
 Test_remove_one2 = ?
-
-Test_remove_one3 : (Equal Nat (Count (U60.to_nat 4)(Remove_one (U60.to_nat 5)(List.to_nat [2, 1, 5, 4, 1, 4])))(U60.to_nat 2))
+```
+```rust
+Test_remove_one3 : Equal Nat (Count 4n (Remove_one 5n [2n,1n,5n,4n,1n,4n])) 2n
 Test_remove_one3 = ?
-
-Test_remove_one4 : (Equal Nat (Count (U60.to_nat 5) (Remove_one (U60.to_nat 5) (List.to_nat [2,1,5,4,5,1,4])))(U60.to_nat 1))
+```
+```rust
+Test_remove_one4 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,5n,4n,5n,1n,4n])) 1n
 Test_remove_one4 = ?
-
+```
+```rust
 Remove_all (v: Nat) (xs: List Nat) : List Nat
-
-Test_remove_all1  : (Equal Nat (Count (U60.to_nat 5) (Remove_all (U60.to_nat 5) (List.to_nat [2,1,5,4,1])))(U60.to_nat 0))
+Remove_all v xs = ?
+```
+```rust
+Test_remove_all1  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,5n,4n,1n])) 0n
 Test_remove_all1  = ?
-
-Test_remove_all2  : (Equal Nat (Count (U60.to_nat 5) (Remove_all (U60.to_nat 5)(List.to_nat [2,1,4,1])))(U60.to_nat 0))
+```
+```rust
+Test_remove_all2  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,4n,1n])) 0n
 Test_remove_all2  = ?
-
-Test_remove_all3  : (Equal Nat (Count (U60.to_nat 4)(Remove_all (U60.to_nat 5)(List.to_nat [2,1,5,4,1,4])))(U60.to_nat 2))
+```
+```rust
+Test_remove_all3  : Equal Nat (Count 4n (Remove_all 5n [2n,1n,5n,4n,1n,4n])) 2n
 Test_remove_all3  = ?
-
-Test_remove_all4  : (Equal Nat (Count (U60.to_nat 5)(Remove_all (U60.to_nat 5)(List.to_nat [2,1,5,4,5,1,4,5,1,4])))(U60.to_nat 0))
+```
+```rust
+Test_remove_all4  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,5n,4n,5n,1n,4n,5n,1n,4n])) 0n
 Test_remove_all4  = ?
-
+```
+```rust
 Subset (xs: List Nat) (ys: List Nat)  : Bool
-
-Test_subset1 : (Equal Bool (Subset (List.to_nat [1, 2])(List.to_nat [2,1,4,1])) Bool.true)
+Subset xs ys = ?
+```
+```rust
+Test_subset1 : Equal Bool (Subset [1n,2n] [2n,1n,4n,1n]) Bool.true
 Test_subset1 = ?
-
-Test_subset2 : (Equal Bool (Subset (List.to_nat [1, 2, 2])(List.to_nat [2, 1, 4, 1])) Bool.false)
+```
+```rust
+Test_subset2 : Equal Bool (Subset [1n,2n,2n] [2n,1n,4n,1n]) Bool.false
 Test_subset2 = ?
 ```
 
@@ -1446,30 +1548,36 @@ Test_subset2 = ?
 Assim como os números, fatos simples sobre funções de processamento de lista podem às vezes ser provado inteiramente por simplificação. Por exemplo, a simplificação realizada por
 `Equal.refl` é suficiente para este teorema...
 
-`Nil_app (xs: List Nat) : (Equal (List.concat List.nil xs) xs)
-Nil_app xs = Equal.refl`
+```Rust
+Nil_app (xs: List Nat) : Equal (List.append (List.nil Nat) xs) xs
+Nil_app xs = Equal.refl
+```
 
 ... isso porque o Kind "vê" o  `List.nil` e já reduz automaticamente a igualdade da mesma forma que ocorre com os números naturais, com o `Nat.zero`
 
 Além disso, como acontece com os números, às vezes é útil realizar uma análise de caso no possíveis formas (vazias ou não vazias) de uma lista desconhecida
+
 ```rust
-Tl_length_pred (xs: List Nat)               : (Equal Nat (Nat.pred (List.length xs)) (List.length (List.tail xs)))
-Tl_length_pred List.nil                     = Equal.refl
-Tl_length_pred (List.cons xs.head xs.tail)  = Equal.refl
+Tl_length_pred (xs: List Nat)         : Equal Nat (Pred (List.length xs)) (List.length (List.tail xs))
+Tl_length_pred List.nil               = Equal.refl
+Tl_length_pred (List.cons head tail)  = Equal.refl
 ```
 
 Caso o usuário não abra os casos e use direto o `Equal.refl`, o Kind retorna um erro de tipo:
-```bash
-Type mismatch
-- Expected: (Equal Nat (Nat.pred (List.length _ xs)) (List.length _ (List.tail _ xs)))
-- Detected: (Equal Nat (Nat.pred (List.length _ xs)) (Nat.pred (List.length _ xs)))
-Kind.Context:
-- xs : (List Nat)
-On 'rescunhos.kind2':
-   6 | Tl_length_pred xs                     = Equal.refl
 
-Rewrites: 23936
-kind2 check rascunhos.kind2  0,11s user 0,03s system 90% cpu 0,157 total
+```diff
+- ERROR  Type mismatch
+
+   • Got      : (Equal Nat (Pred (List.length Nat xs)) (Pred (List.length Nat xs))) 
+   • Expected : (Equal Nat (Pred (List.length Nat xs)) (List.length Nat (List.tail xs))) 
+
+   • Context: 
+   •   xs : (List Nat) 
+
+   Tl_length_pred (xs: List Nat) : Equal Nat (Pred (List.length xs)) (List.length (List.tail xs))
+   Tl_length_pred xs = Equal.refl
+                       ┬─────────
+                       └Here!
 ```
 Da mesma forma, alguns teoremas precisam de indução para suas provas. 
 
@@ -1494,7 +1602,7 @@ Como listas maiores só podem ser construídas a partir de listas menores, event
 esses dois argumentos juntos estabelecem a verdade de `p` para todas as listas `l`. Aqui está um
 exemplo concreto:
 ```rust
-App_assoc (xs : List Nat) (ys : List Nat) (zs : List Nat)   : Equal (List.concat (List.concat xs ys) zs) (List.concat xs (List.concat ys zs))
+App_assoc (xs : List Nat) (ys : List Nat) (zs : List Nat)   : Equal (List.append (List.append xs ys) zs) (List.append xs (List.append ys zs))
 App_assoc List.nil ys  zs                                   = Equal.refl
 App_assoc (List.cons xs.head xs.tail) ys zs                 = 
   let ind = App_assoc xs.tail ys zs
@@ -1508,33 +1616,33 @@ Para isso nós verificamos para o caso de `xs` ser uma lista vazia, então receb
 Em seguida nós "abrimos" o `xs` para obter o `xs.tail` para a nossa indução, e recebemos como objetivo:
 
 ``` 
-- Goal: (Equal _ (List.cons _ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons _ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
+- Goal: (Equal _ (List.cons _ xs.head (List.append _ (List.append _ xs.tail ys) zs)) (List.cons _ xs.head (List.append _ xs.tail (List.append _ ys zs))))
 ```
 
 e a nossa variável `ind` é:
 ``` 
-- ind : (Equal _ (List.concat _ (List.concat _ xs.tail ys) zs) (List.concat _ xs.tail (List.concat _ ys zs)))
+- ind : (Equal _ (List.append _ (List.append _ xs.tail ys) zs) (List.append _ xs.tail (List.append _ ys zs)))
 ```
 
 bastando apenas aplicar um `List.cons xs.head` em ambos os lados da igualdade para ter o objetivo final e é isso o que fazemos no `app`:
 
 ``` 
-- app : (Equal (List t2_) (List.cons t2_ xs.head (List.concat _ (List.concat _ xs`tail ys) zs)) (List.cons t2_ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
+- app : (Equal (List t2_) (List.cons t2_ xs.head (List.append _ (List.append _ xs`tail ys) zs)) (List.cons t2_ xs.head (List.append _ xs.tail (List.append _ ys zs))))
 ```
 
 *OBSERVAÇÃO* 
 O Type Check nos retorna tipos `t2`, `t3` e outros gerados no mesmo estilo e podemos ignorar e até mesmo apagar na hora de comparar o retorno das variáveis como vemos no seguinte caso:
 
 ```
-- Goal: (Equal (List t2_) (List.cons _ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons _ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
-- app : (Equal (List t2_) (List.cons t2_ xs.head (List.concat _ (List.concat _ xs.tail ys) zs)) (List.cons t2_ xs.head (List.concat _ xs.tail (List.concat _ ys zs))))
+- Goal: (Equal (List t2_) (List.cons _ xs.head (List.append _ (List.append _ xs.tail ys) zs)) (List.cons _ xs.head (List.append _ xs.tail (List.append _ ys zs))))
+- app : (Equal (List t2_) (List.cons t2_ xs.head (List.append _ (List.append _ xs.tail ys) zs)) (List.cons t2_ xs.head (List.append _ xs.tail (List.append _ ys zs))))
 ```
 
 e apagando os tipos gerados e os `holes`:
 
 ```
-- Goal: (Equal (List) (List.cons xs.head (List.concat (List.concat xs.tail ys) zs)) (List.cons xs.head (List.concat xs.tail (List.concat ys zs))))
-- app : (Equal (List) (List.cons xs.head (List.concat (List.concat xs.tail ys) zs)) (List.cons xs.head (List.concat xs.tail (List.concat ys zs))))
+- Goal: (Equal (List) (List.cons xs.head (List.append (List.append xs.tail ys) zs)) (List.cons xs.head (List.append xs.tail (List.append ys zs))))
+- app : (Equal (List) (List.cons xs.head (List.append (List.append xs.tail ys) zs)) (List.cons xs.head (List.append xs.tail (List.append ys zs))))
 ```
 
 Dessa forma fica mais fácil perceber que o `app` e o `goal` são identicos, então não é necessário se assustar ao ver esses tipos gerados 
@@ -1545,9 +1653,9 @@ Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha
 ```rust
 Rev (xs: List Nat)              : List Nat
 Rev List.nil                    = List.nil 
-Rev (List.cons xs.head xs.tail) = List.concat (Rev xs.tail) [xs.head]
+Rev (List.cons xs.head xs.tail) = List.append (Rev xs.tail) [xs.head]
 
-Test_rev1 : (Equal (List Nat) (Rev (List.to_nat [1, 2, 3]))(List.to_nat [3, 2, 1]))
+Test_rev1 : (Equal (List Nat) (Rev  [1, 2, 3])) [3, 2, 1]))
 Test_rev1 = Equal.refl
 
 Test_rev2 : (Equal (Rev List.nil) List.nil)
@@ -1570,7 +1678,7 @@ Rev_length_firsttry (List.cons xs.head xs.tail) =
 O Type Check nos retorna o seguinte objetivo e contexto:
 ```bash
 Inspection.
-- Goal: (Equal Nat (List.length _ (List.concat _ (Rev _ xs.tail) (List.cons _ xs.head (List.nil _)))) (Nat.succ (List.length _ xs.tail)))
+- Goal: (Equal Nat (List.length _ (List.append _ (Rev _ xs.tail) (List.cons _ xs.head (List.nil _)))) (Nat.succ (List.length _ xs.tail)))
 Kind.Context:
 - t1_     : Type
 - t1_     = Nat
@@ -1586,7 +1694,7 @@ Rewrites: 76033
 
 Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:
 ```rust
-App_length (xs: List Nat) (ys: List Nat)  : (Equal Nat (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys)))
+App_length (xs: List Nat) (ys: List Nat)  : (Equal Nat (List.length (List.append xs ys)) (Plus (List.length xs) (List.length ys)))
 App_length List.nil ys                    = Equal.refl
 App_length (List.cons xs.head xs.tail) ys =
    let ind = App_length xs.tail ys
@@ -1596,9 +1704,9 @@ App_length (List.cons xs.head xs.tail) ys =
 
 Além dessa prova, usaremos outras já provadas nos  capítulos anteriores:
 ```rust
-Plus_n_z (n: Nat)     : (Equal Nat n (Nat.add n Nat.zero))
-Plus_n_sn (n: Nat) (m: Nat) : (Equal Nat (Nat.succ (Nat.add n m))(Nat.add n (Nat.succ m)))
-Plus_comm (n: Nat) (m: Nat) : (Equal Nat (Nat.add n m) (Nat.add m n))
+Plus_n_z (n: Nat)     : (Equal Nat n (Plus n Nat.zero))
+Plus_n_sn (n: Nat) (m: Nat) : (Equal Nat (Nat.succ (Plus n m))(Plus n (Nat.succ m)))
+Plus_comm (n: Nat) (m: Nat) : (Equal Nat (Plus n m) (Plus m n))
 ```
 
 E agora é possível provar o nosso teorema:
@@ -1611,7 +1719,7 @@ Rev_length (List.cons xs.head xs.tail)  =
 ```
 ```bash
 Inspection.
-- Goal: (Equal Nat (List.length _ (List.concat _ (Rev _ xs.tail) (List.cons _ xs.head (List.nil _)))) (Nat.succ (List.length _ xs.tail)))
+- Goal: (Equal Nat (List.length _ (List.append _ (Rev _ xs.tail) (List.cons _ xs.head (List.nil _)))) (Nat.succ (List.length _ xs.tail)))
 Kind.Context:
 - a3_     : Type
 - t2_     : Type
@@ -1635,7 +1743,7 @@ Rev_length (List.cons xs.head xs.tail)  =
 ```
 Recebemos um novo contexto para nos auxiliar, o 
 ```bash
-- aux1    : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.add (List.length _ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)))
+- aux1    : (Equal Nat (List.length _ (List.append _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Plus (List.length _ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)))
 ```
 
 A `aux1` é igual ao lado esquerdo do nosso `Goal`, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a `aux2`:
@@ -1645,7 +1753,7 @@ let aux2  = Plus_comm (List.length (Rev xs.tail)) (Nat.succ Nat.zero)
 
 Agora nosso contexto está ainda melhor: 
 ```bash
-- aux2    : (Equal Nat (Nat.add (List.length t2_ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))
+- aux2    : (Equal Nat (Plus (List.length t2_ (Rev t2_ xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))
 ```
 
 Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da `aux2` é igual ao direito da `aux1` e podemos encadear um no outro com o `Equal.chain`:
@@ -1655,7 +1763,7 @@ let chn   = Equal.chain aux1 aux2
 
 Ao dar o Type Check, vemos nosso novo contexto:
 ```bash
-- chn     : (Equal Nat (List.length _ (List.concat _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))
+- chn     : (Equal Nat (List.length _ (List.append _ (Rev t2_ xs.tail) (List.cons t2_ xs.head (List.nil t2_)))) (Nat.succ (List.length t2_ (Rev t2_ xs.tail))))
 ```
 
 Nossa variável `chn` é praticamente identica ao nosso `Goal` só diferindo na parte final, pois `Goal` espera um `Nat.succ (List.length xs.tail)` e o `chn` nos dá `Nat.succ (List.length (Rev xs.tail))`, mas nós temos a variável `ind` que nos retorna essa igualdade. Vamos relembrar:
@@ -1665,18 +1773,18 @@ ind     : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))
 
 Incrivel, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da `tail` é igual ao tamanho da `tail`, então basta reescrever a variável `ind` na nossa `chn`:
 ```rust
-let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
+let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.append (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
 ```
 Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais fácil:
 ```bash
 Inspection.
-- Goal: (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
+- Goal: (Equal Nat (List.length (List.append (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
 Kind.Context:
 - ind : (Equal Nat (List.length (Rev xs.tail)) (List.length xs.tail))
-- aux1: (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.add (List.length (Rev xs.tail)) (Nat.succ Nat.zero)))
-- aux2: (Equal Nat (Nat.add (List.length (Rev xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length (Rev xs.tail))))
-- chn : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length (Rev xs.tail))))
-- rwt : (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
+- aux1: (Equal Nat (List.length (List.append (Rev xs.tail) (List.cons xs.head (List.nil)))) (Plus (List.length (Rev xs.tail)) (Nat.succ Nat.zero)))
+- aux2: (Equal Nat (Plus (List.length (Rev xs.tail)) (Nat.succ Nat.zero)) (Nat.succ (List.length (Rev xs.tail))))
+- chn : (Equal Nat (List.length (List.append (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length (Rev xs.tail))))
+- rwt : (Equal Nat (List.length (List.append (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ (List.length xs.tail)))
 ```
 Agora é muito mais fácil perceber que nosso `rwt` é exatamente o nosso `Goal`, então nossa prova fica assim:
 ```rust
@@ -1687,20 +1795,20 @@ Rev_length (List.cons xs.head xs.tail)  =
    let aux1  = App_length (Rev xs.tail) [xs.head]
    let aux2  = Plus_comm (List.length (Rev xs.tail)) (Nat.succ Nat.zero)
    let chn   = Equal.chain aux1 aux2
-   let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.concat (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
+   let rwt   = Equal.rewrite ind (x => (Equal Nat (List.length (List.append (Rev xs.tail) (List.cons xs.head (List.nil)))) (Nat.succ x ))) chn
    rwt
 ```
 ## 3.3
 #### 3.3.1
 Vamos praticar um pouco mais com as listas:
 ```rust
-App_nil_r (xs: List Nat)    : (Equal (List.concat xs List.nil) xs)
+App_nil_r (xs: List Nat)    : (Equal (List.append xs List.nil) xs)
 App_nil_r xs                = ?
 
-App_assoc (xs : List Nat) (ys : List Nat) (zs : List Nat)   : Equal (List.concat (List.concat xs ys) zs) (List.concat xs (List.concat ys zs))
+App_assoc (xs : List Nat) (ys : List Nat) (zs : List Nat)   : Equal (List.append (List.append xs ys) zs) (List.append xs (List.append ys zs))
 App_assoc xs ys  zs                                         = ?
 
-Rev_app_distr (xs: List Nat) (ys: List Nat) : (Equal (Rev (List.concat xs ys)) (List.concat (Rev ys) (Rev xs)))
+Rev_app_distr (xs: List Nat) (ys: List Nat) : (Equal (Rev (List.append xs ys)) (List.append (Rev ys) (Rev xs)))
 Rev_app_distr xs ys                         = ?
 
 Rev_involutive (xs: List Nat)   : (Equal (Rev (Rev xs)) xs)
@@ -1710,12 +1818,12 @@ Rev_involutive xs               = ?
 Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
 recue e tente procurar uma maneira mais simples.
 ```rust
-App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat)  : (Equal (List Nat) (List.concat l1 (List.concat l2 (List.concat l3 l4))) (List.concat (List.concat (List.concat l1 l2) l3) l4))
+App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat)  : (Equal (List Nat) (List.append l1 (List.append l2 (List.append l3 l4))) (List.append (List.append (List.append l1 l2) l3) l4))
 App_assoc4 l1 l2 l3 l4                                                  = ? 
 ```
 Um exercício sobre sua implementação de *nonzeros*:
 ```rust
-Nonzeros_app (xs: List Nat) (ys: List Nat)  : (Equal (List Nat) (Nonzeros (List.concat xs ys)) (List.concat (Nonzeros xs) (Nonzeros ys)))
+Nonzeros_app (xs: List Nat) (ys: List Nat)  : (Equal (List Nat) (Nonzeros (List.append xs ys)) (List.append (Nonzeros xs) (Nonzeros ys)))
 Nonzeros_app xs ys                          = ?
 ```
 #### 3.3.2 
@@ -1727,10 +1835,10 @@ Beq_NatList xs ys                           = ?
 Test_beq_natlist1 : (Equal Bool (Beq_list List.nil List.nil) Bool.true)
 Test_beq_natlist1 = ?
 
-Test_beq_natlist2 : (Equal Bool (Beq_list (List.to_nat [1, 2, 3]) (List.to_nat [1, 2, 3])) Bool.true)
+Test_beq_natlist2 : (Equal Bool (Beq_list  [1, 2, 3])  [1, 2, 3])) Bool.true)
 Test_beq_natlist2 = ?
 
-Test_beq_natlist3 : (Equal Bool (Beq_list (List.to_nat [1, 2, 3])(List.to_nat [1, 2, 4])) Bool.false)
+Test_beq_natlist3 : (Equal Bool (Beq_list  [1, 2, 3]) [1, 2, 4])) Bool.false)
 Test_beq_natlist3 = ?
 
 Beq_natlist_refl (xs: List Nat) : (Equal Bool Bool.true (Beq_list xs xs))
@@ -1740,12 +1848,12 @@ Beq_natlist_refl xs             = ?
 #### 3.4.1
 Prove o seguinte teorema, ele ajudará você na prova seguinte
 ```rust
-Ble_n_succ_n (n: Nat)   : (Equal Bool (Nat.lte n (Nat.succ n)) Bool.true)
+Ble_n_succ_n (n: Nat)   : (Equal Bool (Lte n (Nat.succ n)) Bool.true)
 Ble_n_succ_n n          = ? 
 ```
 Aqui estão mais alguns pequenos teoremas para provar sobre suas definições sobre listas.
 ```rust
-Count_member_nonzero (xs: List Nat) : (Equal (Nat.lte (U60.to_nat 1)(Count (U60.to_nat 1)(List.cons (U60.to_nat 1) xs))) Bool.true)
+Count_member_nonzero (xs: List Nat) : (Equal (Lte 1n(Count 1n(List.cons 1n xs))) Bool.true)
 Count_member_nonzero xs             =
 ```
 
@@ -1784,15 +1892,15 @@ Nth_error n List.nil                                = Maybe.none
 Nth_error Nat.zero xs                               = List.head xs
 Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
   let ind = Nth_error n xs.tail
-  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
+  Bool.if (Eql (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
 
-Test_nth_error1 : (Equal (Nth_error (U60.to_nat 0)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 4))))
+Test_nth_error1 : (Equal (Nth_error 0n [4,5,6,7]))(Maybe.some(4n)))
 Test_nth_error1 = Equal.refl
 
-Test_nth_error2 : (Equal (Nth_error (U60.to_nat 3)(List.to_nat [4,5,6,7]))(Maybe.some((U60.to_nat 7))))
+Test_nth_error2 : (Equal (Nth_error 3n [4,5,6,7]))(Maybe.some(7n)))
 Test_nth_error2 = Equal.refl
 
-Test_nth_error3 : (Equal (Nth_error (U60.to_nat 9)(List.to_nat [4,5,6,7]))(Maybe.none))
+Test_nth_error3 : (Equal (Nth_error 9n [4,5,6,7]))(Maybe.none))
 Test_nth_error3 = Equal.refl
 ```
 #### 4.0.1
@@ -1803,10 +1911,10 @@ Head_error xs               = ?
 Test_head_error1 : (Equal (Head_error List.nil) Maybe.none)
 Test_head_error1 = ?
 
-Test_head_error2 : (Equal (Head_error (List.to_nat [1]))(Maybe.some((U60.to_nat 1))))
+Test_head_error2 : (Equal (Head_error  [1]))(Maybe.some(1n)))
 Test_head_error2 = ?
 
-Test_head_error3 : (Equal (Head_error (List.to_nat [5, 6]))(Maybe.some((U60.to_nat 5))))
+Test_head_error3 : (Equal (Head_error  [5, 6]))(Maybe.some(5n)))
 Test_head_error3 = ?
 ```
 
@@ -1870,13 +1978,13 @@ List.repeat xs (Nat.succ count)             = List.cons xs (List.repeat xs count
 Tal como acontece com Nil e Contras, podemos usar repeat aplicando-o primeiro a um tipo e depois a
 seu argumento de lista:
 ```rust
-Test_repeat1 : (Equal (Repeat 4 (U60.to_nat 2))(List.cons 4 (List.cons 4 List.nil)))
+Test_repeat1 : (Equal (Repeat 4 2n)(List.cons 4 (List.cons 4 List.nil)))
 Test_repeat1 = Equal.refl
 ```
 
 Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:
 ```rust
-Test_repeat2 : (Equal (Repeat Bool.false (U60.to_nat 1)) (List.cons Bool.false List.nil))
+Test_repeat2 : (Equal (Repeat Bool.false 1n) (List.cons Bool.false List.nil))
 Test_repeat2 = Equal.refl
 ```
 
@@ -1959,7 +2067,7 @@ Outra função que podemos reescrever é a de reverse:
 ```rust
 Rev <a> (xs: List a)        : List a
 Rev []                      = []
-Rev (List.cons xs.h xs.t)   = (List.concat (Rev xs.t)[xs.h])
+Rev (List.cons xs.h xs.t)   = (List.append (Rev xs.t)[xs.h])
 
 Length <a> (xs: List a)      : Nat
 Length []                    = Nat.zero
@@ -1975,7 +2083,7 @@ Test_rev1 = Equal.refl
 Test_rev2 : Equal (Rev (Bool.true)) (List.cons Bool.true List.nil)
 Test_rev2 = Equal.refl
 
-Test_length1 : Equal (Length [1, 2, 3]) (U60.to_nat 3)
+Test_length1 : Equal (Length [1, 2, 3]) 3n
 Test_length1 = Equal.refl
 ```
 
@@ -1984,13 +2092,13 @@ Test_length1 = Equal.refl
 Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.
 
 ```rust
-App_nil_r <a> (xs: List a) : Equal (List.concat xs List.nil) xs
+App_nil_r <a> (xs: List a) : Equal (List.append xs List.nil) xs
 App_nil_r xs = ?
 
-App_assoc <a> (xs: List a) (ys: List a) (zs: List a) : Equal (List.concat xs (List.concat ys zs)) (List.concat (List.concat xs ys) zs)
+App_assoc <a> (xs: List a) (ys: List a) (zs: List a) : Equal (List.append xs (List.append ys zs)) (List.append (List.append xs ys) zs)
 App_assoc xs ys zs = ?
 
-App_length <a> (xs: List a) (ys: List a) : Equal (List.length (List.concat xs ys)) (Nat.add (List.length xs) (List.length ys))
+App_length <a> (xs: List a) (ys: List a) : Equal (List.length (List.append xs ys)) (Plus (List.length xs) (List.length ys))
 App_length xs ys = ?
 ```
 
@@ -1999,7 +2107,7 @@ App_length xs ys = ?
 Aqui estão alguns um pouco mais interessantes...
 
 ```rust
-Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (List.concat xs ys)) (List.concat (Rev ys) (Rev xs))
+Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (List.append xs ys)) (List.append (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
 
 Rev_involutive <a> (xs: List a) : Equal (Rev (Rev xs)) xs
@@ -2075,7 +2183,7 @@ Nth_error n List.nil                                = Maybe.none
 Nth_error Nat.zero xs                               = List.head xs
 Nth_error (Nat.succ n) (List.cons xs.head xs.tail)  =
   let ind = Nth_error n xs.tail
-  Bool.if (Nat.equal (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
+  Bool.if (Eql (Nat.succ n) Nat.zero) (Maybe.some(xs.head)) (ind)
 
 
 Test_nth_error1 : Equal (Nth_error Nat.zero [4, 5, 5, 7]) (Maybe.some 4)
@@ -2118,10 +2226,10 @@ Funções que manipulam outras funções são frequentemente chamadas de funçõ
 Doit3times <x> (f: x -> x) (n: x) : x
 Doit3times f x = (f (f (f x)))
 
-Test_doit3times1 : Equal (Doit3times (x => Nat.sub x (U60.to_nat 2))) (U60.to_nat 3)
+Test_doit3times1 : Equal (Doit3times (x => Minus  x 2n)) 3n
 Test_doit3times1 = Equal.refl
 
-Test_doit3times2 : Equal (Doit3times (x => Bool.not x) Bool.true) (Bool.false)
+Test_doit3times2 : Equal (Doit3times (x => Notb  x) Bool.true) (Bool.false)
 Test_doit3times2 = Equal.refl
 ```
 
@@ -2138,11 +2246,11 @@ Filter test (List.cons xs.h xs.t)         =
 Por exemplo, se aplicarmos o filtro de "é par" numa lista de números, ela nos retornará uma outra lista apena com os números pares
 
 ```rust
-Test_filter1 : Equal (Filter (x => Nat.is_even x) (List.to_nat [1, 2, 3, 4, 5])) (List.to_nat [2, 4])  
+Test_filter1 : Equal (Filter (x => Evenb x)  [1, 2, 3, 4, 5]))  [2, 4])  
 Test_filter1 = Equal.refl
 
 Length_is_one <x> (xs: List x)   : Bool
-Length_is_one xs                 = Nat.equal (List.length xs) (Nat.succ Nat.zero)
+Length_is_one xs                 = Eql (List.length xs) (Nat.succ Nat.zero)
 
 Test_filter2 : Equal (Filter (x => Length_is_one x) ([[1], [1, 2], [3], [1, 2, 3], [21]])) ([[1], [3], [21]])
 Test_filter2 = Equal.refl
@@ -2154,10 +2262,10 @@ Podemos usar filter para fornecer uma versão concisa da função countoddmember
 CountOddMembers (xs: List Nat)   : Nat
 CountOddMembers xs               = List.length (Filter (x => Nat.is_odd x) xs)
 
-Test_CountOddMembers1 : Equal (CountOddMembers (List.to_nat ([1, 0, 3, 1, 4, 5]))) (U60.to_nat 4)
+Test_CountOddMembers1 : Equal (CountOddMembers  ([1, 0, 3, 1, 4, 5]))) 4n
 Test_CountOddMembers1 = Equal.refl
 
-Test_CountOddMembers2 : Equal (CountOddMembers (List.to_nat ([0, 2, 4]))) (Nat.zero)
+Test_CountOddMembers2 : Equal (CountOddMembers  ([0, 2, 4]))) (Nat.zero)
 Test_CountOddMembers2 = Equal.refl
 
 Test_CountOddMembers3 : Equal (CountOddMembers (List.nil)) (Nat.zero)
@@ -2171,11 +2279,11 @@ Além disso, este não é um exemplo isolado: ao usar funções de ordem superio
 Felizmente, existe uma maneira melhor. Podemos construir uma função “on the fly” sem declará-la no nível superior ou dar-lhe um nome.
 
 ```rust
-Test_anon_fun : Equal (Doit3times (x => (Nat.mul x x)) (Nat.succ (Nat.succ Nat.zero))) (U60.to_nat 256)
+Test_anon_fun : Equal (Doit3times (x => (Mult x x)) (Nat.succ (Nat.succ Nat.zero))) 2n6)
 Test_anon_fun = Equal.refl
 ```
 
-A expressão `x => (Nat.mul x x)` pode ser lida como *a função recebe um número `n` e retorna `n * n`* 
+A expressão `x => (Mult x x)` pode ser lida como *a função recebe um número `n` e retorna `n * n`* 
 
 Aqui está o exemplo de *Filter* reescrita pra usar uma função anonima:
 
@@ -2198,7 +2306,7 @@ Test_filter_even_gt7b : Equal (Filter_even_gt7 [5n, 2n, 6n, 19n, 129n]) ([])
 Test_filter_even_gt7b = ?
 ```
 
-Uma pequena observação, o leitor mais atento percebeu que usamos uma nova notação, os *n* após os números, esse é um *sugar syntax* que o *Kind* possui, nós podemos escrever números naturais apenas acrescentando um *n* ao número, entretanto essa é uma sintaxe que pode acabar pesando para Kind. Imagine que o usuário pretende apenas adicionar o número *1* ao *1000000*, é um cálculo simples e que o Kind faz com uma mão nas costas, mas fica um pouco mais pesado quando usado o *sugar syntax* dos números naturais, a soma será um `Nat.add 1n 1000000n`, mas o *Kind* precisará verificar cada *Nat.succ* até o *um milhão e um*, ou seja, serão *um milhão e um* "Nat.succs" computados de forma desnecessárias. Essa sintaxe é bem útil, mas devemos usar com cuidado, o ideal é que para números grandes seja usado um *U60.to_nat*, que é bem mais leve para o Kind.
+Uma pequena observação, o leitor mais atento percebeu que usamos uma nova notação, os *n* após os números, esse é um *sugar syntax* que o *Kind* possui, nós podemos escrever números naturais apenas acrescentando um *n* ao número, entretanto essa é uma sintaxe que pode acabar pesando para Kind. Imagine que o usuário pretende apenas adicionar o número *1* ao *1000000*, é um cálculo simples e que o Kind faz com uma mão nas costas, mas fica um pouco mais pesado quando usado o *sugar syntax* dos números naturais, a soma será um `Plus 1n 1000000n`, mas o *Kind* precisará verificar cada *Nat.succ* até o *um milhão e um*, ou seja, serão *um milhão e um* "Nat.succs" computados de forma desnecessárias. Essa sintaxe é bem útil, mas devemos usar com cuidado, o ideal é que para números grandes seja usado um *U60.to_nat*, que é bem mais leve para o Kind.
 
 2.3.2 Use *Filter* para escrever uma função *Partition* em *Kind*
 
