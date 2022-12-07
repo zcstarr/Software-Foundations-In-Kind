@@ -2321,4 +2321,5 @@ Dado um conjunto x, uma função de teste do tipo x -> Bool e uma Lista x, a fun
 Test_partition1 : Equal (Partition (x => Nat.is_odd x) [1n, 2n, 3n, 4n, 5n]) (Pair.new [1n, 3n, 5n] [2n, 4n])
 Test_partition1 = ?
 
+Test_partition2
 ```
