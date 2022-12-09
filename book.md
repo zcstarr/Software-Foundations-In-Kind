@@ -2356,5 +2356,46 @@ Dado um conjunto x, uma função de teste do tipo x -> Bool e uma Lista x, a fun
 Test_partition1 : Equal (Partition (x => Oddb x) [1n,2n,3n,4n,5n]) (Pair.new [1n,3n,5n] [2n,4n])
 Test_partition1 = ?
 
-Test_partition2
+Test_partition2 : Equal (Partition (x => Bool.false) [5n, 9n, 0n]) (Pair.new [] [5n, 9n, 0n])
+
 ```
+
+2.4 
+Oufra função de alta ordem muito útil é a *Map*
+
+```rust
+Map <x> <y> (f: x -> y) (xs: List x)  : List y
+Map f List.nil                        = List.nil
+Map f (List.cons head tail)           = List.cons (f head) (Map f tail)
+```
+
+Ela recebe uma função `f` e uma lista `xs = [n1, n2, n3, ...]` e retorna a lista `[f n1, f n2, f n3, ...]`, onde `f` é aplicado a cada elemento de `xs`. Por exemplo:
+
+```rust
+Test_map1 : Equal (Map (x => Nat.add 3n x) [2n, 0n, 2n]) [5n, 3n, 5n]
+Test_map1 = Equal.refl
+```
+
+Os tipos de elementos da lista de entrada e saída não precisam ser os mesmos, pois *Map* aceita dois argumentos de tipo, `x` e `y`; dessa forma pode ser aplicada uma de números para booleanos para produzir uma lista de booleanos:
+
+```rust
+
+Test_map2 : Equal (Map (x => Nat.is_odd x) [2n, 1n, 2n, 5n]) [Bool.false, Bool.true, Bool.false, Bool.true]
+Test_map2 = Equal.refl
+```
+Pode até ser aplicada a uma lista de números uma função que retorne uma lista de lista de booleanos:
+
+```rust
+Test_map3 = Equal (Map (x => [(Nat.is_even x), (Nat.is_odd x)]) [2n, 1n, 2n, 5n]) [[Bool.true, Bool.false], [Bool.false, Bool.true], [Bool.true, Bool.false], [Bool.false, Bool.true]]
+Test_map3 = Equal.refl
+```
+
+2.4.1
+Vamos dificultar um pouco mais as coisas. Mostre a comutatividade de Rev e Map, você pode precisar de uma função auxiliar: 
+
+```rust
+Map_rev <x> <y> (f: x -> y) (xs: List x) : Equal (Map f (Rev xs)) (Rev (Map f xs))
+Map_rev f xs = ?
+```
+
+
