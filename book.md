@@ -2442,3 +2442,34 @@ Test_fold3 = ?
 Observe que o tipo *Fold* é parametrizado por duas variáveis de tipo, x e y, e o parâmetro f é um operador binário que recebe um x e um y e retorna um y. Você consegue pensar em uma situação em que seria útil que x e y fossem diferentes?
 
 
+2.6 Funções que constroem funções. 
+A maioria das funções de ordem superior sobre as quais falamos até agora usam funções como argumentos. Vejamos alguns exemplos que envolvem o retorno de funções como resultados de outras funções. Para começar, aqui está uma função que recebe um valor x (extraído de algum tipo x) e retorna uma função de Nat para x que retorna x sempre que é chamada, ignorando seu argumento Nat
+
+```rust
+Constfun <y> (x: y) : Nat -> y
+Constfun x = y => x
+
+Ftrue : Nat -> Bool
+Ftrue = Constfun Bool.true
+
+Constfun_example1 : Equal ((Ftrue) 0n) Bool.true
+Constfun_example1 = Equal.refl
+
+Constfun_example2 : Equal ((Constfun 5n) 99n) 5n
+Constfun_example2 = Equal.refl
+```
+Na verdade, as funções de múltiplos argumentos que já vimos também são exemplos de passagem de funções como dados. Para ver por que, lembre-se do tipo de adição
+<!--  -->
+<!-- # TODO: -->
+<!--  -->
+<!-- ```rust -->
+<!-- Plus Nat -> Nat : Nat -->
+<!--  -->
+<!--  -->
+<!-- ``` -->
+<!-- prelúdio natural mais natural -->
+<!--  -->
+<!-- Cada "->" nesta expressão é, na verdade, um operador binário em tipos. Este operador é associativo à direita, então o tipo de plus é realmente uma abreviação para Nat -> (Nat -> Nat) – ou seja, pode ser lido como dizendo que “plus é uma função de um argumento que pega um Nat e retorna uma função de um argumento que pega outro Nat e retorna um Nat.” Nos exemplos acima, sempre aplicamos mais a ambos os argumentos ao mesmo tempo, -->
+<!-- mas se quisermos, podemos fornecer apenas o primeiro. Isso é chamado de aplicação parcial -->
+<!--  -->
+<!-- # fim to todo -->
