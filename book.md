@@ -2398,4 +2398,47 @@ Map_rev <x> <y> (f: x -> y) (xs: List x) : Equal (Map f (Rev xs)) (Rev (Map f xs
 Map_rev f xs = ?
 ```
 
+2.4.2
+A função *Map* mapeia uma ``List x`` para uma ``List y`` usando uma função do tipo ``x -> y``. Podemos definir uma função semelhante, `Flat_map`, que mapeia uma Lista x para uma Lista y usando uma função f do tipo ``x -> Lista y``. Sua definição deve funcionar "achatando" os resultados de f, assim:
+
+```rust
+Flat_equal : Equal (Flat_map ( x => ([x , (Nat.add x 1n), (Nat.add x 2n)])) [1n, 5n, 10n]) [1n, 2n, 3n, 5n, 6n, 7n, 10n, 11n, 12n]
+Flat_equal = Equal.refl
+
+Flat_map <x> <y> (f: x -> List y) (xs: List x) : List y
+Flat_map f xs = ?
+
+Test_flat_map1 : Equal (Flat_map (x => [x, x, x]) [1n, 5n, 4n]) [1n, 1n, 1n, 5n, 5n, 5n, 4n, 4n, 4n]
+Test_flat_map1 = ?
+```
+
+As listas não são o único tipo indutivo para o qual podemos escrever uma função *Map*. Aqui está a definição de mapa para o tipo Maybe:
+
+```rust
+Maybe_map <x> <y> (f: x -> y) (a: Maybe x)  : Maybe y
+Maybe_map f Maybe.none                      = Maybe.none
+Maybe_map f (Maybe.some x)                  = Maybe.some (f x)
+```
+
+2.5 Fold
+Uma função de ordem superior ainda mais poderosa é chamada *Fold*. Esta função é a inspiração para a operação “reduce” que está no coração da estrutura de programação distribuída map/reduce do Google.
+
+```rust
+Fold <x> <y> (f: x -> y -> y) (xs: List x) (a: y)   : y
+Fold f List.nil a                                   = a
+Fold f (List.cons head tail) a                      = f head (Fold f tail a)
+
+Test_fold1 : Equal (Fold (x => y => (Bool.and x y)) [Bool.true, Bool.true, Bool.false] Bool.false) Bool.false
+Test_fold1 = ?
+
+Test_fold2 : Equal (Fold (x => y => (* x y)) [1, 2, 3, 4] 1) 24
+Test_fold2 = ?
+
+Test_fold3 : Equal (Fold (x => y => (List.concat x y)) [[1], [], [2, 3], [], [4]] [5, 6, 7]) [1, 2, 3, 4, 5, 6, 7]
+Test_fold3 = ?
+```
+
+2.5.1
+Observe que o tipo *Fold* é parametrizado por duas variáveis de tipo, x e y, e o parâmetro f é um operador binário que recebe um x e um y e retorna um y. Você consegue pensar em uma situação em que seria útil que x e y fossem diferentes?
+
 
