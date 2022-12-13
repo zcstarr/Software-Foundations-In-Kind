@@ -2458,18 +2458,67 @@ Constfun_example1 = Equal.refl
 Constfun_example2 : Equal ((Constfun 5n) 99n) 5n
 Constfun_example2 = Equal.refl
 ```
-Na verdade, as funções de múltiplos argumentos que já vimos também são exemplos de passagem de funções como dados. Para ver por que, lembre-se do tipo de adição
-<!--  -->
-<!-- # TODO: -->
-<!--  -->
+<!-- Na verdade, as funções de múltiplos argumentos que já vimos também são exemplos de passagem de funções como dados. Para ver por que, lembre-se do tipo de adição -->
+<!-- [>  <] -->
+<!-- [> # TODO: <] -->
+<!-- [>  <] -->
 <!-- ```rust -->
 <!-- Plus Nat -> Nat : Nat -->
-<!--  -->
-<!--  -->
 <!-- ``` -->
-<!-- prelúdio natural mais natural -->
+<!-- [> Cada "->" nesta expressão é, na verdade, um operador binário em tipos. Este operador é associativo à direita, então o tipo de plus é realmente uma abreviação para Nat -> (Nat -> Nat) – ou seja, pode ser lido como dizendo que “plus é uma função de um argumento que pega um Nat e retorna uma função de um argumento que pega outro Nat e retorna um Nat.” Nos exemplos acima, sempre aplicamos mais a ambos os argumentos ao mesmo tempo, <] -->
+<!-- [> mas se quisermos, podemos fornecer apenas o primeiro. Isso é chamado de aplicação parcial <] -->
+<!-- [>  <] -->
+<!-- [> # fim to todo <] -->
 <!--  -->
-<!-- Cada "->" nesta expressão é, na verdade, um operador binário em tipos. Este operador é associativo à direita, então o tipo de plus é realmente uma abreviação para Nat -> (Nat -> Nat) – ou seja, pode ser lido como dizendo que “plus é uma função de um argumento que pega um Nat e retorna uma função de um argumento que pega outro Nat e retorna um Nat.” Nos exemplos acima, sempre aplicamos mais a ambos os argumentos ao mesmo tempo, -->
-<!-- mas se quisermos, podemos fornecer apenas o primeiro. Isso é chamado de aplicação parcial -->
-<!--  -->
-<!-- # fim to todo -->
+```rust
+Plus3 (n: Nat) : Nat
+Plus3 n = Plus 3n n
+
+Test_plus3_1 : Equal (Plus3 4n) 7n
+Test_plus3_1 = Equal.refl
+
+Test_plus3_2 : Equal (Doit3times (x => Plus3 x) 0n) 9n
+Test_plus3_2 = Equal.refl
+
+Test_plus3_3 : Equal (Doit3times (x => Plus 3n x) 0n) 9n
+Test_plus3_3 = Equal.refl
+```
+### Exercícios adicionais
+#### 3.0.1
+Muitas funções comuns em listas podem ser implementado em termos de *Fold*. Por exemplo, aqui está uma definição alternativa de comprimento:
+
+```rust
+Fold_length <x> (xs: List x) : Nat
+Fold_length xs = Fold (x => y Nat.succ y) xs 0n
+
+Test_fold_length1 : Equal (Fold_length [4, 7, 0]) 3n
+Test_fold_length1 = Equal.refl
+```
+
+Prove a validade de *Fold_length*:
+```rust
+Fold_length_correct <x> (xs: List x) : Equal (Fold_length xs) (List.length xs)
+Fold_length_correct xs = ?
+```
+
+#### 3.0.2
+Nós talmbém podemos definir *Map* nos termos de *Fold*. Termine a função:
+```rust
+Fold_map <x> <y> (f: x -> y) (xs: List x) : List y
+Fold_map f xs = ?
+```
+Escreva um teorema fold_map_correct em Kind declarando que *Fold_map* está correto e prove isso:
+
+```rust 
+Fold_map_correct : ?
+```
+
+
+<!-- TODO: Currying -->
+
+
+
+
+
+
+
