@@ -2523,5 +2523,11 @@ Fold_map_correct : ?
 
 
 
+# Capítulo 6: 
+## Lógica em Kind
+
+Nos capítulos anteriores, vimos muitos exemplos de afirmações factuais (proposições) e formas de apresentar evidências de sua veracidade (provas). Em particular, trabalhamos extensivamente com proposições de igualdade da forma e1 = e2, com implicações (p -> q), e com proposições quantificadas (x -> P(x)). Neste capítulo, veremos como Kind pode ser usado para realizar outras formas familiares de raciocínio lógico.
+
+Antes de mergulhar nos detalhes, vamos falar um pouco sobre o status das declarações matemáticas em Kind. Lembre-se de que Kind é uma linguagem tipada, o que significa que toda expressão sensível em seu mundo tem um tipo associado. As afirmações lógicas não são exceção: qualquer afirmação que possamos tentar provar em Kind tem um tipo, ou seja, Type, o tipo de proposições. Podemos ver isso com o comando `:t`:
 
 
