@@ -2514,9 +2514,12 @@ Fold_map_correct : ?
 ```
 
 
-<!-- TODO: Currying -->
+<!-- TODO: Traduzir exercícios do Savio -->
+#### 3.0.3
 
+#### 3.0.4
 
+#### 3.0.5
 
 
 
