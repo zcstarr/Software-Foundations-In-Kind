@@ -2515,13 +2515,63 @@ Fold_map_correct : ?
 
 
 <!-- TODO: Traduzir exercícios do Savio -->
+<!-- #### 3.0.3 -->
+
+
+
+<!-- #### 3.0.4 -->
+
 #### 3.0.3
+Nós podemos explorar uma forma alternativa de definir os números naturais, usando os *Numerais de Church*, nomeado em homenagem ao matemático Alonzo Church. Podemos representar um número natural n como uma função que recebe uma função `s` como parâmetro e retorna `s` iterado n vezes.
 
-#### 3.0.4
+```rust
+Num <x> : Type
+Num x   = (x -> x) -> x -> x
+```
 
-#### 3.0.5
+Vamos ver como escrever alguns números com esta notação. Iterar uma função uma vez deve ser o mesmo que apenas aplicá-la. Desta forma:
 
+```rust
+One : Num
+One = s => z => s z 
+```
+Perceba, a função aplica um `s` a um `z`, se lermos o `s` como *sucessor* e o `z` como *zero*, temos que o *One* é igual ao *sucessor de zero*.
 
+Similarmente, o *Two* aplica a função `s` duas vezes ao `z`:
+
+```rust
+Two : Num
+Two = s => z => s (s z)
+```
+Definir zero é um pouco mais complicado: como podemos “aplicar uma função zero vezes”? A resposta é realmente simples: basta retornar o argumento intocado.
+
+```rust
+Zero : Num
+Zero = s => z => z
+```
+
+Mais geralmente, um número n pode ser escrito como `s => z => s (s ... (s z) ...)`, com n ocorrências de `s`. Observe em particular como a função doit3times que definimos anteriormente é, na verdade, apenas a representação de Church do 3.
+
+```rust
+Three : Num
+Three = s => z => Doit3times s z
+```
+
+Complete as definições das seguintes funções. Certifique-se de que os testes unitários correspondentes sejam aprovados, provando-os com *Equal.refl*
+
+```rust
+Succ (n: Num)   : Num
+Succ n          = ?
+
+Succ_1 : Equal (Succ Zero) (One)
+Succ_1 = ?
+
+Succ_2 : Equal (Succ One) (Two)
+Succ_2 = ?
+
+Succ_3 : Equal (Succ Two) (Three)
+Succ_3 = ?
+```
 
 # Capítulo 6: 
 ## Lógica em Kind
