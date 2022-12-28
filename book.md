@@ -2672,6 +2672,10 @@ Posteriormente, podemos usar esse nome em qualquer situação em que uma proposi
 Plus_fact_is_true : Plus_fact
 Plus_fact_is_true = Equal.refl
 ```
-Também podemos escrever proposições parametrizadas – isto é, funções que recebem argumentos de algum tipo e retornam uma proposição. Por exemplo, a seguinte função pega um número e retorna uma proposição afirmando que esse número é igual a três:
+<!-- Também podemos escrever proposições parametrizadas – isto é, funções que recebem argumentos de algum tipo e retornam uma proposição. Por exemplo, a seguinte função pega um número e retorna uma proposição afirmando que esse número é igual a três: -->
+
+
+Em Kind, diz-se que funções que retornam proposições definem propriedades de seus argumentos.
+Por exemplo, aqui está uma propriedade (polimórfica) que define a noção familiar de uma função injetiva
 
 
