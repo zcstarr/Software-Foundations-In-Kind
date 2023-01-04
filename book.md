@@ -2679,3 +2679,56 @@ Em Kind, diz-se que funções que retornam proposições definem propriedades de
 Por exemplo, aqui está uma propriedade (polimórfica) que define a noção familiar de uma função injetiva
 
 
+```rust
+Algebra.Laws.injectivity <a: Type> <b: Type> (f: a -> b) : Type
+Algebra.Laws.injectivity a b f = (x: a) -> (y: a) -> (hyp: Equal b (f x) (f y)) -> (Equal a x y)
+```
+
+Nós podemos instanciar uma regra de injetividade com
+
+```rust
+Nat.succ_injective : Algebra.Laws.injectivity ((n: Nat) => Nat.succ n)
+Nat.succ_injective =
+  (a: Nat) =>
+  (b: Nat) =>
+  (hyp: Equal Nat (Nat.succ a) (Nat.succ b)) =>
+  Equal.apply (x => Nat.pred x) hyp
+```
+
+e criar tipos que precisam de injetividade com
+
+```rust
+type Injective <a: Type> <b: Type> (f: a -> b) {
+  new (p: Algebra.Laws.injectivity f)
+}
+
+InjectiveNat : Injective (n => Nat.succ n)
+InjectiveNat = Injective.new Nat.succ_injective
+```
+
+
+### 1. Conectivos Lógicos
+#### 1.1. Conjunção. 
+A conjunção (ou lógico *e*) em kind recebe duas proposições *a* e *b*, que devem retornar um valor *booleano* `true` ou `false`.  
+
+```rust
+Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and Bool.true  b = b
+Bool.and Bool.false b = Bool.false
+```
+
+Se *a* é verdadeiro, basta apenas retornar o valor de *b*, agora se o *a* for falso, não há a necessidade de verificar o valor do segundo elemento. 
+
+Por se tratar de um caso limitado (há apenas duas opções) dá para verificar com uma prova simples:
+```rust
+ConjuntiveBool : Equal Bool (Bool.and Bool.true Bool.false) Bool.false
+ConjuntiveBool = Equal.refl
+```
+
+##### 1.1.1 Exercício:
+```rust
+And_exercise : Pair (Equal (Nat.add 3n 4n) 7n) (Equal (Nat.mul 2n 2n) 4n)
+And_exercise = ?
+```
+
+
