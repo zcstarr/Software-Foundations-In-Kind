@@ -2731,4 +2731,125 @@ And_exercise : Pair (Equal (Nat.add 3n 4n) 7n) (Equal (Nat.mul 2n 2n) 4n)
 And_exercise = ?
 ```
 
+Tanto para provar declarações conjuntivas. Para ir na outra direção – ou seja, usar uma hipótese conjuntiva para ajudar a provar outra coisa – empregamos o pattern matching.
+Se o contexto de prova contiver uma hipótese h da forma (a,b), a divisão de caso irá substituí-la por um padrão de pares (a,b).
+
+```rust
+And_example2 (n: Nat) (m: Nat) (e: Pair (Equal n 0n) (Equal m 0n)) : Equal (Nat.add n m ) 0n
+And_example2 Nat.zero Nat.zero e        = Equal.refl
+And_example2 Nat.zero (Nat.succ m ) e   = 
+    let p = (Equal.rewrite
+    (Pair.snd e)
+    (x => match Nat x {
+        zero => Empty
+        succ => Unit
+    })
+    (Unit.new))
+    Empty.absurd p
+And_example2 (Nat.succ n) m e           =
+    let p = (Equal.rewrite
+    (Pair.fst e)
+    (x => match Nat x {
+        zero => Empty
+        succ => Unit 
+    })
+    (Unit.new))
+    Empty.absurd p
+```
+
+Você pode se perguntar por que nos preocupamos em agrupar as duas hipóteses n = 0 e m = 0 em uma única conjunção, já que também poderíamos ter declarado o teorema com duas premissas separadas:
+
+```rust
+And_example2a (n: Nat) (m: Nat) (e1: Equal n 0n) (e2: Equal m 0n) : Equal (Nat.add n m) 0n
+And_example2a Nat.zero Nat.zero e1 e2        = Equal.refl
+And_example2a Nat.zero (Nat.succ m ) e1 e2   = 
+    let p = (Equal.rewrite
+    (e2)
+    (x => match Nat x {
+        zero => Empty
+        succ => Unit
+    })
+    (Unit.new))
+    Empty.absurd p
+And_example2a (Nat.succ n) m e1 e2           =
+    let p = (Equal.rewrite
+    (e1)
+    (x => match Nat x {
+        zero => Empty
+        succ => Unit 
+    })
+    (Unit.new))
+    Empty.absurd p
+
+```
+Para este teorema, ambas as formulações são adequadas. Mas é importante entender como trabalhar com hipóteses conjuntivas porque as conjunções geralmente surgem de etapas intermediárias em provas, especialmente em desenvolvimentos maiores. Aqui está um exemplo simples:
+
+```rust
+And_example3 (n: Nat) (m: Nat) (e: Equal (Nat.add n m) 0n) : Equal (Nat.mul n m) 0n
+And_example3 Nat.zero m e =  Equal.refl
+And_example3 (Nat.succ n) m e =
+    let p = (Equal.rewrite 
+        (e)
+        (x => match Nat x {
+            zero => Empty 
+            succ => Unit                      
+        })
+        (Unit.new))
+    Empty.absurd p
+```
+
+Outra situação comum com conjunções é que sabemos (a,b), mas em algum contexto precisamos apenas de a (ou apenas b). Os seguintes teoremas são úteis em tais casos:
+
+```rust
+Proj1 <p> <q> (a: Pair p q) : p
+Proj1 (Pair.new fst snd)    = fst
+```
+
+### 1.1.2
+
+```rust
+Proj2 <p> <q> (b: Pair p q) : q
+Proj2 (Pair.new fst snd)    = ?
+```
+
+Por fim, às vezes precisamos reorganizar a ordem das conjunções e/ou agrupar as conjunções de múltiplas vias. Os seguintes teoremas de comutatividade e associatividade são úteis em tais casos.
+
+```rust
+And_commut <p> <q> (c: Pair p q) : Pair q p
+And_commut (Pair.new fst snd)    = Pair.new snd fst
+```
+
+#### 1.1.3
+```rust
+And_assoc <p> <q> <r> (a: Pair p (Pair q r))  : Pair (Pair p q) r
+And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?
+```
+
+Outro conectivo importante é a disjunção, ou lógico, de duas proposições:
+`Either` a b é verdadeiro quando a ou b é. O primeiro caso foi marcado com *left* e o segundo com *right*.
+Para usar uma hipótese disjuntiva em uma prova, procedemos pela análise de caso, que, como para Nat ou outros tipos de dados, pode ser feita com correspondência de padrões. Aqui está um exemplo:
+
+```rust
+Or_example (n: Nat) (m: Nat) (e: (Either (Equal n 0n) (Equal m 0n))) : Equal (Nat.mul n m) 0n
+Or_example Nat.zero m e     = Equal.refl
+Or_example n Nat.zero e     = Mult_0_r n
+Or_example (Nat.succ n) m (Either.left l r val) = 
+    let p = (Equal.rewrite
+        (val)
+        ( x => match Nat x {
+            zero => Empty 
+            succ => Unit            
+        })
+        (Unit.new))
+    Empty.absurd p
+Or_example (Nat.succ n) (Nat.succ m) (Either.right l r val) = 
+    let p = (Equal.rewrite 
+        (val)
+        ( x => match Nat x {
+            zero => Empty
+            succ => Unit                   
+        })
+        (Unit.new))
+Empty.absurd p
+```
 
