@@ -277,3 +277,38 @@ Or_example (Nat.succ n) (Nat.succ m) (Either.right l r val) =
 Empty.absurd p
 ```
 
+Inversamente, para mostrar que uma disjunção é válida, precisamos mostrar que um de seus lados é válido. Isso pode ser feito por meio dos construtores Left e Right mencionados acima. Aqui está um uso trivial...
+
+```rust
+#axiom
+Or_intro <a> <b> (c: Either a b)        : a
+Or_intro a b (Either.left lft rgt val)  = val
+```
+... e um exemplo um pouco mais interessante exigindo ambos
+
+```rust
+Zero_or_succ (n: Nat)       : Either (Equal n Nat.zero) (Equal n (Nat.succ (Nat.pred n)))
+Zero_or_succ Nat.zero       = Either.left  Equal.refl
+Zero_or_succ (Nat.succ n)   = Either.right Equal.refl
+```
+
+### 1.2.1 
+```rust
+#axiom
+Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Nat.mul n m ) 0n) : Either (Equal n 0n) (Equal m 0n)
+Mult_eq_0 n m = ?
+```
+
+### 1.2.2 
+```rust
+Or_commut <p> <q> (e: Either p q) : Either q p
+Or_commut e: ?
+```
+
+## Falsidade e Negação. 
+
+Até agora, nos preocupamos principalmente em provar que certas coisas são verdadeiras – adição é comutativa, anexação de listas é associativa, etc. Claro, também podemos estar interessados em resultados negativos, mostrando que certas proposições não são verdadeiras. Em Kind, tais declarações negativas são expressas com a função de nível de tipo de negação *Not*.
+
+Para ver como a negação funciona, relembre a discussão do princípio da explosão do capítulo anterior; ela afirma que, se assumirmos uma contradição, então qualquer outra proposição pode ser derivada. Seguindo essa intuição, poderíamos definir ``Not p`` como ``q -> (p -> q )``. Kind realmente faz uma escolha ligeiramente diferente, definindo *Not* como *p -> Empty*, onde *Empty* é uma proposição contraditória específica definida na biblioteca padrão como um tipo de dados sem construtores.
+
+
