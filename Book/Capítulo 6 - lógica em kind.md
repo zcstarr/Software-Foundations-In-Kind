@@ -311,4 +311,19 @@ Até agora, nos preocupamos principalmente em provar que certas coisas são verd
 
 Para ver como a negação funciona, relembre a discussão do princípio da explosão do capítulo anterior; ela afirma que, se assumirmos uma contradição, então qualquer outra proposição pode ser derivada. Seguindo essa intuição, poderíamos definir ``Not p`` como ``q -> (p -> q )``. Kind realmente faz uma escolha ligeiramente diferente, definindo *Not* como *p -> Empty*, onde *Empty* é uma proposição contraditória específica definida na biblioteca padrão como um tipo de dados sem construtores.
 
+```rust
+Empty: Type
+
+Not <p: Type>: Type
+Not p = p -> Empty
+```
+
+Como *Empty* é uma proposição contraditória, o princípio da explosão também se aplica a ela. Se obtivermos *Empty* no contexto de prova, podemos chamá-lo de *Empty* ou absurd para completar qualquer objetivo:
+
+```rust
+Ex_falso_quodlibet <p>  : Empty -> p
+Ex_falso_quodlibet p    = e => Empty.absurd e
+```
+O *latim ex falso quodlibet* significa, literalmente, “da falsidade segue o que você quiser”; este é outro nome comum para o princípio da explosão.
+
 
