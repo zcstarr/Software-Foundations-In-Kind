@@ -1,7 +1,8 @@
 
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
 Bool.eql (a: Bool) (b: Bool) : Bool
 Bool.eql Bool.true Bool.true = Bool.true
@@ -19,8 +20,10 @@ Bool.if r Bool.false if_t if_f = if_f
 
 // type PairBool
 // Contains 2 Booleans inside it
-PairBool: Type
-PairBool.new (fst: Bool) (snd: Bool): PairBool 
+record PairBool {
+  fst : Bool
+  snd : Bool
+}
 
 // Returns the first element of a pair
 PairBool.fst (a: PairBool): Bool

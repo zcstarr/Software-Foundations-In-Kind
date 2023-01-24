@@ -1,28 +1,33 @@
+type Bool {
+  true
+  false
+}
 
-List <a: Type> : Type
-List.nil <a> : (List a)
-List.cons <a> (head: a) (tail: List a) : (List a)
+type Maybe (t) {
+  none 
+  some (value: t)
+}
 
-Maybe <a: Type> : Type
-Maybe.none <a> : (Maybe a)
-Maybe.some <a> (value: a) : (Maybe a)
+record Pair (a) (b) {
+  fst : a
+  snd : b
+}
 
-Pair (a: Type) (b: Type) : Type
-Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
+type List (t) {
+  nil
+  cons (head: t) (tail: (List t))
+}
 
-Nat : Type
-Nat.zero : Nat
-Nat.succ(pred: Nat) : Nat
-
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Nat {
+  zero
+  succ (pred: Nat)
+}
 
 Bool.if <a: Type> (b: Bool) (t: a) (f: a) : a
 Bool.if a Bool.true  t f = t
 Bool.if a Bool.false t f = f
 
-Bool.match (x: (Bool)) -(p: (x: (Bool)) Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
+Bool.match (x: (Bool)) -(p: (x: (Bool)) -> Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
 Bool.match (Bool.true) p true false = (true)
 Bool.match (Bool.false) p true false = (false)
 

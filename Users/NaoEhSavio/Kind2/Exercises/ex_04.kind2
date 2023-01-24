@@ -1,8 +1,9 @@
 // Nat
 // ---
-Nat : Type
-Nat.zero : Nat
-Nat.succ (pred: Nat) : Nat
+type Nat {
+  zero
+  succ (pred: Nat)
+}
 
 Nat.double (x: Nat) : Nat
 Nat.double (Nat.succ x) = (Nat.succ (Nat.succ (Nat.double x)))
@@ -25,9 +26,10 @@ Nat.fac (a: Nat) : Nat
 Nat.fac Nat.zero    = (Nat.succ (Nat.zero))
 Nat.fac (Nat.succ a) = (Nat.mul (Nat.fac a) (Nat.succ a))
 
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
 Bool.is_true (a: Bool) : Bool
 Bool.is_true Bool.true = Bool.true
@@ -77,12 +79,33 @@ Nat.to_u60 (n: Nat) : U60
 Nat.to_u60 Nat.zero     = 0
 Nat.to_u60 (Nat.succ n) = (+ 1 (Nat.to_u60 n))
   
-List (a: Type) : Type
-List.nil <a> : (List a)
-List.cons <a> (x: a) (xs: (List a)) : (List a)
+type List (t) {
+  nil
+  cons (head: t) (tail: (List t))
+}
 
 List.pure <t: Type> (x: t) : (List t)
 List.pure t x = (List.cons t x (List.nil t))
+
+List.bind <a: Type> <b: Type> (xs: List a) (f: a -> List b) : List b
+List.bind a b xs f = List.flatten b (List.map xs f)
+
+List.map <a> <b> (xs: List a) (f: a -> b) : List b
+List.map a b List.nil              f = List.nil
+List.map a b (List.cons head tail) f = List.cons (f head) (List.map tail f)
+
+List.flatten <a> (xs: List (List a)) : List a
+List.flatten a (List.nil t)            = List.nil
+List.flatten a (List.cons t head tail) = List.concat head (List.flatten tail)
+
+List.concat <a> (xs: List a) (ys: List a) : List a
+List.concat a (List.nil t)            ys = ys
+List.concat a (List.cons t head tail) ys = (List.cons a head (List.concat a tail ys))
+
+record Pair (a) (b) {
+  fst : a
+  snd : b
+}
 
 Example.U60 : (List(List U60)) {
   do List{
@@ -102,7 +125,7 @@ Example.U60 : (List(List U60)) {
   }
 }
 
-Example.bool : (List(List Bool)) {
+Example.bool : (List (List Bool)) {
   do List{
     let a = (Nat.eql (Nat.succ(Nat.succ(Nat.succ(Nat.zero)))) (Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))))
     let b = (Nat.ltn (Nat.succ(Nat.succ(Nat.succ(Nat.zero)))) (Nat.succ(Nat.succ(Nat.succ(Nat.succ(Nat.zero))))))
@@ -111,8 +134,6 @@ Example.bool : (List(List Bool)) {
   }
 }
 
-Pair (a: Type) (b: Type) : Type
-Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
 
 Main {
   let a = Example.U60

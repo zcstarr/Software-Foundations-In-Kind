@@ -1,7 +1,7 @@
-
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
 Bool.eql (a: Bool) (b: Bool) : Bool
 Bool.eql Bool.true Bool.true = Bool.true
@@ -18,8 +18,10 @@ Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
 // Basic Exercises involving Pairs
-Pair <a: Type> <b: Type> : Type
-Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
+record Pair (a) (b) {
+  fst : a
+  snd : b
+}
 
 // Example:
 // Swaps the elements of a pair
@@ -39,7 +41,7 @@ Pair.create <a: Type> <b: Type> (x: a) (y: b): (Pair a b)
 Pair.create a b x y = (Pair.new x y)
 
 // Applies a function to both elements of a Pair
-Pair.map <a: Type> <b: Type> (func: (x: a) b) (pair: (Pair a a)) : (Pair b b)
+Pair.map <a: Type> <b: Type> (func: a -> b) (pair: (Pair a a)) : (Pair b b)
 Pair.map a b func (Pair.new pair.a pair.b fst snd) = (Pair.new (func fst) (func snd))
 
 Main {

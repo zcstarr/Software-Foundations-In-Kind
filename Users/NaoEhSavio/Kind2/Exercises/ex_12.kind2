@@ -1,10 +1,34 @@
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
-Nat : Type
-Nat.zero : Nat
-Nat.succ (pred: Nat) : Nat
+type Maybe (t) {
+  none 
+  some (value: t)
+}
+
+Char : Type {U60}
+
+type String {
+  nil
+  cons (head: Char) (tail: String)
+}
+
+record Pair (a) (b) {
+  fst : a
+  snd : b
+}
+
+type List (t) {
+  nil
+  cons (head: t) (tail: (List t))
+}
+
+type Nat {
+  zero
+  succ (pred: Nat)
+}
 
 Bool.and (a: Bool) (b: Bool) : Bool
 Bool.and Bool.true  Bool.true  = Bool.true
@@ -14,7 +38,7 @@ Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
 Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
-Bool.match (x: (Bool)) -(p: (x: (Bool)) Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
+Bool.match (x: (Bool)) -(p: (x: (Bool)) -> Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
 Bool.match (Bool.true) p true false = (true)
 Bool.match (Bool.false) p true false = (false)
 
@@ -32,10 +56,6 @@ String.reverse.go new_list (String.cons head tail) = String.reverse.go (String.c
 
 U60.show (n: U60) : String
 U60.show n = String.reverse(U60.show.go n)
-
-String : Type
-String.nil : String 
-String.cons (head: Char) (tail: String) : String 
 
 U60.show.go (n: U60) : String
 U60.show.go 0 = String.cons '0' String.nil
@@ -63,26 +83,15 @@ U60.to_nat (x: U60) : Nat
 U60.to_nat 0 = Nat.zero
 U60.to_nat n = Nat.succ (U60.to_nat (- n 1))
 
-Maybe <a: Type> : Type
-Maybe.none <a> : (Maybe a)
-Maybe.some <a> (value: a) : (Maybe a)
-
 Maybe.show <a: Type> (f: a -> String) (m: Maybe a) : String
 Maybe.show a f (Maybe.none t) = "Maybe.none" 
 Maybe.show a f (Maybe.some t value) = (String.concat (String.concat "(Maybe.some " (f value)) ")") 
 
-List (a: Type) : Type
-List.nil <a> : (List a)
-List.cons <a> (x: a) (xs: (List a)) : (List a)
-
-Bits  : Type
-Bits.e  : Bits
-Bits.o  (pred: Bits) : Bits
-Bits.i  (pred: Bits) : Bits
-
-Char : Type
-Char = U60
-
+type Bits { 
+  e
+  o (pred: Bits)
+  i (pred: Bits)
+}
 
 String.concat (xs: String) (ys: String) : String
 String.concat String.nil ys = ys 
@@ -93,12 +102,15 @@ String.repeat (x: String) (count: Nat) : String
 String.repeat x Nat.zero = String.nil
 String.repeat x (Nat.succ count) = String.concat x (String.repeat x count)
 
-Pair <a: Type> <b: Type> : Type
-Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
 
-BitsMap <a: Type> : Type 
-BitsMap.new <a> : (BitsMap a)
-BitsMap.tie <a> (val: (Maybe a)) (lft: (BitsMap a)) (rgt: (BitsMap a)) : (BitsMap a)
+type BitsMap (t) {
+  new
+  tie (val: (Maybe t)) (lft: (BitsMap t)) (rgt: (BitsMap t))
+}
+
+// BitsMap <a: Type> : Type 
+// BitsMap.new <a> : (BitsMap a)
+// BitsMap.tie <a> (val: (Maybe a)) (lft: (BitsMap a)) (rgt: (BitsMap a)) : (BitsMap a)
 
 // // Given a Key and a Value, sets the given value to that key in the tree
 // // Creates new keys if they don't already exist in the map
@@ -169,13 +181,13 @@ BitsMap.show a show bitsmap = BitsMap.show.go a (U60.to_nat 1) show bitsmap
 BitsMap.show.go <a: Type> (depth: Nat)  (show: a -> String)  (bitsmap: BitsMap a) : String
 BitsMap.show.go a depth show (BitsMap.new t) = " Empty"
 BitsMap.show.go a depth show (BitsMap.tie t value lft rgt) = 
-  let n = (String.repeat "*" depth)
-  (String.concat "{ Tie " (String.concat (Maybe.show show value) 
-  (String.concat " \n " 
+  let n = (String.repeat " " depth)
+  (String.concat "{Tie " (String.concat (Maybe.show show value) 
+  (String.concat "\n" 
   (String.concat n 
   (String.concat "Lft: " 
   (String.concat (BitsMap.show.go (Nat.succ depth) show lft) 
-  (String.concat " \n " 
+  (String.concat "\n" 
   (String.concat n 
   (String.concat "Rgt: " 
   (String.concat (BitsMap.show.go (Nat.succ depth) show rgt)
@@ -184,8 +196,8 @@ BitsMap.show.go a depth show (BitsMap.tie t value lft rgt) =
 // //Verifies all values of the map and if they don't match the condition gets
 // //removed, if the condition is matched, the value and the key are kept
 BitsMap.filter <a: Type> (cond: a -> Bool) (bitsmap: BitsMap a) : (BitsMap a)
-BitsMap.filter a cond BitsMap.new = BitsMap.new
-BitsMap.filter cond (BitsMap.tie (Maybe.none) lft rgt) = BitsMap.tie Maybe.none (BitsMap.filter cond lft) (BitsMap.filter cond rgt)
+BitsMap.filter cond BitsMap.new = BitsMap.new
+BitsMap.filter cond (BitsMap.tie (Maybe.none) lft rgt) = BitsMap.tie (Maybe.none) (BitsMap.filter cond lft) (BitsMap.filter cond rgt)
 BitsMap.filter cond (BitsMap.tie (Maybe.some value) lft rgt) = 
   Bool.match (cond value) (x => _ ) (BitsMap.tie (Maybe.some value) (BitsMap.filter cond lft) (BitsMap.filter cond rgt)) (BitsMap.tie Maybe.none  (BitsMap.filter cond lft) (BitsMap.filter cond rgt))
 
@@ -226,5 +238,5 @@ Main {
   let h = BitsMap.show (s => U60.show s) g
   let i = BitsMap.key g
   // let d = Maybe.show (s => U60.show s) (Maybe.some 11)
-  i
+  h
 }

@@ -1,25 +1,29 @@
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
 Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
 Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
 // Integers
-Inte : Type
-Inte.neg(num: Neg) : Inte 
-Inte.pos(num: Pos) : Inte 
+type Inte {
+  neg (num: Neg)
+  pos (num: Pos)
+}
 
 // Positive Numbers
-Pos : Type 
-Pos.zero : Pos
-Pos.succ(pred: Pos) : Pos 
+type Pos {
+  zero
+  succ (pred: Pos)
+}
 
 // Negative Numbers
-Neg : Type
-Neg.one : Neg
-Neg.pred(succ: Neg) : Neg
+type Neg {
+  one 
+  pred (succ: Neg)
+}
 
 // // Exercises:
 // Increments an Integer

@@ -1,6 +1,29 @@
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
+
+type Maybe (t) {
+  none 
+  some (value: t)
+}
+
+
+type List (t) {
+  nil
+  cons (head: t) (tail: (List t))
+}
+
+type Nat {
+  zero
+  succ (pred: Nat)
+}
+
+type Bits { 
+  e
+  o (pred: Bits)
+  i (pred: Bits)
+}
 
 Bool.and (a: Bool) (b: Bool) : Bool
 Bool.and Bool.true  Bool.true  = Bool.true
@@ -10,7 +33,7 @@ Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
 Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
-Bool.match (x: (Bool)) -(p: (x: (Bool)) Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
+Bool.match (x: (Bool)) -(p: (x: (Bool)) -> Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
 Bool.match (Bool.true) p true false = (true)
 Bool.match (Bool.false) p true false = (false)
 
@@ -43,24 +66,11 @@ U60.xor (a: U60) (b: U60) : Bool {
   U60.to_bool(^ a b)
 }
 
-Nat : Type
-Nat.zero : Nat
-Nat.succ (pred: Nat) : Nat
-
-Bits  : Type
-Bits.e  : Bits
-Bits.o  (pred: Bits) : Bits
-Bits.i  (pred: Bits) : Bits
-
-Maybe <a: Type> : Type
-Maybe.none <a> : (Maybe a)
-Maybe.some <a> (value: a) : (Maybe a)
 
 //Char and String
 // Charactere Type
 // Alias for U60
-Char : Type
-Char = U60
+Char : Type {U60}
 
 //Syntax Sugar for U60
   //0#16  1#16  2#16 ...
@@ -129,9 +139,10 @@ Char.to_string (x: Char) : String
 Char.to_string x = String.cons x (String.nil)
 
 // //String Type
-String : Type
-String.nil : String 
-String.cons (head: Char) (tail: String) : String 
+type String {
+  nil
+  cons (head: Char) (tail: String)
+}
 
 // //Without Syntax Sugar for String
 //a = String.cons('H'  String.cons('I'  String.nil))
@@ -237,9 +248,7 @@ String.filter func String.nil = String.nil
 String.filter func (String.cons head tail) = 
   Bool.match (func head) (x => _) (String.cons head (String.filter func tail)) (String.filter func tail)
 
-List <a: Type> : Type
-List.nil <a> : (List a)
-List.cons <a> (head: a) (tail: List a) : (List a)
+
 // //Concatenates all elements of a List of Strings
 //String.flatten [a b c] -> "HIHellotext"
 String.flatten (lxs: (List String)) : String

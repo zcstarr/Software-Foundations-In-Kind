@@ -1,12 +1,14 @@
 // type MaybeBool
 // It maybe holds a Boolean inside it
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
-MaybeBool : Type
-MaybeBool.none : MaybeBool
-MaybeBool.some (value: Bool) : MaybeBool
+type MaybeBool {
+  none 
+  some (value: Bool)
+}
 
 // Returns true if Maybe is none
 Is_none(a: MaybeBool): Bool

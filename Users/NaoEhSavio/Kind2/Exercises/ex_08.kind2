@@ -1,16 +1,19 @@
-Nat : Type
-Nat.zero : Nat
-Nat.succ(pred: Nat) : Nat
+type Nat {
+  zero
+  succ (pred: Nat)
+}
 
 // Basic exercises involving Lists
 
-List <a: Type> : Type
-List.nil <a> : (List a)
-List.cons <a> (head: a) (tail: List a) : (List a)
+type List (t) {
+  nil
+  cons (head: t) (tail: (List t))
+}
 
-Maybe <a: Type> : Type
-Maybe.none <a> : (Maybe a)
-Maybe.some <a> (value: a) : (Maybe a)
+type Maybe (t) {
+  none 
+  some (value: t)
+}
 
 // // Returns the head of the List
 List.head <a: Type> (xs: (List a)): (Maybe a)
@@ -28,7 +31,7 @@ List.length a (List.nil xs) = Nat.zero
 List.length a (List.cons xs head tail) = Nat.succ(List.length tail)
 
 // // Returns the last element of a list
-List.last <a: Type> (xs: (List a)) : Maybe
+List.last <a: Type> (xs: (List a)) : Maybe a
 List.last a (List.nil xs) = Maybe.none
 List.last a (List.cons xs head (List.nil b)) = Maybe.some head
 List.last a (List.cons xs head tail) = (List.last tail)

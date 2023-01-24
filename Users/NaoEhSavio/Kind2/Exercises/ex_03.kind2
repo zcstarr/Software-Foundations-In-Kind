@@ -1,6 +1,7 @@
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
 
 Bool.eql (a: Bool) (b: Bool) : Bool
 Bool.eql Bool.true Bool.true = Bool.true
@@ -17,9 +18,10 @@ Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
 // Basic Exercises involving Nats
-Nat : Type
-Nat.zero : Nat
-Nat.succ(pred: Nat) : Nat
+type Nat {
+  zero
+  succ (pred: Nat)
+}
 
 // Increment
 // 2 + 1 = 3

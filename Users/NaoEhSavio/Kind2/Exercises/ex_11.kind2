@@ -1,6 +1,25 @@
-Bool : Type
-Bool.true : Bool
-Bool.false : Bool
+type Bool {
+  true
+  false
+}
+
+type Maybe (t) {
+  none 
+  some (value: t)
+}
+
+Char : Type {U60}
+
+type String {
+  nil
+  cons (head: Char) (tail: String)
+}
+
+record Pair (a) (b) {
+  fst : a
+  snd : b
+}
+
 
 Bool.and (a: Bool) (b: Bool) : Bool
 Bool.and Bool.true  Bool.true  = Bool.true
@@ -10,7 +29,7 @@ Bool.if <r: Type> (b: Bool) (if_t: r) (if_f: r) : r
 Bool.if r Bool.true  if_t if_f = if_t
 Bool.if r Bool.false if_t if_f = if_f
 
-Bool.match (x: (Bool)) -(p: (x: (Bool)) Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
+Bool.match (x: (Bool)) -(p: (x: (Bool)) -> Type) (true: (p (Bool.true))) (false: (p (Bool.false))) : (p x)
 Bool.match (Bool.true) p true false = (true)
 Bool.match (Bool.false) p true false = (false)
 
@@ -50,29 +69,18 @@ U60.if <r: Type> (n: U60) (t: r) (f: r) : r
 U60.if r 0 t f = f
 U60.if r x t f = t
 
-Maybe <a: Type> : Type
-Maybe.none <a> : (Maybe a)
-Maybe.some <a> (value: a) : (Maybe a)
-
-Char : Type
-Char = U60
-
-String : Type
-String.nil : String 
-String.cons (head: Char) (tail: String) : String 
 
 String.concat (xs: String) (ys: String) : String
 String.concat String.nil ys = ys 
 String.concat xs String.nil = xs 
 String.concat (String.cons head tail) ys = String.cons head (String.concat tail ys)
 
-Pair <a: Type> <b: Type> : Type
-Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b) 
 
 // // ListMap Exercises
-ListMap <a: Type> : Type 
-ListMap.empty <a> : (ListMap a)
-ListMap.cons <a> (head: (Pair U60 a)) (tail: (ListMap a)) : (ListMap a)
+type ListMap (t) {
+  empty
+  cons (head: (Pair U60 t)) (tail: (ListMap t))
+}
 
 // // Inserts a value
 // If the key is already present, its value is updated
