@@ -1,0 +1,6 @@
+[book]
+authors = ["NaoEhSavio"]
+language = "pt-BR"
+multilingual = false
+src = "src"
+title = "Kind"

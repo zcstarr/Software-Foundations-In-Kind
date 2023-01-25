@@ -1,0 +1,514 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Raciocínio sobre listas - Kind</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introdução</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/instalacao.html"><strong aria-hidden="true">1.</strong> Instalação</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/Hello_World.html"><strong aria-hidden="true">1.1.</strong> Olá, Mundo!</a></li><li class="chapter-item expanded "><a href="../../cli/comandos.html"><strong aria-hidden="true">1.2.</strong> Olá, Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2.html"><strong aria-hidden="true">2.</strong> Básico</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.1.</strong> Introdução</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.2.</strong> Tipos Enumerados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.2.1.</strong> Dias da semana</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.3.</strong> Booleanos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.4.</strong> Tipos de função</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.5.</strong> Módulos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.6.</strong> Números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.7.</strong> Prova por Simplificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.8.</strong> Prova por aplicação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.9.</strong> Prova por análise de casos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.10.</strong> Prova por Reescrita</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.11.</strong> Equal.chain e Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.12.</strong> Mais exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html" class="active"><strong aria-hidden="true">4.3.</strong> Raciocínio sobre listas</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,4.html"><strong aria-hidden="true">4.4.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contribuidores.html">Contribuidores</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Kind</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="3-raciocínio-sobre-listas"><a class="header" href="#3-raciocínio-sobre-listas">3 Raciocínio sobre listas</a></h2>
+<p>Assim como os números, fatos simples sobre funções de processamento de lista podem às vezes ser provado inteiramente por simplificação. Por exemplo, a simplificação realizada por
+<code>Equal.refl</code> é suficiente para este teorema...</p>
+<pre><code class="language-Rust">Nil_app (xs: List Nat) : Equal (App (List.nil Nat) xs) xs
+Nil_app xs = Equal.refl
+</code></pre>
+<p>... isso porque o Kind &quot;vê&quot; o  <code>List.nil</code> e já reduz automaticamente a igualdade da mesma forma que ocorre com os números naturais, com o <code>Nat.zero</code></p>
+<p>Além disso, como acontece com os números, às vezes é útil realizar uma análise de caso no possíveis formas (vazias ou não vazias) de uma lista desconhecida</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Tl_length_pred (xs: List Nat)         : Equal Nat (Pred (Length xs)) (Length (Tail xs))
+Tl_length_pred List.nil               = Equal.refl
+Tl_length_pred (List.cons head tail)  = Equal.refl
+<span class="boring">}</span></code></pre></pre>
+<p>Caso o usuário não abra os casos e use direto o <code>Equal.refl</code>, o Kind retorna um erro de tipo:</p>
+<pre><code class="language-diff">- ERROR  Type mismatch
+
+   • Got      : Equal Nat (Nat.pred (Length xs)) (Nat.pred (Length xs))) 
+   • Expected : Equal Nat (Nat.pred (Length xs)) (Length (Tail xs))) 
+
+   • Context: 
+   •   xs : (List Nat) 
+
+   Tl_length_pred xs = Equal.refl
+                       ┬─────────
+                       └Here!
+</code></pre>
+<p>Da mesma forma, alguns teoremas precisam de indução para suas provas. </p>
+<ul>
+<li>3.0.1. Micro-Sermão. Simplesmente ler scripts de prova de exemplo não o levará muito longe! É importante trabalhar os detalhes de cada um, usando Kind e pensando no que cada passo alcança. Caso contrário, é mais ou menos garantido que os exercícios não farão sentido quando você chegar a eles. ( ಠ ʖ̯ ಠ)</li>
+</ul>
+<h2 id="31-indução-em-listas"><a class="header" href="#31-indução-em-listas">3.1. Indução em Listas.</a></h2>
+<p>Provas por indução sobre tipos de dados como <code>List</code> são um pouco menos familiares do que a indução de números naturais padrão, mas a ideia é igualmente simples. Cada declaração de dados define um conjunto de valores de dados que podem ser construídos usando os construtores declarados: um booleano pode ser True ou False; um número pode ser Zero ou Succ aplicado a outro número; uma lista de naturais pode ser Nil ou Cons aplicado a um número e uma lista.</p>
+<p>Além disso, as aplicações dos construtores declarados entre si são as únicas
+possíveis formas que os elementos de um conjunto definido indutivamente podem ter, e este fato
+diretamente dá origem a uma maneira de raciocinar sobre conjuntos indutivamente definidos: um número
+é Zero ou então é Succ aplicado a um número menor; uma lista é Nil ou então
+é um Cons aplicado a algum número e a alguma lista menor; etc. Então, se tivermos e mente
+alguma proposição <code>p</code> que menciona uma lista <code>l</code> e queremos argumentar que <code>p</code> vale
+para todas as listas, podemos raciocinar da seguinte forma:</p>
+<ul>
+<li>Primeiro, mostre que <code>p</code> é verdadeiro para <code>l</code> quando <code>l</code> é <code>Nil</code>.</li>
+<li>Então mostre que <code>p</code> é verdadeiro para <code>l</code> quando <code>l</code> é <code>Cons n l</code> para algum número <code>n</code> e alguma lista menor <code>l</code>, assumindo que <code>p</code> é verdadeiro para <code>l</code>.</li>
+</ul>
+<p>Como listas maiores só podem ser construídas a partir de listas menores, eventualmente chegando a <code>Nil</code>,
+esses dois argumentos juntos estabelecem a verdade de <code>p</code> para todas as listas <code>l</code>. Aqui está um
+exemplo concreto:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>App_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (App (App xs ys) zs) (App xs (App ys zs))
+App_assoc List.nil                               ys zs = Equal.refl
+App_assoc (List.cons Nat xs.head xs.tail)        ys zs = 
+  let ind = App_assoc xs.tail ys zs
+  let app = Equal.apply (x =&gt; (List.cons xs.head x)) ind
+  app
+<span class="boring">}</span></code></pre></pre>
+<p>Nós recebemos três listas <code>xs</code>, <code>ys</code> e <code>zs</code> e verificamos se a concatenação da de <code>xs</code> e <code>ys</code> com  <code>zs</code> é igual a de <code>xs</code> com a de <code>ys</code> com <code>zs</code>
+Para isso nós verificamos para o caso de <code>xs</code> ser uma lista vazia, então recebemos uma reflexão da contenação é entre <code>ys</code> e <code>zs</code> e basta dar um <code>*Equal*.**refl**</code></p>
+<p>Em seguida nós &quot;abrimos&quot; o <code>xs</code> para obter o <code>xs.tail</code> para a nossa indução, e recebemos como objetivo:</p>
+<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs)))) 
+</code></pre>
+<p>e a nossa variável <code>ind</code> é:</p>
+<pre><code> • ind: Equal (List Nat) (App (App xs.tail ys) zs) (App xs.tail (App ys zs)))
+</code></pre>
+<p>bastando apenas aplicar um <code>List.cons xs.head</code> em ambos os lados da igualdade para ter o objetivo final e é isso o que fazemos no <code>app</code>:</p>
+<pre><code> • app : Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs))))
+</code></pre>
+<p><em>OBSERVAÇÃO</em> 
+O Type Check nos retorna tipos <code>t2</code>, <code>t3</code> e outros gerados no mesmo estilo e podemos ignorar e até mesmo apagar na hora de comparar o retorno das variáveis como vemos no seguinte caso:</p>
+<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs)))) 
+ •   app   : Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs))))
+</code></pre>
+<!-- e apagando os tipos gerados e os `holes`:
+
+```
+- Expected: Equal (List) (List.cons xs.head (App (App xs.tail ys) zs)) (List.cons xs.head (App xs.tail (App ys zs))))
+- app : Equal (List) (List.cons xs.head (App (App xs.tail ys) zs)) (List.cons xs.head (App xs.tail (App ys zs))))
+``` -->
+<!-- TODO holes --> 
+<p>Dessa forma fica mais fácil perceber que o <code>app</code> e o <code>Expected</code> são identicos, então não é necessário se assustar ao ver esses tipos gerados </p>
+<h2 id="311-invertendo-uma-lista"><a class="header" href="#311-invertendo-uma-lista">3.1.1 Invertendo uma lista.</a></h2>
+<p>Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos <code>app</code> para definir uma função de reversão de lista <code>rev</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev (xs: List Nat)        : List Nat
+Rev List.nil              = List.nil Nat
+Rev (List.cons head tail) = App (Rev tail) [head]
+
+Test_rev1 : Equal (List Nat) (Rev [1n,2n,3n])) [3n,2n,1n])
+Test_rev1 = Equal.refl
+
+Test_rev2 : Equal (Rev List.nil) List.nil
+Test_rev2 = Equal.refl
+<span class="boring">}</span></code></pre></pre>
+<h2 id="321"><a class="header" href="#321">3.2.1</a></h2>
+<p>Agora vamos provar alguns teoremas sobre o rev que acabamos de definir. Para algo um pouco mais desafiador do que vimos, vamos provar
+que inverter uma lista não altera seu comprimento. Nossa primeira tentativa fica presa
+o caso sucessor...</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_length_firsttry (xs: List Nat)              : Equal Nat (Length (Rev xs)) (Length xs))
+Rev_length_firsttry List.nil                    = Equal.refl
+Rev_length_firsttry (List.cons xs.head xs.tail) =
+   let ind = Rev_length_firsttry xs.tail
+   ?
+<span class="boring">}</span></code></pre></pre>
+<p>O Type Check nos retorna o seguinte objetivo e contexto:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail))) 
+
+   • Context: 
+   •   head : Nat 
+   •   tail : (List Nat) 
+   •   ind  : Equal Nat (Length (Rev tail)) (Length tail)) 
+   •   ind  = (Rev_length_firsttry tail) 
+
+   let ind = Rev_length_firsttry tail
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>App_length (xs: List Nat) (ys: List Nat)  : Equal Nat (Length (App xs ys)) (Plus (Length xs) (Length ys)))
+App_length List.nil ys                    = Equal.refl
+App_length (List.cons xs.head xs.tail) ys =
+   let ind = App_length xs.tail ys
+   let app = Equal.apply (x =&gt; (Nat.succ x)) ind
+   app
+<span class="boring">}</span></code></pre></pre>
+<p>Além dessa prova, usaremos outras já provadas nos  capítulos anteriores:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Plus_n_z (n: Nat)     : Equal Nat n (Plus n Nat.zero)
+Plus_n_sn (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Plus n m)) (Plus n (Nat.succ m))
+Plus_comm (n: Nat) (m: Nat) : Equal Nat (Plus n m) (Plus m n)
+<span class="boring">}</span></code></pre></pre>
+<p>E agora é possível provar o nosso teorema:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_length (xs: List Nat)               : Equal Nat (Length (Rev xs)) (Length xs)
+Rev_length List.nil                     = Equal.refl
+Rev_length (List.cons Nat head tail)  =
+   let ind   = Rev_length tail
+   ?
+<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail))) 
+
+   • Context: 
+   •   head : Nat 
+   •   tail : (List Nat) 
+   •   ind  : Equal Nat (Length (Rev tail)) (Length tail)) 
+   •   ind  = (Rev_length tail) 
+
+   let ind   = Rev_length tail
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Nós criamos uma variavel com nossa auxiliar <code>App_length</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_length (xs: List Nat)             : Equal Nat (Length (Rev xs)) (Length xs)
+Rev_length List.nil                   = Equal.refl
+Rev_length (List.cons Nat head tail)  =
+   let ind  = Rev_length tail
+   let aux1 = App_length (Rev xs.tail) [xs.head]
+   ?
+<span class="boring">}</span></code></pre></pre>
+<p>Recebemos um novo contexto para nos auxiliar, o </p>
+<pre><code> • aux1: Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n))
+</code></pre>
+<p>A <code>aux1</code> é igual ao lado esquerdo do nosso <code>Expected</code>, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a <code>aux2</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let aux2 = Plus_comm (Length (Rev xs.tail)) (1n)
+<span class="boring">}</span></code></pre></pre>
+<p>Agora nosso contexto está ainda melhor: </p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span> • aux2: Equal Nat (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail)))) 
+<span class="boring">}</span></code></pre></pre>
+<p>Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da <code>aux2</code> é igual ao direito da <code>aux1</code> e podemos encadear um no outro com o <code>Equal.chain</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let chn = Equal.chain aux1 aux2
+<span class="boring">}</span></code></pre></pre>
+<p>Ao dar o Type Check, vemos nosso novo contexto:</p>
+<pre><code class="language-Terminal"> • chn : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail))))
+</code></pre>
+<p>Nossa variável <code>chn</code> é praticamente identica ao nosso <code>Expected</code> só diferindo na parte final, pois <code>Expected</code> espera um <code>Nat.succ (Length xs.tail)</code> e o <code>chn</code> nos dá <code>Nat.succ (Length (Rev xs.tail))</code>, mas nós temos a variável <code>ind</code> que nos retorna essa igualdade. Vamos relembrar:</p>
+<pre><code class="language-Terminal"> • ind: Equal Nat (Length (Rev tail)) (Length tail)) 
+</code></pre>
+<p>Incrivel, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da <code>tail</code> é igual ao tamanho da <code>tail</code>, então basta reescrever a variável <code>ind</code> na nossa <code>chn</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (App (Rev tail) (List.cons head (List.nil)))) (Nat.succ x ))) chn
+<span class="boring">}</span></code></pre></pre>
+<p>Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais fácil:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Length (App (Rev tail) (List.cons _ head (List.nil _)))) (Nat.succ (Length tail))) 
+
+   • Context: 
+   •   head : Nat 
+   •   tail : (List Nat) 
+   •   ind  : Equal Nat (Length (Rev tail)) (Length tail)) 
+   •   ind  = (Rev_length tail) 
+   •   aux1 : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n)) 
+   •   aux1 = (App_length (Rev tail) (List.cons Nat head (List.nil Nat))) 
+   •   aux2 : Equal Nat (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail)))) 
+   •   aux2 = (Plus_comm (Length (Rev tail)) 1n) 
+   •   chn  : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))) 
+   •   chn  = Equal.chain Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) aux1 aux2) 
+   •   rrt  : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail))) 
+   •   rrt  = Equal.rewrite Nat (Length (Rev tail)) (Length tail) ind (x =&gt; Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ x))) chn)
+</code></pre>
+<p>Agora é muito mais fácil perceber que nosso <code>rrt</code> é exatamente o nosso <code>Expected</code>, então nossa prova fica assim:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_length (xs: List Nat)            : Equal Nat (Length (Rev xs)) (Length xs))
+Rev_length List.nil                  = Equal.refl
+Rev_length (List.cons Nat head tail) =
+   let ind   = Rev_length tail
+   let aux1  = App_length (Rev tail) [head]
+   let aux2  = Plus_comm (Length (Rev tail)) (1n)
+   let chn   = Equal.chain aux1 aux2
+   let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (App (Rev tail) (List.cons head (List.nil)))) (Nat.succ x ))) chn
+   rrt
+<span class="boring">}</span></code></pre></pre>
+<h1 id="33"><a class="header" href="#33">3.3</a></h1>
+<h3 id="331"><a class="header" href="#331">3.3.1</a></h3>
+<p>Vamos praticar um pouco mais com as listas:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>App_nil_r (xs: List Nat) : Equal (App xs List.nil) xs)
+App_nil_r xs = ?
+
+App_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (App (App xs ys) zs) (App xs (App ys zs))
+App_assoc xs ys zs = ?
+
+Rev_app_distr (xs: List Nat) (ys: List Nat) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs)))
+Rev_app_distr xs ys = ?
+
+Rev_involutive (xs: List Nat) : Equal (Rev (Rev xs)) xs)
+Rev_involutive xs = ?
+<span class="boring">}</span></code></pre></pre>
+<p>Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
+recue e tente procurar uma maneira mais simples.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat) : Equal (List Nat) (App l1 (App l2 (App l3 l4))) (App (App (App l1 l2) l3) l4))
+App_assoc4 l1 l2 l3 l4 = ? 
+<span class="boring">}</span></code></pre></pre>
+<p>Um exercício sobre sua implementação de <em>nonzeros</em>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Nonzeros_app (xs: List Nat) (ys: List Nat) : Equal (List Nat) (Nonzeros (App xs ys)) (App (Nonzeros xs) (Nonzeros ys)))
+Nonzeros_app xs ys = ?
+<span class="boring">}</span></code></pre></pre>
+<h3 id="332"><a class="header" href="#332">3.3.2</a></h3>
+<p>Preencha a definição de beq_NatList, que compara listas de números para igualdade. Prove que beq_NatList xs ys produz <em>Bool.true</em> para cada lista.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Beq_NatList (xs: List Nat) (ys: List Nat) : Bool
+Beq_NatList xs ys = ? 
+
+Test_beq_natlist1 : Equal Bool (Beq_list List.nil List.nil) Bool.true
+Test_beq_natlist1 = ?
+
+Test_beq_natlist2 : Equal Bool (Beq_list [1n,2n,3n] [1n,2n,3n]) Bool.true
+Test_beq_natlist2 = ?
+
+Test_beq_natlist3 : Equal Bool (Beq_list [1n,2n,3n] [1n,2n,4n]) Bool.false
+Test_beq_natlist3 = ?
+
+Beq_natlist_refl (xs: List Nat) : Equal Bool Bool.true (Beq_list xs xs)
+Beq_natlist_refl xs = ?
+<span class="boring">}</span></code></pre></pre>
+<h2 id="34-exercícios-de-listas-parte-2"><a class="header" href="#34-exercícios-de-listas-parte-2">3.4 Exercícios de Listas, parte 2</a></h2>
+<h3 id="341"><a class="header" href="#341">3.4.1</a></h3>
+<p>Prove o seguinte teorema, ele ajudará você na prova seguinte</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Ble_n_succ_n (n: Nat) : Equal Bool (Lte n (Nat.succ n)) Bool.true
+Ble_n_succ_n n = ? 
+<span class="boring">}</span></code></pre></pre>
+<p>Aqui estão mais alguns pequenos teoremas para provar sobre suas definições sobre listas.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Count_member_nonzero (xs: List Nat) : Equal Bool (Lte 1n (Count 1n (List.cons 1n xs))) Bool.true
+Count_member_nonzero xs = ?
+<span class="boring">}</span></code></pre></pre>
+<h3 id="342"><a class="header" href="#342">3.4.2</a></h3>
+<p>Prove que a função <em>Rev</em> é injetiva - isto é</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_injective (xs: List Nat) (ys: List Nat) (e: Equal (List Nat) (Rev xs) (Rev ys)) :tail Equal (List Nat) xs ys
+Rev_injective xs ys e = ?  
+<span class="boring">}</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Book/chapter_04/4,2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../Book/chapter_04/4,4.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Book/chapter_04/4,2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../Book/chapter_04/4,4.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
