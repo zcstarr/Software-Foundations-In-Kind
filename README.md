@@ -8,8 +8,8 @@ Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.githu
 - 2. \## Título;
 - 3. \### Subtítulo;
 - 4. \#### Título de exercício, exemplo etc;
-- 5. `Codigo`;
-- 6. Mensagem de erro: diff;
+- 5. `codeblock`;
+- 6. Mensagem de erro: codeblock + diff;
 - 7. Citação de função, tipo ou parametro dentro do texto: em itálico (*Tipo*);
 
 ## TODO

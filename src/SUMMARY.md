@@ -19,8 +19,7 @@
 
 # Book
 
-- [Básico](./Book/chapter_02/2.md)
-  - [Introdução](./Book/chapter_02/2,1.md)
+- [Básico: Introdução](./Book/chapter_02/2,1.md)
   - [Tipos Enumerados](./Book/chapter_02/2,2.md)
     - [Dias da semana](./Book/chapter_02/2,2,1.md)
   - [Booleanos](./Book/chapter_02/2,3.md)
