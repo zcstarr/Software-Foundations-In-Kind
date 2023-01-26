@@ -193,7 +193,7 @@ Test_repeat1 = Equal.refl</code></pre>
 <p>Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:</p>
 <pre><code class="language-rust ignore">Test_repeat2 : Equal (Repeat Bool.false 1n) (List.cons Bool.false List.nil)
 Test_repeat2 = Equal.refl</code></pre>
-<h3 id="inferência-de-anotação-de-tipo"><a class="header" href="#inferência-de-anotação-de-tipo">Inferência de anotação de tipo.</a></h3>
+<h3 id="inferência-de-anotação-de-tipo"><a class="header" href="#inferência-de-anotação-de-tipo">Inferência de anotação de tipo</a></h3>
 <p>Vamos escrever a definição do <code>repeat</code> novamente, mas dessa vez omitindo o tipo, mas atenção, essa não é uma boa prática usar o <code>hole</code>, servirá apenas para compreender o poder do Kind e como ele pode ajudar o usuário a encontrar o que deseja.</p>
 <pre><code class="language-rust ignore">Repeat (x: _) (count: Nat) : List _
 Repeat x Nat.zero          = ?</code></pre>
@@ -270,8 +270,8 @@ Test_rev2 = Equal.refl
 
 Test_length1 : Equal (Length [1,2,3]) 3n
 Test_length1 = Equal.refl</code></pre>
-<p>1.1.3</p>
-<p>Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.</p>
+<h4 id="exercícios-polimórficos"><a class="header" href="#exercícios-polimórficos">Exercícios polimórficos</a></h4>
+<p>Aqui estão alguns exercícios simples, semelhantes aos da seção de Listas, para praticar o polimorfismo. Complete as provas abaixo.</p>
 <pre><code class="language-rust ignore">App_nil_r &lt;a&gt; (xs: List a) : Equal (App xs List.nil) xs
 App_nil_r xs = ?
 
@@ -280,7 +280,7 @@ App_assoc xs ys zs = ?
 
 App_length &lt;a&gt; (xs: List a) (ys: List a) : Equal (Length (App xs ys)) (Plus (Length xs) (Length ys))
 App_length xs ys = ?</code></pre>
-<p>1.1.4</p>
+<h4 id="mais-exercícios-polimórficos"><a class="header" href="#mais-exercícios-polimórficos">Mais exercícios polimórficos</a></h4>
 <p>Aqui estão alguns um pouco mais interessantes...</p>
 <pre><code class="language-rust ignore">Rev_app_distr &lt;a&gt; (xs: List a) (ys: List a) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
@@ -307,25 +307,26 @@ Snd (Pair.new fst snd) = snd</code></pre>
 Zip [] ys = []
 Zip xs [] = []
 Zip (List.cons xs.h xs.t) (List.cons ys.h ys.t) = List.cons (Pair.new xs.h xs.t) (Zip xs.t ys.t)</code></pre>
-<p>Exercício 1.2.1
-Sem rodar o programa, tente responder a seguinte pergunta:</p>
+<h4 id="check"><a class="header" href="#check">Check</a></h4>
+<p>Sem rodar o programa, tente responder a seguinte pergunta:</p>
 <ul>
 <li>O que a combinação de [1, 2] e [Bool.true, Bool.false, Bool.false, Bool.true] retornará?</li>
 </ul>
 <p>Agora rode o código e veja se acertou.</p>
-<p>Exercício 1.2.2
-A função <em>Split</em> é o inverso da <em>Zip</em>, ela recebe uma lista de pares e retorna um par de listas. Em muitas linguagens funcionais ela é chamada de <em>Unzip</em>.</p>
+<h4 id="split"><a class="header" href="#split">Split</a></h4>
+<p>A função <em>Split</em> é o inverso da <em>Zip</em>, ela recebe uma lista de pares e retorna um par de listas. Em muitas linguagens funcionais ela é chamada de <em>Unzip</em>.</p>
 <p>Preencha a definição de divisão abaixo. Certifique-se de que ela passe no teste unitário fornecido.</p>
 <pre><code class="language-rust ignore">Split &lt;a&gt; &lt;b&gt; (xs: List (Pair a b)) : Pair (List a) (List b)
 Split xs = ?
 
 Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new ([1, 2]) ([Bool.false, Bool.false]))
 Test_split = ?</code></pre>
-<p>Exercício 1.2.3
-Maybe polimórfico. No capítulo anterior, nós também vimos o tipo <em>Maybe</em>, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo <em>Maybe</em> também é polimórfico e é isso o que veremos agora.</p>
-<pre><code class="language-rust ignore">Maybe &lt;a: Type&gt; : Type
-Maybe.none &lt;a&gt; : (Maybe a)
-Maybe.some &lt;a&gt; (value: a) : (Maybe a)</code></pre>
+<h4 id="polimorfismo-com-maybe"><a class="header" href="#polimorfismo-com-maybe">Polimorfismo com maybe</a></h4>
+<p>No capítulo anterior, nós também vimos o tipo <em>Maybe</em>, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo <em>Maybe</em> também é polimórfico e é isso o que veremos agora.</p>
+<pre><code class="language-rust ignore">type Maybe (t) {
+  none 
+  some (value: t)
+}</code></pre>
 <p>Dessa forma, podemos escrever a função do <em>enésimo</em> erro para ele ser usado com todos os tipos de listas:</p>
 <pre><code class="language-rust ignore">Nth_error &lt;a&gt; (n: Nat) (xs: List a) : Maybe a
 Nth_error a n List.nil              = Maybe.none
@@ -343,9 +344,8 @@ Test_nth_error2 = Equal.refl
 Test_nth_error3 : Equal (Nth_error 1n [[1n],[2n]]) (Maybe.some [2n])
 Test_nth_error3 = Equal.refl
 </code></pre>
-<p>1.2.4
-Complete a definição de
-uma versão polimórfica da função hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.</p>
+<h4 id="hd_error"><a class="header" href="#hd_error">Hd_error</a></h4>
+<p>Complete a definição de uma versão polimórfica da função Hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.</p>
 <pre><code class="language-rust ignore">Hd_error &lt;a&gt; (xs: Lista a) : Maybe a
 Hd_error xs = ?
 

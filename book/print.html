@@ -812,14 +812,36 @@ para a indução em si, podemos analisar casos simples onde apenas a reflexão d
 caso já prova o teorema.</p>
 <pre><code class="language-rust ignore">Problems.t0 (n: Nat) : Equal Nat (Plus Nat.zero n) n</code></pre>
 <p>Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:</p>
-<p><img src="Book/chapter_03/../../../Imgs/problemst0.png" alt="mensagem de erro" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat n n) 
+
+   • Context: 
+   •   n : Nat 
+
+    Problems.t0 n = ?
+                    ┬
+                    └Here!
+</code></pre>
 <p>No <em>Problems.t0</em> o Kind reduz a soma de &quot;<em>0 + n</em>&quot; automaticamente para <em>n</em> e
 que devemos provar a igualdade entre <em>n</em> e <em>n</em>. Nesse caso basta escrever &quot;<em>Equal</em>.<strong>refl</strong>&quot; e obtemos a resposta de
-confirmação: </p>
-<p>&quot;<em>All terms check.</em>&quot;</p>
+confirmação:</p>
+<pre><code class="language-terminal">All terms check.
+
+</code></pre>
 <pre><code class="language-rust ignore">Problems.t1 (n: Nat) : Equal Nat (Plus n Nat.zero) n</code></pre>
 <p>Feito o primeiro problema, o seguinte é muito similar, é a soma de &quot;<em>n + 0 = n</em>&quot; e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:</p>
-<p><img src="Book/chapter_03/../../../Imgs/problemst1.png" alt="Problems.t1" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Plus n 0n) n) 
+
+   • Context: 
+   •   n   : Nat 
+
+   Problems.t1 n = ?
+                   ┬
+                   └Here!
+</code></pre>
 <p>No primeiro caso o Kind reduz pois o <em>zero</em> está à direita e o <em>Type
 Checker</em> já reduz automaticamente, a soma de entre <em>0</em> e <em>n</em> para <em>n</em>.
 Entretanto, quando o primeiro <em>input</em> é uma variável, o Kind necessita
@@ -854,7 +876,20 @@ Problems.t1 (Nat.succ n)   =
     let ind = Problems.t1 n
     ?</code></pre>
 <p>Ao dar o <em>Type Check</em> temos como retorno a seguinte resposta:</p>
-<p><img src="Book/chapter_03/../../../Imgs/problemst1-ind.png" alt="indução no problems.t1" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   ind : (Equal Nat (Plus n 0n) n) 
+   •   ind = (Problems.t1 n) 
+
+   let ind = Problems.t1 n
+     ?
+     ┬
+     └Here!
+</code></pre>
 <p>Ao analizar nosso objetivo e a indução, percebemos que a única diferença entre
 o objetivo e a nossa variável <em>ind</em> é o <em>Nat</em>.<strong>succ</strong>, basta então
 incrementar a variável <em>ind</em> com o <em>Nat</em>.<strong>succ</strong>, para isso nós criamos uma
@@ -866,11 +901,28 @@ função <em>lambda</em> ao <em>ind</em>. A função <code>x =&gt; (Nat.succ x)<
 é uma função que recebe uma outra variável <em>n</em>, a nossa função <em>lambda</em>
 incrementa a <em>n</em> com <em>Nat</em>.<strong>succ</strong>, o que retorna exatamente o nosso
 objetivo:</p>
-<p><img src="Book/chapter_03/../../../Imgs/problemst1-app.png" alt="Aplicação na indução do Problems.t1" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   ind : (Equal Nat (Plus n 0n) n) 
+   •   ind = (Problems.t1 n) 
+   •   app : (Equal Nat (Nat.succ (Nat.add n 0n)) (Nat.succ n)) 
+   •   app = (Equal.apply Nat Nat (Nat.add n 0n) n (x =&gt; (Nat.succ x)) ind)  
+
+   let app = Equal.apply (x =&gt; (Nat.succ x)) ind
+      ?
+      ┬
+      └Here!
+</code></pre>
 <p>Podemos perceber que o <em>app</em> é exatamente igual ao <em>Expected</em>, que é o nosso
 objetivo e basta apenas retornar ele, o app para que o <em>Type Check</em> valide
-a nossa prova:
-<em>All terms check.</em></p>
+a nossa prova:</p>
+<pre><code class="language-terminal">All terms check.
+
+</code></pre>
 <p>Há casos em que a indução é ainda mais simples, basta compreender o que está acontecendo. Imagine que você quer provar que um número <code>n</code> menos ele mesmo é igual a <em>zero</em>, independente de qual seja esse número. Como faríamos?
 Primeiro, nós verificamos para o caso dele ser <em>zero</em> e é uma igualdade verdadeira, <em>zero</em> menos <em>zero</em> é igual a <em>zero</em>. Depois, nós induzimos o caso para o caso de <em>zero</em>, que sabemos ser verdadeiro. Parece complicado? Não é, é absurdamente simples, vamos ver como fica isso em <em>Kind</em>:</p>
 <pre><code class="language-rs">Minus_diag (n: Nat)     : Equal Nat (Minus  n n) Nat.zero
@@ -908,20 +960,20 @@ Evenb_s n = ?</code></pre>
 <h2 id="outro-caso"><a class="header" href="#outro-caso">Outro caso</a></h2>
 <p>Vamos verificar se a a igualdade &quot;n +(<em>m</em> + 1) = 1 + (<em>n</em> + <em>m</em>)&quot; é verdadeira</p>
 <p>Primeiro, o nosso problema:</p>
-<pre><code class="language-rust ignore">Problems.t2 (n: Nat) (m: Nat) : Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))) </code></pre>
+<pre><code class="language-rust ignore">Problems.t2 (n: Nat) (m: Nat) : Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))</code></pre>
 <p>Verificamos o primeiro caso, quando <em>n</em> é zero:</p>
 <pre><code class="language-rust ignore">Problems.t2 Nat.zero m = Equal.refl</code></pre>
 <p>e partimos para o caso seguinte</p>
 <pre><code class="language-rust ignore">Problems.t2 (Nat.succ n) m = ?</code></pre>
 <p>e o nosso objetivo atual vira:</p>
-<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))</code></pre>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
 <p>Traduzindo, o sucessor da adição de <em>n</em> e o sucessor de <em>m</em> é igual ao
 sucessor do sucessor da adição de <em>n</em> e <em>m</em>. Para resolver esse problema,
 invocaremos a indução:</p>
 <pre><code class="language-rust ignore">let ind = Problems.t2 n m</code></pre>
 <p>e o nosso objetivo atual é provar que:</p>
 <pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))</code></pre>
-<p>Traduzindo novamente, que o <em>sucessor</em> da adição de <em>n</em> e o <em>sucessor</em> de <em>m</em> é igual ao <em>sucessor</em> do <em>sucessor</em> da adição de <em>n</em> e <em>m</em>. </p>
+<p>Traduzindo novamente, que o <em>sucessor</em> da adição de <em>n</em> e o <em>sucessor</em> de <em>m</em> é igual ao <em>sucessor</em> do <em>sucessor</em> da adição de <em>n</em> e <em>m</em>.</p>
 <p>mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:</p>
 <pre><code class="language-rust ignore">Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m)))</code></pre>
 <p>Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
@@ -940,33 +992,49 @@ exigirá algum fato variado que é muito trivial e de muito pouco geral
 interesse em dar-lhe o seu próprio nome de nível superior. Nesses casos, é conveniente
 ser capaz de simplesmente enunciar e provar o “sub-teorema” necessário exatamente no ponto
 onde é usado.</p>
-<p>Analisemos o seguinte teorema da comutação da adição: </p>
-<pre><code class="language-rust ignore">Problems.t3 (n: Nat) (m: Nat) : Equal Nat (Plus n  m) (Plus m n))</code></pre>
+<p>Analisemos o seguinte teorema da comutação da adição:</p>
+<pre><code class="language-rust ignore">Problems.t3 (n: Nat) (m: Nat) : Equal Nat (Plus n  m) (Plus m n)</code></pre>
 <p>No primeiro caso, para <em>n</em> e <em>m</em> igual a zero nós temos uma reflexão:</p>
 <pre><code class="language-rust ignore">Problems.t3 Nat.zero Nat.zero = Equal.refl</code></pre>
 <p>Então partimos para o próximo caso:</p>
 <pre><code class="language-rust ignore">Problems.t3 (Nat.succ n) m = ?</code></pre>
-<p>E aqui parece que temos um novo problema: </p>
-<pre><code class="language-rust ignore">Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))</code></pre>
+<p>E aqui parece que temos um novo problema:</p>
+<pre><code class="language-rust ignore">Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))</code></pre>
 <p>Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
 que o <em>sucessor</em> da adição de dois números é igual a adição de um número com o
 <em>sucessor</em> dele, então podemos usar isso ao nosso
 favor.</p>
 <p>Começaremos aplicando um <em>Nat</em>.<strong>succ</strong> no nosso problema original:</p>
-<pre><code class="language-rust ignore">let ind_a = Equal.apply (x =&gt; (Nat.succ x)) (Problems.t3 n m ))</code></pre>
+<pre><code class="language-rust ignore">let ind_a = Equal.apply (x =&gt; (Nat.succ x)) (Problems.t3 n m )</code></pre>
 <p>Depois invocaremos nosso problema já resolvido, o <em>Problems</em>.<strong>t2</strong>:</p>
 <pre><code class="language-rust ignore">let ind_b = Problems.t2 m n</code></pre>
 <p>Ao dar o <em>Type Check</em>, o terminal nos retorna:</p>
-<p><img src="Book/chapter_03/../../../Imgs/problemst3.png" alt="Problems.t3" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n))) 
+
+   • Context: 
+   •   n     : Nat 
+   •   m     : Nat 
+   •   ind_a : (Equal Nat (Nat.succ (Nat.add n m)) (Nat.succ (Nat.add m n))) 
+   •   ind_a = (Equal.apply Nat Nat (Nat.add n m) (Nat.add m n) (x =&gt; (Nat.succ x)) (Problems.t3 n m)) 
+   •   ind_b : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add m n))) 
+   •   ind_b = (Problems.t2 m n) 
+ 
+   let ind_b = Problems.t2 m n
+     ?
+     ┬
+     └Here!
+</code></pre>
 <p>Agora podemos perceber que a primeira parte da <em>ind_a</em> é igual ao inverso da
 primeira parte do nosso
 objetivo e a primeira parte da <em>ind_b</em> é igual a segunda do objetivo, basta
 apenas organizar e juntar as partes necessárias. Para isso usaremos a
 <em>Equal</em>.<strong>mirror</strong> e a <em>Equal</em>.<strong>chain</strong>.</p>
-<pre><code class="language-rust ignore">let ind_c = Equal.chain ind_b Equal.mirror ind_a)</code></pre>
+<pre><code class="language-rust ignore">let ind_c = Equal.chain ind_b Equal.mirror ind_a</code></pre>
 <p>E o ind_c nos retorna um valor similar ao desejado:</p>
-<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))
-•   ind_c : Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m)))</code></pre>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))
+•   ind_c : Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m))</code></pre>
 <p>Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
 <em>Equal</em>.<strong>mirror</strong> novamente:</p>
 <pre><code class="language-rust ignore">let app = Equal.mirror ind_c</code></pre>
@@ -1701,7 +1769,7 @@ Test_repeat1 = Equal.refl</code></pre>
 <p>Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:</p>
 <pre><code class="language-rust ignore">Test_repeat2 : Equal (Repeat Bool.false 1n) (List.cons Bool.false List.nil)
 Test_repeat2 = Equal.refl</code></pre>
-<h3 id="inferência-de-anotação-de-tipo"><a class="header" href="#inferência-de-anotação-de-tipo">Inferência de anotação de tipo.</a></h3>
+<h3 id="inferência-de-anotação-de-tipo"><a class="header" href="#inferência-de-anotação-de-tipo">Inferência de anotação de tipo</a></h3>
 <p>Vamos escrever a definição do <code>repeat</code> novamente, mas dessa vez omitindo o tipo, mas atenção, essa não é uma boa prática usar o <code>hole</code>, servirá apenas para compreender o poder do Kind e como ele pode ajudar o usuário a encontrar o que deseja.</p>
 <pre><code class="language-rust ignore">Repeat (x: _) (count: Nat) : List _
 Repeat x Nat.zero          = ?</code></pre>
@@ -1778,8 +1846,8 @@ Test_rev2 = Equal.refl
 
 Test_length1 : Equal (Length [1,2,3]) 3n
 Test_length1 = Equal.refl</code></pre>
-<p>1.1.3</p>
-<p>Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.</p>
+<h4 id="exercícios-polimórficos"><a class="header" href="#exercícios-polimórficos">Exercícios polimórficos</a></h4>
+<p>Aqui estão alguns exercícios simples, semelhantes aos da seção de Listas, para praticar o polimorfismo. Complete as provas abaixo.</p>
 <pre><code class="language-rust ignore">App_nil_r &lt;a&gt; (xs: List a) : Equal (App xs List.nil) xs
 App_nil_r xs = ?
 
@@ -1788,7 +1856,7 @@ App_assoc xs ys zs = ?
 
 App_length &lt;a&gt; (xs: List a) (ys: List a) : Equal (Length (App xs ys)) (Plus (Length xs) (Length ys))
 App_length xs ys = ?</code></pre>
-<p>1.1.4</p>
+<h4 id="mais-exercícios-polimórficos"><a class="header" href="#mais-exercícios-polimórficos">Mais exercícios polimórficos</a></h4>
 <p>Aqui estão alguns um pouco mais interessantes...</p>
 <pre><code class="language-rust ignore">Rev_app_distr &lt;a&gt; (xs: List a) (ys: List a) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
@@ -1815,25 +1883,26 @@ Snd (Pair.new fst snd) = snd</code></pre>
 Zip [] ys = []
 Zip xs [] = []
 Zip (List.cons xs.h xs.t) (List.cons ys.h ys.t) = List.cons (Pair.new xs.h xs.t) (Zip xs.t ys.t)</code></pre>
-<p>Exercício 1.2.1
-Sem rodar o programa, tente responder a seguinte pergunta:</p>
+<h4 id="check"><a class="header" href="#check">Check</a></h4>
+<p>Sem rodar o programa, tente responder a seguinte pergunta:</p>
 <ul>
 <li>O que a combinação de [1, 2] e [Bool.true, Bool.false, Bool.false, Bool.true] retornará?</li>
 </ul>
 <p>Agora rode o código e veja se acertou.</p>
-<p>Exercício 1.2.2
-A função <em>Split</em> é o inverso da <em>Zip</em>, ela recebe uma lista de pares e retorna um par de listas. Em muitas linguagens funcionais ela é chamada de <em>Unzip</em>.</p>
+<h4 id="split"><a class="header" href="#split">Split</a></h4>
+<p>A função <em>Split</em> é o inverso da <em>Zip</em>, ela recebe uma lista de pares e retorna um par de listas. Em muitas linguagens funcionais ela é chamada de <em>Unzip</em>.</p>
 <p>Preencha a definição de divisão abaixo. Certifique-se de que ela passe no teste unitário fornecido.</p>
 <pre><code class="language-rust ignore">Split &lt;a&gt; &lt;b&gt; (xs: List (Pair a b)) : Pair (List a) (List b)
 Split xs = ?
 
 Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new ([1, 2]) ([Bool.false, Bool.false]))
 Test_split = ?</code></pre>
-<p>Exercício 1.2.3
-Maybe polimórfico. No capítulo anterior, nós também vimos o tipo <em>Maybe</em>, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo <em>Maybe</em> também é polimórfico e é isso o que veremos agora.</p>
-<pre><code class="language-rust ignore">Maybe &lt;a: Type&gt; : Type
-Maybe.none &lt;a&gt; : (Maybe a)
-Maybe.some &lt;a&gt; (value: a) : (Maybe a)</code></pre>
+<h4 id="polimorfismo-com-maybe"><a class="header" href="#polimorfismo-com-maybe">Polimorfismo com maybe</a></h4>
+<p>No capítulo anterior, nós também vimos o tipo <em>Maybe</em>, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo <em>Maybe</em> também é polimórfico e é isso o que veremos agora.</p>
+<pre><code class="language-rust ignore">type Maybe (t) {
+  none 
+  some (value: t)
+}</code></pre>
 <p>Dessa forma, podemos escrever a função do <em>enésimo</em> erro para ele ser usado com todos os tipos de listas:</p>
 <pre><code class="language-rust ignore">Nth_error &lt;a&gt; (n: Nat) (xs: List a) : Maybe a
 Nth_error a n List.nil              = Maybe.none
@@ -1851,9 +1920,8 @@ Test_nth_error2 = Equal.refl
 Test_nth_error3 : Equal (Nth_error 1n [[1n],[2n]]) (Maybe.some [2n])
 Test_nth_error3 = Equal.refl
 </code></pre>
-<p>1.2.4
-Complete a definição de
-uma versão polimórfica da função hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.</p>
+<h4 id="hd_error"><a class="header" href="#hd_error">Hd_error</a></h4>
+<p>Complete a definição de uma versão polimórfica da função Hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.</p>
 <pre><code class="language-rust ignore">Hd_error &lt;a&gt; (xs: Lista a) : Maybe a
 Hd_error xs = ?
 

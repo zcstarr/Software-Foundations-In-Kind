@@ -150,14 +150,36 @@ para a indução em si, podemos analisar casos simples onde apenas a reflexão d
 caso já prova o teorema.</p>
 <pre><code class="language-rust ignore">Problems.t0 (n: Nat) : Equal Nat (Plus Nat.zero n) n</code></pre>
 <p>Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:</p>
-<p><img src="../../../Imgs/problemst0.png" alt="mensagem de erro" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat n n) 
+
+   • Context: 
+   •   n : Nat 
+
+    Problems.t0 n = ?
+                    ┬
+                    └Here!
+</code></pre>
 <p>No <em>Problems.t0</em> o Kind reduz a soma de &quot;<em>0 + n</em>&quot; automaticamente para <em>n</em> e
 que devemos provar a igualdade entre <em>n</em> e <em>n</em>. Nesse caso basta escrever &quot;<em>Equal</em>.<strong>refl</strong>&quot; e obtemos a resposta de
-confirmação: </p>
-<p>&quot;<em>All terms check.</em>&quot;</p>
+confirmação:</p>
+<pre><code class="language-terminal">All terms check.
+
+</code></pre>
 <pre><code class="language-rust ignore">Problems.t1 (n: Nat) : Equal Nat (Plus n Nat.zero) n</code></pre>
 <p>Feito o primeiro problema, o seguinte é muito similar, é a soma de &quot;<em>n + 0 = n</em>&quot; e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:</p>
-<p><img src="../../../Imgs/problemst1.png" alt="Problems.t1" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Plus n 0n) n) 
+
+   • Context: 
+   •   n   : Nat 
+
+   Problems.t1 n = ?
+                   ┬
+                   └Here!
+</code></pre>
 <p>No primeiro caso o Kind reduz pois o <em>zero</em> está à direita e o <em>Type
 Checker</em> já reduz automaticamente, a soma de entre <em>0</em> e <em>n</em> para <em>n</em>.
 Entretanto, quando o primeiro <em>input</em> é uma variável, o Kind necessita
@@ -192,7 +214,20 @@ Problems.t1 (Nat.succ n)   =
     let ind = Problems.t1 n
     ?</code></pre>
 <p>Ao dar o <em>Type Check</em> temos como retorno a seguinte resposta:</p>
-<p><img src="../../../Imgs/problemst1-ind.png" alt="indução no problems.t1" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   ind : (Equal Nat (Plus n 0n) n) 
+   •   ind = (Problems.t1 n) 
+
+   let ind = Problems.t1 n
+     ?
+     ┬
+     └Here!
+</code></pre>
 <p>Ao analizar nosso objetivo e a indução, percebemos que a única diferença entre
 o objetivo e a nossa variável <em>ind</em> é o <em>Nat</em>.<strong>succ</strong>, basta então
 incrementar a variável <em>ind</em> com o <em>Nat</em>.<strong>succ</strong>, para isso nós criamos uma
@@ -204,11 +239,28 @@ função <em>lambda</em> ao <em>ind</em>. A função <code>x =&gt; (Nat.succ x)<
 é uma função que recebe uma outra variável <em>n</em>, a nossa função <em>lambda</em>
 incrementa a <em>n</em> com <em>Nat</em>.<strong>succ</strong>, o que retorna exatamente o nosso
 objetivo:</p>
-<p><img src="../../../Imgs/problemst1-app.png" alt="Aplicação na indução do Problems.t1" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   ind : (Equal Nat (Plus n 0n) n) 
+   •   ind = (Problems.t1 n) 
+   •   app : (Equal Nat (Nat.succ (Nat.add n 0n)) (Nat.succ n)) 
+   •   app = (Equal.apply Nat Nat (Nat.add n 0n) n (x =&gt; (Nat.succ x)) ind)  
+
+   let app = Equal.apply (x =&gt; (Nat.succ x)) ind
+      ?
+      ┬
+      └Here!
+</code></pre>
 <p>Podemos perceber que o <em>app</em> é exatamente igual ao <em>Expected</em>, que é o nosso
 objetivo e basta apenas retornar ele, o app para que o <em>Type Check</em> valide
-a nossa prova:
-<em>All terms check.</em></p>
+a nossa prova:</p>
+<pre><code class="language-terminal">All terms check.
+
+</code></pre>
 <p>Há casos em que a indução é ainda mais simples, basta compreender o que está acontecendo. Imagine que você quer provar que um número <code>n</code> menos ele mesmo é igual a <em>zero</em>, independente de qual seja esse número. Como faríamos?
 Primeiro, nós verificamos para o caso dele ser <em>zero</em> e é uma igualdade verdadeira, <em>zero</em> menos <em>zero</em> é igual a <em>zero</em>. Depois, nós induzimos o caso para o caso de <em>zero</em>, que sabemos ser verdadeiro. Parece complicado? Não é, é absurdamente simples, vamos ver como fica isso em <em>Kind</em>:</p>
 <pre><code class="language-rs">Minus_diag (n: Nat)     : Equal Nat (Minus  n n) Nat.zero

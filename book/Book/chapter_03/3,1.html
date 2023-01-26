@@ -172,20 +172,20 @@ Evenb_s n = ?</code></pre>
 <h2 id="outro-caso"><a class="header" href="#outro-caso">Outro caso</a></h2>
 <p>Vamos verificar se a a igualdade &quot;n +(<em>m</em> + 1) = 1 + (<em>n</em> + <em>m</em>)&quot; é verdadeira</p>
 <p>Primeiro, o nosso problema:</p>
-<pre><code class="language-rust ignore">Problems.t2 (n: Nat) (m: Nat) : Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))) </code></pre>
+<pre><code class="language-rust ignore">Problems.t2 (n: Nat) (m: Nat) : Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))</code></pre>
 <p>Verificamos o primeiro caso, quando <em>n</em> é zero:</p>
 <pre><code class="language-rust ignore">Problems.t2 Nat.zero m = Equal.refl</code></pre>
 <p>e partimos para o caso seguinte</p>
 <pre><code class="language-rust ignore">Problems.t2 (Nat.succ n) m = ?</code></pre>
 <p>e o nosso objetivo atual vira:</p>
-<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))</code></pre>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
 <p>Traduzindo, o sucessor da adição de <em>n</em> e o sucessor de <em>m</em> é igual ao
 sucessor do sucessor da adição de <em>n</em> e <em>m</em>. Para resolver esse problema,
 invocaremos a indução:</p>
 <pre><code class="language-rust ignore">let ind = Problems.t2 n m</code></pre>
 <p>e o nosso objetivo atual é provar que:</p>
 <pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))</code></pre>
-<p>Traduzindo novamente, que o <em>sucessor</em> da adição de <em>n</em> e o <em>sucessor</em> de <em>m</em> é igual ao <em>sucessor</em> do <em>sucessor</em> da adição de <em>n</em> e <em>m</em>. </p>
+<p>Traduzindo novamente, que o <em>sucessor</em> da adição de <em>n</em> e o <em>sucessor</em> de <em>m</em> é igual ao <em>sucessor</em> do <em>sucessor</em> da adição de <em>n</em> e <em>m</em>.</p>
 <p>mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:</p>
 <pre><code class="language-rust ignore">Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m)))</code></pre>
 <p>Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
@@ -204,33 +204,49 @@ exigirá algum fato variado que é muito trivial e de muito pouco geral
 interesse em dar-lhe o seu próprio nome de nível superior. Nesses casos, é conveniente
 ser capaz de simplesmente enunciar e provar o “sub-teorema” necessário exatamente no ponto
 onde é usado.</p>
-<p>Analisemos o seguinte teorema da comutação da adição: </p>
-<pre><code class="language-rust ignore">Problems.t3 (n: Nat) (m: Nat) : Equal Nat (Plus n  m) (Plus m n))</code></pre>
+<p>Analisemos o seguinte teorema da comutação da adição:</p>
+<pre><code class="language-rust ignore">Problems.t3 (n: Nat) (m: Nat) : Equal Nat (Plus n  m) (Plus m n)</code></pre>
 <p>No primeiro caso, para <em>n</em> e <em>m</em> igual a zero nós temos uma reflexão:</p>
 <pre><code class="language-rust ignore">Problems.t3 Nat.zero Nat.zero = Equal.refl</code></pre>
 <p>Então partimos para o próximo caso:</p>
 <pre><code class="language-rust ignore">Problems.t3 (Nat.succ n) m = ?</code></pre>
-<p>E aqui parece que temos um novo problema: </p>
-<pre><code class="language-rust ignore">Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))</code></pre>
+<p>E aqui parece que temos um novo problema:</p>
+<pre><code class="language-rust ignore">Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))</code></pre>
 <p>Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
 que o <em>sucessor</em> da adição de dois números é igual a adição de um número com o
 <em>sucessor</em> dele, então podemos usar isso ao nosso
 favor.</p>
 <p>Começaremos aplicando um <em>Nat</em>.<strong>succ</strong> no nosso problema original:</p>
-<pre><code class="language-rust ignore">let ind_a = Equal.apply (x =&gt; (Nat.succ x)) (Problems.t3 n m ))</code></pre>
+<pre><code class="language-rust ignore">let ind_a = Equal.apply (x =&gt; (Nat.succ x)) (Problems.t3 n m )</code></pre>
 <p>Depois invocaremos nosso problema já resolvido, o <em>Problems</em>.<strong>t2</strong>:</p>
 <pre><code class="language-rust ignore">let ind_b = Problems.t2 m n</code></pre>
 <p>Ao dar o <em>Type Check</em>, o terminal nos retorna:</p>
-<p><img src="../../../Imgs/problemst3.png" alt="Problems.t3" /></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Nat.add n m)) (Nat.add m (Nat.succ n))) 
+
+   • Context: 
+   •   n     : Nat 
+   •   m     : Nat 
+   •   ind_a : (Equal Nat (Nat.succ (Nat.add n m)) (Nat.succ (Nat.add m n))) 
+   •   ind_a = (Equal.apply Nat Nat (Nat.add n m) (Nat.add m n) (x =&gt; (Nat.succ x)) (Problems.t3 n m)) 
+   •   ind_b : (Equal Nat (Nat.add m (Nat.succ n)) (Nat.succ (Nat.add m n))) 
+   •   ind_b = (Problems.t2 m n) 
+ 
+   let ind_b = Problems.t2 m n
+     ?
+     ┬
+     └Here!
+</code></pre>
 <p>Agora podemos perceber que a primeira parte da <em>ind_a</em> é igual ao inverso da
 primeira parte do nosso
 objetivo e a primeira parte da <em>ind_b</em> é igual a segunda do objetivo, basta
 apenas organizar e juntar as partes necessárias. Para isso usaremos a
 <em>Equal</em>.<strong>mirror</strong> e a <em>Equal</em>.<strong>chain</strong>.</p>
-<pre><code class="language-rust ignore">let ind_c = Equal.chain ind_b Equal.mirror ind_a)</code></pre>
+<pre><code class="language-rust ignore">let ind_c = Equal.chain ind_b Equal.mirror ind_a</code></pre>
 <p>E o ind_c nos retorna um valor similar ao desejado:</p>
-<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))
-•   ind_c : Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m)))</code></pre>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))
+•   ind_c : Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m))</code></pre>
 <p>Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
 <em>Equal</em>.<strong>mirror</strong> novamente:</p>
 <pre><code class="language-rust ignore">let app = Equal.mirror ind_c</code></pre>
