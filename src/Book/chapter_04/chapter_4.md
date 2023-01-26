@@ -9,29 +9,29 @@ Em uma definição de tipo indutivo, cada construtor pode receber qualquer núme
 de argumentos -- nenhum como o `Bool`, `Empty` ou um como o `*Nat*` -- e
 temos o `Pair` que recebe dois argumentos (podendo ser até mesmo outros dois
 pares) e retorna um tipo:
-```rust
+```rust,ignore
    Pair (a: Type) (b: Type) : Type
 ```
 Os dois argumentos recebidos são transformados no primeiro componente, o `fst`, e
 o segundo, o `snd`. 
-```rust
+```rust,ignore
    type Pair <a: Type> <b: Type> {
       new (fst: a) (snd: b)
    }  
    ```
 A forma de construir um par de *Nat* é a seguinte:
-```rust
+```rust,ignore
 Pair.new Nat Nat a b  : (Pair a b)
 ```
 Aqui estão duas funções simples para extrair o primeiro e o segundo componentes de um par. As definições também ilustram como fazer a correspondência de padrões em dois argumentos construtores.
 
 Exemplo 1: (Fst Nat (List Nat) (Pair 2 [1n,2n,3n])) ->  2n
-```rust
+```rust,ignore
 Fst (pair: Pair Nat Nat) : Nat
 Fst (Pair.new Nat Nat fst snd) = fst
 ```
 Exemplo 2: (Snd Nat (List Nat) (Pair 2 [1n,2n,3n])) -> [1n,2n,3n]
-```rust
+```rust,ignore
 Snd (pair: Pair Nat Nat) : Nat
 Snd (Pair.new Nat Nat fst snd) = snd
 ```
@@ -39,20 +39,20 @@ Snd (Pair.new Nat Nat fst snd) = snd
 ### Algumas provas
 
 Vamos tentar provar alguns fatos simples sobre pares. Se declararmos as coisas de uma maneira particular (e ligeiramente peculiar), podemos completar provas com apenas reflexividade:
-```rust
+```rust,ignore
 Surjective_pairing (p: Pair Nat Nat) : Equal (Pair Nat Nat) p (Pair.new (Fst p) (Snd p)))
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 ```
 Mas *Equal.***refl** não é suficiente caso a declaração seja:
-```rust
+```rust,ignore
 Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl
 ```
 Já que o Kind espera
-```rust
+```rust,ignore
 Equal (Pair Nat Nat) p (Pair.new (Fst p) (Snd p)))
 ```
 E recebeu
-```rust
+```rust,ignore
 Equal p p)
 ```
 Nós devemos "expor" a estrutura interna do *par* para que o *Type Checker*
@@ -62,13 +62,13 @@ possa verificar se `p` é realmente igual a `Pair.new (Fst p) (Snd p)`
 ### Execícios:
 
 1.1
-```rust
+```rust,ignore
 Snd_fst_is_swap (p: Pair Nat Nat )         : Equal (Pair Nat Nat) (Pair.swap Nat Nat (Pair.swap Nat Nat p)) p)
 Snd_fst_is_swap (Pair.new Nat Nat fst snd) = ? 
 ```
 
 1.2
-```rust
+```rust,ignore
 Fst_swap_is_inverse (p: Pair Nat Nat) (a: Nat) (b: Nat) : Equal (Pair Nat Nat) (Pair.swap Nat Nat (Pair.new a b) ) (Pair.new b a))
 Fst_swap_is_inverse p a b = ?
 ```
@@ -76,7 +76,7 @@ Fst_swap_is_inverse p a b = ?
 ## Listas de números
 
 Generalizando a definição de pares, podemos descrever o tipo de listas de números assim: “Uma lista ou é a lista vazia ou então um conjuto de um elemento e outra Lista", esse tipo não é composto de um `head` e uma `tail`.
-```rust
+```rust,ignore
 List (t: Type) : Type
 
 type List <t: Type> {
@@ -87,19 +87,19 @@ type List <t: Type> {
 
 Outra forma de construir os tipos é com a seguinte notação, usando o caso do
 tilo `List`
-```rust
+```rust,ignore
 List (a: Type) : Type
 List.nil <a> : (List a)
 List.cons <a> (head: a) (tail: List a) : (List a)
 ```
 Como vamos tratar de apenas um tipo, é interessante reescrever o tipo de lista para um definido, o escolhido foi o *Nat*:
-```rust
+```rust,ignore
 NatList : Type
 NatList.nil  : NatList
 NatList.cons (head: Nat) (tail: NatList) : NatList
 ```
 ou
-```rust
+```rust,ignore
 NatList : Type
 NatList = (List Nat)
 ```
@@ -132,7 +132,7 @@ Pode parecer assustador, mas é um monstro amigável:
 
 ### 2.1 Repeat
 A função repeat recebe um número *n* e um valor, retornando uma lista de tamanho *n* onde todos os elementos é o valor declarado.
-```rust
+```rust,ignore
 // Exemplo: (Repeat 3 Bool.true) -> [True, True, True]
 Repeat (x: Nat) (count: Nat) : List Nat
 Repeat x Nat.zero            = List.nil Nat 
@@ -141,7 +141,7 @@ Repeat x (Nat.succ count)    = List.cons Nat x (Repeat count x)
 
 ### 2.2 Length
 A função *length* calcula o tamanho da lista 
-```rust
+```rust,ignore
 // Exemplo: (Length [1,2,3]) -> 3
 Length (xs: List Nat) : Nat
 Length (List.nil)            = Nat.zero
@@ -150,7 +150,7 @@ Length (List.cons head tail) = (Nat.succ (Length tail))
 
 ### 2.3 App
 A função append concatena (anexa) duas listas.
-```rust
+```rust,ignore
 App (xs: List Nat) (ys: List Nat) : List Nat
 App (List.nil)            ys = ys
 App (List.cons head tail) ys = List.cons Nat head (App tail ys)
@@ -162,27 +162,27 @@ list, enquanto tail retorna tudo menos o primeiro elemento (a “cauda”). Clar
 lista vazia não tem primeiro elemento, então devemos tratar esse caso com um tipo *Maybe*,
 recebendo um *Maybe*.**none** caso a lista seja vazia ou um *Maybe*.**some**
 caso tenha um valor.
-```rust
+```rust,ignore
 // Exemplo: (Head 0n [1n,2n,3n]) -> 1n
 Head (default: Nat) (xs: List Nat) :  Nat
 Head default (List.nil)            = default
 Head default (List.cons head tail) = head
 ```
-```rust
+```rust,ignore
 // Exemplo: (Tail Nat [1,2,3]) -> [2,3]
 Tail (xs: List Nat)        : List Nat
 Tail (List.nil)            = List.nil Nat
 Tail (List.cons head tail) = tail
 ```
-```rust
+```rust,ignore
 Test_head1 : Equal Nat (Head 0n [1n,2n,3n]) 1n
 Test_head1 = Equal.refl
 ```
-```rust
+```rust,ignore
 Test_head2 : Equal Nat (Head 0n List.nil) 0n
 Test_head2 = Equal.refl
 ```
-```rust
+```rust,ignore
 Test_head3 : Equal (List Nat) (Tail [1n, 2n, 3n]) [2n, 3n])
 Test_head3 = Equal.refl
 ```
@@ -191,152 +191,152 @@ Test_head3 = Equal.refl
 
 - 2.5.1 Complete as definições de nonzeros, oddmembers e countoddmembers abaixo. Dê uma olhada nos testes para entender o que essas funções devem fazer.
 
-```rust
+```rust,ignore
 Nonzeros (xs: List Nat) : List Nat
 Nonzeros xs = ?
 ```
-```rust
+```rust,ignore
 Test_nonzeros : Equal (List Nat) (Nonzeros [0n,1n,0n,2n,3n,0n,0n]) [1n,2n,3n]
 Test_nonzeros = ?
 ```
-```rust
+```rust,ignore
 Oddmembers (xs: List Nat) : List Nat
 Oddmembers xs = ?
 ```
-```rust
+```rust,ignore
 Test_oddmembers : Equal (List Nat) (Oddmembers [0n,1n,0n,2n,3n,0n,0n]) [1n,3n]
 Test_oddmembers = ?
 ```
-```rust
+```rust,ignore
 CountOddMembers (xs: List Nat)  : Nat
 CountOddMembers xs = ?
 ```
-```rust
+```rust,ignore
 Test_countoddmembers1 : Equal Nat (CountOddMembers [1n,0n,3n,1n,4n,5n]) 4n)
 Test_countoddmembers1 = ?
 ```
 
 - 2.5.2 Complete a definição de alternate, que “compacta” duas listas em uma, alternando entre os elementos tomados da primeira lista e elementos da segunda. Veja os testes abaixo para mais exemplos específicos.
 
-```rust
+```rust,ignore
 Alternate (xs: List Nat) (ys: List Nat) : List Nat
 Alternate xs ys = ?
 ```
-```rust
+```rust,ignore
 Test_alternate1 : Equal (List Nat) (Alternate [1n,2n,3n] [4n,5n,6n]) [1n,4n,2n,5n,3n,6n]
 Test_alternate1 = ?
 ```
-```rust
+```rust,ignore
 Test_alternate2 : Equal (List Nat) (Alternate [1n] [4n,5n,6n]) [1n,4n,5n,6n]
 Test_alternate2 = ?
 ```
-```rust
+```rust,ignore
 Test_alternate3 : Equal (List Nat) (Alternate  [1n,2n,3n] [4n]) [1n,4n,2n,3n]
 Test_alternate3 = ? 
 ```
-```rust
+```rust,ignore
 Test_alternate4 : Equal (List Nat) (Alternate (List.nil Nat) [20n,30n]) [20n,30n]
 Test_alternate4 = ?
 ```
 
 - 2.6.1 Complete as seguintes definições para as funções count, sum, add, e member das listas de naturais
 
-```rust
+```rust,ignore
 Count (v: Nat) (xs: List Nat) : Nat
 Count v xs = ?
 ```
-```rust
+```rust,ignore
 Test_count1 : Equal Nat (Count 1n [1n,2n,3n,1n,4n,1n]) 3n
 Test_count1 = ?
 ```
-```rust
+```rust,ignore
 Test_count2 : Equal Nat (Count 6n [1n,2n,3n,1n,4n,1n]) 0n
 Test_count2 = ?
 ```
-```rust
+```rust,ignore
 Sum (xs: List Nat) (ys: List Nat) : List Nat
 Sum xs ys = ?
 ```
-```rust
+```rust,ignore
 Test_sum1 : Equal Nat (Count 1n (Sum [1n,2n,3n] [1n,4n,1n])) 3n
 Test_sum1 = ?
 ```
-```rust
+```rust,ignore
 Add (n: Nat) (xs: List Nat) : List Nat
 Add n xs = ?
 ```
-```rust
+```rust,ignore
 Test_add1 : Equal Nat (Count 1n (Add 1n [1n,4n,1n])) 3n
 Test_add1 = ?
 ```
-```rust
+```rust,ignore
 Test_add2 : Equal Nat (Count 5n (Add 1n [1n,4n,1n])) 0n
 Test_add2 = ?
 ```
-```rust
+```rust,ignore
 Member (v: Nat) (xs: List Nat) : Bool
 Member v xs = ?
 ```
-```rust
+```rust,ignore
 Test_member1 : Equal Bool (Member 1n [1n,4n,1n]) Bool.true
 Test_member1 = ?
 ```
-```rust
+```rust,ignore
 Test_member2 : Equal Bool (Member 2n [1n,4n,1n]) Bool.false
 Test_member2 = ?
 ```
 
 - 2.6.2 Aqui estão mais algumas funções de `List Nat` para você praticar. Quando remove_one é aplicado a uma lista sem o número a ser removido, ele deve retornar a mesma lista inalterada
 
-```rust
+```rust,ignore
 Remove_one (v: Nat) (xs: List Nat) : List Nat
 Remove_one v xs = ?
 ```
-```rust
+```rust,ignore
 Test_remove_one1 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,5n,4n,1n])) 0n
 Test_remove_one1 = ?
 ```
-```rust
+```rust,ignore
 Test_remove_one2 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,4n,1n])) 0n
 Test_remove_one2 = ?
 ```
-```rust
+```rust,ignore
 Test_remove_one3 : Equal Nat (Count 4n (Remove_one 5n [2n,1n,5n,4n,1n,4n])) 2n
 Test_remove_one3 = ?
 ```
-```rust
+```rust,ignore
 Test_remove_one4 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,5n,4n,5n,1n,4n])) 1n
 Test_remove_one4 = ?
 ```
-```rust
+```rust,ignore
 Remove_all (v: Nat) (xs: List Nat) : List Nat
 Remove_all v xs = ?
 ```
-```rust
+```rust,ignore
 Test_remove_all1  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,5n,4n,1n])) 0n
 Test_remove_all1  = ?
 ```
-```rust
+```rust,ignore
 Test_remove_all2  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,4n,1n])) 0n
 Test_remove_all2  = ?
 ```
-```rust
+```rust,ignore
 Test_remove_all3  : Equal Nat (Count 4n (Remove_all 5n [2n,1n,5n,4n,1n,4n])) 2n
 Test_remove_all3  = ?
 ```
-```rust
+```rust,ignore
 Test_remove_all4  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,5n,4n,5n,1n,4n,5n,1n,4n])) 0n
 Test_remove_all4  = ?
 ```
-```rust
+```rust,ignore
 Subset (xs: List Nat) (ys: List Nat)  : Bool
 Subset xs ys = ?
 ```
-```rust
+```rust,ignore
 Test_subset1 : Equal Bool (Subset [1n,2n] [2n,1n,4n,1n]) Bool.true
 Test_subset1 = ?
 ```
-```rust
+```rust,ignore
 Test_subset2 : Equal Bool (Subset [1n,2n,2n] [2n,1n,4n,1n]) Bool.false
 Test_subset2 = ?
 ```
@@ -346,7 +346,7 @@ Test_subset2 = ?
 Assim como os números, fatos simples sobre funções de processamento de lista podem às vezes ser provado inteiramente por simplificação. Por exemplo, a simplificação realizada por
 `Equal.refl` é suficiente para este teorema...
 
-```Rust
+```rust,ignore
 Nil_app (xs: List Nat) : Equal (App (List.nil Nat) xs) xs
 Nil_app xs = Equal.refl
 ```
@@ -355,7 +355,7 @@ Nil_app xs = Equal.refl
 
 Além disso, como acontece com os números, às vezes é útil realizar uma análise de caso no possíveis formas (vazias ou não vazias) de uma lista desconhecida
 
-```rust
+```rust,ignore
 Tl_length_pred (xs: List Nat)         : Equal Nat (Pred (Length xs)) (Length (Tail xs))
 Tl_length_pred List.nil               = Equal.refl
 Tl_length_pred (List.cons head tail)  = Equal.refl
@@ -399,7 +399,7 @@ Como listas maiores só podem ser construídas a partir de listas menores, event
 esses dois argumentos juntos estabelecem a verdade de `p` para todas as listas `l`. Aqui está um
 exemplo concreto:
 
-```rust
+```rust,ignore
 App_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (App (App xs ys) zs) (App xs (App ys zs))
 App_assoc List.nil                               ys zs = Equal.refl
 App_assoc (List.cons Nat xs.head xs.tail)        ys zs = 
@@ -448,7 +448,7 @@ Dessa forma fica mais fácil perceber que o `app` e o `Expected` são identicos,
 ## 3.1.1 Invertendo uma lista. 
 
 Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos `app` para definir uma função de reversão de lista `rev`:
-```rust
+```rust,ignore
 Rev (xs: List Nat)        : List Nat
 Rev List.nil              = List.nil Nat
 Rev (List.cons head tail) = App (Rev tail) [head]
@@ -465,7 +465,7 @@ Test_rev2 = Equal.refl
 Agora vamos provar alguns teoremas sobre o rev que acabamos de definir. Para algo um pouco mais desafiador do que vimos, vamos provar
 que inverter uma lista não altera seu comprimento. Nossa primeira tentativa fica presa
 o caso sucessor...
-```rust
+```rust,ignore
 Rev_length_firsttry (xs: List Nat)              : Equal Nat (Length (Rev xs)) (Length xs))
 Rev_length_firsttry List.nil                    = Equal.refl
 Rev_length_firsttry (List.cons xs.head xs.tail) =
@@ -492,7 +492,7 @@ O Type Check nos retorna o seguinte objetivo e contexto:
 ```
 
 Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:
-```rust
+```rust,ignore
 App_length (xs: List Nat) (ys: List Nat)  : Equal Nat (Length (App xs ys)) (Plus (Length xs) (Length ys)))
 App_length List.nil ys                    = Equal.refl
 App_length (List.cons xs.head xs.tail) ys =
@@ -502,14 +502,14 @@ App_length (List.cons xs.head xs.tail) ys =
 ```
 
 Além dessa prova, usaremos outras já provadas nos  capítulos anteriores:
-```rust
+```rust,ignore
 Plus_n_z (n: Nat)     : Equal Nat n (Plus n Nat.zero)
 Plus_n_sn (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Plus n m)) (Plus n (Nat.succ m))
 Plus_comm (n: Nat) (m: Nat) : Equal Nat (Plus n m) (Plus m n)
 ```
 
 E agora é possível provar o nosso teorema:
-```rust
+```rust,ignore
 Rev_length (xs: List Nat)               : Equal Nat (Length (Rev xs)) (Length xs)
 Rev_length List.nil                     = Equal.refl
 Rev_length (List.cons Nat head tail)  =
@@ -534,7 +534,7 @@ Rev_length (List.cons Nat head tail)  =
 ```
 
 Nós criamos uma variavel com nossa auxiliar `App_length`:
-```rust
+```rust,ignore
 Rev_length (xs: List Nat)             : Equal Nat (Length (Rev xs)) (Length xs)
 Rev_length List.nil                   = Equal.refl
 Rev_length (List.cons Nat head tail)  =
@@ -548,17 +548,17 @@ Recebemos um novo contexto para nos auxiliar, o
 ```
 
 A `aux1` é igual ao lado esquerdo do nosso `Expected`, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a `aux2`:
-```rust 
+```rust,ignore 
 let aux2 = Plus_comm (Length (Rev xs.tail)) (1n)
 ```
 
 Agora nosso contexto está ainda melhor: 
-```rust
+```rust,ignore
  • aux2: Equal Nat (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail)))) 
 ```
 
 Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da `aux2` é igual ao direito da `aux1` e podemos encadear um no outro com o `Equal.chain`:
-```rust
+```rust,ignore
 let chn = Equal.chain aux1 aux2
 ```
 
@@ -575,7 +575,7 @@ Nossa variável `chn` é praticamente identica ao nosso `Expected` só diferindo
 ```
 
 Incrivel, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da `tail` é igual ao tamanho da `tail`, então basta reescrever a variável `ind` na nossa `chn`:
-```rust
+```rust,ignore
 let rrt = Equal.rewrite ind (x => Equal Nat (Length (App (Rev tail) (List.cons head (List.nil)))) (Nat.succ x ))) chn
 ```
 Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais fácil:
@@ -599,7 +599,7 @@ Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais f
    •   rrt  = Equal.rewrite Nat (Length (Rev tail)) (Length tail) ind (x => Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ x))) chn)
 ```
 Agora é muito mais fácil perceber que nosso `rrt` é exatamente o nosso `Expected`, então nossa prova fica assim:
-```rust
+```rust,ignore
 Rev_length (xs: List Nat)            : Equal Nat (Length (Rev xs)) (Length xs))
 Rev_length List.nil                  = Equal.refl
 Rev_length (List.cons Nat head tail) =
@@ -613,7 +613,7 @@ Rev_length (List.cons Nat head tail) =
 # 3.3
 ### 3.3.1
 Vamos praticar um pouco mais com as listas:
-```rust
+```rust,ignore
 App_nil_r (xs: List Nat) : Equal (App xs List.nil) xs)
 App_nil_r xs = ?
 
@@ -629,18 +629,18 @@ Rev_involutive xs = ?
 
 Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
 recue e tente procurar uma maneira mais simples.
-```rust
+```rust,ignore
 App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat) : Equal (List Nat) (App l1 (App l2 (App l3 l4))) (App (App (App l1 l2) l3) l4))
 App_assoc4 l1 l2 l3 l4 = ? 
 ```
 Um exercício sobre sua implementação de *nonzeros*:
-```rust
+```rust,ignore
 Nonzeros_app (xs: List Nat) (ys: List Nat) : Equal (List Nat) (Nonzeros (App xs ys)) (App (Nonzeros xs) (Nonzeros ys)))
 Nonzeros_app xs ys = ?
 ```
 ### 3.3.2 
 Preencha a definição de beq_NatList, que compara listas de números para igualdade. Prove que beq_NatList xs ys produz *Bool.true* para cada lista.
-```rust
+```rust,ignore
 Beq_NatList (xs: List Nat) (ys: List Nat) : Bool
 Beq_NatList xs ys = ? 
 
@@ -659,19 +659,19 @@ Beq_natlist_refl xs = ?
 ## 3.4 Exercícios de Listas, parte 2
 ### 3.4.1
 Prove o seguinte teorema, ele ajudará você na prova seguinte
-```rust
+```rust,ignore
 Ble_n_succ_n (n: Nat) : Equal Bool (Lte n (Nat.succ n)) Bool.true
 Ble_n_succ_n n = ? 
 ```
 Aqui estão mais alguns pequenos teoremas para provar sobre suas definições sobre listas.
-```rust
+```rust,ignore
 Count_member_nonzero (xs: List Nat) : Equal Bool (Lte 1n (Count 1n (List.cons 1n xs))) Bool.true
 Count_member_nonzero xs = ?
 ```
 
 ### 3.4.2
 Prove que a função *Rev* é injetiva - isto é
-```rust
+```rust,ignore
 Rev_injective (xs: List Nat) (ys: List Nat) (e: Equal (List Nat) (Rev xs) (Rev ys)) :tail Equal (List Nat) xs ys
 Rev_injective xs ys e = ?  
 ```
@@ -680,7 +680,7 @@ Rev_injective xs ys e = ?
 
 Suponha que a gente queira escrever uma função que retorna o enésimo número de uma lista.
 Nós então definimos um número que é aplicado a uma lista de naturais e então retorna o número que ocupa essa posição. Dessa forma, nós precisamos definir um número para ser retornado caso o número seja maior do que o tamanho da lista.
-```rust
+```rust,ignore
 Nth_bad (n: Nat) (xs: List Nat)            : Nat
 Nth_bad n List.nil                         = 42n // Valor arbitrário 
 Nth_bad Nat.zero (List.cons head tail)     = head
@@ -690,7 +690,7 @@ Esta solução não é tão boa: se nth_bad retornar 0, não podemos dizer se es
 realmente aparece na entrada sem processamento adicional. Uma alternativa melhor é
 para alterar o tipo de retorno de nth_bad para incluir um valor de erro como um possível resultado.
 Chamamos esse tipo *Maybe*, pois ele pode ou não ter algo, se tiver é um *Maybe.some* desse algo, se não tiver, é um *Maybe.none*.
-```rust
+```rust,ignore
 NatMaybe : Type
 NatMaybe = (Maybe Nat)
 ```
@@ -699,7 +699,7 @@ muito curto e Some a quando a lista tem membros suficientes e aparece na posiç�
 n. Chamamos essa nova função de nth_error para indicar que pode resultar em um erro.
 
 Essa prova ainda serve pra nos apresentar outro recurso do Kind, expressões condicionais, o *if* e *else*
-```rust
+```rust,ignore
 Nth_error (n: Nat) (xs: List Nat) : Maybe Nat
 Nth_error n List.nil              = Maybe.none
 Nth_error n (List.cons head tail) = 
@@ -716,7 +716,7 @@ Test_nth_error3 : Equal (Nth_error 9n [4n,5n,6n,7n]) Maybe.none
 Test_nth_error3 = Equal.refl
 ```
 <!-- TODO -->
-```rust
+```rust,ignore
 Extract (d: Nat) (o: Maybe Nat) : Nat
 Extract d (Maybe.some k)        = k
 Extract d (Maybe.none)          = d
@@ -724,7 +724,7 @@ Extract d (Maybe.none)          = d
 
 ### 4.0.1
 
-```rust
+```rust,ignore
 Head_error (xs: List Nat) : Maybe Nat
 Head_error xs = ?
 
@@ -739,7 +739,7 @@ Test_head_error3 = ?
 ```
 
 ### 4.0.2
-```rust
+```rust,ignore
 Extract_hd (l: List Nat) (default: Nat) : Equal Nat (Head default l)  (Extract default (Head_error l))
 Extract_hd l default = ?
 ```

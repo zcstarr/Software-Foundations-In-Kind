@@ -5,7 +5,7 @@ Nesse capítulo nós veremos sobre provas por indução, mas antes de prosseguir
 para a indução em si, podemos analisar casos simples onde apenas a reflexão do
 caso já prova o teorema.
 
-```rust
+```rust,ignore
 Problems.t0 (n: Nat) : Equal Nat (Plus Nat.zero n) n)
 ```
 
@@ -19,7 +19,7 @@ confirmação:
 
 "*All terms check.*"
 
-```rust
+```rust,ignore
 Problems.t1 (n: Nat) : Equal Nat (Plus n Nat.zero) n)
 ```
 
@@ -41,7 +41,7 @@ depois.
 Analizando para o caso de *zero* nosso objetivo é provar que *zero* é igual
 a *zero*:
 
-```rust
+```rust,ignore
 • Expected: Equal Nat Nat.zero Nat.zero)
 ```
 
@@ -57,21 +57,21 @@ podemos fazer isso simplesmente definindo o *n* atual como sendo o sucessor
 do próximo *n* e chamar a função para n recursivamente. Isso é feito da
 seguinte forma:
 
-```rust
+```rust,ignore
 Problems.t1 (Nat.succ n)   = ?
 ```
 
 e temos como novo objetivo provar que o sucessor da soma entre *n* e *0* é
 igual ao sucessor de *n*
 
-```rust
+```rust,ignore
 - Expected: Equal Nat (Nat.succ (Plus n Nat.zero)) (Nat.succ n))
 ```
 
 Para trabalhar com a indução nessa recursão, devemos definir uma variável para
 o caso original de *n*
 
-```rust
+```rust,ignore
 Problems.t1 (n: Nat)       : Equal (Plus n Nat.zero) n)
 Problems.t1 Nat.zero       = Equal.refl
 Problems.t1 (Nat.succ n)   =
@@ -88,7 +88,7 @@ o objetivo e a nossa variável *ind* é o *Nat*.**succ**, basta então
 incrementar a variável *ind* com o *Nat*.**succ**, para isso nós criamos uma
 nova variável e usamos uma função *lambda*:
 
-```rust
+```rust,ignore
 let app = Equal.apply (x => (Nat.succ x)) ind)
 ```
 
@@ -122,7 +122,7 @@ Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesm
 
 Prove o seguinte usando indução. Você pode precisar de resultados previamente comprovados.
 
-```rust
+```rust,ignore
 Mult_0_r (n: Nat) : Equal Nat (Mult n Nat.zero) Nat.zero
 Mult_0_r n = ?
 
@@ -140,20 +140,20 @@ Plus_assoc n m p = ?
 ```
 
 Considere a seguinte função que dobra o argumento recebido
-```rust
+```rust,ignore
 Double (n: Nat)     : Nat
 Double Nat.zero     = Nat.zero
 Double (Nat.succ n) = Nat.succ (Nat.succ (Double n))
 ```
 
 Use indução para provar esses seguintes teoremas sobre *Double*:
-```rust
+```rust,ignore
 Double_plus (n: Nat) : Equal Nat (Double n) (Plus n n)
 Double_plus n = ?
 ```
 
 Alguns teoremas é necessário analisar a melhor forma de se provar, por exemplo, para provar que um numero é par, poderiamos provar pelo sucessor dele, mas isso nos faria ter que provar para o sucessor do succesor dele, isso faz com a que a prova de *evenb* ser mais difícil por indução, então é importante perceber quando é necessário e quando não é.
-```rust
+```rust,ignore
 Evenb_s (n: Nat) : Equal Bool (Evenb (Nat.succ n)) (Notb  (Evenb n))
 Evenb_s n = ?
 ```
@@ -163,41 +163,41 @@ Evenb_s n = ?
 Vamos verificar se a a igualdade "n +(*m* + 1) = 1 + (*n* + *m*)" é verdadeira
 
 Primeiro, o nosso problema:
-```rust
+```rust,ignore
 Problems.t2 (n: Nat) (m: Nat) : Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))) 
 ```
 
 Verificamos o primeiro caso, quando *n* é zero:
-```rust
+```rust,ignore
 Problems.t2 Nat.zero m = Equal.refl
 ```
 
 e partimos para o caso seguinte
-```rust
+```rust,ignore
 Problems.t2 (Nat.succ n) m = ?
 ```
 
 e o nosso objetivo atual vira:
-```rust
+```rust,ignore
 • Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))
 ```
 
 Traduzindo, o sucessor da adição de *n* e o sucessor de *m* é igual ao
 sucessor do sucessor da adição de *n* e *m*. Para resolver esse problema,
 invocaremos a indução:
-```rust
+```rust,ignore
 let ind = Problems.t2 n m
 ```
 
 e o nosso objetivo atual é provar que:
-```rust
+```rust,ignore
 • Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))
 ```
 
 Traduzindo novamente, que o *sucessor* da adição de *n* e o *sucessor* de *m* é igual ao *sucessor* do *sucessor* da adição de *n* e *m*. 
 
 mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:
-```rust
+```rust,ignore
 Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m)))
 ```
 
@@ -205,12 +205,12 @@ Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
 basta dar um *Nat*.**succ** em ambos os lados da indução e ela ficará
 exatamente igual ao nosso objetivo, para isso usaremos uma função
 *lambda*:
-```rust
+```rust,ignore
 let app = Equal.apply (x => (Nat.succ x)) ind)
 ```
 
 E a nossa variável *app* retornará o nosso objetivo:
-```rust
+```rust,ignore
 Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))
 ```
 
@@ -228,20 +228,20 @@ ser capaz de simplesmente enunciar e provar o “sub-teorema” necessário exat
 onde é usado.
 
 Analisemos o seguinte teorema da comutação da adição: 
-```rust
+```rust,ignore
 Problems.t3 (n: Nat) (m: Nat) : Equal Nat (Plus n  m) (Plus m n))
 ```
 No primeiro caso, para *n* e *m* igual a zero nós temos uma reflexão:
-```rust
+```rust,ignore
 Problems.t3 Nat.zero Nat.zero = Equal.refl
 ```
 Então partimos para o próximo caso:
-```rust
+```rust,ignore
 Problems.t3 (Nat.succ n) m = ?
 ```
 
 E aqui parece que temos um novo problema: 
-```rust
+```rust,ignore
 Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))
 ```
 Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
@@ -250,12 +250,12 @@ que o *sucessor* da adição de dois números é igual a adição de um número 
 favor.
 
 Começaremos aplicando um *Nat*.**succ** no nosso problema original:
-```rust
+```rust,ignore
 let ind_a = Equal.apply (x => (Nat.succ x)) (Problems.t3 n m ))
 ```
 
 Depois invocaremos nosso problema já resolvido, o *Problems*.**t2**:
-```rust 
+```rust,ignore 
 let ind_b = Problems.t2 m n
 ```
 
@@ -268,19 +268,19 @@ primeira parte do nosso
 objetivo e a primeira parte da *ind_b* é igual a segunda do objetivo, basta
 apenas organizar e juntar as partes necessárias. Para isso usaremos a
 *Equal*.**mirror** e a *Equal*.**chain**.
-```rust
+```rust,ignore
 let ind_c = Equal.chain ind_b Equal.mirror ind_a)
 ```
 
 E o ind_c nos retorna um valor similar ao desejado:
-```rust
+```rust,ignore
 • Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n)))
 •   ind_c : Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m)))
 ```
 
 Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
 *Equal*.**mirror** novamente:
-```rust
+```rust,ignore
 let app = Equal.mirror ind_c
 ```
 
@@ -291,14 +291,14 @@ da adição, ou seja, que a soma de *n* e *m* é igual a soma de *m* e *n*.
 ## 3.2 Mais exercícios
 
 Você pode usar a *rewrite* ou *chain* nessa prova, escolha o que achar mais fácil
-```rust
+```rust,ignore
 Plus_swap (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Plus n (Plus m p)) (Plus m (Plus n p))
 Plus_swap n m p = ?
 ```
 
 Agora prove a comutatividade da multiplicação. (Você provavelmente precisará definir e provar um teorema auxiliar separado para ser usado na prova deste. Você pode descobrir que *Plus_swap* é útil.
 
-```rust
+```rust,ignore
 Mult_comm (n: Nat) (m: Nat) : Equal Nat (Mult n m) (Mult m n)
 Mult_comm n m = ?
 ```
@@ -306,7 +306,7 @@ Mult_comm n m = ?
 Pegue um pedaço de papel. Para cada um dos teoremas a seguir, primeiro pense se (a) pode ser provado usando apenas simplificação e reescrita, (b) também requer análise de caso (destruição) ou (c) também requer indução. Anote sua previsão.
 Em seguida, preencha a prova. (Não há necessidade de entregar seu pedaço de papel; isso é apenas para incentivá-lo a refletir antes de hackear!)
 
-```rust
+```rust,ignore
 Lte_refl (n: Nat) : Equal Bool Bool.true (Lte n n)
 Lte_refl n = ?
 

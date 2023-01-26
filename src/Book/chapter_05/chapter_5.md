@@ -8,7 +8,7 @@ Nos últimos dois capítulos, trabalhamos com listas polimórficas, você pode s
 manipular listas com elementos de outros tipos – listas de strings, listas de booleanos,
 listas de listas, etc. Poderíamos apenas definir um novo tipo de dados indutivo para cada um deles,
 por exemplo...
-```rust
+```rust,ignore
 BoolList : Type
 BoolList = (List Bool)
 ```
@@ -20,7 +20,7 @@ para cada nova definição de tipo de dados.
 
 Para evitar toda essa repetição, o *Kind* suporta definições de tipos indutivos polimórficos.
 Por exemplo, aqui está um tipo de dados de lista polimórfica e que já vimos no capítulo anterior:
-```rust
+```rust,ignore
 List <a: Type> : Type
 List.nil <a> : (List a)
 List.cons <a> (head: a) (tail: List a) : (List a)
@@ -38,7 +38,7 @@ Com esta definição, quando usamos os construtores Nil e Cons para construir li
 precisamos dizer ao Kind o tipo dos elementos nas listas que estamos construindo - isto
 é, que Nil e Cons agora são construtores polimórficos. Observe os tipos de
 construtores:
-```rust
+```rust,ignore
 Pair (a: Type) (b: Type) : Type
 Pair.new <a> <b> (fst: a) (snd: b) : (Pair a b)
 ```
@@ -47,7 +47,7 @@ booleanos, listas, bits ou outros pares, nós deixamos a função apta a tratar 
 
 Agora podemos voltar e fazer versões polimórficas de todas as listas de processamento
 funções que escrevemos antes. Aqui está a repetição, por exemplo:
-```rust
+```rust,ignore
 Repeat <a: Type> (x: a) (count: Nat) : List a
 Repeat a x Nat.zero                  = List.nil
 Repeat a x (Nat.succ count)          = List.cons x (Repeat x count)
@@ -55,13 +55,13 @@ Repeat a x (Nat.succ count)          = List.cons x (Repeat x count)
 
 Tal como acontece com Nil e Contras, podemos usar repeat aplicando-o primeiro a um tipo e depois a
 seu argumento de lista:
-```rust
+```rust,ignore
 Test_repeat1 : Equal (Repeat 4n 2n) (List.cons 4n (List.cons 4n List.nil))
 Test_repeat1 = Equal.refl
 ```
 
 Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:
-```rust
+```rust,ignore
 Test_repeat2 : Equal (Repeat Bool.false 1n) (List.cons Bool.false List.nil)
 Test_repeat2 = Equal.refl
 ```
@@ -70,7 +70,7 @@ Test_repeat2 = Equal.refl
 1.1.2 Inferência de anotação de tipo.
 
 Vamos escrever a definição do `repeat` novamente, mas dessa vez omitindo o tipo, mas atenção, essa não é uma boa prática usar o `hole`, servirá apenas para compreender o poder do Kind e como ele pode ajudar o usuário a encontrar o que deseja.
-```rust
+```rust,ignore
 Repeat (x: _) (count: Nat) : List _
 Repeat x Nat.zero          = ?
 ```
@@ -89,7 +89,7 @@ Ao rodar o *Type Check* o terminal nos retorna:
 ```
 Para o caso do contador ser zero, que é o nosso ponto de parada, nós precisamos retornar uma lista do tipo não definido. 
 Como fizemos quando nosso tipo era definido, estamos criando uma lista que não repete o termo nenhuma vez, retornamos um *List.nil*, depois nós verificamos para o caso de uma lista que repetirá o valor *count* vezes, para isso nós usaremos a recursão por meio do `Nat.succ pred`, isto é, o nosso *count* é igual ao sucessor do predecessor dele. 
-```rust
+```rust,ignore
 Repeat x (Nat.succ count) = ?
 ```
 
@@ -108,7 +108,7 @@ E o o *Type Check* nos retorna:
                                └Here!
 ```
 Agora basta construir a lista com o valor e chamar a função para o predecessor de count, assim construindo a lista até que chegue a zero.
-```rust
+```rust,ignore
 Repeat (x: _) (count: Nat) : List _
 Repeat x Nat.zero          = List.nil
 Repeat x (Nat.succ count)  = List.cons x (Repeat x count)
@@ -121,7 +121,7 @@ No primeiro caso, quando definimos o tipo `a`, já abarcamos todos os tipos poss
 Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do *repeat*, nós passamos o tipo `<a: Type>` e que cada elemento da nossa lista é desse tipo. Fizemos o mesmo com o tipo *Pair*, que recebia como argumento dois tipos *a* e *b*. 
 
 Agora fica muito mais fácil compreender os exemplos que usamos no capítulo anterior, quando apresentamos funções como a de *length* e *append*:
-```rust
+```rust,ignore
 Length <a> (xs: List a) : Nat
 Length a (List.nil t)            = Nat.zero
 Length a (List.cons t head tail) = (Nat.succ (Length a tail))
@@ -134,7 +134,7 @@ App a (List.cons head tail)          ys = List.cons a head (App a tail ys)
 Perceba, há duas notações, uma onde apenas usamos `<a>` e outra onde usamos `<a: Type>`, podemos usar qualquer uma delas, o *Kind* é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.
 
 Agora é a hora de implementar nossas funçõe com o tipo implícito, usando o `hole` e `sugar syntax`:
-```rust
+```rust,ignore
 App_implicito (xs: List _) (ys: List _) : List _
 App_implicito []                     ys = ys
 App_implicito (List.cons head tail)  ys = List.cons head (App_implicito tail ys)
@@ -151,7 +151,7 @@ Portanto, é sempre importante saber exatamente o que está sendo feito, ainda m
 
 Outra função que podemos reescrever é a de reverse:
 
-```rust
+```rust,ignore
 Rev <a> (xs: List a) : List a
 Rev a []                    = []
 Rev a (List.cons head tail) = App (Rev tail) [head]
@@ -163,7 +163,7 @@ Length a (List.cons head tail) = Nat.succ (Length tail)
 
 Feito isso, basta apenas provar que nossas funções são verdadeiras:
 
-```rust
+```rust,ignore
 Test_rev1 : Equal (Rev [1,2,3]) [3,2,1]
 Test_rev1 = Equal.refl
 
@@ -178,7 +178,7 @@ Test_length1 = Equal.refl
 
 Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.
 
-```rust
+```rust,ignore
 App_nil_r <a> (xs: List a) : Equal (App xs List.nil) xs
 App_nil_r xs = ?
 
@@ -193,7 +193,7 @@ App_length xs ys = ?
 
 Aqui estão alguns um pouco mais interessantes...
 
-```rust
+```rust,ignore
 Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
 
@@ -207,7 +207,7 @@ Seguindo o mesmo padrão, a definição de tipo
 que demos no último capítulo para pares de números podem ser generalizados para polimórficos
 pares:
 
-```rust
+```rust,ignore
 type Pair <a: Type> <b: Type> {
    new (fst: a) (snd: b)
 }  
@@ -217,7 +217,7 @@ Essa é exatamente a primeira definição de pares que vimos no capítulo anteri
 
 Nós podemos refazer as funções de *Pares*, mas agora para tipos polimórficos:
 
-```rust
+```rust,ignore
 Fst <a> <b> (pair: Pair a b) : a
 Fst (Pair.new fst snd) = fst
 
@@ -227,7 +227,7 @@ Snd (Pair.new fst snd) = snd
 
 A seguinte função recebe duas listas e combina elas numa lista de pares. Nas linguagens funcionais, isso é comumente chamada de *Zip*. 
 
-```rust
+```rust,ignore
 Zip <a> <b> (xs: List a) (ys: List b) : (List (Pair a b))
 Zip [] ys = []
 Zip xs [] = []
@@ -245,7 +245,7 @@ A função *Split* é o inverso da *Zip*, ela recebe uma lista de pares e retorn
 
 Preencha a definição de divisão abaixo. Certifique-se de que ela passe no teste unitário fornecido.
 
-```rust
+```rust,ignore
 Split <a> <b> (xs: List (Pair a b)) : Pair (List a) (List b)
 Split xs = ?
 
@@ -256,7 +256,7 @@ Test_split = ?
 Exercício 1.2.3 
 Maybe polimórfico. No capítulo anterior, nós também vimos o tipo *Maybe*, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo *Maybe* também é polimórfico e é isso o que veremos agora.
 
-```rust
+```rust,ignore
 Maybe <a: Type> : Type
 Maybe.none <a> : (Maybe a)
 Maybe.some <a> (value: a) : (Maybe a)
@@ -264,7 +264,7 @@ Maybe.some <a> (value: a) : (Maybe a)
 
 Dessa forma, podemos escrever a função do *enésimo* erro para ele ser usado com todos os tipos de listas:
 
-```rust
+```rust,ignore
 Nth_error <a> (n: Nat) (xs: List a) : Maybe a
 Nth_error a n List.nil              = Maybe.none
 Nth_error a n (List.cons head tail) =
@@ -287,7 +287,7 @@ Test_nth_error3 = Equal.refl
 Complete a definição de
 uma versão polimórfica da função hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.
 
-```rust
+```rust,ignore
 Hd_error <a> (xs: Lista a) : Maybe a
 Hd_error xs = ?
 
@@ -308,7 +308,7 @@ retornados como resultados, armazenados em estruturas de dados, etc.
 
 Funções que manipulam outras funções são frequentemente chamadas de funções de alta ordem (ou ainda de "ordem superior"). Aqui está um exemplo simples:
 
-```rust
+```rust,ignore
 Doit3times <x> (f: x -> x) (n: x) : x
 Doit3times f x = (f (f (f x)))
 
@@ -322,7 +322,7 @@ Test_doit3times2 = Equal.refl
 ## 2.2 Filtro
 Aqui está uma função de alta ordem mais útil, pegando uma lista de xs e um predicado em x (uma função de x para Bool) e “filtrando” a lista, retornando uma nova lista contendo apenas aqueles elementos para os quais o predicado retorna True.
 
-```rust
+```rust,ignore
 Filter <x> (test: x -> Bool) (xs: List x) : List x
 Filter test List.nil                      = []
 Filter test (List.cons head tail)         =
@@ -331,7 +331,7 @@ Filter test (List.cons head tail)         =
 
 Por exemplo, se aplicarmos o filtro de "é par" numa lista de números, ela nos retornará uma outra lista apena com os números pares
 
-```rust
+```rust,ignore
 Test_filter1 : Equal (Filter (x => Evenb x) [1,2,3,4,5])  [2,4]  
 Test_filter1 = Equal.refl
 
@@ -344,7 +344,7 @@ Test_filter2 = Equal.refl
 
 Podemos usar filter para fornecer uma versão concisa da função countoddmembers do capítulo Listas.
 
-```rust
+```rust,ignore
 CountOddMembers (xs: List Nat) : Nat
 CountOddMembers xs             = Length (Filter (x => Oddb x) xs)
 
@@ -364,7 +364,7 @@ Test_CountOddMembers3 = Equal.refl
 Além disso, este não é um exemplo isolado: ao usar funções de ordem superior, muitas vezes queremos passar como argumentos funções “únicas” que nunca mais usaremos; ter que dar um nome a cada uma dessas funções seria tedioso.
 Felizmente, existe uma maneira melhor. Podemos construir uma função “on the fly” sem declará-la no nível superior ou dar-lhe um nome.
 
-```rust
+```rust,ignore
 Test_anon_fun : Equal (Doit3times (x => (Mult x x)) 2n) 256n
 Test_anon_fun = Equal.refl
 ```
@@ -373,7 +373,7 @@ A expressão `x => (Mult x x)` pode ser lida como *a função recebe um número 
 
 Aqui está o exemplo de *Filter* reescrita pra usar uma função anonima:
 
-```rust
+```rust,ignore
 Test_filter2 : Equal (Filter (x => (Length_is_one x)) [[1],[1,2],[2],[1,2,3],[21]]) [[1],[2],[21]]
 Test_filter2 = Equal.refl
 
@@ -381,7 +381,7 @@ Test_filter2 = Equal.refl
 
 2.3.1. Exercício:(filter_even_gt7). Use *Filter* com funções anônimas (em vez de definição de função) para escrever uma função filter_even_gt7 que recebe uma lista de números naturais como entrada e retorna uma lista apenas daqueles que são pares e maiores que 7.
 
-```rust
+```rust,ignore
 Filter_even_gt7 (xs: List Nat) : List Nat
 Filter_even_gt7 xs = ?
 
@@ -396,14 +396,14 @@ Uma pequena observação, o leitor mais atento percebeu que usamos uma nova nota
 
 2.3.2 Use *Filter* para escrever uma função *Partition* em *Kind*
 
-```rust
+```rust,ignore
 Partition <x> (test: x -> Bool) (xs: List x) : Pair (List x) (List x)
 Partition test xs = ?
 ```
 
 Dado um conjunto x, uma função de teste do tipo x -> Bool e uma Lista x, a função Partition deve retornar um par de listas. O primeiro membro do par é a sublista da lista original contendo os elementos que satisfazem o teste, e o segundo é a sublista contendo aqueles que falham no teste. A ordem dos elementos nas duas sublistas deve ser a mesma da lista original.
 
-```rust
+```rust,ignore
 Test_partition1 : Equal (Partition (x => Oddb x) [1n,2n,3n,4n,5n]) (Pair.new [1n,3n,5n] [2n,4n])
 Test_partition1 = ?
 
@@ -414,7 +414,7 @@ Test_partition2 : Equal (Partition (x => Bool.false) [5n, 9n, 0n]) (Pair.new [] 
 2.4 
 Oufra função de alta ordem muito útil é a *Map*
 
-```rust
+```rust,ignore
 Map <x> <y> (f: x -> y) (xs: List x)  : List y
 Map f List.nil                        = List.nil
 Map f (List.cons head tail)           = List.cons (f head) (Map f tail)
@@ -422,21 +422,21 @@ Map f (List.cons head tail)           = List.cons (f head) (Map f tail)
 
 Ela recebe uma função `f` e uma lista `xs = [n1, n2, n3, ...]` e retorna a lista `[f n1, f n2, f n3, ...]`, onde `f` é aplicado a cada elemento de `xs`. Por exemplo:
 
-```rust
+```rust,ignore
 Test_map1 : Equal (Map (x => Nat.add 3n x) [2n, 0n, 2n]) [5n, 3n, 5n]
 Test_map1 = Equal.refl
 ```
 
 Os tipos de elementos da lista de entrada e saída não precisam ser os mesmos, pois *Map* aceita dois argumentos de tipo, `x` e `y`; dessa forma pode ser aplicada uma de números para booleanos para produzir uma lista de booleanos:
 
-```rust
+```rust,ignore
 
 Test_map2 : Equal (Map (x => Nat.is_odd x) [2n, 1n, 2n, 5n]) [Bool.false, Bool.true, Bool.false, Bool.true]
 Test_map2 = Equal.refl
 ```
 Pode até ser aplicada a uma lista de números uma função que retorne uma lista de lista de booleanos:
 
-```rust
+```rust,ignore
 Test_map3 = Equal (Map (x => [(Nat.is_even x), (Nat.is_odd x)]) [2n, 1n, 2n, 5n]) [[Bool.true, Bool.false], [Bool.false, Bool.true], [Bool.true, Bool.false], [Bool.false, Bool.true]]
 Test_map3 = Equal.refl
 ```
@@ -444,7 +444,7 @@ Test_map3 = Equal.refl
 2.4.1
 Vamos dificultar um pouco mais as coisas. Mostre a comutatividade de Rev e Map, você pode precisar de uma função auxiliar: 
 
-```rust
+```rust,ignore
 Map_rev <x> <y> (f: x -> y) (xs: List x) : Equal (Map f (Rev xs)) (Rev (Map f xs))
 Map_rev f xs = ?
 ```
@@ -452,7 +452,7 @@ Map_rev f xs = ?
 2.4.2
 A função *Map* mapeia uma ``List x`` para uma ``List y`` usando uma função do tipo ``x -> y``. Podemos definir uma função semelhante, `Flat_map`, que mapeia uma Lista x para uma Lista y usando uma função f do tipo ``x -> Lista y``. Sua definição deve funcionar "achatando" os resultados de f, assim:
 
-```rust
+```rust,ignore
 Flat_equal : Equal (Flat_map ( x => ([x , (Nat.add x 1n), (Nat.add x 2n)])) [1n, 5n, 10n]) [1n, 2n, 3n, 5n, 6n, 7n, 10n, 11n, 12n]
 Flat_equal = Equal.refl
 
@@ -465,7 +465,7 @@ Test_flat_map1 = ?
 
 As listas não são o único tipo indutivo para o qual podemos escrever uma função *Map*. Aqui está a definição de mapa para o tipo Maybe:
 
-```rust
+```rust,ignore
 Maybe_map <x> <y> (f: x -> y) (a: Maybe x)  : Maybe y
 Maybe_map f Maybe.none                      = Maybe.none
 Maybe_map f (Maybe.some x)                  = Maybe.some (f x)
@@ -474,7 +474,7 @@ Maybe_map f (Maybe.some x)                  = Maybe.some (f x)
 2.5 Fold
 Uma função de ordem superior ainda mais poderosa é chamada *Fold*. Esta função é a inspiração para a operação “reduce” que está no coração da estrutura de programação distribuída map/reduce do Google.
 
-```rust
+```rust,ignore
 Fold <x> <y> (f: x -> y -> y) (xs: List x) (a: y)   : y
 Fold f List.nil a                                   = a
 Fold f (List.cons head tail) a                      = f head (Fold f tail a)
@@ -496,7 +496,7 @@ Observe que o tipo *Fold* é parametrizado por duas variáveis de tipo, x e y, e
 2.6 Funções que constroem funções. 
 A maioria das funções de ordem superior sobre as quais falamos até agora usam funções como argumentos. Vejamos alguns exemplos que envolvem o retorno de funções como resultados de outras funções. Para começar, aqui está uma função que recebe um valor x (extraído de algum tipo x) e retorna uma função de Nat para x que retorna x sempre que é chamada, ignorando seu argumento Nat
 
-```rust
+```rust,ignore
 Constfun <y> (x: y) : Nat -> y
 Constfun x = y => x
 
@@ -513,7 +513,7 @@ Constfun_example2 = Equal.refl
 <!-- [>  <] -->
 <!-- [> # TODO: <] -->
 <!-- [>  <] -->
-<!-- ```rust -->
+<!-- ```rust,ignore -->
 <!-- Plus Nat -> Nat : Nat -->
 <!-- ``` -->
 <!-- [> Cada "->" nesta expressão é, na verdade, um operador binário em tipos. Este operador é associativo à direita, então o tipo de plus é realmente uma abreviação para Nat -> (Nat -> Nat) – ou seja, pode ser lido como dizendo que “plus é uma função de um argumento que pega um Nat e retorna uma função de um argumento que pega outro Nat e retorna um Nat.” Nos exemplos acima, sempre aplicamos mais a ambos os argumentos ao mesmo tempo, <] -->
@@ -521,7 +521,7 @@ Constfun_example2 = Equal.refl
 <!-- [>  <] -->
 <!-- [> # fim to todo <] -->
 <!--  -->
-```rust
+```rust,ignore
 Plus3 (n: Nat) : Nat
 Plus3 n = Plus 3n n
 
@@ -539,7 +539,7 @@ Test_plus3_3 = Equal.refl
 ### 3.0.1
 Muitas funções comuns em listas podem ser implementado em termos de *Fold*. Por exemplo, aqui está uma definição alternativa de comprimento:
 
-```rust
+```rust,ignore
 Fold_length <x> (xs: List x) : Nat
 Fold_length xs = Fold (x => y Nat.succ y) xs 0n
 
@@ -549,7 +549,7 @@ Test_fold_length1 = Equal.refl
 
 Prove a validade de *Fold_length*:
 
-```rust
+```rust,ignore
 Fold_length_correct <x> (xs: List x) : Equal (Fold_length xs) (List.length xs)
 Fold_length_correct xs = ?
 ```
@@ -558,13 +558,13 @@ Fold_length_correct xs = ?
 
 Nós talmbém podemos definir *Map* nos termos de *Fold*. Termine a função:
 
-```rust
+```rust,ignore
 Fold_map <x> <y> (f: x -> y) (xs: List x) : List y
 Fold_map f xs = ?
 ```
 Escreva um teorema fold_map_correct em Kind declarando que *Fold_map* está correto e prove isso:
 
-```rust
+```rust,ignore
 Fold_map_correct : ?
 ```
 
@@ -575,14 +575,14 @@ Por outro lado, podemos reinterpretar a função `f: a -> b -> c` como `(Pair a 
 
 Podemos definir o curry da seguinte forma:
 
-```rust
+```rust,ignore
 Pair_curry <x> <y> <z> (f: (Pair x y) -> z) (x_val: x) (y_val: y) : z 
 Pair_curry f x_val y_val = ?
 ```
 
 Como exercício, defina seu inverso, `Pair_uncurry`. Em seguida, prove os teoremas abaixo para mostrar que os dois são inversos.
 
-```rust
+```rust,ignore
 Pair_uncurry <x> <y> <z> (f: x -> y -> z) (p: Pair x y) : z
 Pair_uncurry f p = ?
 ```
@@ -590,7 +590,7 @@ Pair_uncurry f p = ?
 Como um exemplo (trivial) da utilidade do curry, podemos usá-lo para encurtar um dos exemplos que vimos acima:
 
 
-```rust
+```rust,ignore
 Test_map2 : Equal (Map (x => Plus 3n x) [2n,0n,2n]) [5n,3n,5n]
 Test_map2 = Equal.refl
 ```
@@ -598,13 +598,13 @@ Test_map2 = Equal.refl
 Exercício de reflexão: antes de executar os comandos a seguir, você pode calcular os tipos de 
 Pair_curry e Pair_uncurry?
 
-```rust
+```rust,ignore
 Uncurry_curry <x> <y> <z> (f: x -> y -> z) (x_val: x) (y_val: y) : 
    Equal z (Pair_curry (p => Pair_uncurry f p) x_val y_val) (f x_val y_val)
 Uncurry_curry f x_val y_val = ?
 ```
 
-```rust
+```rust,ignore
 Curry_uncurry <x> <y> <z> (f:(Pair x y) -> z) (p: Pair x y) : 
    Equal z (Pair_uncurry (x => y => Pair_curry f x y) p) (f p)
 Curry_uncurry f p = ?
@@ -613,7 +613,7 @@ Curry_uncurry f p = ?
 #### 3.0.4
 Lembre-se da definição da função Nth_error`(Nth_error_informal)`:
 
-```rust
+```rust,ignore
 Nth_error_informal <x> (l: List x) (n: Nat) : Maybe x
 Nth_error_informal List.nil n = Maybe.none 
 Nth_error_informal (List.cons head tail) Nat.zero = Maybe.some head 
@@ -622,21 +622,21 @@ Nth_error_informal (List.cons head tail) (Nat.succ n) = Nth_error tail n
 
 Escreva uma prova informal do seguinte teorema:
 
-```rust
+```rust,ignore
 Nat -> List -> (Equal (Length List) Nat) : Equal (Nth_error_informal List Nat) Maybe.none
 ```
 
 #### 3.0.5
 Nós podemos explorar uma forma alternativa de definir os números naturais, usando os *Numerais de Church*, nomeado em homenagem ao matemático Alonzo Church. Podemos representar um número natural n como uma função que recebe uma função `s` como parâmetro e retorna `s` iterado n vezes.
 
-```rust
+```rust,ignore
 Num <x> : Type
 Num x = (x -> x) -> x -> x
 ```
 
 Vamos ver como escrever alguns números com esta notação. Iterar uma função uma vez deve ser o mesmo que apenas aplicá-la. Desta forma:
 
-```rust
+```rust,ignore
 One : Num
 One = s => z => s z 
 ```
@@ -644,20 +644,20 @@ Perceba, a função aplica um `s` a um `z`, se lermos o `s` como *sucessor* e o 
 
 Similarmente, o *Two* aplica a função `s` duas vezes ao `z`:
 
-```rust
+```rust,ignore
 Two : Num
 Two = s => z => s (s z)
 ```
 Definir zero é um pouco mais complicado: como podemos “aplicar uma função zero vezes”? A resposta é realmente simples: basta retornar o argumento intocado.
 
-```rust
+```rust,ignore
 Zero : Num
 Zero = s => z => z
 ```
 
 Mais geralmente, um número n pode ser escrito como `s => z => s (s ... (s z) ...)`, com n ocorrências de `s`. Observe em particular como a função doit3times que definimos anteriormente é, na verdade, apenas a representação de Church do 3.
 
-```rust
+```rust,ignore
 Three : Num
 Three = s => z => Doit3times s z
 ```
@@ -666,7 +666,7 @@ Complete as definições das seguintes funções. Certifique-se de que os testes
 
 Sucessor de um número natural:
 
-```rust
+```rust,ignore
 Succ (n: Num) : Num
 Succ n = ?
 
@@ -682,7 +682,7 @@ Succ_3 = ?
 
 Adição de dois números naturais:
 
-```rust
+```rust,ignore
 Plus (n: Num) (n: Num) : Num
 Plus n m = ?
 
@@ -698,7 +698,7 @@ Plus_3 = ?
 
 Multiplicação:
 
-```rust
+```rust,ignore
 Mult (n: Num) (m: Num) : Num
 Mult n m = ?
 
@@ -715,12 +715,12 @@ Mult_3 = ?
 Exponenciação:
 Não é possível fazê-lo funcionar com `Exp (n: Num) (m: Num) : Num`. O polimorfismo desempenha um papel crucial aqui. No entanto, escolher o tipo certo para iterar pode ser complicado. Se você encontrar um erro de "inconsistência", tente iterar em um tipo diferente: o próprio Num geralmente é problemático.
 
-```rust
+```rust,ignore
 Exp (n: Num) (m: Num -> Num) : Num
 Exp n m = ?
 ```
 
-```rust
+```rust,ignore
 Exp_1 : Equal (Exp Two Two) (Plus Two Two)
 Exp_1 = ?
 
@@ -733,7 +733,7 @@ Exp_3 = ?
 
 Exercício bônus: Predecessor
 
-```rust
+```rust,ignore
 Pred (n: Num -> Num) : Num
 Pred n = ?
 
@@ -749,7 +749,7 @@ Pred_3 = ?
 
 Exercício bônus: Subtração
 
-```rust
+```rust,ignore
 Sub (n: Num) (m: Num) : Num
 Sub n m = ?
 

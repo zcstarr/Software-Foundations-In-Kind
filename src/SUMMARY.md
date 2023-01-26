@@ -3,9 +3,10 @@
 
 # User Guide
 
-- [Instalação](guide/instalacao.md)
-  - [Olá, Mundo!](guide/Hello_World.md)
-  - [Olá, Kind!](cli/comandos.md)
+- [Começando](guide/Comecando.md)
+  - [Olá, Kind!](guide/sobre.md)
+  - [Instalação](guide/instalacao.md)
+  - [Olá, Mundo!](cli/comandos.md)
     <!-- - [run](cli/run.md)
 	  - [check](cli/check.md)
     - [derive](cli/derive.md)
