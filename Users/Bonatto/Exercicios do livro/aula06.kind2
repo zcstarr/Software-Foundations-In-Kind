@@ -1,0 +1,285 @@
+// lus_fact : Type
+// Plus_fact = 2+2=4
+
+Plus_fact : Type
+Plus_fact = Equal (Plus 2n 2n) 4n
+
+// λΠ> :t Plus_fact
+// Plus_fact : Type
+
+// lus_fact_is_true : Plus_fact
+// plus_fact_is_true = Re
+Plus_fact_is_true : Plus_fact 
+Plus_fact_is_true = Equal.refl
+
+// is_three : Nat -> Type
+// is_three n = n=3
+// Is_three (n: Nat) : Nat -> Type
+// Is_three n = Equal.refl n 3n
+
+// Injective : (f : a -> b) -> Type
+
+// Injective <a> <b> (f: a -> b) : Type
+// Injective {a} {b} f = (x, y : a) -> f x = f y -> x = y
+// Injective a b f = (x: a) => (y: a) => (e: Equal (f x) (f y)) => (Equal x y)
+
+// Succ_inj : Injective S
+// Succ_inj <a>: Algebra.Laws.injectivity (x => Nat.succ x)
+// Succ_inj = x => ?
+// succ_inj : Injective S
+// Succ_inj = Equal!j
+
+Algebra.Laws.injectivity <a: Type> <b: Type> (f: a -> b) : Type
+Algebra.Laws.injectivity a b f = (x: a) -> (y: a) -> (hyp: Equal b (f x) (f y)) -> (Equal a x y)
+
+Nat.succ_injective : Algebra.Laws.injectivity ((n: Nat) => Nat.succ n)
+Nat.succ_injective =
+  (a: Nat) =>
+  (b: Nat) =>
+  (hyp: Equal Nat (Nat.succ a) (Nat.succ b)) =>
+  Equal.apply (x => Nat.pred x) hyp
+
+type Injective <a: Type> <b: Type> (f: a -> b) {
+  new (p: Algebra.Laws.injectivity f)
+}
+
+InjectiveNat : Injective (n => Nat.succ n)
+InjectiveNat = Injective.new Nat.succ_injective
+
+
+ConjuntiveBool : Equal Bool (Bool.and Bool.true Bool.false) Bool.false
+ConjuntiveBool = Equal.refl
+
+// and_example : (3 + 4 = 7, 2 * 2 = 4)
+// and_example = (Refl, Refl)
+
+And_example : Pair (Equal (Nat.add 3n 4n) 7n) (Equal (Nat.mul 2n 2n) 4n)
+And_example = Pair.new Equal.refl Equal.refl
+
+// and_example2 : (n, m : Nat) -> (n = 0, m = 0) -> n + m = 0
+// and_example2 Z Z (Refl,Refl) = Refl
+// and_example2 (S _) _ (Refl,_) impossible
+// and_example2 _ (S _) (_,Refl) impossible
+
+And_example2 (n: Nat) (m: Nat) (e: Pair (Equal n 0n) (Equal m 0n)) : Equal (Nat.add n m) 0n
+And_example2 Nat.zero Nat.zero e      = Equal.refl
+And_example2 Nat.zero (Nat.succ m) e  =
+  let p = (Equal.rewrite
+  (Pair.snd e)
+  (x => match Nat x {
+    zero => Empty
+    succ => Unit 
+   })
+   (Unit.new))
+   Empty.absurd p
+And_example2 (Nat.succ n) m e = 
+  let p = (Equal.rewrite 
+     (Pair.fst e)
+     (x => match Nat x {
+      zero => Empty 
+      succ => Unit
+      })
+      (Unit.new))
+  Empty.absurd p
+
+
+
+And_example2a (n: Nat) (m: Nat) (e1: Equal n 0n) (e2: Equal m 0n) : Equal (Nat.add n m) 0n
+And_example2a Nat.zero Nat.zero e1 e2      = Equal.refl
+And_example2a Nat.zero (Nat.succ m) e1 e2  =
+  let p = (Equal.rewrite
+  (e2)
+  (x => match Nat x {
+    zero => Empty
+    succ => Unit 
+   })
+   (Unit.new))
+   Empty.absurd p
+And_example2a (Nat.succ n) m e1 e2  = 
+  let p = (Equal.rewrite 
+     (e1)
+     (x => match Nat x {
+      zero => Empty 
+      succ => Unit
+      })
+      (Unit.new))
+  Empty.absurd p
+
+And_example3 (n: Nat) (m: Nat) (e: Equal (Nat.add n m) 0n) : Equal (Nat.mul n m) 0n
+And_example3 Nat.zero m e =  Equal.refl
+And_example3 (Nat.succ n) m e =
+  let p = (Equal.rewrite 
+     (e)
+     (x => match Nat x {
+      zero => Empty 
+      succ => Unit
+      })
+      (Unit.new))
+  Empty.absurd p
+
+
+// proj1 : (p, q) -> p
+// proj1 = fst
+
+Proj1 <p> <q> (a: Pair p q) : p
+Proj1 (Pair.new fst snd)    = fst
+
+
+// proj2 : (p, q) -> q
+// proj2 x = ?proj2_rh
+
+Proj2 <p> <q> (b: Pair p q) : q
+Proj2 (Pair.new fst snd)    = snd
+
+// and_commut : (p, q) -> (q, p)
+// and_commut (p, q) = (q, p)
+And_commut <p> <q> (c: Pair p q) : Pair q p
+And_commut (Pair.new fst snd)    = Pair.new snd fst
+
+// and_assoc : (p, (q, r)) -> ((p, q), r)
+// and_assoc x = ?and_assoc_rh
+And_assoc <p> <q> <r> (a: Pair p (Pair q r))  : Pair (Pair p q) r
+And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = Pair.new (Pair.new fst snd) trd
+
+Or_example (n: Nat) (m: Nat) (e: (Either (Equal n 0n) (Equal m 0n))) : Equal (Nat.mul n m) 0n
+Or_example Nat.zero m e     = Equal.refl
+Or_example n Nat.zero e     = Mult_0_r n
+Or_example (Nat.succ n) m (Either.left l r val) = 
+  let p = (Equal.rewrite
+    (val)
+    (x => match Nat x {
+      zero => Empty 
+      succ => Unit
+      })
+    (Unit.new))
+  Empty.absurd p
+Or_example (Nat.succ n) (Nat.succ m) (Either.right l r val) = 
+  let p = (Equal.rewrite 
+  (val)
+  ( x => match Nat x {
+    zero => Empty
+    succ => Unit 
+    })
+    Unit.new)
+  Empty.absurd p
+
+// or_intro : a -> a `Either` b
+// or_intro = Left
+
+#axiom
+Or_intro <a> <b> (c:  Either a b)       : a
+Or_intro a b (Either.left  lft rgt val) = val
+// Or_intro a b (Either.right lft rgt val) =
+  // ?
+
+// zero_or_succ : (n : Nat) -> ((n = 0) `Either` (n = S (pred n)))
+// zero_or_succ Z      = Left Refl
+// zero_or_succ (S n)  = Right Refl
+
+Pred (n: Nat) : Nat
+Pred Nat.zero     = Nat.zero
+Pred (Nat.succ m) = m
+
+Zero_or_succ (n: Nat) : Either (Equal n Nat.zero) (Equal n (Nat.succ (Pred n)))
+Zero_or_succ Nat.zero     = Either.left Equal.refl
+Zero_or_succ (Nat.succ m) = Either.right Equal.refl 
+
+// mult_eq_0 : n * m = 0 -> ((n = 0) `Either` (m = 0))
+// mult_eq_0 prf = ?
+#axiom
+Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Nat.mul n m) 0n) : Either (Equal n 0n) (Equal m 0n)
+Mult_eq_0 Nat.zero m e = Either.left Equal.refl
+Mult_eq_0 n Nat.zero e = Either.right Equal.refl
+// Mult_eq_0 (Nat.succ n) (Nat.succ m) e = ?
+
+// or_commut : (p `Either` q) -> (q `Either` p)
+// or_commut x = ?p
+
+Or_commut <q> <p> (e: Either p q) : Either q p
+Or_commut q p (Either.left  lft rgt val) = Either.right rgt lft val
+Or_commut q p (Either.right lft rgt val) = Either.left  rgt lft val
+
+
+
+// ex_falso_quodlibet : Void -> p
+// ex_falso_quodlibet = void
+
+Ex_falso_quodlibet <p> : Empty -> p
+Ex_falso_quodlibet p = e => Empty.absurd e
+
+// Como tá no livro
+// not_implies_our_not : Not p -> (q -> (p -> q))
+// not_implies_our_not notp q p = ?not_implies_our_not_rhs
+
+// Se `(q -> (p -> q)) = Empty` 
+Not_implies_our_not1 <p> (e: Not p) : p -> Empty
+Not_implies_our_not1 p e = e
+
+// Se recebe apenas UM parêmetro 
+Not_implies_our_not2 <p> <q> (e: Not p) : q -> (p -> q)
+Not_implies_our_not2 p q e = (x: q) => (y: p) => x
+
+// Se tudo for parâmetro e tetorna só o `q` do final
+Not_implies_our_not3 <p> <q> (notp: Not p) (que: q) (pe: p) : q
+Not_implies_our_not3 p q notp que pe = que
+
+// zero_not_one : Not (Z = S _)
+// zero_not_one = \Refl impossible
+Zero_not_one : Not (Equal Nat.zero (Nat.succ Nat.zero))
+Zero_not_one = 
+  (emp => 
+    let app = Equal.apply (x => Nat.is_zero x) emp
+    Equal.rewrite app (e => if e {Nat} else {Empty}) Nat.zero)
+
+// not_False : Not Void
+// not_False = absurd
+Not_false : Not Empty
+Not_false = e => Empty.absurd e
+
+// contradiction_implies_anything : (p, Not p) -> q
+// contradiction_implies_anything (p, notp) = absurd $ notp p
+Contradiction_implies_anythig <p> <q> (a: Pair p (Not p)) : q
+Contradiction_implies_anythig p q (Pair.new fst snd) =
+  let app = snd fst
+  Empty.absurd app
+
+// double_neg : p -> Not $ Not p
+// double_neg p notp = notp p
+Double_neg <p>  : Not (Not p) 
+Double_neg p    = 
+  // let test = (x: p -> Empty) => (y: Empty) => y
+  let nas   = (x: p) => (y: Empty) => y
+  let test  = (x: p -> Empty) => Empty.absurd nas
+  ?
+  // test
+  // nas
+
+// expected : ((x_1 : ((x_1 : p) -> Empty)) -> Empty)
+// test     : ((x_3 : p) -> (x_1 : ((x_2 : x) -> Empty)) -> (x_2 : x) -> Empty)
+
+Main {
+     Nat.show (Inc 0n)
+}
+
+Mult_0_r (n: Nat)     : (Equal Nat (Nat.mul n Nat.zero) Nat.zero)
+Mult_0_r Nat.zero     = Equal.refl
+Mult_0_r (Nat.succ n) = 
+  let ind = Mult_0_r n
+  let app = Equal.apply (x => (Nat.add x Nat.zero)) ind
+  app
+
+
+Mult_n_m_eq_z (n: Nat) (m: Nat) (e: Equal m 0n)   : (Equal _ (Nat.add (Nat.mul n m) m) 0n)
+Mult_n_m_eq_z Nat.zero m e = e
+Mult_n_m_eq_z (Nat.succ n) m e = 
+  let ind = Mult_n_m_eq_z n m e
+  let app = Equal.apply (x => Nat.add x m) ind
+  let rwt = Equal.rewrite e (x => (Equal Nat (Nat.add (Nat.add (Nat.mul n m) m) m) x)) app
+  rwt
+
+Inc (n: Nat)  : Nat
+Inc n         = ((x: Nat) => Nat.succ x) n
+
+Pair_second<a> <b> (e: Pair a b) : b
+Pair_second (Pair.new a b) = b
+
