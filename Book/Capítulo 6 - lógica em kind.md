@@ -1,6 +1,6 @@
 # Lógica em Kind
 
-Nos capítulos anteriores, vimos muitos exemplos de afirmações factuais (proposições) e formas de apresentar evidências de sua veracidade (provas). Em particular, trabalhamos extensivamente com proposições de igualdade da forma e1 = e2, com implicações (p -> q), e com proposições quantificadas (x -> P(x)). Neste capítulo, veremos como Kind pode ser usado para realizar outras formas familiares de raciocínio lógico.
+Nos capítulos anteriores, vimos muitos exemplos de afirmações factuais (proposições) e formas de apresentar evidências de sua veracidade (provas). Em particular, trabalhamos extensivamente com proposições de igualdade da forma *e1 = e2*, com implicações *(p -> q)*, e com proposições quantificadas *(x -> P(x))*. Neste capítulo, veremos como Kind pode ser usado para realizar outras formas familiares de raciocínio lógico.
 
 Antes de mergulhar nos detalhes, vamos falar um pouco sobre o status das declarações matemáticas em Kind. Lembre-se de que Kind é uma linguagem tipada, o que significa que toda expressão sensível em seu mundo tem um tipo associado. As afirmações lógicas não são exceção: qualquer afirmação que possamos tentar provar em Kind tem um tipo, ou seja, Type, o tipo de proposições. Podemos ver isso com o tipo *Booleano*:
 
@@ -149,7 +149,7 @@ ConjuntiveBool : Equal Bool (Bool.and Bool.true Bool.false) Bool.false
 ConjuntiveBool = Equal.refl
 ```
 
-#### 1.1.1 Exercício:
+#### 1.1.1 Exercício: 
 ```rust
 And_exercise : Pair (Equal (Nat.add 3n 4n) 7n) (Equal (Nat.mul 2n 2n) 4n)
 And_exercise = ?
@@ -229,7 +229,7 @@ Proj1 <p> <q> (a: Pair p q) : p
 Proj1 (Pair.new fst snd)    = fst
 ```
 
-### 1.1.2
+#### 1.1.2
 
 ```rust
 Proj2 <p> <q> (b: Pair p q) : q
@@ -243,7 +243,7 @@ And_commut <p> <q> (c: Pair p q) : Pair q p
 And_commut (Pair.new fst snd)    = Pair.new snd fst
 ```
 
-### 1.1.3
+#### 1.1.3
 ```rust
 And_assoc <p> <q> <r> (a: Pair p (Pair q r))  : Pair (Pair p q) r
 And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?
@@ -292,14 +292,14 @@ Zero_or_succ Nat.zero       = Either.left  Equal.refl
 Zero_or_succ (Nat.succ n)   = Either.right Equal.refl
 ```
 
-### 1.2.1 
+#### 1.2.1 
 ```rust
 #axiom
 Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Nat.mul n m ) 0n) : Either (Equal n 0n) (Equal m 0n)
 Mult_eq_0 n m = ?
 ```
 
-### 1.2.2 
+#### 1.2.2 
 ```rust
 Or_commut <p> <q> (e: Either p q) : Either q p
 Or_commut e: ?
@@ -309,7 +309,7 @@ Or_commut e: ?
 
 Até agora, nos preocupamos principalmente em provar que certas coisas são verdadeiras – adição é comutativa, anexação de listas é associativa, etc. Claro, também podemos estar interessados em resultados negativos, mostrando que certas proposições não são verdadeiras. Em Kind, tais declarações negativas são expressas com a função de nível de tipo de negação *Not*.
 
-Para ver como a negação funciona, relembre a discussão do princípio da explosão do capítulo anterior; ela afirma que, se assumirmos uma contradição, então qualquer outra proposição pode ser derivada. Seguindo essa intuição, poderíamos definir ``Not p`` como ``p -> Empty``. Kind realmente faz uma escolha ligeiramente diferente, definindo *Not* como *p -> Empty*, onde *Empty* é uma proposição contraditória específica definida na biblioteca padrão como um tipo de dados sem construtores.
+Para ver como a negação funciona, relembre a discussão do princípio da explosão do capítulo anterior; ela afirma que, se assumirmos uma contradição, então qualquer outra proposição pode ser derivada. Seguindo essa intuição, poderíamos definir `Not p` como `q -> (p -> q)`. Kind realmente faz uma escolha ligeiramente diferente, definindo *Not* como *p -> Empty*, onde *Empty* é uma proposição contraditória específica definida na biblioteca padrão como um tipo de dados sem construtores.
 
 ```rust
 Empty: Type
@@ -326,5 +326,34 @@ Ex_falso_quodlibet p    = e => Empty.absurd e
 ```
 O *latim ex falso quodlibet* significa, literalmente, “da falsidade segue o que você quiser”; este é outro nome comum para o princípio da explosão.
 
-### 1.3.1 
-Mostre que a definição da negação em Kind 
+#### 1.3.1 
+Mostre que a definição da negação em Kind implica a intuitiva mencionada acima:
+
+```rust
+Not_implies_our_not <p> <q> (e: Not p) : q -> (p -> q)
+Not_implies_our_not p q e = ?
+```
+
+É assim que usamos Not para afirmar que 0 e 1 são elementos diferentes de Nat:
+
+```rust
+Zero_not_one : Not (Equal Nat.zero (Nat.succ Nat.zero))
+Zero_not_one = 
+  (emp => 
+    let app = Equal.apply (x => Nat.is_zero x) emp
+    Equal.rewrite app (e => if e {Nat} else {Empty}) Nat.zero)
+```
+
+É preciso um pouco de prática para se acostumar a trabalhar com a negação em Kind. Mesmo que você possa ver perfeitamente por que uma afirmação envolvendo negação é verdadeira, pode ser um pouco complicado no começo colocar as coisas na configuração certa para que Kind possa entender! Aqui estão as provas de alguns fatos familiares para você se aquecer:
+
+```rust
+Not_false : Not Empty
+Not_false = e => Empty.absurd e
+
+Contradiction_implies_anythig <p> <q> (a: Pair p (Not p)) : q
+Contradiction_implies_anythig p q (Pair.new fst snd) =
+  let app = snd fst
+  Empty.absurd app
+
+```
+
