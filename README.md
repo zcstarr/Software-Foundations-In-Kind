@@ -1,26 +1,28 @@
 # Learning Material
 
-Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.github.io/software-foundations/pdf/sf-idris-2018.pdf) para Kind2.
+Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.github.io/software-foundations/pdf/sf-idris-2018.pdf) para Kind.
 
-## padrão de formatação:
+## Padrão de formatação
 
 - 1. \# Nome do capítulo;
 - 2. \## Título;
 - 3. \### Subtítulo;
 - 4. \#### Título de exercício, exemplo etc;
-- 5. `Codigo`;
-- 6. Mensagem de erro: print;
+- 5. `codeblock`;
+- 6. Mensagem de erro: codeblock + diff;
 - 7. Citação de função, tipo ou parametro dentro do texto: em itálico (*Tipo*);
 
+## TODO
 
-
-
-## TODO:
 - [x] - Definir padrão;
-- [ ] - Refazer exemplos com o novo type check e mensagens de erro;
+- [x] - Refazer exemplos com o novo type check e mensagens de erro;
 - [ ] - Revisar e corrigir erros;
-- [ ] - Continuar do capitulo 5;
-
+- [x] - Continuar do capitulo 2;
+- [x] - Continuar do capitulo 3;
+- [x] - Continuar do capitulo 4;
+- [x] - Continuar do capitulo 5;
+- [ ] - Continuar do capitulo 6;
+- [ ] - Continuar do capitulo 7;
 
 Toda semana:
 
@@ -32,10 +34,18 @@ Toda semana:
 
 4. Gravar um video (voz + tela) explicando a solução de um dos exercícios.
 
-## Semana 1
+## Mês 1
 
 - Capítulos 2 e 3
 
-## Semana 2
+## Mês 2
 
 - Capítulos 4 e 5
+
+## Mês 3
+
+- Capítulos 6 e 7
+
+## Book
+
+[Kind Book](https://naoehsavio.github.io/learning/book/index.html)

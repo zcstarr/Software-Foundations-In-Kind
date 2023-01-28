@@ -1,0 +1,363 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Funções como dados - Kind</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introdução</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Comecando.html"><strong aria-hidden="true">1.</strong> Começando</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/sobre.html"><strong aria-hidden="true">1.1.</strong> Olá, Kind!</a></li><li class="chapter-item expanded "><a href="../../guide/instalacao.html"><strong aria-hidden="true">1.2.</strong> Instalação</a></li><li class="chapter-item expanded "><a href="../../cli/comandos.html"><strong aria-hidden="true">1.3.</strong> Olá, Mundo!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Básico: Introdução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Tipos Enumerados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Dias da semana</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleanos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Tipos de função</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Módulos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Prova por Simplificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Prova por aplicação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Prova por análise de casos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Prova por Reescrita</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain e Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> Mais exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Raciocínio sobre listas</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html" class="active"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contribuidores.html">Contribuidores</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Kind</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="funções-como-dados"><a class="header" href="#funções-como-dados">Funções como dados</a></h2>
+<p>Como muitas outras linguagens de programação modernas – incluindo todas as linguagens funcionais (ML, Haskell, Scheme, Scala, Clojure etc.) – o Kind trata as funções como cidadãos de primeira classe, permitindo que sejam passadas como argumentos para outras funções,
+retornados como resultados, armazenados em estruturas de dados, etc.</p>
+<h3 id="funções-de-alta-ordem-higher-order-functions"><a class="header" href="#funções-de-alta-ordem-higher-order-functions">Funções de Alta Ordem (Higher-Order Functions.)</a></h3>
+<p>Funções que manipulam outras funções são frequentemente chamadas de funções de alta ordem (ou ainda de &quot;ordem superior&quot;). Aqui está um exemplo simples:</p>
+<pre><code class="language-rust ignore">Doit3times &lt;x&gt; (f: x -&gt; x) (n: x) : x
+Doit3times f x = (f (f (f x)))
+
+Test_doit3times1 : Equal (Doit3times (x =&gt; MinusTwo x) 9n) 3n
+Test_doit3times1 = Equal.refl
+
+Test_doit3times2 : Equal (Doit3times (x =&gt; Notb x) Bool.true) (Bool.false)
+Test_doit3times2 = Equal.refl</code></pre>
+<h3 id="filtro"><a class="header" href="#filtro">Filtro</a></h3>
+<p>Aqui está uma função de alta ordem mais útil, pegando uma lista de xs e um predicado em x (uma função de x para Bool) e “filtrando” a lista, retornando uma nova lista contendo apenas aqueles elementos para os quais o predicado retorna True.</p>
+<pre><code class="language-rust ignore">Filter &lt;x&gt; (test: x -&gt; Bool) (xs: List x) : List x
+Filter test List.nil                      = []
+Filter test (List.cons head tail)         =
+   Bool.if (test head) (List.cons head (Filter test tail)) (Filter test tail)</code></pre>
+<p>Por exemplo, se aplicarmos o filtro de &quot;é par&quot; numa lista de números, ela nos retornará uma outra lista apena com os números pares</p>
+<pre><code class="language-rust ignore">Test_filter1 : Equal (Filter (x =&gt; Evenb x) [1,2,3,4,5])  [2,4]  
+Test_filter1 = Equal.refl
+
+Length_is_one &lt;x&gt; (xs: List x) : Bool
+Length_is_one xs               = Eql (Length xs) 1n
+
+Test_filter2 : Equal (Filter (x =&gt; Length_is_one x) ([[1],[1,2],[3],[1,2,3],[21]])) ([[1],[3],[21]])
+Test_filter2 = Equal.refl</code></pre>
+<p>Podemos usar filter para fornecer uma versão concisa da função countoddmembers do capítulo Listas.</p>
+<pre><code class="language-rust ignore">CountOddMembers (xs: List Nat) : Nat
+CountOddMembers xs             = Length (Filter (x =&gt; Oddb x) xs)
+
+Test_CountOddMembers1 : Equal (CountOddMembers  [1n,0n,3n,1n,4n,5n]) 4n
+Test_CountOddMembers1 = Equal.refl
+
+Test_CountOddMembers2 : Equal (CountOddMembers  [0n 2n,4n]) 0n
+Test_CountOddMembers2 = Equal.refl
+
+Test_CountOddMembers3 : Equal (CountOddMembers []) 0n
+Test_CountOddMembers3 = Equal.refl</code></pre>
+<h3 id="funções-anônimas"><a class="header" href="#funções-anônimas">Funções anônimas</a></h3>
+<p>É indiscutivelmente um pouco triste, no exemplo acima, ser forçado a definir a função <em>Length_is_one</em> e dar-lhe um nome apenas para poder passá-la como um argumento para filtrar, já que provavelmente nunca a usaremos novamente.
+Além disso, este não é um exemplo isolado: ao usar funções de ordem superior, muitas vezes queremos passar como argumentos funções “únicas” que nunca mais usaremos; ter que dar um nome a cada uma dessas funções seria tedioso.
+Felizmente, existe uma maneira melhor. Podemos construir uma função “on the fly” sem declará-la no nível superior ou dar-lhe um nome.</p>
+<pre><code class="language-rust ignore">Test_anon_fun : Equal (Doit3times (x =&gt; (Mult x x)) 2n) 256n
+Test_anon_fun = Equal.refl</code></pre>
+<p>A expressão <code>x =&gt; (Mult x x)</code> pode ser lida como <em>a função recebe um número <code>n</code> e retorna <code>n * n</code></em></p>
+<p>Aqui está o exemplo de <em>Filter</em> reescrita pra usar uma função anonima:</p>
+<pre><code class="language-rust ignore">Test_filter2 : Equal (Filter (x =&gt; (Length_is_one x)) [[1],[1,2],[2],[1,2,3],[21]]) [[1],[2],[21]]
+Test_filter2 = Equal.refl
+</code></pre>
+<h4 id="filter_even_gt7"><a class="header" href="#filter_even_gt7">Filter_even_gt7</a></h4>
+<p>Use <em>Filter</em> com funções anônimas (em vez de definição de função) para escrever uma função <code>Filter_even_gt7</code> que recebe uma lista de números naturais como entrada e retorna uma lista apenas daqueles que são pares e maiores que 7.</p>
+<pre><code class="language-rust ignore">Filter_even_gt7 (xs: List Nat) : List Nat
+Filter_even_gt7 xs = ?
+
+Test_filter_even_gt7a: Equal (Filter_even_gt7 [1n,2n,3n,4n,5n,7n,8n,9n,10n,11n,12n]) [8n,10n,12n]
+Test_filter_even_gt7a = ?
+
+Test_filter_even_gt7b : Equal (Filter_even_gt7 [5n, 2n, 6n, 19n, 129n]) []
+Test_filter_even_gt7b = ?</code></pre>
+<p>Uma pequena observação, o leitor mais atento percebeu que usamos uma nova notação, os <em>n</em> após os números, esse é um <em>sugar syntax</em> que o <em>Kind</em> possui, nós podemos escrever números naturais apenas acrescentando um <em>n</em> ao número, entretanto essa é uma sintaxe que pode acabar pesando para Kind. Imagine que o usuário pretende apenas adicionar o número <em>1</em> ao <em>1000000</em>, é um cálculo simples e que o Kind faz com uma mão nas costas, mas fica um pouco mais pesado quando usado o <em>sugar syntax</em> dos números naturais, a soma será um <code>Plus 1n 1000000n</code>, mas o <em>Kind</em> precisará verificar cada <em>Nat.succ</em> até o <em>um milhão e um</em>, ou seja, serão <em>um milhão e um</em> &quot;Nat.succs&quot; computados de forma desnecessárias. Essa sintaxe é bem útil, mas devemos usar com cuidado, o ideal é que para números grandes seja usado um <em>U60.to_nat</em>, que é bem mais leve para o Kind.</p>
+<h4 id="partition"><a class="header" href="#partition">Partition</a></h4>
+<p>Use <em>Filter</em> para escrever uma função <em>Partition</em> em <em>Kind</em></p>
+<pre><code class="language-rust ignore">Partition &lt;x&gt; (test: x -&gt; Bool) (xs: List x) : Pair (List x) (List x)
+Partition test xs = ?</code></pre>
+<p>Dado um conjunto x, uma função de teste do tipo x -&gt; Bool e uma Lista x, a função Partition deve retornar um par de listas. O primeiro membro do par é a sublista da lista original contendo os elementos que satisfazem o teste, e o segundo é a sublista contendo aqueles que falham no teste. A ordem dos elementos nas duas sublistas deve ser a mesma da lista original.</p>
+<pre><code class="language-rust ignore">Test_partition1 : Equal (Partition (x =&gt; Oddb x) [1n,2n,3n,4n,5n]) (Pair.new [1n,3n,5n] [2n,4n])
+Test_partition1 = ?
+
+Test_partition2 : Equal (Partition (x =&gt; Bool.false) [5n, 9n, 0n]) (Pair.new [] [5n, 9n, 0n])
+</code></pre>
+<h3 id="map"><a class="header" href="#map">Map</a></h3>
+<p>Oufra função de alta ordem muito útil é a <em>Map</em></p>
+<pre><code class="language-rust ignore">Map &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (xs: List x)  : List y
+Map f List.nil                        = List.nil
+Map f (List.cons head tail)           = List.cons (f head) (Map f tail)</code></pre>
+<p>Ela recebe uma função <code>f</code> e uma lista <code>xs = [n1, n2, n3, ...]</code> e retorna a lista <code>[f n1, f n2, f n3, ...]</code>, onde <code>f</code> é aplicado a cada elemento de <code>xs</code>. Por exemplo:</p>
+<pre><code class="language-rust ignore">Test_map1 : Equal (Map (x =&gt; Nat.add 3n x) [2n, 0n, 2n]) [5n, 3n, 5n]
+Test_map1 = Equal.refl</code></pre>
+<p>Os tipos de elementos da lista de entrada e saída não precisam ser os mesmos, pois <em>Map</em> aceita dois argumentos de tipo, <code>x</code> e <code>y</code>; dessa forma pode ser aplicada uma de números para booleanos para produzir uma lista de booleanos:</p>
+<pre><code class="language-rust ignore">
+Test_map2 : Equal (Map (x =&gt; Nat.is_odd x) [2n, 1n, 2n, 5n]) [Bool.false, Bool.true, Bool.false, Bool.true]
+Test_map2 = Equal.refl</code></pre>
+<p>Pode até ser aplicada a uma lista de números uma função que retorne uma lista de lista de booleanos:</p>
+<pre><code class="language-rust ignore">Test_map3 = Equal (Map (x =&gt; [(Nat.is_even x), (Nat.is_odd x)]) [2n, 1n, 2n, 5n]) [[Bool.true, Bool.false], [Bool.false, Bool.true], [Bool.true, Bool.false], [Bool.false, Bool.true]]
+Test_map3 = Equal.refl</code></pre>
+<h4 id="map_rev"><a class="header" href="#map_rev">Map_rev</a></h4>
+<p>Vamos dificultar um pouco mais as coisas. Mostre a comutatividade de Rev e Map, você pode precisar de uma função auxiliar:</p>
+<pre><code class="language-rust ignore">Map_rev &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (xs: List x) : Equal (Map f (Rev xs)) (Rev (Map f xs))
+Map_rev f xs = ?</code></pre>
+<h4 id="flat_equal"><a class="header" href="#flat_equal">Flat_equal</a></h4>
+<p>A função <em>Map</em> mapeia uma <code>List x</code> para uma <code>List y</code> usando uma função do tipo <code>x -&gt; y</code>. Podemos definir uma função semelhante, <code>Flat_map</code>, que mapeia uma Lista x para uma Lista y usando uma função f do tipo <code>x -&gt; Lista y</code>. Sua definição deve funcionar &quot;achatando&quot; os resultados de f, assim:</p>
+<pre><code class="language-rust ignore">Flat_equal : Equal (Flat_map ( x =&gt; ([x , (Nat.add x 1n), (Nat.add x 2n)])) [1n, 5n, 10n]) [1n, 2n, 3n, 5n, 6n, 7n, 10n, 11n, 12n]
+Flat_equal = Equal.refl
+
+Flat_map &lt;x&gt; &lt;y&gt; (f: x -&gt; List y) (xs: List x) : List y
+Flat_map f xs = ?
+
+Test_flat_map1 : Equal (Flat_map (x =&gt; [x, x, x]) [1n, 5n, 4n]) [1n, 1n, 1n, 5n, 5n, 5n, 4n, 4n, 4n]
+Test_flat_map1 = ?</code></pre>
+<p>As listas não são o único tipo indutivo para o qual podemos escrever uma função <em>Map</em>. Aqui está a definição de mapa para o tipo Maybe:</p>
+<pre><code class="language-rust ignore">Maybe_map &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (a: Maybe x)  : Maybe y
+Maybe_map f Maybe.none                      = Maybe.none
+Maybe_map f (Maybe.some x)                  = Maybe.some (f x)</code></pre>
+<h3 id="fold"><a class="header" href="#fold">Fold</a></h3>
+<p>Uma função de ordem superior ainda mais poderosa é chamada <em>Fold</em>. Esta função é a inspiração para a operação “reduce” que está no coração da estrutura de programação distribuída map/reduce do Google.</p>
+<pre><code class="language-rust ignore">Fold &lt;x&gt; &lt;y&gt; (f: x -&gt; y -&gt; y) (xs: List x) (a: y)   : y
+Fold f List.nil a                                   = a
+Fold f (List.cons head tail) a                      = f head (Fold f tail a)
+
+Test_fold1 : Equal (Fold (x =&gt; y =&gt; (Bool.and x y)) [Bool.true, Bool.true, Bool.false] Bool.false) Bool.false
+Test_fold1 = ?
+
+Test_fold2 : Equal (Fold (x =&gt; y =&gt; (* x y)) [1, 2, 3, 4] 1) 24
+Test_fold2 = ?
+
+Test_fold3 : Equal (Fold (x =&gt; y =&gt; (List.concat x y)) [[1], [], [2, 3], [], [4]] [5, 6, 7]) [1, 2, 3, 4, 5, 6, 7]
+Test_fold3 = ?</code></pre>
+<h4 id="fold_types_different"><a class="header" href="#fold_types_different">Fold_types_different</a></h4>
+<p>Observe que o tipo <em>Fold</em> é parametrizado por duas variáveis de tipo, x e y, e o parâmetro f é um operador binário que recebe um x e um y e retorna um y. Você consegue pensar em uma situação em que seria útil que x e y fossem diferentes?</p>
+<h3 id="funções-que-constroem-funções"><a class="header" href="#funções-que-constroem-funções">Funções que constroem funções</a></h3>
+<p>A maioria das funções de ordem superior sobre as quais falamos até agora usam funções como argumentos. Vejamos alguns exemplos que envolvem o retorno de funções como resultados de outras funções. Para começar, aqui está uma função que recebe um valor x (extraído de algum tipo x) e retorna uma função de Nat para x que retorna x sempre que é chamada, ignorando seu argumento Nat</p>
+<pre><code class="language-rust ignore">Constfun &lt;y&gt; (x: y) : Nat -&gt; y
+Constfun x = y =&gt; x</code></pre>
+<pre><code class="language-rust ignore">Ftrue : Nat -&gt; Bool
+Ftrue = Constfun Bool.true</code></pre>
+<pre><code class="language-rust ignore">Constfun_example1 : Equal ((Ftrue) 0n) Bool.true
+Constfun_example1 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Constfun_example2 : Equal ((Constfun 5n) 99n) 5n
+Constfun_example2 = Equal.refl</code></pre>
+<!-- Na verdade, as funções de múltiplos argumentos que já vimos também são exemplos de passagem de funções como dados. Para ver por que, lembre-se do tipo de adição -->
+<!-- [>  <] -->
+<!-- [> # TODO: <] -->
+<!-- [>  <] -->
+<!-- ```rust,ignore -->
+<!-- Plus Nat -> Nat : Nat -->
+<!-- ``` -->
+<!-- [> Cada "->" nesta expressão é, na verdade, um operador binário em tipos. Este operador é associativo à direita, então o tipo de plus é realmente uma abreviação para Nat -> (Nat -> Nat) – ou seja, pode ser lido como dizendo que “plus é uma função de um argumento que pega um Nat e retorna uma função de um argumento que pega outro Nat e retorna um Nat.” Nos exemplos acima, sempre aplicamos mais a ambos os argumentos ao mesmo tempo, <] -->
+<!-- [> mas se quisermos, podemos fornecer apenas o primeiro. Isso é chamado de aplicação parcial <] -->
+<!-- [>  <] -->
+<!-- [> # fim to todo <] -->
+<!--  -->
+<pre><code class="language-rust ignore">Plus3 : Nat -&gt; Nat
+Plus3 = n =&gt; Plus 3n n</code></pre>
+<pre><code class="language-rust ignore">Test_plus3_1 : Equal ((Plus3) 4n) 7n
+Test_plus3_1 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Test_plus3_2 : Equal (Doit3times (Plus3) 0n) 9n
+Test_plus3_2 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Test_plus3_3 : Equal (Doit3times (x =&gt; Plus 3n x) 0n) 9n
+Test_plus3_3 = Equal.refl</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Book/chapter_05/5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../Book/chapter_05/5,2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Book/chapter_05/5.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../Book/chapter_05/5,2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

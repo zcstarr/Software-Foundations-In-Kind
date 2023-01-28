@@ -1,0 +1,9 @@
+[book]
+authors = ["NaoEhSavio", "Bonatto"]
+language = "pt-BR"
+multilingual = false
+src = "src"
+title = "Kind"
+
+[output.html]
+mathjax-support = true
