@@ -42,7 +42,9 @@
 - [Polimorfismo](./Book/chapter_05/5.md)
   - [Funções como dados](./Book/chapter_05/5,1.md)
   - [Exercícios adicionais](./Book/chapter_05/5,2.md)
-
+- [Lógica em Kind](./Book/chapter_06/6.md)
+  - [Conectivos Lógicos](./Book/chapter_06/6%2C1.md)
+  - [Falsidade e Negação](./Book/chapter_06/6%2C2.md)
 -----------
 
 [Contribuidores](Contribuidores.md)
