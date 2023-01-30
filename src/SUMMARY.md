@@ -1,21 +1,12 @@
-
 [Introdução](README.md)
 
 # User Guide
 
 - [Começando](guide/Comecando.md)
-  - [Olá, Kind!](guide/sobre.md)
+  - [Kind](guide/sobre.md)
   - [Instalação](guide/instalacao.md)
-  - [Olá, Mundo!](cli/comandos.md)
-    <!-- - [run](cli/run.md)
-	  - [check](cli/check.md)
-    - [derive](cli/derive.md)
-    - [eval](cli/eval.md)
-    - [gen-checker](cli/gen-checker.md)
-    - [show](cli/show.md)
-    - [to-hvm](cli/to-hvm.md)
-    - [to-kdl](cli/to-kdl.md)
-    - [complementos](cli/complementos.md) -->
+  - [Olá Mundo!](cli/hello.md)
+  - [Olá Kind!](cli/kind.md)
 
 # Book
 
@@ -45,6 +36,7 @@
 - [Lógica em Kind](./Book/chapter_06/6.md)
   - [Conectivos Lógicos](./Book/chapter_06/6,1.md)
   - [Falsidade e Negação](./Book/chapter_06/6,2.md)
+
 -----------
 
 [Contribuidores](Contribuidores.md)
