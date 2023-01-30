@@ -1,12 +1,13 @@
-
 [Introdução](README.md)
 
 # User Guide
 
 - [Começando](guide/Comecando.md)
-  - [Olá, Kind!](guide/sobre.md)
+  - [Kind](guide/sobre.md)
   - [Instalação](guide/instalacao.md)
-  - [Olá, Mundo!](cli/comandos.md)
+  - [Olá Mundo!](cli/hello.md)
+  - [Olá Kind!](cli/kind.md)
+
     <!-- - [run](cli/run.md)
 	  - [check](cli/check.md)
     - [derive](cli/derive.md)
