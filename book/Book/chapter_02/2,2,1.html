@@ -145,15 +145,15 @@
                     <main>
                         <h3 id="dias-da-semana"><a class="header" href="#dias-da-semana">Dias da semana</a></h3>
 <p>A declaração a seguir diz para o Kind que estamos declarando um novo conjunto de dados - um Tipo.</p>
-<pre><code class="language-rust ignore">type Dia // Dia é um Tipo
-
-Dia.segunda : Dia  // Segunda é um Dia
-Dia.terca   : Dia  // Terça   é um Dia
-Dia.quarta  : Dia  // Quarta  é um Dia
-Dia.quinta  : Dia  // Quinta  é um Dia
-Dia.sexta   : Dia  // Sexta   é um Dia
-Dia.sabado  : Dia  // Sábado  é um Dia
-Dia.domingo : Dia  // Domingo é um Dia</code></pre>
+<pre><code class="language-rust ignore">type Dia { // Dia é um Tipo
+  segunda  // Segunda é um Dia
+  terca    // Terça   é um Dia
+  quarta   // Quarta  é um Dia
+  quinta   // Quinta  é um Dia
+  sexta    // Sexta   é um Dia
+  sabado   // Sábado  é um Dia
+  domingo  // Domingo é um Dia
+  }</code></pre>
 <p>O tipo se chama <code>Dia</code>, e seus membros são <code>Segunda</code>, <code>Terca</code>, <code>Quarta</code>, etc.
 A definição <code>&lt;nome&gt; : &lt;tipo&gt;</code> pode ser lida como: &quot;nome é um tipo&quot;.
 Acima temos tanto um exemplo de criar um tipo novo <code>Dia : Type</code>, quanto a de
