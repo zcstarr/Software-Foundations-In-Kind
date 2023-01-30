@@ -8,16 +8,6 @@
   - [Olá Mundo!](cli/hello.md)
   - [Olá Kind!](cli/kind.md)
 
-    <!-- - [run](cli/run.md)
-	  - [check](cli/check.md)
-    - [derive](cli/derive.md)
-    - [eval](cli/eval.md)
-    - [gen-checker](cli/gen-checker.md)
-    - [show](cli/show.md)
-    - [to-hvm](cli/to-hvm.md)
-    - [to-kdl](cli/to-kdl.md)
-    - [complementos](cli/complementos.md) -->
-
 # Book
 
 - [Básico: Introdução](./Book/chapter_02/2,1.md)
