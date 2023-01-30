@@ -36,6 +36,7 @@
 - [Lógica em Kind](./Book/chapter_06/6.md)
   - [Conectivos Lógicos](./Book/chapter_06/6,1.md)
   - [Falsidade e Negação](./Book/chapter_06/6,2.md)
+
 -----------
 
 [Contribuidores](Contribuidores.md)
