@@ -173,7 +173,7 @@ A partir de agora, haverão alguns conceitos avançados. Tudo fará sentido no f
 </code></pre>
 <p>A verificação de tipo está correta? Então vamos executar o código.</p>
 <h3 id="executando-o-código"><a class="header" href="#executando-o-código">Executando o código</a></h3>
-<p>Para executar um arquivo no Kind, use o comando <code>kind2 run nomeDoArquivo.kind</code>. Sim, o nomeDoArquivo vai sem a extensão neste caso. Deve parecer assim:</p>
+<p>Para executar um arquivo no Kind, use o comando <code>kind2 run nomeDoArquivo.kind</code>. Deve parecer assim:</p>
 <pre><code>kind2 run hello_world.kind2
 </code></pre>
 <p>E pronto! seu terminal deve imprimir &quot;Hello, Kind!&quot; de volta para você.</p>
@@ -208,22 +208,6 @@ A partir de agora, haverão alguns conceitos avançados. Tudo fará sentido no f
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

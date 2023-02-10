@@ -144,7 +144,7 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="listas-de-números"><a class="header" href="#listas-de-números">Listas de números</a></h2>
-<p>Generalizando a definição de pares, podemos descrever o tipo de listas de números assim: “Uma lista ou é a lista vazia ou então um conjuto de um elemento e outra Lista&quot;, esse tipo não é composto de um <code>head</code> e uma <code>tail</code>.</p>
+<p>Generalizando a definição de pares, podemos descrever o tipo de listas de números assim: “Uma lista ou é a lista vazia ou então um conjunto de um elemento e outra Lista&quot;, esse tipo não é composto de um <code>head</code> e uma <code>tail</code>.</p>
 <pre><code class="language-rust ignore">type List (t) {
   nil
   cons (head: t) (tail: List t)
@@ -174,7 +174,7 @@ lista de 4 elementos <code>[1n, 2n, 3n, 4n]</code>, agora veremos da seguinte fo
 <p><img src="../../Imgs/listmonster.png" alt="img" /></p>
 <p>[fonte da imagem: http://learnyouahaskell.com/starting-out]</p>
 <h3 id="repeat"><a class="header" href="#repeat">Repeat</a></h3>
-<p>A função repeat recebe um número <em>n</em> e um valor, retornando uma lista de tamanho <em>n</em> onde todos os elementos é o valor declarado.</p>
+<p>A função <em>repeat</em> recebe um número <em>n</em> e um valor, retornando uma lista de tamanho <em>n</em> onde todos os elementos é o valor declarado.</p>
 <pre><code class="language-rust ignore">// Exemplo: (Repeat 3 Bool.true) -&gt; [True, True, True]
 Repeat (x: Nat) (count: Nat) : List Nat
 Repeat x Nat.zero            = [] 
@@ -185,11 +185,11 @@ Repeat x (Nat.succ count)    = List.cons Nat x (Repeat count x)</code></pre>
 Length (xs: List Nat) : Nat
 Length List.nil              = 0n
 Length (List.cons head tail) = (Nat.succ (Length tail))</code></pre>
-<h3 id="app"><a class="header" href="#app">App</a></h3>
-<p>A função append concatena (anexa) duas listas.</p>
-<pre><code class="language-rust ignore">App (xs: List Nat) (ys: List Nat) : List Nat
-App (List.nil)            ys = ys
-App (List.cons head tail) ys = List.cons Nat head (App tail ys)</code></pre>
+<h3 id="concat"><a class="header" href="#concat">Concat</a></h3>
+<p>A função <em>concat</em> concatena (anexa) duas listas.</p>
+<pre><code class="language-rust ignore">Concat (xs: List Nat) (ys: List Nat) : List Nat
+Concat (List.nil)            ys = ys
+Concat (List.cons head tail) ys = List.cons Nat head (Concat tail ys)</code></pre>
 <h3 id="head-e-tail"><a class="header" href="#head-e-tail">Head e Tail</a></h3>
 <p>A função head retorna o primeiro elemento (a “cabeça”) da
 list, enquanto tail retorna tudo menos o primeiro elemento (a “cauda”). Claro, o
@@ -212,7 +212,7 @@ Test_head2 = Equal.refl</code></pre>
 Test_head3 = Equal.refl</code></pre>
 <h3 id="exercícios"><a class="header" href="#exercícios">Exercícios</a></h3>
 <h4 id="list_funs"><a class="header" href="#list_funs">List_funs</a></h4>
-<p>Complete as definições de nonzeros, oddmembers e countoddmembers abaixo. Dê uma olhada nos testes para entender o que essas funções devem fazer.</p>
+<p>Complete as definições de Nonzeros, Oddmembers e Countoddmembers abaixo. Dê uma olhada nos testes para entender o que essas funções devem fazer.</p>
 <pre><code class="language-rust ignore">Nonzeros (xs: List Nat) : List Nat
 Nonzeros xs = ?</code></pre>
 <pre><code class="language-rust ignore">Test_nonzeros : Equal (List Nat) (Nonzeros [0n,1n,0n,2n,3n,0n,0n]) [1n,2n,3n]
@@ -322,22 +322,6 @@ Test_subset2 = ?</code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

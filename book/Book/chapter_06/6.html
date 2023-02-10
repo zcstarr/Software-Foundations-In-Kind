@@ -147,8 +147,8 @@
 <p>Nos capítulos anteriores, vimos muitos exemplos de afirmações factuais (proposições) e formas de apresentar evidências de sua veracidade (provas). Em particular, trabalhamos extensivamente com proposições de igualdade da forma <em>e1 = e2</em>, com implicações <em>(p -&gt; q)</em>, e com proposições quantificadas <em>(x -&gt; P(x))</em>. Neste capítulo, veremos como Kind pode ser usado para realizar outras formas familiares de raciocínio lógico.</p>
 <p>Antes de mergulhar nos detalhes, vamos falar um pouco sobre o status das declarações matemáticas em Kind. Lembre-se de que Kind é uma linguagem tipada, o que significa que toda expressão sensível em seu mundo tem um tipo associado. As afirmações lógicas não são exceção: qualquer afirmação que possamos tentar provar em Kind tem um tipo, ou seja, Type, o tipo de proposições. Podemos ver isso com o tipo <em>Booleano</em>:</p>
 <pre><code class="language-rust ignore">Bool: Type
-Bool.true   : Bool
-Bool.false  : Bool</code></pre>
+Bool.true  : Bool
+Bool.false : Bool</code></pre>
 <p>No tipo <em>Bool</em> nós temos o Bool.<strong>true</strong> e o Bool.<strong>false</strong>. Para criar o
 tipo Bool nós declaramos que ele é um tipo (Type) e depois que o
 Bool.<strong>true</strong> e o Bool.<strong>false</strong> são do tipo Bool. Vendo como é, fica bem
@@ -158,28 +158,28 @@ frente.</p>
 <p>Outro exemplo possível é o <em>Nat</em>, dos números naturais. Números
 naturais são todos os números inteiros maiores ou igual a zero. Ou seja, eles começam com o número zero e vão até o infinito, mas não possuem valores decimais. Ou seja, o <strong>3</strong> é um número natural, mas o <strong>3,14</strong> não é, da mesma forma que o <strong>-3</strong> também não é. Então sabemos que o número natural é feito de <em>zero</em> e dos <em>sucessores</em> dele. Vamos ver como isso é no kind:</p>
 <pre><code class="language-rust ignore">Nat: Type
-Nat.zero              : Nat
-Nat.succ (pred:Nat)   : Nat</code></pre>
+Nat.zero             : Nat
+Nat.succ (pred: Nat) : Nat</code></pre>
 <p>Percebemos que a construção é similar aos <em>Booleanos</em>, mas há um
 elemento extra no Nat.<strong>succ</strong>, que é o &quot;(pred: Nat)&quot;, e isso se deve ao
-fato de que, enquanto no outro nós tinhamos apenas duas opções de retorno
+fato de que, enquanto no outro nós tínhamos apenas duas opções de retorno
 (<em>True</em> ou <em>False</em>), agora temos uma infinidade de números que o código
 precisa compreender, além de que deve haver uma forma do código parar de rodar
 (veremos mais sobre isso ao decorrer desse estudo), uma vez que um código que
-nunca para de rodar é um código que nunca nos dará o resultado. </p>
+nunca para de rodar é um código que nunca nos dará o resultado.</p>
 <p>Porém, de qualquer forma, percebemos que a estrutura do <strong>Nat</strong> é basicamente
 a mesma do <strong>Bool</strong>, isso nos mostra que podemos criar qualquer tipo,
 desde que sigamos a mesma estrutura. Vamos criar o tipo suco:</p>
 <pre><code class="language-rust ignore">Suco : Type
-Suco.laranja  : Suco
-Suco.caju     : Suco</code></pre>
+Suco.laranja : Suco
+Suco.caju    : Suco</code></pre>
 <p>O suco de laranja possui dois construtores, o Suco.<strong>laranja</strong> e o
 Suco.<strong>caju</strong>. Esse tipo é fictício, ele não existia até então, mas agora
 podemos usar ele como um tipo e isso nos mostra que, graças ao design do Kind,
 podemos criar uma infinidade de tipos, pois todo tipo é uma função.</p>
 <p>Entender a construção dos <em>tipos</em> impedirá que alguns erros de sintaxe ocorram.</p>
 <p>Apenas revisando, nosso elemento <em>Suco</em> é do tipo <em>Type</em> e o Suco.<strong>laranja</strong> é do tipo <em>Suco</em>. Desta forma, em termos leigos, temos que o elemento fica a direita dos dois pontos e o tipo a esquerda</p>
-<p><code>elemento : Tipo</code> </p>
+<p><code>elemento : Tipo</code></p>
 <p>Como dito antes, até mesmo os tipos são funções, logo podemos ter uma função
 como tipo. Por exemplo:</p>
 <pre><code class="language-rust ignore">Problema : (Equal Bool Bool.true Bool.true</code></pre>
@@ -189,7 +189,7 @@ tipo &quot;(Equal Bool Bool.true Bool.true)&quot;. Nós já vimos essa estrutura
 Suco.laranja : Type</code></pre>
 <p><strong>Não podemos</strong> simplesmente copiar a função para os construtores desse tipo.
 O <em>Suco</em> é tipo <em>Type</em>, mas o <em>Suco</em>.<strong>laranja</strong> não é do tipo <em>Type</em>, ele é
-do tipo <em>Suco</em>. </p>
+do tipo <em>Suco</em>.</p>
 <p>Mas atenção, observe que todas as proposições sintaticamente bem formadas têm o tipo Type em Kind, independentemente de serem verdadeiras ou não. Simplesmente ser uma proposição é uma coisa; ser demonstrável é outra coisa!</p>
 <p>De fato, as proposições não têm apenas tipos: elas são objetos de primeira classe que podem ser manipulados da mesma forma que as outras entidades no mundo de Kind. Até agora, vimos um local primário onde as proposições podem aparecer: nas assinaturas de tipo das funções.</p>
 <pre><code class="language-rust ignore">Plus_2_2_is_4 : Equal (Plus 2n 2n) 4n
@@ -200,25 +200,30 @@ Plus_fact = Equal (Plus 2n 2n) 4n</code></pre>
 <p>Posteriormente, podemos usar esse nome em qualquer situação em que uma proposição seja esperada – por exemplo, em uma declaração de função.</p>
 <pre><code class="language-rust ignore">Plus_fact_is_true : Plus_fact
 Plus_fact_is_true = Equal.refl</code></pre>
-<!-- Também podemos escrever proposições parametrizadas – isto é, funções que recebem argumentos de algum tipo e retornam uma proposição. Por exemplo, a seguinte função pega um número e retorna uma proposição afirmando que esse número é igual a três: -->
+<p>Também podemos escrever proposições parametrizadas – isto é, funções que recebem argumentos de algum tipo e retornam uma proposição. Por exemplo, a seguinte função pega um número e retorna uma proposição afirmando que esse número é igual a três:</p>
+<pre><code class="language-rust ignore">Is_three (n: Nat) : Type
+Is_three n = Equal Nat n 3n</code></pre>
 <p>Em Kind, diz-se que funções que retornam proposições definem propriedades de seus argumentos.
 Por exemplo, aqui está uma propriedade (polimórfica) que define a noção familiar de uma função injetiva</p>
-<pre><code class="language-rust ignore">Algebra.Laws.injectivity &lt;a: Type&gt; &lt;b: Type&gt; (f: a -&gt; b) : Type
-Algebra.Laws.injectivity a b f = (x: a) -&gt; (y: a) -&gt; (hyp: Equal b (f x) (f y)) -&gt; (Equal a x y)</code></pre>
+<pre><code class="language-rust ignore">Injective &lt;a&gt; &lt;b&gt; (f: a -&gt; b) : Type
+Injective a b f = (x: a) -&gt; (y: a) -&gt; (e: Equal b (f x) (f y)) -&gt; (Equal a x y)</code></pre>
 <p>Nós podemos instanciar uma regra de injetividade com</p>
-<pre><code class="language-rust ignore">Nat.succ_injective : Algebra.Laws.injectivity ((n: Nat) =&gt; Nat.succ n)
+<pre><code class="language-rust ignore">Nat.succ_injective : Injective ((x: Nat) =&gt; Nat.succ x)
 Nat.succ_injective =
   (a: Nat) =&gt;
   (b: Nat) =&gt;
-  (hyp: Equal Nat (Nat.succ a) (Nat.succ b)) =&gt;
-  Equal.apply (x =&gt; Nat.pred x) hyp</code></pre>
-<p>e criar tipos que precisam de injetividade com</p>
-<pre><code class="language-rust ignore">type Injective &lt;a: Type&gt; &lt;b: Type&gt; (f: a -&gt; b) {
-  new (p: Algebra.Laws.injectivity f)
+  (e: Equal Nat (Nat.succ a) (Nat.succ b)) =&gt;
+  Equal.apply (x =&gt; Nat.pred x) e</code></pre>
+<!-- e criar tipos que precisam de injetividade com
+
+```rust,ignore
+type Injective <a: Type> <b: Type> (f: a -> b) {
+  new (p: Nat.succ_injective f)
 }
 
-InjectiveNat : Injective (n =&gt; Nat.succ n)
-InjectiveNat = Injective.new Nat.succ_injective</code></pre>
+InjectiveNat : Injective (n => Nat.succ n)
+InjectiveNat = Injective.new Nat.succ_injective
+``` -->
 
                     </main>
 
@@ -249,22 +254,6 @@ InjectiveNat = Injective.new Nat.succ_injective</code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -155,7 +155,7 @@ Por exemplo:</p>
 <pre><code>let x = 42
 </code></pre>
 <h4 id="funções"><a class="header" href="#funções">Funções</a></h4>
-<p>As funções no Kind são declaradas usando a palavra-chave fun. A função recebe argumentos e retorna um valor. Por exemplo:</p>
+<p>As funções no Kind são declaradas usando a primeira letra maiúscula. A função pode recebe parâmetros ou não e retorna um valor. Por exemplo:</p>
 <pre><code>Nat.add (a: Nat) (b: Nat) : Nat
 </code></pre>
 <p>Este é apenas um breve resumo das bases do Kind. Você aprenderá mais sobre esses conceitos conforme progredir na guia. Agora que você aprendeu sobre as bases do Kind, é hora de seguir para a próxima seção e aprender sobre conceitos avançados na programação do Kind.</p>
@@ -189,22 +189,6 @@ Por exemplo:</p>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

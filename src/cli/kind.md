@@ -21,7 +21,7 @@ let x = 42
 
 #### Funções
 
-As funções no Kind são declaradas usando a palavra-chave fun. A função recebe argumentos e retorna um valor. Por exemplo:
+As funções no Kind são declaradas usando a primeira letra maiúscula. A função pode recebe parâmetros ou não e retorna um valor. Por exemplo:
 
 ```
 Nat.add (a: Nat) (b: Nat) : Nat

@@ -221,12 +221,12 @@ TestOddb1 = Equal.refl
 
 TestOddb2 : Equal Bool (Oddb 4n) Bool.false
 TestOddb2 = Equal.refl</code></pre>
-<p>Naturalmente, nós também podemos definir funções com multiplos argumentos por recursão.</p>
+<p>Naturalmente, nós também podemos definir funções com múltiplos argumentos por recursão.</p>
 <pre><code class="language-rust ignore">Plus (n: Nat) (m: Nat) : Nat
 Plus  Nat.zero    m = m
 Plus (Nat.succ k) m = Nat.succ (Plus k m)</code></pre>
 <p>Somar 3n e 2n retornará 5n como esperado.
-A simplificação que o Kind realiza para chegar a esse valor pode ser vizualizada assim:</p>
+A simplificação que o Kind realiza para chegar a esse valor pode ser visualizada assim:</p>
 <pre><code class="language-terminal">Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero))
 
 &gt; Nat.succ (Plus (Nat.succ (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
@@ -301,7 +301,7 @@ TestLte2 = Equal.refl
 TestLte3 : Equal Bool (Lte 4n 2n) Bool.false
 TestLte3 = Equal.refl</code></pre>
 <h4 id="blt_nat"><a class="header" href="#blt_nat">Blt_nat</a></h4>
-<p>A função <code>Blt_nat</code> testa a relação &quot;menor que&quot; em numeros naturais.
+<p>A função <code>Blt_nat</code> testa a relação &quot;menor que&quot; em números naturais.
 Em vez de criar uma nova função recursiva, defina ela usando funções previamente definidas.</p>
 <pre><code class="language-rust ignore">Blt_nat (n: Nat) (m: Nat) : Bool
 Blt_nat n m = ?</code></pre>
@@ -343,22 +343,6 @@ Test_blt_nat_3 = ?</code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

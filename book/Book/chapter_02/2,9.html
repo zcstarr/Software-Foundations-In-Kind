@@ -157,7 +157,7 @@ uma pra quando <code>b</code> for <code>Bool.true</code> e uma pra quando for <c
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = ?
 Example_case_analysis Bool.false = ?</code></pre>
-<p>E ambas essas provas são resolvivéis diretamente com <code>Equal.refl</code>, pois o <em>type checker</em>
+<p>E ambas essas provas são resolvíveis diretamente com <code>Equal.refl</code>, pois o <em>type checker</em>
 consegue reduzir ambos para <code>Equal Bool.false Bool.false</code> direto.</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = Equal.refl
@@ -195,22 +195,6 @@ ao talvez até colocar depois desse capítulo -->
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

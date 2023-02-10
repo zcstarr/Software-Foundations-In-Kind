@@ -146,7 +146,7 @@
                         <h2 id="mais-exercícios"><a class="header" href="#mais-exercícios">Mais exercícios</a></h2>
 <h4 id="boolean_functions"><a class="header" href="#boolean_functions">Boolean_functions</a></h4>
 <p>Use os conhecimentos ensinados até aqui para resolver o teorema:</p>
-<pre><code class="language-rust ignore">Identity_fn_applied_twice (f: Bool -&gt; Bool) (e: (x: Bool) -&gt; Equal Bool (f x) x)) (b : Bool) : Equal Bool (f (f b)) b
+<pre><code class="language-rust ignore">Identity_fn_applied_twice (f: Bool -&gt; Bool) (e: (x: Bool) -&gt; Equal Bool (f x) x) (b : Bool) : Equal Bool (f (f b)) b
 Identity_fn_applied_twice f e b = ?</code></pre>
 <p>Depois, resolva o teorema <code>negation_fn_applied_twice</code>, que é o mesmo que o anterior,
 mas mudando a hipótese para <code>Equal (f x) (Not x)</code></p>
@@ -156,7 +156,7 @@ mas mudando a hipótese para <code>Equal (f x) (Not x)</code></p>
 Andb_eq_orb b c prf = ?</code></pre>
 <h4 id="binary"><a class="header" href="#binary">Binary</a></h4>
 <p>Considere uma representação diferente de números naturais, usando um sistema binário ao
-invês de unário. Ou seja, ao invês de termos apenas zero ou um sucessor de um número,
+invés de unário. Ou seja, ao invés de termos apenas zero ou um sucessor de um número,
 nós podemos ter:</p>
 <ul>
 <li>zero;</li>
@@ -166,7 +166,7 @@ nós podemos ter:</p>
 <ol>
 <li>Primeiro, escreva uma definição indutiva desse tipo, chamando-o de <code>Bin</code>.
 (Lembre-se que, no fundo, a própria definição de <code>Nat</code> como <code>zero</code> ou <code>succ n</code>
-não tem sentido intríseco. Ela só diz que um elemento de <code>Nat</code> pode ser um <code>zero</code>
+não tem sentido intrínseco. Ela só diz que um elemento de <code>Nat</code> pode ser um <code>zero</code>
 ou um <code>succ n</code> se <code>n</code> também for <code>Nat</code>. A interpretação disso como um sistema de valores
 0, 1, 2, etc, vem de como nós trabalhamos com esse tipo <code>Nat</code>. A sua definição de <code>Bin</code>
 idealmente também será tão simples quanto. Serão as funções que você fizer sobre <code>Bin</code>
@@ -207,22 +207,6 @@ resultado que convertê-lo primeiro e então incrementar o <code>Nat</code>.</li
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -152,7 +152,7 @@ Test_fold_length1 = Equal.refl</code></pre>
 <p>Prove a validade de <em>Fold_length</em>:</p>
 <pre><code class="language-rust ignore">Fold_length_correct &lt;x&gt; (xs: List x) : Equal (Fold_length xs) (List.length xs)
 Fold_length_correct xs = ?</code></pre>
-<p>Nós talmbém podemos definir <em>Map</em> nos termos de <em>Fold</em>. Termine a função:</p>
+<p>Nós também podemos definir <em>Map</em> nos termos de <em>Fold</em>. Termine a função:</p>
 <pre><code class="language-rust ignore">Fold_map &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (xs: List x) : List y
 Fold_map f xs = ?</code></pre>
 <p>Escreva um teorema fold_map_correct em Kind declarando que <em>Fold_map</em> está correto e prove isso:</p>
@@ -305,22 +305,6 @@ Sub_3 = ?</code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

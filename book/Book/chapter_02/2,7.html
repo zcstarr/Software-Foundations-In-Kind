@@ -163,7 +163,7 @@ Mult_0_l (n: Nat) : Equal Nat (Mult Nat.zero n) Nat.zero
 Mult_0_l n = Equal.refl </code></pre>
 <p>O <code>_l</code> indica que a prova envolve o valor no lado esquerdo. Por exemplo:
 A prova da soma por 1 no lado esquerdo (<code>Plus_1_l</code>)
-ou a prova da multilicação por zero no lado esquerdo (<code>Mult_0_l</code>)</p>
+ou a prova da multiplicação por zero no lado esquerdo (<code>Mult_0_l</code>)</p>
 <p>Embora a simplificação seja poderosa o suficiente para provar alguns fatos gerais,
 existem várias declarações que não podem ser demonstradas só com simplificação.
 Por exemplo, não podemos usá-la para provar que <code>Nat.zero</code> é um elemento neutro para adição no lado direito.</p>
@@ -215,22 +215,6 @@ Por agora, no entanto, vamos ver mais alguns tipos simples de prova.</p>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -184,12 +184,12 @@ confirmação:</p>
 Checker</em> já reduz automaticamente, a soma de entre <em>0</em> e <em>n</em> para <em>n</em>.
 Entretanto, quando o primeiro <em>input</em> é uma variável, o Kind necessita
 verificar para cada caso e como é um número natural, há infinitos casos a serem
-testatos, isto é, de zero a infinito.</p>
+testados, isto é, de zero a infinito.</p>
 <p>De início podemos pensar que são tantos casos e que é impossível analisar todos
 eles, já que são infinitos, mas logo percebemos que é possível reduzir a dois,
 um é o número <em>zero</em> e o outro é um número que <em>sucede</em> o <em>zero</em> <em>n</em> vezes
 depois.</p>
-<p>Analizando para o caso de <em>zero</em> nosso objetivo é provar que <em>zero</em> é igual
+<p>Analisando para o caso de <em>zero</em> nosso objetivo é provar que <em>zero</em> é igual
 a <em>zero</em>:</p>
 <pre><code class="language-rust ignore">• Expected: Equal Nat Nat.zero Nat.zero</code></pre>
 <p>Agora basta dar o <em>Equal</em>.<strong>refl</strong> e o caso zero já foi comprovado, basta
@@ -228,7 +228,7 @@ Problems.t1 (Nat.succ n)   =
      ┬
      └Here!
 </code></pre>
-<p>Ao analizar nosso objetivo e a indução, percebemos que a única diferença entre
+<p>Ao analisar nosso objetivo e a indução, percebemos que a única diferença entre
 o objetivo e a nossa variável <em>ind</em> é o <em>Nat</em>.<strong>succ</strong>, basta então
 incrementar a variável <em>ind</em> com o <em>Nat</em>.<strong>succ</strong>, para isso nós criamos uma
 nova variável e usamos uma função <em>lambda</em>:</p>
@@ -299,22 +299,6 @@ Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesm
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

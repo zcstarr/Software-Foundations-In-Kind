@@ -143,7 +143,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="falsidade-e-negação"><a class="header" href="#falsidade-e-negação">Falsidade e Negação.</a></h2>
+                        <h2 id="falsidade-e-negação"><a class="header" href="#falsidade-e-negação">Falsidade e Negação</a></h2>
 <p>Até agora, nos preocupamos principalmente em provar que certas coisas são verdadeiras – adição é comutativa, anexação de listas é associativa, etc. Claro, também podemos estar interessados em resultados negativos, mostrando que certas proposições não são verdadeiras. Em Kind, tais declarações negativas são expressas com a função de nível de tipo de negação <em>Not</em>.</p>
 <p>Para ver como a negação funciona, relembre a discussão do princípio da explosão do capítulo anterior; ela afirma que, se assumirmos uma contradição, então qualquer outra proposição pode ser derivada. Seguindo essa intuição, poderíamos definir <code>Not p</code> como <code>q -&gt; (p -&gt; q)</code>. Kind realmente faz uma escolha ligeiramente diferente, definindo <em>Not</em> como <em>p -&gt; Empty</em>, onde <em>Empty</em> é uma proposição contraditória específica definida na biblioteca padrão como um tipo de dados sem construtores.</p>
 <pre><code class="language-rust ignore">Empty: Type
@@ -151,10 +151,10 @@
 Not &lt;p: Type&gt;: Type
 Not p = p -&gt; Empty</code></pre>
 <p>Como <em>Empty</em> é uma proposição contraditória, o princípio da explosão também se aplica a ela. Se obtivermos <em>Empty</em> no contexto de prova, podemos chamá-lo de <em>Empty</em> ou absurd para completar qualquer objetivo:</p>
-<pre><code class="language-rust ignore">Ex_falso_quodlibet &lt;p&gt;  : Empty -&gt; p
-Ex_falso_quodlibet p    = e =&gt; Empty.absurd e</code></pre>
+<pre><code class="language-rust ignore">Ex_falso_quodlibet &lt;p&gt; : Empty -&gt; p
+Ex_falso_quodlibet p   = e =&gt; Empty.absurd e</code></pre>
 <p>O <em>latim ex falso quodlibet</em> significa, literalmente, “da falsidade segue o que você quiser”; este é outro nome comum para o princípio da explosão.</p>
-<h4 id="131"><a class="header" href="#131">1.3.1</a></h4>
+<h4 id="not_implies_our_not"><a class="header" href="#not_implies_our_not">Not_implies_our_not</a></h4>
 <p>Mostre que a definição da negação em Kind implica a intuitiva mencionada acima:</p>
 <pre><code class="language-rust ignore">Not_implies_our_not &lt;p&gt; &lt;q&gt; (e: Not p) : q -&gt; (p -&gt; q)
 Not_implies_our_not p q e = ?</code></pre>
@@ -173,6 +173,19 @@ Contradiction_implies_anythig p q (Pair.new fst snd) =
   let app = snd fst
   Empty.absurd app
 </code></pre>
+<h4 id="double_neg_inf"><a class="header" href="#double_neg_inf">Double_neg_inf</a></h4>
+<p>Escreva uma prova informal de Double_neg:
+Teorema: Se p, então (não (não p)), para qualquer proposição p.</p>
+<h4 id="contrapositive"><a class="header" href="#contrapositive">Contrapositive</a></h4>
+<pre><code class="language-rust ignore">Contrapositive &lt;p&gt; &lt;q&gt; (f: p -&gt; q) : (Not q -&gt; Not p)
+Contrapositive p q f = ?</code></pre>
+<h4 id="not_both_true_and_false"><a class="header" href="#not_both_true_and_false">Not_both_true_and_false</a></h4>
+<pre><code class="language-rust ignore">Not_both_true_and_false &lt;p&gt; : Not (Pair p (Not p))
+Not_both_true_and_false p = ?</code></pre>
+<p>Da mesma forma, já que a desigualdade envolve uma negação, é preciso um pouco de prática para trabalhar com ela de forma fluente. Aqui está um truque útil. Se você estiver tentando provar uma meta que é absurda (por exemplo, o estado final é Bool.false == Bool.true), aplique Empty.absurd para mudar a meta para Empty. Isso facilita o uso de pressupostos do tipo (Not p) que podem estar disponíveis no contexto - em particular, pressupostos do tipo Not (x == y).</p>
+<pre><code class="language-rust ignore">Not_true_is_false (b: Bool) (e: Not (Equal Bool b Bool.true)) : Equal Bool b Bool.false
+Not_true_is_false Bool.false e = Equal.refl
+Not_true_is_false Bool.true e = Empty.absurd (e Equal.refl)</code></pre>
 
                     </main>
 
@@ -203,22 +216,6 @@ Contradiction_implies_anythig p q (Pair.new fst snd) =
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

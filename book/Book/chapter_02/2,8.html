@@ -156,7 +156,7 @@ prova/igualdade. Isso quer dizer que vamos realizar a nossa prova supondo que a
 prova dada como argumento também é verdadeira. Então, lendo a declaração da prova,
 temos que: &quot;Dados dois naturais, <code>m</code> e <code>n</code>, e uma prova de que eles são iguais,
 provar que <code>Nat.succ m</code> e <code>Nat.succ n</code> também são iguais&quot;.</p>
-<p>Nós aprendemos, nas nossas aulas de matématica, que aplicar uma função dos dois
+<p>Nós aprendemos, nas nossas aulas de matemática, que aplicar uma função dos dois
 lados de uma igualdade mantém a igualdade (<code>x/2 = 3 -&gt; 2*x/2 = 2*3</code>), e podemos
 ver que para provar o que a gente quer, precisamos aplicar a função <code>Nat.succ</code>
 nos dois lados de <code>e</code>, usando <code>Equal.apply</code></p>
@@ -198,7 +198,7 @@ que recebe um <code>x</code> qualquer e retorna <code>Nat.succ x</code>.</p>
       ┬
       └Here!
 </code></pre>
-<p>Como <code>e_apply</code> é uma igualdade do tipo <code>Equal Nat (Nat.succ m) (Nat.suuc n)</code>,
+<p>Como <code>e_apply</code> é uma igualdade do tipo <code>Equal Nat (Nat.succ m) (Nat.succ n)</code>,
 a prova que procuramos, é só retornar ele e concluiremos a nossa prova.</p>
 <pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e =
@@ -236,22 +236,6 @@ Example_apply n m e =
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

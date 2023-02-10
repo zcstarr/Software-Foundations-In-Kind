@@ -229,38 +229,38 @@ Como fizemos quando nosso tipo era definido, estamos criando uma lista que não 
 <pre><code class="language-rust ignore">Repeat (x: _) (count: Nat) : List _
 Repeat x Nat.zero          = List.nil
 Repeat x (Nat.succ count)  = List.cons x (Repeat x count)</code></pre>
-<p>Podemos perceber que, apesar de não definir o tipo de <em>x</em>, o <em>Kind</em> é poderoso para descobrir o tipo que é nosso x quando usamos o <em>hole</em> <code>_</code>. Embora seja possível e possa até facilitar construir uma aplicação inteira usando essa notação, não é uma boa prática, já que, a depender do caso, pode ser inferido um tipo diferente do que o desejado. É interessante sempre definir o tipo do nosso elemento, mesmo que seja um tipo polimórico.</p>
+<p>Podemos perceber que, apesar de não definir o tipo de <em>x</em>, o <em>Kind</em> é poderoso para descobrir o tipo que é nosso x quando usamos o <em>hole</em> <code>_</code>. Embora seja possível e possa até facilitar construir uma aplicação inteira usando essa notação, não é uma boa prática, já que, a depender do caso, pode ser inferido um tipo diferente do que o desejado. É interessante sempre definir o tipo do nosso elemento, mesmo que seja um tipo polimórfico.</p>
 <p>No primeiro caso, quando definimos o tipo <code>a</code>, já abarcamos todos os tipos possíveis, não sendo necessário o uso do hole e essa é a mágica do polimorfismo, ele nos permite usar uma mesma função para diversos tipos diferentes.</p>
 <p>Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do <em>repeat</em>, nós passamos o tipo <code>&lt;a: Type&gt;</code> e que cada elemento da nossa lista é desse tipo. Fizemos o mesmo com o tipo <em>Pair</em>, que recebia como argumento dois tipos <em>a</em> e <em>b</em>.</p>
 <p>Agora fica muito mais fácil compreender os exemplos que usamos no capítulo anterior, quando apresentamos funções como a de <em>length</em> e <em>append</em>:</p>
 <pre><code class="language-rust ignore">Length &lt;a&gt; (xs: List a) : Nat
-Length a (List.nil t)            = Nat.zero
-Length a (List.cons t head tail) = (Nat.succ (Length a tail))
+Length (List.nil t)            = Nat.zero
+Length (List.cons t head tail) = (Nat.succ (Length tail))
 
-App &lt;a: Type&gt; (xs: List a) (ys: List a) : List a
-App a (List.nil)                     ys = ys
-App a (List.cons head tail)          ys = List.cons a head (App a tail ys)
+Concat &lt;a: Type&gt; (xs: List a) (ys: List a) : List a
+Concat (List.nil)                     ys = ys
+Concat (List.cons head tail)          ys = List.cons head (Concat tail ys)
 </code></pre>
 <p>Perceba, há duas notações, uma onde apenas usamos <code>&lt;a&gt;</code> e outra onde usamos <code>&lt;a: Type&gt;</code>, podemos usar qualquer uma delas, o <em>Kind</em> é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.</p>
-<p>Agora é a hora de implementar nossas funçõe com o tipo implícito, usando o <code>hole</code> e <code>sugar syntax</code>:</p>
-<pre><code class="language-rust ignore">App_implicito (xs: List _) (ys: List _) : List _
-App_implicito []                     ys = ys
-App_implicito (List.cons head tail)  ys = List.cons head (App_implicito tail ys)</code></pre>
+<p>Agora é a hora de implementar nossas funções com o tipo implícito, usando o <code>hole</code> e <code>sugar syntax</code>:</p>
+<pre><code class="language-rust ignore">Concat_implicito (xs: List _) (ys: List _) : List _
+Concat_implicito []                     ys = ys
+Concat_implicito (List.cons head tail)  ys = List.cons head (Concat_implicito tail ys)</code></pre>
 <p>Aqui nós aprendemos mais uma coisa, o <em>sugar syntax</em> para uma lista vazia e que é apenas <code>[]</code>, mas isso está errado, uma vez que o <code>sugar syntax</code> no kind não funciona no lado esquerdo do escopo da função, somente do lado direito funciona. Ao usar o <em>sugar syntax</em> errado, o que o <em>Kind</em> apresenta como erro:</p>
 <pre><code class="language-diff">- ERROR  Unexpected token '['.
-    App_implicito []  ys = ys
+    Concat_implicito []  ys = ys
                   ┬
                   └Here!
 </code></pre>
-<p>Portanto, é sempre importante saber exatamente o que está sendo feito, ainda mais quando usamos <em>sugar syntax</em>, ela serve pra facilitar a nossa vida, mas pode causar alguns problemas quando usada de forma indevida e isso serve igualmente para o <em>hole</em> e tipos polimórficos nos auxiliam a excrever um programa mais seguro e, ao mesmo tempo, capaz de servir para inúmeros casos.</p>
+<p>Portanto, é sempre importante saber exatamente o que está sendo feito, ainda mais quando usamos <em>sugar syntax</em>, ela serve pra facilitar a nossa vida, mas pode causar alguns problemas quando usada de forma indevida e isso serve igualmente para o <em>hole</em> e tipos polimórficos nos auxiliam a escrever um programa mais seguro e, ao mesmo tempo, capaz de servir para inúmeros casos.</p>
 <p>Outra função que podemos reescrever é a de reverse:</p>
 <pre><code class="language-rust ignore">Rev &lt;a&gt; (xs: List a) : List a
-Rev a List.nil              = [] // sugar syntax de List.nil
-Rev a (List.cons head tail) = App (Rev tail) [head] // sugar syntax de (List.cons head List.nil)
+Rev List.nil              = [] // sugar syntax de List.nil
+Rev (List.cons head tail) = Concat (Rev tail) [head] // sugar syntax de (List.cons head List.nil)
 
 Length &lt;a&gt; (xs: List a) : Nat
-Length a List.nil              = 0n // sugar syntax de Nat.zero
-Length a (List.cons head tail) = Nat.succ (Length tail)</code></pre>
+Length List.nil              = 0n // sugar syntax de Nat.zero
+Length (List.cons head tail) = Nat.succ (Length tail)</code></pre>
 <p>Feito isso, basta apenas provar que nossas funções são verdadeiras:</p>
 <pre><code class="language-rust ignore">Test_rev1 : Equal (Rev [1,2,3]) [3,2,1]
 Test_rev1 = Equal.refl
@@ -272,17 +272,17 @@ Test_length1 : Equal (Length [1,2,3]) 3n
 Test_length1 = Equal.refl</code></pre>
 <h4 id="exercícios-polimórficos"><a class="header" href="#exercícios-polimórficos">Exercícios polimórficos</a></h4>
 <p>Aqui estão alguns exercícios simples, semelhantes aos da seção de Listas, para praticar o polimorfismo. Complete as provas abaixo.</p>
-<pre><code class="language-rust ignore">App_nil_r &lt;a&gt; (xs: List a) : Equal (App xs List.nil) xs
-App_nil_r xs = ?
+<pre><code class="language-rust ignore">Concat_nil_r &lt;a&gt; (xs: List a) : Equal (Concat xs List.nil) xs
+Concat_nil_r xs = ?
 
-App_assoc &lt;a&gt; (xs: List a) (ys: List a) (zs: List a) : Equal (App xs (App ys zs)) (App (App xs ys) zs)
-App_assoc xs ys zs = ?
+Concat_assoc &lt;a&gt; (xs: List a) (ys: List a) (zs: List a) : Equal (Concat xs (Concat ys zs)) (Concat (Concat xs ys) zs)
+Concat_assoc xs ys zs = ?
 
-App_length &lt;a&gt; (xs: List a) (ys: List a) : Equal (Length (App xs ys)) (Plus (Length xs) (Length ys))
-App_length xs ys = ?</code></pre>
+Concat_length &lt;a&gt; (xs: List a) (ys: List a) : Equal (Length (Concat xs ys)) (Plus (Length xs) (Length ys))
+Concat_length xs ys = ?</code></pre>
 <h4 id="mais-exercícios-polimórficos"><a class="header" href="#mais-exercícios-polimórficos">Mais exercícios polimórficos</a></h4>
 <p>Aqui estão alguns um pouco mais interessantes...</p>
-<pre><code class="language-rust ignore">Rev_app_distr &lt;a&gt; (xs: List a) (ys: List a) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs))
+<pre><code class="language-rust ignore">Rev_app_distr &lt;a&gt; (xs: List a) (ys: List a) : Equal (Rev (Concat xs ys)) (Concat (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
 
 Rev_involutive &lt;a&gt; (xs: List a) : Equal (Rev (Rev xs)) xs
@@ -384,22 +384,6 @@ Test_hd_error2 = ?</code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

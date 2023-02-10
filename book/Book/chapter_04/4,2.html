@@ -146,7 +146,7 @@
                         <h2 id="raciocínio-sobre-listas"><a class="header" href="#raciocínio-sobre-listas">Raciocínio sobre listas</a></h2>
 <p>Assim como os números, fatos simples sobre funções de processamento de lista podem às vezes ser provado inteiramente por simplificação. Por exemplo, a simplificação realizada por
 <code>Equal.refl</code> é suficiente para este teorema...</p>
-<pre><code class="language-rust ignore">`List.nil`_app (xs: List Nat) : Equal (App (List.nil Nat) xs) xs
+<pre><code class="language-rust ignore">`List.nil`_app (xs: List Nat) : Equal (Concat (List.nil Nat) xs) xs
 `List.nil`_app xs = Equal.refl</code></pre>
 <p>... isso porque o Kind &quot;vê&quot; o  <code>List.nil</code> e já reduz automaticamente a igualdade da mesma forma que ocorre com os números naturais, com o <code>Nat.zero</code></p>
 <p>Além disso, como acontece com os números, às vezes é útil realizar uma análise de caso no possíveis formas (vazias ou não vazias) de uma lista desconhecida</p>
@@ -186,43 +186,43 @@ para todas as listas, podemos raciocinar da seguinte forma:</p>
 <p>Como listas maiores só podem ser construídas a partir de listas menores, eventualmente chegando a <code>List.nil</code>,
 esses dois argumentos juntos estabelecem a verdade de <code>p</code> para todas as listas <code>l</code>. Aqui está um
 exemplo concreto:</p>
-<pre><code class="language-rust ignore">App_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (App (App xs ys) zs) (App xs (App ys zs))
-App_assoc List.nil                               ys zs = Equal.refl
-App_assoc (List.cons Nat xs.head xs.tail)        ys zs = 
-  let ind = App_assoc xs.tail ys zs
+<pre><code class="language-rust ignore">Concat_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (Concat (Concat xs ys) zs) (Concat xs (Concat ys zs))
+Concat_assoc List.nil                               ys zs = Equal.refl
+Concat_assoc (List.cons Nat xs.head xs.tail)        ys zs = 
+  let ind = Concat_assoc xs.tail ys zs
   let app = Equal.apply (x =&gt; (List.cons xs.head x)) ind
   app</code></pre>
 <p>Nós recebemos três listas <code>xs</code>, <code>ys</code> e <code>zs</code> e verificamos se a concatenação da de <code>xs</code> e <code>ys</code> com  <code>zs</code> é igual a de <code>xs</code> com a de <code>ys</code> com <code>zs</code>
-Para isso nós verificamos para o caso de <code>xs</code> ser uma lista vazia, então recebemos uma reflexão da contenação é entre <code>ys</code> e <code>zs</code> e basta dar um <code>*Equal*.**refl**</code></p>
+Para isso nós verificamos para o caso de <code>xs</code> ser uma lista vazia, então recebemos uma reflexão da concatenação é entre <code>ys</code> e <code>zs</code> e basta dar um <code>*Equal*.**refl**</code></p>
 <p>Em seguida nós &quot;abrimos&quot; o <code>xs</code> para obter o <code>xs.tail</code> para a nossa indução, e recebemos como objetivo:</p>
-<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs))) 
+<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs))) 
 </code></pre>
 <p>e a nossa variável <code>ind</code> é:</p>
-<pre><code> • ind: Equal (List Nat) (App (App xs.tail ys) zs) (App xs.tail (App ys zs))
+<pre><code> • ind: Equal (List Nat) (Concat (Concat xs.tail ys) zs) (Concat xs.tail (Concat ys zs))
 </code></pre>
 <p>bastando apenas aplicar um <code>List.cons xs.head</code> em ambos os lados da igualdade para ter o objetivo final e é isso o que fazemos no <code>app</code>:</p>
-<pre><code> • app : Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs)))
+<pre><code> • app : Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs)))
 </code></pre>
 <p><em>OBSERVAÇÃO</em>
 O Type Check nos retorna tipos <code>t2</code>, <code>t3</code> e outros gerados no mesmo estilo e podemos ignorar e até mesmo apagar na hora de comparar o retorno das variáveis como vemos no seguinte caso:</p>
-<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs))) 
- •   app   : Equal (List Nat) (List.cons Nat xs.head (App (App xs.tail ys) zs)) (List.cons Nat xs.head (App xs.tail (App ys zs)))
+<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs))) 
+ •   app   : Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs)))
 </code></pre>
 <!-- e apagando os tipos gerados e os `holes`:
 
 ```
-- Expected: Equal (List) (List.cons xs.head (App (App xs.tail ys) zs)) (List.cons xs.head (App xs.tail (App ys zs))))
-- app : Equal (List) (List.cons xs.head (App (App xs.tail ys) zs)) (List.cons xs.head (App xs.tail (App ys zs))))
+- Expected: Equal (List) (List.cons xs.head (Concat (Concat xs.tail ys) zs)) (List.cons xs.head (Concat xs.tail (Concat ys zs))))
+- app : Equal (List) (List.cons xs.head (Concat (Concat xs.tail ys) zs)) (List.cons xs.head (Concat xs.tail (Concat ys zs))))
 ``` -->
 <!-- TODO holes -->
-<p>Dessa forma fica mais fácil perceber que o <code>app</code> e o <code>Expected</code> são identicos, então não é necessário se assustar ao ver esses tipos gerados</p>
+<p>Dessa forma fica mais fácil perceber que o <code>app</code> e o <code>Expected</code> são idênticos, então não é necessário se assustar ao ver esses tipos gerados</p>
 <h4 id="invertendo-uma-lista"><a class="header" href="#invertendo-uma-lista">Invertendo uma lista</a></h4>
-<p>Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos <code>app</code> para definir uma função de reversão de lista <code>rev</code>:</p>
+<p>Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos <code>Concat</code> para definir uma função de reversão de lista <code>Rev</code>:</p>
 <pre><code class="language-rust ignore">Rev (xs: List Nat)        : List Nat
 Rev List.nil              = List.nil Nat
-Rev (List.cons head tail) = App (Rev tail) [head]
+Rev (List.cons head tail) = Concat (Rev tail) [head]
 
-Test_rev1 : Equal (List Nat) (Rev [1n,2n,3n])) [3n,2n,1n])
+Test_rev1 : Equal (List Nat) (Rev [1n,2n,3n]) [3n,2n,1n]
 Test_rev1 = Equal.refl
 
 Test_rev2 : Equal (Rev List.nil) List.nil
@@ -231,7 +231,7 @@ Test_rev2 = Equal.refl</code></pre>
 <p>Agora vamos provar alguns teoremas sobre o rev que acabamos de definir. Para algo um pouco mais desafiador do que vimos, vamos provar
 que inverter uma lista não altera seu comprimento. Nossa primeira tentativa fica presa
 o caso sucessor...</p>
-<pre><code class="language-rust ignore">Rev_length_firsttry (xs: List Nat)              : Equal Nat (Length (Rev xs)) (Length xs))
+<pre><code class="language-rust ignore">Rev_length_firsttry (xs: List Nat)              : Equal Nat (Length (Rev xs)) (Length xs)
 Rev_length_firsttry List.nil                    = Equal.refl
 Rev_length_firsttry (List.cons xs.head xs.tail) =
    let ind = Rev_length_firsttry xs.tail
@@ -239,7 +239,7 @@ Rev_length_firsttry (List.cons xs.head xs.tail) =
 <p>O Type Check nos retorna o seguinte objetivo e contexto:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
-   • Expected: Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
+   • Expected: Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
 
    • Context: 
    •   head : Nat 
@@ -252,11 +252,11 @@ Rev_length_firsttry (List.cons xs.head xs.tail) =
       ┬
       └Here!
 </code></pre>
-<p>Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precusaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do damanho das de cada uma delas:</p>
-<pre><code class="language-rust ignore">App_length (xs: List Nat) (ys: List Nat)  : Equal Nat (Length (App xs ys)) (Plus (Length xs) (Length ys))
-App_length List.nil ys                    = Equal.refl
-App_length (List.cons xs.head xs.tail) ys =
-   let ind = App_length xs.tail ys
+<p>Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precisaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do tamanho das de cada uma delas:</p>
+<pre><code class="language-rust ignore">Concat_length (xs: List Nat) (ys: List Nat)  : Equal Nat (Length (Concat xs ys)) (Plus (Length xs) (Length ys))
+Concat_length List.nil ys                    = Equal.refl
+Concat_length (List.cons xs.head xs.tail) ys =
+   let ind = Concat_length xs.tail ys
    let app = Equal.apply (x =&gt; (Nat.succ x)) ind
    app</code></pre>
 <p>Além dessa prova, usaremos outras já provadas nos  capítulos anteriores:</p>
@@ -271,7 +271,7 @@ Rev_length (List.cons Nat head tail)  =
    ?</code></pre>
 <pre><code class="language-diff">+ INFO  Inspection.
 
-   • Expected: Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
+   • Expected: Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
 
    • Context: 
    •   head : Nat 
@@ -284,15 +284,15 @@ Rev_length (List.cons Nat head tail)  =
       ┬
       └Here!
 </code></pre>
-<p>Nós criamos uma variavel com nossa auxiliar <code>App_length</code>:</p>
+<p>Nós criamos uma variável com nossa auxiliar <code>Concat_length</code>:</p>
 <pre><code class="language-rust ignore">Rev_length (xs: List Nat)             : Equal Nat (Length (Rev xs)) (Length xs)
 Rev_length List.nil                   = Equal.refl
 Rev_length (List.cons Nat head tail)  =
    let ind  = Rev_length tail
-   let aux1 = App_length (Rev xs.tail) [xs.head]
+   let aux1 = Concat_length (Rev xs.tail) [xs.head]
    ?</code></pre>
 <p>Recebemos um novo contexto para nos auxiliar, o</p>
-<pre><code> • aux1: Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n)
+<pre><code> • aux1: Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n)
 </code></pre>
 <p>A <code>aux1</code> é igual ao lado esquerdo do nosso <code>Expected</code>, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a <code>aux2</code>:</p>
 <pre><code class="language-rust ignore">let aux2 = Plus_comm (Length (Rev xs.tail)) (1n)</code></pre>
@@ -301,62 +301,62 @@ Rev_length (List.cons Nat head tail)  =
 <p>Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da <code>aux2</code> é igual ao direito da <code>aux1</code> e podemos encadear um no outro com o <code>Equal.chain</code>:</p>
 <pre><code class="language-rust ignore">let chn = Equal.chain aux1 aux2</code></pre>
 <p>Ao dar o Type Check, vemos nosso novo contexto:</p>
-<pre><code class="language-Terminal"> • chn : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))
+<pre><code class="language-Terminal"> • chn : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))
 </code></pre>
-<p>Nossa variável <code>chn</code> é praticamente identica ao nosso <code>Expected</code> só diferindo na parte final, pois <code>Expected</code> espera um <code>Nat.succ (Length xs.tail)</code> e o <code>chn</code> nos dá <code>Nat.succ (Length (Rev xs.tail))</code>, mas nós temos a variável <code>ind</code> que nos retorna essa igualdade. Vamos relembrar:</p>
+<p>Nossa variável <code>chn</code> é praticamente idêntica ao nosso <code>Expected</code> só diferindo na parte final, pois <code>Expected</code> espera um <code>Nat.succ (Length xs.tail)</code> e o <code>chn</code> nos dá <code>Nat.succ (Length (Rev xs.tail))</code>, mas nós temos a variável <code>ind</code> que nos retorna essa igualdade. Vamos relembrar:</p>
 <pre><code class="language-Terminal"> • ind: Equal Nat (Length (Rev tail)) (Length tail) 
 </code></pre>
-<p>Incrivel, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da <code>tail</code> é igual ao tamanho da <code>tail</code>, então basta reescrever a variável <code>ind</code> na nossa <code>chn</code>:</p>
-<pre><code class="language-rust ignore">let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (App (Rev tail) (List.cons head (List.nil)))) (Nat.succ x )) chn</code></pre>
+<p>Incrível, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da <code>tail</code> é igual ao tamanho da <code>tail</code>, então basta reescrever a variável <code>ind</code> na nossa <code>chn</code>:</p>
+<pre><code class="language-rust ignore">let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (Concat (Rev tail) (List.cons head (List.nil)))) (Nat.succ x )) chn</code></pre>
 <p>Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais fácil:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
-   • Expected: Equal Nat (Length (App (Rev tail) (List.cons _ head (List.nil _)))) (Nat.succ (Length tail)) 
+   • Expected: Equal Nat (Length (Concat (Rev tail) (List.cons _ head (List.nil _)))) (Nat.succ (Length tail)) 
 
    • Context: 
    •   head : Nat 
    •   tail : (List Nat) 
    •   ind  : Equal Nat (Length (Rev tail)) (Length tail) 
    •   ind  = (Rev_length tail) 
-   •   aux1 : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) 
-   •   aux1 = (App_length (Rev tail) (List.cons Nat head (List.nil Nat))) 
+   •   aux1 : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) 
+   •   aux1 = (Concat_length (Rev tail) (List.cons Nat head (List.nil Nat))) 
    •   aux2 : Equal Nat (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) 
    •   aux2 = (Plus_comm (Length (Rev tail)) 1n) 
-   •   chn  : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))
-   •   chn  = Equal.chain Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) aux1 aux2 
-   •   rrt  : Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
-   •   rrt  = Equal.rewrite Nat (Length (Rev tail)) (Length tail) ind (x =&gt; Equal Nat (Length (App (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ x))) chn
+   •   chn  : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))
+   •   chn  = Equal.chain Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) aux1 aux2 
+   •   rrt  : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
+   •   rrt  = Equal.rewrite Nat (Length (Rev tail)) (Length tail) ind (x =&gt; Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ x))) chn
 </code></pre>
 <p>Agora é muito mais fácil perceber que nosso <code>rrt</code> é exatamente o nosso <code>Expected</code>, então nossa prova fica assim:</p>
 <pre><code class="language-rust ignore">Rev_length (xs: List Nat)            : Equal Nat (Length (Rev xs)) (Length xs)
 Rev_length List.nil                  = Equal.refl
 Rev_length (List.cons Nat head tail) =
    let ind   = Rev_length tail
-   let aux1  = App_length (Rev tail) [head]
+   let aux1  = Concat_length (Rev tail) [head]
    let aux2  = Plus_comm (Length (Rev tail)) (1n)
    let chn   = Equal.chain aux1 aux2
-   let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (App (Rev tail) (List.cons head (List.nil)))) (Nat.succ x )) chn
+   let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (Concat (Rev tail) [head])) (Nat.succ x)) chn
    rrt</code></pre>
 <h3 id="exercícios-de-listas-parte-1"><a class="header" href="#exercícios-de-listas-parte-1">Exercícios de Listas, parte 1</a></h3>
 <h4 id="list_exercises"><a class="header" href="#list_exercises">List_exercises</a></h4>
 <p>Vamos praticar um pouco mais com as listas:</p>
-<pre><code class="language-rust ignore">App_nil_r (xs: List Nat) : Equal (App xs List.nil) xs
-App_nil_r xs = ?
+<pre><code class="language-rust ignore">Concat_nil_r (xs: List Nat) : Equal (Concat xs List.nil) xs
+Concat_nil_r xs = ?
 
-App_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (App (App xs ys) zs) (App xs (App ys zs))
-App_assoc xs ys zs = ?
+Concat_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (Concat (Concat xs ys) zs) (Concat xs (Concat ys zs))
+Concat_assoc xs ys zs = ?
 
-Rev_app_distr (xs: List Nat) (ys: List Nat) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs))
+Rev_app_distr (xs: List Nat) (ys: List Nat) : Equal (Rev (Concat xs ys)) (Concat (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
 
 Rev_involutive (xs: List Nat) : Equal (Rev (Rev xs)) xs
 Rev_involutive xs = ?</code></pre>
 <p>Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
 recue e tente procurar uma maneira mais simples.</p>
-<pre><code class="language-rust ignore">App_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat) : Equal (List Nat) (App l1 (App l2 (App l3 l4))) (App (App (App l1 l2) l3) l4)
-App_assoc4 l1 l2 l3 l4 = ? </code></pre>
-<p>Um exercício sobre sua implementação de <em>nonzeros</em>:</p>
-<pre><code class="language-rust ignore">Nonzeros_app (xs: List Nat) (ys: List Nat) : Equal (List Nat) (Nonzeros (App xs ys)) (App (Nonzeros xs) (Nonzeros ys))
+<pre><code class="language-rust ignore">Concat_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat) : Equal (List Nat) (Concat l1 (Concat l2 (Concat l3 l4))) (Concat (Concat (Concat l1 l2) l3) l4)
+Concat_assoc4 l1 l2 l3 l4 = ? </code></pre>
+<p>Um exercício sobre sua implementação de <em>Nonzeros</em>:</p>
+<pre><code class="language-rust ignore">Nonzeros_app (xs: List Nat) (ys: List Nat) : Equal (List Nat) (Nonzeros (Concat xs ys)) (Concat (Nonzeros xs) (Nonzeros ys))
 Nonzeros_app xs ys = ?</code></pre>
 <h4 id="beq_natlist"><a class="header" href="#beq_natlist">Beq_NatList</a></h4>
 <p>Preencha a definição de beq_NatList, que compara listas de números para igualdade. Prove que beq_NatList xs ys produz <em>Bool.true</em> para cada lista.</p>
@@ -420,22 +420,6 @@ Rev_injective xs ys e = ?  </code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

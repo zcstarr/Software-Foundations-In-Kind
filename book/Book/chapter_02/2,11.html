@@ -169,7 +169,7 @@ Example_mirror a b e =
 <p>Apesar de não parecer muito útil no momento, essa operação é muito útil para nosso segundo utilitário: <code>Equal.chain</code>.
 <code>Equal.chain</code> é um caso específico do <code>Equal.rewrite</code>, no qual você reescreve um lado inteiro de uma igualdade usando outra.</p>
 <pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c</code></pre>
-<p>Como nós já conhecemos o <code>Equal.rewrite</code>, poderiamos usar ele para resolver esse teorema, mas ao invês disso vamos usar o <code>Equal.chain</code>.
+<p>Como nós já conhecemos o <code>Equal.rewrite</code>, poderíamos usar ele para resolver esse teorema, mas ao invés disso vamos usar o <code>Equal.chain</code>.
 <code>Equal.chain</code> funciona &quot;encadeando&quot; duas igualdades que tenham a mesma expressão no lado direito da primeira igualdade e no lado esquerdo da segunda,
 &quot;grudando&quot; essas igualdades pela expressão em comum, gerando uma nova igualdade com as outras duas expressões (<code>Equal.chain (a=b) (b=c) = (a=c)</code>).
 Por exemplo, no nosso exemplo, o lado direito das duas igualdades é igual. Se usarmos <code>Equal.mirror</code> em uma delas, podemos dar <code>Equal.chain</code> nelas:</p>
@@ -180,18 +180,18 @@ Example_chain a b c e1 e2 =
 </code></pre>
 <pre><code class="language-diff">+ INFO  Inspection.
 
-   • Expected: Equal Nat b c) 
+   • Expected: Equal Nat b c
 
    • Context: 
    •   a   : Nat 
    •   b   : Nat 
    •   c   : Nat 
-   •   e1  : Equal Nat b (Plus a a)) 
-   •   e2  : Equal Nat c (Plus a a)) 
-   •   e3  : Equal Nat (Plus a a) c) 
-   •   e3  = Equal.mirror Nat c (Plus a a) e2) 
-   •   chn : Equal Nat b c) 
-   •   chn = Equal.chain Nat b (Plus a a) c e1 e3) 
+   •   e1  : Equal Nat b (Plus a a) 
+   •   e2  : Equal Nat c (Plus a a) 
+   •   e3  : Equal Nat (Plus a a) c
+   •   e3  = Equal.mirror Nat c (Plus a a) e2
+   •   chn : Equal Nat b c
+   •   chn = Equal.chain Nat b (Plus a a) c e1 e3
 </code></pre>
 
                     </main>
@@ -223,22 +223,6 @@ Example_chain a b c e1 e2 =
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

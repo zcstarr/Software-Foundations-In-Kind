@@ -126,18 +126,18 @@ Length <a> (xs: List a) : Nat
 Length a (List.nil t)            = Nat.zero
 Length a (List.cons t head tail) = (Nat.succ (Length a tail))
 
-App <a: Type> (xs: List a) (ys: List a) : List a
-App a (List.nil)                     ys = ys
-App a (List.cons head tail)          ys = List.cons a head (App a tail ys)
+Concat <a: Type> (xs: List a) (ys: List a) : List a
+Concat a (List.nil)                     ys = ys
+Concat a (List.cons head tail)          ys = List.cons a head (Concat a tail ys)
 
 ```
 Perceba, há duas notações, uma onde apenas usamos `<a>` e outra onde usamos `<a: Type>`, podemos usar qualquer uma delas, o *Kind* é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.
 
 Agora é a hora de implementar nossas funçõe com o tipo implícito, usando o `hole` e `sugar syntax`:
 ```rust,ignore
-App_implicito (xs: List _) (ys: List _) : List _
-App_implicito []                     ys = ys
-App_implicito (List.cons head tail)  ys = List.cons head (App_implicito tail ys)
+Concat_implicito (xs: List _) (ys: List _) : List _
+Concat_implicito []                     ys = ys
+Concat_implicito (List.cons head tail)  ys = List.cons head (Concat_implicito tail ys)
 ```
 Aqui nós aprendemos mais uma coisa, o *sugar syntax* para uma lista vazia e que é apenas `[] `e isso poderia nos induzir a escrever o nosso *List.cons* com `[head, tail]`, mas isso está errado, uma vez que o *head* é um elemento de um tipo e o *tail* é uma lista de elementos desse tipo e, dessa forma, estariamos fazendo uma lista de lista. Ao usar o *sugar syntax* errado, o que o *Kind* esperaria seria:
 ```bash
@@ -154,7 +154,7 @@ Outra função que podemos reescrever é a de reverse:
 ```rust,ignore
 Rev <a> (xs: List a) : List a
 Rev a []                    = []
-Rev a (List.cons head tail) = App (Rev tail) [head]
+Rev a (List.cons head tail) = Concat (Rev tail) [head]
 
 Length <a> (xs: List a) : Nat
 Length a []                    = 0n
@@ -179,14 +179,14 @@ Test_length1 = Equal.refl
 Aqui estão alguns exercícios simples, assim como os do capítulo Listas, para praticar com polimorfismo. Complete as provas abaixo.
 
 ```rust,ignore
-App_nil_r <a> (xs: List a) : Equal (App xs List.nil) xs
-App_nil_r xs = ?
+Concat_nil_r <a> (xs: List a) : Equal (Concat xs List.nil) xs
+Concat_nil_r xs = ?
 
-App_assoc <a> (xs: List a) (ys: List a) (zs: List a) : Equal (App xs (App ys zs)) (App (App xs ys) zs)
-App_assoc xs ys zs = ?
+Concat_assoc <a> (xs: List a) (ys: List a) (zs: List a) : Equal (Concat xs (Concat ys zs)) (Concat (Concat xs ys) zs)
+Concat_assoc xs ys zs = ?
 
-App_length <a> (xs: List a) (ys: List a) : Equal (Length (App xs ys)) (Plus (Length xs) (Length ys))
-App_length xs ys = ?
+Concat_length <a> (xs: List a) (ys: List a) : Equal (Length (Concat xs ys)) (Plus (Length xs) (Length ys))
+Concat_length xs ys = ?
 ```
 
 1.1.4
@@ -194,7 +194,7 @@ App_length xs ys = ?
 Aqui estão alguns um pouco mais interessantes...
 
 ```rust,ignore
-Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (App xs ys)) (App (Rev ys) (Rev xs))
+Rev_app_distr <a> (xs: List a) (ys: List a) : Equal (Rev (Concat xs ys)) (Concat (Rev ys) (Rev xs))
 Rev_app_distr xs ys = ?
 
 Rev_involutive <a> (xs: List a) : Equal (Rev (Rev xs)) xs
@@ -485,7 +485,7 @@ Test_fold1 = ?
 Test_fold2 : Equal (Fold (x => y => (* x y)) [1, 2, 3, 4] 1) 24
 Test_fold2 = ?
 
-Test_fold3 : Equal (Fold (x => y => (List.concat x y)) [[1], [], [2, 3], [], [4]] [5, 6, 7]) [1, 2, 3, 4, 5, 6, 7]
+Test_fold3 : Equal (Fold (x => y => (Concat x y)) [[1], [], [2, 3], [], [4]] [5, 6, 7]) [1, 2, 3, 4, 5, 6, 7]
 Test_fold3 = ?
 ```
 

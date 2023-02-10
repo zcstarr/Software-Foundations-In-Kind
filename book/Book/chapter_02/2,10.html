@@ -149,7 +149,7 @@
 <p>Assim como mostrado anteriormente, essa é uma prova que dentro de seus argumentos temos
 uma outra prova, ou hipótese: no caso, temos <code>Equal n m</code> - ou seja, <code>n</code> e <code>m</code> são iguais.</p>
 <p>Como n e m são números arbitrários, não podemos só usar simplificação para demonstrar o teorema.
-Em vez disso, nós observando que, já que assumimos <code>Equal n m</code>, poderiamos substituir <code>n</code> por <code>m</code>
+Em vez disso, nós observando que, já que assumimos <code>Equal n m</code>, poderíamos substituir <code>n</code> por <code>m</code>
 no objetivo e os dois lados ficarão iguais. A função que usamos para fazer essa substituição é a <code>Equal.rewrite</code>.</p>
 <!-- TODO revisar esse parágrafo -->
 <p>Como não podemos reescrever diretamente no objetivo, nós usamos uma outra igualdade e fazemos ela ser igual ao objetivo.
@@ -161,14 +161,14 @@ Plus_id_example n m e =
   ? </code></pre>
 <pre><code class="language-diff">+ INFO  Inspection.
 
-   • Expected: Equal Nat (Plus n n) (Plus m m)) 
+   • Expected: Equal Nat (Plus n n) (Plus m m) 
 
    • Context: 
    •   n   : Nat 
    •   m   : Nat 
-   •   e   : Equal Nat n m) 
-   •   app : Equal Nat (Plus n n) (Plus m n)) 
-   •   app = Equal.apply Nat Nat n m (k =&gt; (Plus k n)) e) 
+   •   e   : Equal Nat n m 
+   •   app : Equal Nat (Plus n n) (Plus m n) 
+   •   app = Equal.apply Nat Nat n m (k =&gt; (Plus k n)) e
     
    let app = Equal.apply (k =&gt; Plus k n) e
       ?
@@ -231,22 +231,6 @@ Plus_id_exercise n m o e1 e2 = ?</code></pre>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

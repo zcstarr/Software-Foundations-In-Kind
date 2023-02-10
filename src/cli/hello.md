@@ -51,7 +51,7 @@ A verificação de tipo está correta? Então vamos executar o código.
 
 ### Executando o código
 
-Para executar um arquivo no Kind, use o comando `kind2 run nomeDoArquivo.kind`. Sim, o nomeDoArquivo vai sem a extensão neste caso. Deve parecer assim:
+Para executar um arquivo no Kind, use o comando `kind2 run nomeDoArquivo.kind`. Deve parecer assim:
 
 ```
 kind2 run hello_world.kind2

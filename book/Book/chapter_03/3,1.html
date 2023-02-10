@@ -166,7 +166,7 @@ Double (Nat.succ n) = Nat.succ (Nat.succ (Double n))</code></pre>
 <p>Use indução para provar esses seguintes teoremas sobre <em>Double</em>:</p>
 <pre><code class="language-rust ignore">Double_plus (n: Nat) : Equal Nat (Double n) (Plus n n)
 Double_plus n = ?</code></pre>
-<p>Alguns teoremas é necessário analisar a melhor forma de se provar, por exemplo, para provar que um numero é par, poderiamos provar pelo sucessor dele, mas isso nos faria ter que provar para o sucessor do succesor dele, isso faz com a que a prova de <em>evenb</em> ser mais difícil por indução, então é importante perceber quando é necessário e quando não é.</p>
+<p>Alguns teoremas é necessário analisar a melhor forma de se provar, por exemplo, para provar que um numero é par, poderíamos provar pelo sucessor dele, mas isso nos faria ter que provar para o sucessor do sucessor dele, isso faz com a que a prova de <em>Evenb</em> ser mais difícil por indução, então é importante perceber quando é necessário e quando não é.</p>
 <pre><code class="language-rust ignore">Evenb_s (n: Nat) : Equal Bool (Evenb (Nat.succ n)) (Notb  (Evenb n))
 Evenb_s n = ?</code></pre>
 <h2 id="outro-caso"><a class="header" href="#outro-caso">Outro caso</a></h2>
@@ -184,17 +184,17 @@ sucessor do sucessor da adição de <em>n</em> e <em>m</em>. Para resolver esse 
 invocaremos a indução:</p>
 <pre><code class="language-rust ignore">let ind = Problems.t2 n m</code></pre>
 <p>e o nosso objetivo atual é provar que:</p>
-<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))</code></pre>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
 <p>Traduzindo novamente, que o <em>sucessor</em> da adição de <em>n</em> e o <em>sucessor</em> de <em>m</em> é igual ao <em>sucessor</em> do <em>sucessor</em> da adição de <em>n</em> e <em>m</em>.</p>
 <p>mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:</p>
-<pre><code class="language-rust ignore">Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m)))</code></pre>
+<pre><code class="language-rust ignore">Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m))</code></pre>
 <p>Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
 basta dar um <em>Nat</em>.<strong>succ</strong> em ambos os lados da indução e ela ficará
 exatamente igual ao nosso objetivo, para isso usaremos uma função
 <em>lambda</em>:</p>
-<pre><code class="language-rust ignore">let app = Equal.apply (x =&gt; (Nat.succ x)) ind)</code></pre>
+<pre><code class="language-rust ignore">let app = Equal.apply (x =&gt; (Nat.succ x)) ind</code></pre>
 <p>E a nossa variável <em>app</em> retornará o nosso objetivo:</p>
-<pre><code class="language-rust ignore">Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m))))</code></pre>
+<pre><code class="language-rust ignore">Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
 <p>Bastando apenas retornar o <em>app</em> para e o Kind nos retornará o tão almejado
 <em>All terms check</em>.</p>
 <h1 id="usando-outros-teoremas"><a class="header" href="#usando-outros-teoremas">Usando outros teoremas</a></h1>
@@ -283,22 +283,6 @@ da adição, ou seja, que a soma de <em>n</em> e <em>m</em> é igual a soma de <
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
