@@ -150,7 +150,7 @@ True_is_true = Unit.new</code></pre>
 <p>Ao contrário de Empty, que é amplamente utilizado, Unit é usado bastante raramente em provas, já que é trivial (e, portanto, pouco interessante) provar como objetivo e não carrega nenhuma informação útil como hipótese. No entanto, pode ser bastante útil ao definir provas complexas usando condicionais ou como um parâmetro para provas de ordem superior. Veremos exemplos desse uso de Unit mais tarde.</p>
 <h2 id="equivalência"><a class="header" href="#equivalência">Equivalência</a></h2>
 <p>Equivalência Lógica. A útil conectiva &quot;se e somente se&quot;, que afirma que duas proposições têm o mesmo valor de verdade, é apenas a conjunção de duas implicações.</p>
-<pre><code class="language-rust ignore">record Equivalence (p) (q) {
+<pre><code class="language-rust ignore">record Equivalence (p: Type) (q: Type) {
  lft: p -&gt; q 
  rgt: q -&gt; p
 }</code></pre>
@@ -233,9 +233,37 @@ To_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: (Equal Nat (Nat.mul n (Nat.mul m p)) 
 To_mult_0_3 n m p e = Either.swap (Equivalence.rgt (Or_assoc (Equal m 0n) (Equal p 0n) (Equal n 0n)))
 
 Fro_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: Either (Equal Nat n 0n) (Either (Equal Nat m 0n) (Equal Nat p 0n))) : (Equal Nat (Mult n (Mult m p)) 0n)
+Fro_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: Either (Equal Nat n 0n) (Either (Equal Nat m 0n) (Equal Nat p 0n))) : (Equal Nat (Nat.mul n (Nat.mul m p)) 0n)
 Fro_mult_0_3 Nat.zero m p (Either.left Equal.refl) = Equal.refl
-// Em construção ----------------------------------------------
-</code></pre>
+Fro_mult_0_3 n Nat.zero p (Either.right a (Either b c) (Either.left Equal.refl)) = Mult_comm 0n n
+Fro_mult_0_3 n m Nat.zero (Either.right a (Either b c) (Either.right Equal.refl)) = Equal.chain (Mult_assoc n m 0n) (Mult_0_r (Nat.mul n m))
+Fro_mult_0_3 (Nat.succ n) m p (Either.left e) = 
+ let p = (Equal.rewrite 
+   e
+   (x =&gt; match Nat x {
+    zero =&gt; Empty
+    succ =&gt; Unit
+    }) 
+    (Unit.new)) 
+  Empty.absurd p
+Fro_mult_0_3 n (Nat.succ m) p (Either.right a (Either b c) (Either.left e)) = 
+ let p = (Equal.rewrite 
+   e
+   (x =&gt; match Nat x {
+    zero =&gt; Empty
+    succ =&gt; Unit
+    }) 
+    (Unit.new)) 
+  Empty.absurd p
+Fro_mult_0_3 n m (Nat.succ p) (Either.right a (Either b c) (Either.right e)) = 
+ let p = (Equal.rewrite 
+   e
+   (x =&gt; match Nat x {
+    zero =&gt; Empty
+    succ =&gt; Unit
+    }) 
+    (Unit.new)) 
+  Empty.absurd p</code></pre>
 <p>A tática apply também pode ser usada com equivalência. Quando recebe uma equivalência como seu argumento, o apply tenta adivinhar em qual lado da equivalência usar.</p>
 <pre><code class="language-rust ignore">Apply_iff_example (n: Nat) (m: Nat) (e: Equal Nat (Mult n m) 0n) : Either (Equal Nat n 0n) (Equal Nat m 0n) 
 Apply_iff_example n m e = Equivalence.rgt (Mult_0 n m)
