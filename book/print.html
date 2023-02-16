@@ -2518,10 +2518,29 @@ Fro_mult_0_3 n m (Nat.succ p) (Either.right a (Either b c) (Either.right e)) =
 <pre><code class="language-rust ignore">Apply_iff_example (n: Nat) (m: Nat) (e: Equal Nat (Mult n m) 0n) : Either (Equal Nat n 0n) (Equal Nat m 0n) 
 Apply_iff_example n m e = Equivalence.rgt (Mult_0 n m)
 </code></pre>
-<pre><code class="language-rust ignore"></code></pre>
-<pre><code class="language-rust ignore"></code></pre>
-<pre><code class="language-rust ignore"></code></pre>
-<pre><code class="language-rust ignore"></code></pre>
+<h2 id="quantificação-existencial"><a class="header" href="#quantificação-existencial">Quantificação Existencial</a></h2>
+<p>Outro importante conectivo lógico é a quantificação existencial. Para dizer que há algum x do tipo Type tal que alguma propriedade p é verdadeira para x, escrevemos (Sigma x p).</p>
+<pre><code class="language-rust ignore">record Sigma (x: Type) (p: x -&gt; Type) {
+  fst : x
+  snd : (p fst)
+}</code></pre>
+<ul>
+<li><em>Atualmente, o Kind-lang tem bug compilador que está afetando a aplicação lambda do Sigma.</em></li>
+</ul>
+<p>Para provar uma afirmação da forma (Sigma x p), devemos mostrar que p é verdadeira para alguma escolha específica de valor para x, conhecido como testemunho do existencial. Isso é feito em duas etapas: Primeiro, explicitamente informamos ao Kind qual testemunho x temos em mente escrevendo-o no primeiro parâmetro. Então, provamos que p é verdadeira depois que todas as ocorrências de x são substituídas por Type.</p>
+<pre><code class="language-rust ignore">Four_is_even : Sigma Nat (n =&gt; (Equal Nat 4n (Nat.add n n)))
+Four_is_even = $ 2n Equal.refl</code></pre>
+<p>Por outro lado, se temos uma hipótese existencial (Sigma x p) no contexto, podemos fazer um pattern match nela para obter um testemunho x e uma hipótese afirmando que p é verdadeira para x.</p>
+<pre><code class="language-rust ignore">Exists_example_2 (n: Nat) (m: Sigma Nat (m =&gt; (Equal Nat n (Nat.add 4n m)))) : Sigma Nat (o =&gt; (Equal Nat n (Nat.add 2n o)))
+Exists_example_2 n (Sigma.new Nat s fst snd) = Sigma.new fst ?</code></pre>
+<h4 id="dist_not_exists"><a class="header" href="#dist_not_exists">Dist_not_exists</a></h4>
+<p>Prove que &quot;p é verdadeira para todos os x&quot; implica &quot;não há x para o qual p não seja verdadeira&quot;.</p>
+<pre><code class="language-rust ignore">Dist_not_exists &lt;a&gt; &lt;p: a -&gt; Type&gt; (f: (x: a) -&gt; (p x)) : Not (Sigma a (x =&gt; ( Not (p x))))
+Dist_not_exists a p f = ?</code></pre>
+<h4 id="dist_exists_or"><a class="header" href="#dist_exists_or">Dist_exists_or</a></h4>
+<p>Prove que a quantificação existencial distribui-se sobre a disjunção.</p>
+<pre><code class="language-rust ignore">Dist_exists_or &lt;a&gt; &lt;p: a -&gt; Type&gt; &lt;q: a -&gt; Type&gt; : Equivalence (Sigma a (x =&gt; (Either (p x) (q x)))) (Either (Sigma a (x =&gt; (p x))) (Sigma a (x =&gt; (q x))))
+Dist_exists_or a p q = ?dist_exists_or_rhs</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contribuidores"><a class="header" href="#contribuidores">Contribuidores</a></h1>
 <ul>
 <li><a href="https://github.com/NaoEhSavio">NaoEhSavio</a></li>
