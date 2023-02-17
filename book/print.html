@@ -2406,9 +2406,11 @@ True_is_true = Unit.new</code></pre>
 }</code></pre>
 <pre><code class="language-rust ignore"><span class="boring">axiom
 </span>Equivalence.lft &lt;p&gt; &lt;q&gt; (e: Equivalence p q) : p 
+// Equivalence.lft (Equivalence.new l r)     = r (Equivalence.rgt (Equivalence.new l r))
 
 <span class="boring">axiom
-</span>Equivalence.rgt &lt;p&gt; &lt;q&gt; (e: Equivalence p q) : q </code></pre>
+</span>Equivalence.rgt &lt;p&gt; &lt;q&gt; (e: Equivalence p q) : q 
+// Equivalence.rgt (Equivalence.new l r)     = l (Equivalence.lft (Equivalence.new l r))</code></pre>
 <pre><code class="language-rust ignore">Not_true_iff_false (b: Bool) : Equivalence (Not (Equal Bool b Bool.true)) (Equal Bool b Bool.false)
 Not_true_iff_false  b = Equivalence.new (x =&gt; Not_true_is_false b x) (y =&gt; Not_true_and_false b y)</code></pre>
 <pre><code class="language-rust ignore">Not_true_and_false (b : Bool) (e: Equal Bool b Bool.false) : Not (Equal Bool b Bool.true)
