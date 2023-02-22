@@ -355,5 +355,185 @@ Contradiction_implies_anythig p q (Pair.new fst snd) =
   let app = snd fst
   Empty.absurd app
 
+Double_neg <p>  : p -> Not (Not p)
+Double_neg p    = (x: p) => (y: Not p) => Contradiction_implies_anythig (Pair.new x y)
+
 ```
 
+#### 1.3.2 Double_neg_inf
+Escreva uma prova informal para *Double_neg*
+
+Teorema: p implica *Not (Not p)* para qualquer p
+
+#### 1.3.3 Contrapositivo
+
+```rust
+Contrapositive <p> <q>  : (p -> q) -> ((Not q) -> (Not p))
+Contrapositive p q      = ?
+```
+
+#### 1.3.4 Not_both_true_and_false
+
+```rust
+Not_both_true_and_false <p> : Not (Pair p (Not p))
+Not_both_true_and_false p   = ?
+```
+
+Da mesma forma, uma vez que a inequação envolve uma negação, é necessário um pouco de prática para trabalhar com ela fluentemente. Aqui está um truque útil. Se você está tentando provar um objetivo que é sem sentido (por exemplo, o estado do objetivo é Falso = Verdadeiro), aplique "absurdo" para mudar o objetivo para "Vazio". Isso facilita o uso de suposições da forma "Não p" que podem estar disponíveis no contexto - em particular, suposições da forma "Não (x=y)"inequação
+
+## Verdade 
+Além de "Empty", a biblioteca padrão do Kind também define "Unit", uma proposição que é trivialmente verdadeira. Para prová-la, usamos a constante predefinida "()" da seguinte forma:
+
+```rust
+True_is_true : Unit
+True_is_true = Unit.new 
+```
+
+Ao contrário de "Vazio", que é usado extensivamente, "Unit" é usado com pouca frequência em provas, uma vez que é trivial (e, portanto, sem interesse) provar como um objetivo e não carrega informações úteis como hipótese. No entanto, pode ser bastante útil ao definir provas complexas usando condicionais ou como parâmetro para provas de ordem superior. Veremos exemplos de tais usos de "Unit" mais tarde.
+
+## Equivalência lógica
+
+O conectivo útil "se e somente se", que afirma que duas proposições têm o mesmo valor de verdade, é apenas a conjunção de duas implicâncias.
+
+```rust
+record Equiv (p) (q) {
+  lft: p -> q
+  rgt: q -> p
+}
+
+Equiv_sym <p> <q> (par: Pair (Equiv p q) (Equiv q p)) : Pair (Equiv q p) (Equiv p q)
+Equiv_sym p q (Pair.new pq qp) = (Pair.new qp pq)
+```
+
+```rust
+Not_true_equiv_false (b: Bool) : Equiv (Not (Equal Bool b Bool.true)) (Equal b Bool.false)
+Not_true_equiv_false b = Equiv.new (x => (Not_true_is_false b x)) (y => (Not_true_and_false b y))
+```
+
+dado que
+
+```rust
+Not_true_and_false (b: Bool) (h: Equal b Bool.false) : (Not (Equal b Bool.true))
+Not_true_and_false (Bool.false) Equal.refl = 
+  emp =>
+    let p = (Equal.rewrite emp
+    (x => match Bool x {
+      false => Unit
+      true  => Empty
+    })
+    (Unit.new)) 
+  Empty.absurd p
+Not_true_and_false Bool.true h = 
+    let p = (Equal.rewrite h
+    (x => match Bool x {
+      false => Empty
+      true  => Unit
+    })
+    (Unit.new)) 
+  Empty.absurd p
+```
+
+#### 1.5.1 Equiv_properties
+Prove que *Equiv* é reflexivo e transitivo
+
+```rust
+Equiv.refl <p>  : Equiv p p 
+Equiv.refl p    = ?
+```
+
+```rust
+#partial
+Equiv.chain <p> <q> <r> (e0: Equiv p q) (e1: Equiv q r) : Equiv p r
+Equiv.chain p q r e0 (Equiv.refl x) = ?
+```
+
+#### 1.5.2 
+```rust
+Or_distributes_over_and <p> <q> <r> : Equivalence (Either p (Pair q r)) (Pair (Either p q) (Either p r))
+Or_distributes_over_and p q r = ?
+``` 
+
+Alguns táticos de Kind tratam declarações de "Equiv" de forma especial, evitando a necessidade de manipulação de estado de prova de baixo nível. Em particular, "rewrite" e "refl" podem ser usados com declarações "Equiv", não apenas igualdades.
+
+Aqui está um exemplo simples que demonstra como esses táticos funcionam com "Equiv". Primeiro, vamos provar algumas equivalências básicas de "Equiv"...
+
+```rust
+
+Mult_0 (n: Nat) (m: Nat) : Equivalence (Equal Nat (Nat.mul n m) 0n) (Either (Equal Nat n 0n) (Equal Nat m 0n))
+Mult_0 n m = Equivalence.new (x => To_mult_0 n m x) (y => Or_example n m y)
+
+To_mult_0 (n: Nat) (m: Nat) (e: Equal Nat (Nat.mul n m) 0n) : (Either (Equal Nat n 0n) (Equal Nat m 0n))
+To_mult_0 Nat.zero Nat.zero Equal.refl  = Either.left   Equal.refl
+To_mult_0 Nat.zero (Nat.succ n) e       = Either.left   Equal.refl
+To_mult_0 (Nat.succ n) Nat.zero e       = Either.right  Equal.refl
+To_mult_0 (Nat.succ n) (Nat.succ m) e   = 
+  let plus_comm = Plus_comm (Nat.mul n (Nat.succ m)) (Nat.succ m)
+  let chn_mir   = Equal.chain (Equal.mirror e) plus_comm 
+  let absurdo   = 
+  (Equal.rewrite chn_mir 
+    (x => match Nat x {
+      zero => Unit
+      succ => Empty
+    })
+    (Unit.new))
+  Empty.absurd absurdo
+
+
+Or_assoc <p> <q> <r> : Equivalence (Either p (Either q r)) (Either (Either p q) r)
+Or_assoc p q r = Equivalence.new (x => To_or_assoc x) (y => Fro_or_assoc y)
+
+To_or_assoc <p> <q> <r> (e: Either p (Either q r))          : Either      (Either p q) r 
+To_or_assoc (Either.left e)                                 = Either.left (Either.left e)
+To_or_assoc (Either.right p (Either q r) (Either.left e))   = Either.left (Either.right e)
+To_or_assoc (Either.right p (Either q r) (Either.right e))  = Either.right e
+
+Fro_or_assoc <p> <q> <r> (e: Either (Either p q) r)         : Either p (Either q r)
+Fro_or_assoc (Either.left (Either p q) r (Either.right e))  = Either.right (Either.left e)
+Fro_or_assoc (Either.left (Either p q) r (Either.left  e))  = Either.left e
+Fro_or_assoc (Either.right e)  
+```
+
+Agora, podemos usar esses fatos com "rewrite" e "refl" para fornecer provas suaves de declarações que envolvem equivalências. Aqui está uma versão ternária do resultado anterior "Mult_0":
+
+```rust
+Mult_0_3 (n: Nat) (m: Nat) (p: Nat) : Equiv (Equal (Nat.mul n (Nat.mul m p)) Nat.zero) (Either (Equal n Nat.zero) (Either (Equal m Nat.zero) (Equal p Nat.zero)))
+Mult_0_3 n m p = Equiv.new (x => To_mult_0_3 n m p x) (y => Fro_mult_0_3 n m p y) 
+
+To_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: Equal (Nat.mul n (Nat.mul m p)) Nat.zero) : Either (Equal n Nat.zero) (Either (Equal m Nat.zero) (Equal p Nat.zero))
+To_mult_0_3 n m p e = Equiv.lft (Or_assoc (Equal n Nat.zero) (Equal m Nat.zero) (Equal p Nat.zero))
+
+Fro_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: Either (Equal n Nat.zero) (Either (Equal m Nat.zero) (Equal p Nat.zero))) : (Equal (Nat.mul n (Nat.mul m p)) Nat.zero )
+Fro_mult_0_3 Nat.zero m         p (Either.left Equal.refl)  = Equal.refl
+Fro_mult_0_3 n        Nat.zero  p (Either.right Equal.refl) = Mult_0_r n
+Fro_mult_0_3 n        m         Nat.zero (Either.right Equal.refl) = 
+  let mult_0_r_m = Mult_0_r m
+  let mult_0_r_n = Mult_0_r n
+  let rwt = Equal.rewrite (Equal.mirror mult_0_r_m) (x => (Equal Nat (Nat.mul n x) 0n)) mult_0_r_n
+  rwt
+Fro_mult_0_3 (Nat.succ n) m p (Either.left e) =
+  let emp = (Equal.rewrite e 
+    (x => match Nat x {
+      zero => Empty
+      succ => Unit
+    })
+    (Unit.new))
+  Empty.absurd emp
+Fro_mult_0_3 n (Nat.succ m) p (e) =
+  let mult_0_r_n = Mult_0_r n
+  let mult_m_p_eq_0 = Mult_n_m_eq_z m p (Either.rgt (Either.rgt e))
+  let rwt = Equal.rewrite (Equal.mirror (mult_m_p_eq_0)) (x => (Equal Nat (Nat.mul n x) 0n))  mult_0_r_n
+  rwt
+Fro_mult_0_3 n m (Nat.succ p) (Either.right a (Either b c) (Either.right e)) =
+  let emp = (Equal.rewrite e
+		(x => match Nat x {
+		  zero => Empty
+			succ => Unit
+		}) 
+		(Unit.new)) 
+	Empty.absurd emp
+```
+
+```rust
+Apply_iff_example (n: Nat) (m: Nat) (e: Equal (Nat.mul n m) Nat.zero) : Either (Equal n Nat.zero) (Equal m Nat.zero)
+Apply_iff_example n m e = Equiv.rgt (Mult_0 n m)
+```
