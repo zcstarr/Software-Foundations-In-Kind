@@ -249,6 +249,7 @@ And_assoc <p> <q> <r> (a: Pair p (Pair q r))  : Pair (Pair p q) r
 And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?
 ```
 
+### 1.2 Disjunção
 Outro conectivo importante é a disjunção, ou lógico, de duas proposições:
 `Either` a b é verdadeiro quando a ou b é. O primeiro caso foi marcado com *left* e o segundo com *right*.
 Para usar uma hipótese disjuntiva em uma prova, procedemos pela análise de caso, que, como para Nat ou outros tipos de dados, pode ser feita com correspondência de padrões. Aqui está um exemplo:
@@ -305,7 +306,7 @@ Or_commut <p> <q> (e: Either p q) : Either q p
 Or_commut e: ?
 ```
 
-## Falsidade e Negação. 
+### 1.3 Falsidade e Negação. 
 
 Até agora, nos preocupamos principalmente em provar que certas coisas são verdadeiras – adição é comutativa, anexação de listas é associativa, etc. Claro, também podemos estar interessados em resultados negativos, mostrando que certas proposições não são verdadeiras. Em Kind, tais declarações negativas são expressas com a função de nível de tipo de negação *Not*.
 
@@ -381,7 +382,7 @@ Not_both_true_and_false p   = ?
 
 Da mesma forma, uma vez que a inequação envolve uma negação, é necessário um pouco de prática para trabalhar com ela fluentemente. Aqui está um truque útil. Se você está tentando provar um objetivo que é sem sentido (por exemplo, o estado do objetivo é Falso = Verdadeiro), aplique "absurdo" para mudar o objetivo para "Vazio". Isso facilita o uso de suposições da forma "Não p" que podem estar disponíveis no contexto - em particular, suposições da forma "Não (x=y)"inequação
 
-## Verdade 
+### 1.4 Verdade 
 Além de "Empty", a biblioteca padrão do Kind também define "Unit", uma proposição que é trivialmente verdadeira. Para prová-la, usamos a constante predefinida "()" da seguinte forma:
 
 ```rust
@@ -391,7 +392,7 @@ True_is_true = Unit.new
 
 Ao contrário de "Vazio", que é usado extensivamente, "Unit" é usado com pouca frequência em provas, uma vez que é trivial (e, portanto, sem interesse) provar como um objetivo e não carrega informações úteis como hipótese. No entanto, pode ser bastante útil ao definir provas complexas usando condicionais ou como parâmetro para provas de ordem superior. Veremos exemplos de tais usos de "Unit" mais tarde.
 
-## Equivalência lógica
+### 1.5 Equivalência lógica
 
 O conectivo útil "se e somente se", que afirma que duas proposições têm o mesmo valor de verdade, é apenas a conjunção de duas implicâncias.
 
@@ -449,7 +450,7 @@ Equiv.chain p q r e0 (Equiv.refl x) = ?
 
 #### 1.5.2 
 ```rust
-Or_distributes_over_and <p> <q> <r> : Equivalence (Either p (Pair q r)) (Pair (Either p q) (Either p r))
+Or_distributes_over_and <p> <q> <r> : Equiv (Either p (Pair q r)) (Pair (Either p q) (Either p r))
 Or_distributes_over_and p q r = ?
 ``` 
 
@@ -459,8 +460,8 @@ Aqui está um exemplo simples que demonstra como esses táticos funcionam com "E
 
 ```rust
 
-Mult_0 (n: Nat) (m: Nat) : Equivalence (Equal Nat (Nat.mul n m) 0n) (Either (Equal Nat n 0n) (Equal Nat m 0n))
-Mult_0 n m = Equivalence.new (x => To_mult_0 n m x) (y => Or_example n m y)
+Mult_0 (n: Nat) (m: Nat) : Equiv (Equal Nat (Nat.mul n m) 0n) (Either (Equal Nat n 0n) (Equal Nat m 0n))
+Mult_0 n m = Equiv.new (x => To_mult_0 n m x) (y => Or_example n m y)
 
 To_mult_0 (n: Nat) (m: Nat) (e: Equal Nat (Nat.mul n m) 0n) : (Either (Equal Nat n 0n) (Equal Nat m 0n))
 To_mult_0 Nat.zero Nat.zero Equal.refl  = Either.left   Equal.refl
@@ -479,8 +480,8 @@ To_mult_0 (Nat.succ n) (Nat.succ m) e   =
   Empty.absurd absurdo
 
 
-Or_assoc <p> <q> <r> : Equivalence (Either p (Either q r)) (Either (Either p q) r)
-Or_assoc p q r = Equivalence.new (x => To_or_assoc x) (y => Fro_or_assoc y)
+Or_assoc <p> <q> <r> : Equiv (Either p (Either q r)) (Either (Either p q) r)
+Or_assoc p q r = Equiv.new (x => To_or_assoc x) (y => Fro_or_assoc y)
 
 To_or_assoc <p> <q> <r> (e: Either p (Either q r))          : Either      (Either p q) r 
 To_or_assoc (Either.left e)                                 = Either.left (Either.left e)
@@ -533,7 +534,67 @@ Fro_mult_0_3 n m (Nat.succ p) (Either.right a (Either b c) (Either.right e)) =
 	Empty.absurd emp
 ```
 
+(A função *Either.rgt* é uma função auxiliar criada para extrair o valor da direita do *Either*, fica como exercício ao leitor o desenvolvimento dela e da *Either.lft*)
+
+
 ```rust
-Apply_iff_example (n: Nat) (m: Nat) (e: Equal (Nat.mul n m) Nat.zero) : Either (Equal n Nat.zero) (Equal m Nat.zero)
-Apply_iff_example n m e = Equiv.rgt (Mult_0 n m)
+Apply_equiv_example (n: Nat) (m: Nat) (e: Equal (Nat.mul n m) Nat.zero) : Either (Equal n Nat.zero) (Equal m Nat.zero)
+Apply_equiv_example n m e = Equiv.rgt (Mult_0 n m)
 ```
+
+### 1.6 Quantificação existencial 
+Outra conectiva lógica importante é a quantificação existencial. Para dizer que há algum *x* do tipo *t* tal que alguma propriedade *p* é verdadeira para *x*, escrevemos *Sigma t x p*, onde p é *x -> t*. A anotação de tipo: t pode ser omitida se o Kind for capaz de inferir a partir do contexto qual deve ser o tipo de x.
+
+Para provar uma afirmação da forma *Sigma x p*, devemos mostrar que p é verdadeira para alguma escolha específica de valor para x, conhecido como o testemunho do existencial. Isso é feito em dois passos: Primeiro, declaramos um *Sigma.new*, que pode ser escrito com o sugar syntax `$`, depois dizemos explicitamente ao Kind qual testemunho t temos em mente. Então, provamos que p é verdadeira depois que todas as ocorrências de x são substituídas por t.
+
+```rust
+Four_is_even : Sigma Nat (n => (Equal Nat 4n (Nat.add n n)))
+Four_is_even = $ 2n Equal.refl
+```
+
+Por outro lado, se tivermos uma hipótese existencial *Sigma x p* no contexto, podemos fazer correspondência de padrões nela para obter uma testemunha x e uma hipótese afirmando que p é verdadeiro para x.
+
+<!-- TODO: completar aqui-->
+```rust
+Exists_example_2 (n: Nat) (m: Sigma Nat (m => (Equal Nat n (Nat.add 4n m)))) : Sigma Nat (o => (Equal Nat n (Nat.add 2n o)))
+Exists_example_2 n (Sigma.new fst snd) = $ fst ? 
+```
+ 
+#### 1.6.1 Dist_exists_or
+```rust
+Dist_not_exists <a> <p: a -> Type> (f: (x: a) -> (p x)) : Not (Sigma a (x => ( Not (p x))))
+Dist_not_exists a p f = ?
+```
+
+#### 1.6.2 Dist_exist_or 
+```rust
+Dist_exists_or <a> <p: a -> Type> <q: a -> Type> : Equiv (Sigma a (x => (Either (p x) (q x)))) (Either (Sigma a (x => (p x))) (Sigma a (x => (q x))))
+Dist_exist_or a p q = ?
+```
+
+
+## 2 Programação com Proposições
+As conectivas lógicas que vimos fornecem um vocabulário rico para definir proposições complexas a partir de proposições mais simples. Para ilustrar, vamos ver como expressar a afirmação de que um elemento x ocorre em uma lista l. Observe que essa propriedade tem uma estrutura recursiva simples:
+  * Se l for a lista vazia, então x não pode ocorrer nela, portanto, a propriedade "x aparece em l" é simplesmente falsa.
+  * Caso contrário, l tem a forma *List.cons xh xt*. Nesse caso, x ocorre em l se ele é igual a xh ou se ocorre em xt.
+  
+Podemos traduzir isso diretamente em uma função recursiva simples que recebe um elemento e uma lista e retorna uma proposição:
+
+```rust
+In <a> (x: a) (xs: List a)    : Type
+In a x List.nil               = Empty
+In a x (List.cons xs.h xs.t)  = Either (Equal x xs.h) (In a x xs.t)
+```
+
+Quando In é aplicado a uma lista concreta, ele se expande em uma sequência concreta de disjunções aninhadas.
+```rust
+In_example_1 : In 4n [1n, 2n, 3n, 4n, 5n]
+In_example_1 = (Either.right (Either.right (Either.right (Either.left Equal.refl))))
+
+In_example_2 (n: Nat) (i: In n [2n, 4n])  : Sigma Nat (m => Equal n (Nat.mul 2n m))
+In_example_2 n (Either.left e)            = $ 1n e
+In_example_2 n (Either.right e)           = $ 2n (Either.lft e)
+```
+
+Também podemos provar lemas mais genéricos e de nível superior sobre In. Observe, no próximo exemplo, como In começa sendo aplicado a uma variável e só é expandido quando fazemos análise de casos nessa variável:
+
