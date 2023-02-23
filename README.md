@@ -48,4 +48,6 @@ Toda semana:
 
 ## Book
 
-[Kind Book](https://naoehsavio.github.io/learning/book/index.html)
+[Kind - Book](https://naoehsavio.github.io/learning/docs/Kind/index.html)
+
+[Kind - Lang](https://naoehsavio.github.io/learning/docs/Lang/index.html)
