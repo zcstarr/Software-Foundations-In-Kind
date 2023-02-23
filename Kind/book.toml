@@ -1,0 +1,17 @@
+[Kind]
+authors = ["NaoEhSavio", "Bonatto"]
+language = "pt-BR"
+multilingual = true
+src = "Kind/src"
+title = "Kind"
+
+[build]
+build-dir = "../docs/Kind"
+use-default-preprocessors = false
+
+[preprocessor.index]
+
+[preprocessor.links]
+
+[output.html]
+mathjax-support = true

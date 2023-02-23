@@ -1,0 +1,2611 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introdução</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="guide/Comecando.html"><strong aria-hidden="true">1.</strong> Começando</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="guide/sobre.html"><strong aria-hidden="true">1.1.</strong> Kind</a></li><li class="chapter-item expanded "><a href="guide/instalacao.html"><strong aria-hidden="true">1.2.</strong> Instalação</a></li><li class="chapter-item expanded "><a href="cli/hello.html"><strong aria-hidden="true">1.3.</strong> Olá Mundo!</a></li><li class="chapter-item expanded "><a href="cli/kind.html"><strong aria-hidden="true">1.4.</strong> Olá Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Básico: Introdução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Tipos Enumerados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Dias da semana</a></li></ol></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleanos</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Tipos de função</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Módulos</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Números</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Prova por Simplificação</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Prova por aplicação</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Prova por análise de casos</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Prova por Reescrita</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain e Equal.mirror</a></li><li class="chapter-item expanded "><a href="Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> Mais exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li class="chapter-item expanded "><a href="Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Raciocínio sobre listas</a></li><li class="chapter-item expanded "><a href="Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li class="chapter-item expanded "><a href="Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li></ol></li><li class="chapter-item expanded "><a href="Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Lógica em Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Conectivos Lógicos</a></li><li class="chapter-item expanded "><a href="Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsidade e Negação</a></li><li class="chapter-item expanded "><a href="Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Verdade, Equivalência e Quantificação</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="Contribuidores.html">Contribuidores</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introdução"><a class="header" href="#introdução">Introdução</a></h1>
+<p>Olá, mundo! Sejam bem-vindos ao maravilhoso mundo da programação. Este é um campo incrivelmente emocionante e desafiador, repleto de possibilidades e oportunidades. Estamos ansiosos para ver o que vocês irão criar e construir durante sua jornada de aprendizado.</p>
+<p>Quando se trata de programação, é fundamental entender a importância da precisão e da segurança no código. É por isso que gostaríamos de falar sobre o Kind, um poderoso verificador formal de modelos de sistemas de tempo real. Ele permite que você especifique propriedades desejadas para seu sistema e gera automaticamente casos de teste para garantir que o sistema atenda a essas propriedades. Isso é particularmente valioso para projetos críticos, como sistemas de segurança, onde a precisão e a segurança são fundamentais.</p>
+<p>A programação é uma jornada constante de aprendizado e desenvolvimento pessoal. Não se sinta desanimado se encontrar dificuldades no caminho, essas dificuldades fazem parte do processo de aprendizado e são oportunidades para crescer e evoluir. Lembre-se de que estamos aqui para ajudá-los ao longo do caminho, não hesite em pedir ajuda se precisar.</p>
+<p>Esteja preparado para trabalhar duro e enfrentar desafios, mas também esteja preparado para celebrar suas conquistas e realizações. Lembre-se de se divertir e aproveitar cada momento dessa incrível jornada de aprendizado.</p>
+<p>Boas sorte em sua jornada de aprendizado e estamos ansiosos para ver o que vocês irão criar e construir.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="começando"><a class="header" href="#começando">Começando</a></h1>
+<h2 id="seja-bem-vindo-ao-kind"><a class="header" href="#seja-bem-vindo-ao-kind">Seja bem-vindo ao Kind</a></h2>
+<p>Para uma linguagem eficiente, minimalista e prática, que visa repensar a programação funcional do zero, com um design moderno e consistente.</p>
+<p>O objetivo desta documentação é ser tão simples quanto possível para aprender o Kind. Por isso, decidimos adotar um design minimalista e simples, para que você possa encontrar rapidamente o que precisa.</p>
+<p>Índice de navegação rápida</p>
+<ul>
+<li>Sobre o Kind;</li>
+<li>Guia de instalação para MacOS, Linux e Windows;</li>
+<li>Guia de Comandos;</li>
+<li>Aprendendo os conceitos básicos do Kind;</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="olá-kind"><a class="header" href="#olá-kind">Olá, Kind</a></h1>
+<p>Kind tem como objetivo ser mais prático e convencional como uma linguagem. É tipado estaticamente e seus tipos são tão poderosos que você pode até provar teoremas matemáticos com eles.</p>
+<p>Uma possível descrição para Kind é imaginar como o Universo quando você tenta capturar uma imagem dele de fora. Quando você cria um novo arquivo no Kind, é como se todo o Universo estivesse lá, exceto a parte que você está procurando não está especificada.</p>
+<p>É estranho pensar no universo de fora, pode ficar um pouco confuso, então vamos usar uma pequena história para entender melhor:</p>
+<p>Somos astronautas, astronautas Kind. Um dia, nesta pequena exploração frutífera, nossa nave espacial encontra um planeta que já tem um nome: &quot;Lógica Booleana&quot;. Neste planeta, descobrimos as funções &quot;AND&quot;, &quot;NOT&quot; e &quot;OR&quot;, e decidimos formalmente provar esses seres. Com tudo provado e documentado, temos dificuldade em encontrar outra função de lógica booleana. Portanto, ao pensar &quot;nosso trabalho está feito&quot;, voltamos para a nave Kind para procurar novos planetas para explorar.</p>
+<p>No entanto, alguns dias depois, há notícias por todo o universo, as pessoas estão falando sobre outros novos tipos de funções descobertas no planeta Lógica Booleana: &quot;XOR&quot;, &quot;NAND&quot; e &quot;XNOR&quot;. Pouco antes de nossa partida do planeta, outro astronauta Kind chegou lá e encontrou essas novas funções.</p>
+<p>Mesmo com todo o trabalho, não conseguimos encontrar essas funções que o outro astronauta encontrou. Mas elas estavam lá. Então, só porque uma função ainda não foi descoberta, não significa que ela não existia antes.</p>
+<p>Acima, o Tipo é usado para melhor ilustrar nosso exemplo. É como um planeta em nosso Universo, e suas Definições e Funções são o Bioma e Ecossistema do planeta.</p>
+<p>Este Universo Kind é tão grande quanto sua imaginação, na verdade, provavelmente é maior do que isso. Há planetas, ecossistemas e biomas sem fim para serem explorados. Com isso em mente, você gostaria de se tornar um astronauta Kind e embarcar nesta divertida (e não tão perigosa) aventura com muitos outros astronautas?</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="instalação"><a class="header" href="#instalação">Instalação</a></h1>
+<p>Este guia ensina como baixar e instalar o Kind através do Rust, Com o &quot;Cargo&quot; uma ferramenta usada para gerenciar pacotes. É possível que seja necessário ter uma conexão com a internet para prosseguir com este guia.</p>
+<p>Primeiramente, instale o Rust usando este <a href="guide/www.rust-lang.org/tools/install">link</a></p>
+<ul>
+<li><em>Atualmente, o Cargo é a única maneira de instalar o Kind.</em></li>
+<li><em>Este guia foi escrito quando o Kind estava na versão em beta. Portanto, é necessário instalar a versão do</em> Channel <a href="https://doc.rust-lang.org/book/appendix-07-nightly-rust.html">nightly</a>.</li>
+</ul>
+<h3 id="instalando-o-kind-no-linux-ou-macos"><a class="header" href="#instalando-o-kind-no-linux-ou-macos">Instalando o Kind no Linux ou MacOS</a></h3>
+<p>Use seu gerenciador de pacotes (Cargo) para instalar o Kind. Para isso, abra o terminal e digite o seguinte código:</p>
+<pre><code>cargo +nightly install kind2
+</code></pre>
+<h3 id="instalando-o-kind-no-windows"><a class="header" href="#instalando-o-kind-no-windows">Instalando o Kind no Windows</a></h3>
+<p>Para usuários do Windows, é possível usar o Kind através do CMD ou WSL2. Se escolher o WSL o método de instalação está neste <a href="https://harsimranmaan.medium.com/install-and-setup-rust-development-environment-on-wsl2-dccb4bf63700">link</a>.</p>
+<p>Use seu gerenciador de pacotes (Cargo) para instalar o Kind. Para isso, abra o Bash(WSL2) ou Terminal(CMD) e digite o seguinte comando:</p>
+<pre><code>cargo +nightly install kind2
+</code></pre>
+<h3 id="clonando-o-repositório-do-kind---método-1"><a class="header" href="#clonando-o-repositório-do-kind---método-1">Clonando o Repositório do Kind - Método 1</a></h3>
+<p>Clone o repositório do Kind usando o comando do git &quot;git clone&quot;, da seguinte forma:</p>
+<pre><code>git clone https://github.com/HigherOrderCO/Kind
+</code></pre>
+<p>Depois do passo de clone, use o seguente comando para a instalação</p>
+<pre><code>cargo +nightly install --path crates/kind-cli --force
+</code></pre>
+<h3 id="clonando-o-repositório-do-kind---método-2"><a class="header" href="#clonando-o-repositório-do-kind---método-2">Clonando o Repositório do Kind - Método 2</a></h3>
+<p>O cargo permite instalar usando o git, sem a necessidade de clonar algum repositório, da seguinte forma:</p>
+<pre><code>cargo +nightly install --git https://github.com/HigherOrderCO/kind.git 
+</code></pre>
+<p>Ao seguir os passos acima, podemos começar a usar o Kind.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="olá-mundo"><a class="header" href="#olá-mundo">Olá, Mundo</a></h1>
+<p>Neste ponto, o Kind já deve estar instalado em sua máquina. Se não, volte para a instalação e siga as instruções.</p>
+<p>Neste guia, serão usadas linhas de comando e editores de texto, então certifique-se de que o terminal esteja aberto para prosseguir com os passos.</p>
+<h3 id="criando-os-documentos"><a class="header" href="#criando-os-documentos">Criando os documentos</a></h3>
+<p>Primeiro de tudo, crie um diretório para armazenar os arquivos do Kind. É recomendável usar um diretório dedicado para manter todos os exercícios e exemplos, mas sinta-se à vontade para fazer o que quiser.
+Os três comandos abaixo criarão um diretório chamado 'KindExamples' e um arquivo chamado 'hello_world.kind2' dentro do diretório do projeto. Use-os na ordem:</p>
+<pre><code class="language-diff">mkdir KindExamples
+cd    KindExamples
+touch hello_world.kind2 //CMD use &quot;copy nul hello_world.kind2 &gt; nul&quot;
+</code></pre>
+<p>A extensão .kind2 é o que faz dele um arquivo Kind. Por exemplo, um arquivo que termina com .exe é um executável; .js é um arquivo JavaScript; .rs é um arquivo Rust, etc.
+Se os comandos foram usados corretamente, o arquivo hello_world.kind2 deve estar dentro da pasta KindExamples. Então é hora de se divertir, CODING!</p>
+<h3 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h3>
+<p>Abra o arquivo hello_world.kind2 no editor de texto, ele estará vazio, mas não se preocupe.
+A partir de agora, haverão alguns conceitos avançados. Tudo fará sentido no futuro, esses conceitos que são pertinentes serão explicados no tempo devido. É recomendado que você digite manualmente os códigos, em vez de copiá-los e colá-los em seu arquivo.</p>
+<p>Vamos escrever seu primeiro código no arquivo hello_world.kind2:</p>
+<pre><code class="language-Rust">Main {
+  &quot;Hello, Kind!&quot;
+}
+</code></pre>
+<h3 id="type-checking"><a class="header" href="#type-checking">Type Checking</a></h3>
+<p>Com o código pronto, você deve usar a Verificação de Tipo para verificar se tudo está em ordem. O verificador de tipo ainda é desconhecido neste guia, mas será explicado com mais detalhes posteriormente. Por enquanto, basta entendê-lo como um verificador que verifica se o arquivo está corretamente &quot;tipado&quot;.</p>
+<p>Para verificar o tipo de um arquivo Kind, basta usar o comando <code>kind2 check nomeDoArquivo.kind2</code>. Para o arquivo hello_world.kind2, seria:</p>
+<pre><code>kind2 check hello_world.kind2
+</code></pre>
+<p>A mensagem &quot;All terms check.&quot; significa que seu arquivo está pronto!</p>
+<pre><code>All terms check.
+</code></pre>
+<p>A verificação de tipo está correta? Então vamos executar o código.</p>
+<h3 id="executando-o-código"><a class="header" href="#executando-o-código">Executando o código</a></h3>
+<p>Para executar um arquivo no Kind, use o comando <code>kind2 run nomeDoArquivo.kind2</code>. Deve parecer assim:</p>
+<pre><code>kind2 run hello_world.kind2
+</code></pre>
+<p>E pronto! seu terminal deve imprimir &quot;Hello, Kind!&quot; de volta para você.</p>
+<h4 id="lembre-se-de-todos-os-passos-acima-verifique-o-tipo-e-depois-execute"><a class="header" href="#lembre-se-de-todos-os-passos-acima-verifique-o-tipo-e-depois-execute">Lembre-se de todos os passos acima, verifique o tipo e depois execute</a></h4>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="olá-kind-1"><a class="header" href="#olá-kind-1">Olá Kind</a></h1>
+<p>Agora que você aprendeu como criar um arquivo Kind e executá-lo, vamos aprofundar mais nas bases do Kind. Na próxima seção, você aprenderá sobre o sistema de tipos do Kind, sintaxe, variáveis e funções.</p>
+<h4 id="sistema-de-tipos-do-kind"><a class="header" href="#sistema-de-tipos-do-kind">Sistema de tipos do Kind</a></h4>
+<p>O Kind possui um sistema de tipos estático, o que significa que o tipo de uma variável deve ser conhecido em tempo de compilação. O Kind possui um sistema de tipos rico que inclui tipos primitivos, tipos de dados algébricos e parâmetros de tipo.</p>
+<h4 id="sintaxe-do-kind"><a class="header" href="#sintaxe-do-kind">Sintaxe do Kind</a></h4>
+<p>A sintaxe do Kind é inspirada em linguagens de programação funcional como Haskell. A sintaxe é concisa e expressiva, tornando fácil de ler e escrever código. Ela usa indentação em vez de chaves para definir blocos de código.</p>
+<h4 id="variáveis"><a class="header" href="#variáveis">Variáveis</a></h4>
+<p>No Kind, as variáveis são declaradas usando a palavra-chave let seguida pelo nome da variável. 
+Por exemplo:</p>
+<pre><code>let x = 42
+</code></pre>
+<h4 id="funções"><a class="header" href="#funções">Funções</a></h4>
+<p>As funções no Kind são declaradas usando a primeira letra maiúscula. A função pode recebe parâmetros ou não e retorna um valor. Por exemplo:</p>
+<pre><code>Nat.add (a: Nat) (b: Nat) : Nat
+</code></pre>
+<p>Este é apenas um breve resumo das bases do Kind. Você aprenderá mais sobre esses conceitos conforme progredir na guia. Agora que você aprendeu sobre as bases do Kind, é hora de seguir para a próxima seção e aprender sobre conceitos avançados na programação do Kind.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="básico"><a class="header" href="#básico">Básico</a></h1>
+<h2 id="introdução-1"><a class="header" href="#introdução-1">Introdução</a></h2>
+<p>O estilo de programação funcional traz programação mais perto da simples e
+cotidiana matemática: Se um procedimento ou método não tem efeitos colaterais,
+então (ignorando eficiência) só o que precisamos entender sobre ele é como mapear
+entradas para saídas - ou seja, podemos pensar nele como um método concreto que
+computa uma função matemática. Esse é um dos sentidos do &quot;funcional&quot; em
+&quot;programação funcional&quot;. A conexão direta entre programas e objetos matemáticos
+simples suporta tanto a formalidade de provas de corretude quanto a racionalização
+informal sobre o comportamento do programa.</p>
+<p>O outro sentido na qual programação funcional é &quot;funcional&quot; é que ela enfatiza
+o uso de funções &quot;ou métodos&quot; como valores de primeira classe - ou seja, valores
+que podem ser passados como argumentos para outras funções, retornados como
+resultados, incluídos em estruturas de dados, etc. O reconhecimento de que funções
+podem ser tratadas desse jeito como dados habilita uma gama de comandos úteis.</p>
+<p>Outras funcionalidades comuns de linguagens funcionais incluem <em>algebraic data types</em>
+e <em>pattern matching</em>, o que torna fácil construir e manipular estruturas de dados,
+e sistemas de tipo polimórficos sofisticados, suportando abstração e reuso de código.
+Kind contém todas essas funcionalidades.</p>
+<p>A primeira metade desse capítulo introduz os elementos mais básicos da linguagem
+de programação funcional Kind. A segunda metade introduz algumas técnicas básicas
+que podem ser usadas para provar propriedades em programas em Kind.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="tipos-enumerados"><a class="header" href="#tipos-enumerados">Tipos Enumerados</a></h2>
+<p>Um aspecto incomum do Kind, similar a outras linguagens de prova como Idris e Coq,
+é que o seu conjunto de ferramentas built-in é bastante pequeno. Por exemplo,
+ao invés de fornecer o leque usual de tipos primitivos (booleanos, listas, strings, etc),
+Kind tem apenas dois tipos primitivos (U60: números inteiros em 60 bits binários, sem sinal) e (F60: números de ponto flutuante  em 60 bits binários, sem sinal) e oferece um mecanismo poderoso para definir novos tipos de dados do zero,
+do qual pode-se derivar todos esses tipos já familiares e outros.</p>
+<!-- TODO Esse bloco de texto será relevante quando tivermos um sistema de pacotes apropriado -->
+<!-- Naturally, the Idris distribution comes with extensive standard libraries providing
+definitions of booleans, numbers, and many common data structures like lists and
+hash tables (see the prelude and contrib packages), as well as the means to write
+type-safe effectful code (see the effects package) and pruvlioj, a toolkit for proof
+automation and program construction. But there is nothing magic or primitive
+about these library definitions. To illustrate this, we will explicitly recapitulate
+all the definitions we need in this course, rather than just getting them implicitly
+from the library. -->
+<p>Para demonstrar como funciona o mecanismo de definição, vamos começar com um exemplo simples.</p>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="dias-da-semana"><a class="header" href="#dias-da-semana">Dias da semana</a></h3>
+<p>A declaração a seguir diz para o Kind que estamos declarando um novo conjunto de dados - um Tipo.</p>
+<pre><code class="language-rust ignore">type Dia { // Dia é um Tipo
+  segunda  // Segunda é um Dia
+  terca    // Terça   é um Dia
+  quarta   // Quarta  é um Dia
+  quinta   // Quinta  é um Dia
+  sexta    // Sexta   é um Dia
+  sabado   // Sábado  é um Dia
+  domingo  // Domingo é um Dia
+  }</code></pre>
+<p>O tipo se chama <code>Dia</code>, e seus membros são <code>Segunda</code>, <code>Terça</code>, <code>Quarta</code>, etc.
+A definição <code>&lt;nome&gt; : &lt;tipo&gt;</code> pode ser lida como: &quot;nome é um tipo&quot;.
+Acima temos tanto um exemplo de criar um tipo novo <code>Dia : Type</code>, quanto a de
+declarar um elemento de um tipo existente <code>Quarta : Dia</code>.</p>
+<p>Agora que temos definido o que é um Dia, podemos escrever funções que operam usando esse tipo.
+Digite o seguinte:</p>
+<pre><code class="language-rust ignore">ProximoDiaUtil (d: Dia) : Dia</code></pre>
+<p>Isso declara que temos uma função chamado <code>ProximoDiaUtil</code>, que recebe um argumento
+chamado <code>d</code>, do tipo <code>Dia</code>, e retorna um <code>Dia</code>.
+Continue a definição da função da seguinte forma:</p>
+<pre><code class="language-rust ignore">ProximoDiaUtil Dia.segunda  = ?
+ProximoDiaUtil Dia.terca    = ?
+ProximoDiaUtil Dia.quarta   = ?
+ProximoDiaUtil Dia.quinta   = ?
+ProximoDiaUtil Dia.sexta    = ?
+ProximoDiaUtil Dia.sabado   = ?
+ProximoDiaUtil Dia.domingo  = ?</code></pre>
+<p>O que estamos fazendo aqui é o que chamamos de <em>pattern matching</em>. Estamos
+declarando como a função deve rodar para cada possibilidade da entrada <code>d</code>.
+Nem sempre será necessário fazer isso, como será mostrado em exemplos mais a frente.</p>
+<p>Por fim, complete as funções escrevendo o que cada uma deve retornar,
+e use espaços para estilizar como preferir:</p>
+<pre><code class="language-rust ignore">ProximoDiaUtil Dia.segunda = Dia.terca
+ProximoDiaUtil Dia.terca   = Dia.quarta
+ProximoDiaUtil Dia.quarta  = Dia.quinta
+ProximoDiaUtil Dia.quinta  = Dia.sexta
+ProximoDiaUtil Dia.sexta   = Dia.segunda
+ProximoDiaUtil Dia.sabado  = Dia.segunda
+ProximoDiaUtil Dia.domingo = Dia.segunda</code></pre>
+<p>Com a função finalizada, nós podemos checar o funcionamento dela com alguns exemplos.
+O jeito principal de fazer isso em Kind é criar uma função <code>Main</code> no seu arquivo,
+e rodando ele com o comando <code>kind2 run &lt;file&gt;</code>.</p>
+<p>Por exemplo, se você escrever a seguinte <code>Main</code> e rodar o arquivo</p>
+<pre><code class="language-rust ignore">Main {
+  // Dois dias úteis depois do sábado
+  ProximoDiaUtil (ProximoDiaUtil Sabado)
+}</code></pre>
+<p>Deve ser retornado pra você algo como:</p>
+<pre><code class="language-terminal">(Dia.terca)
+</code></pre>
+<p>Outro jeito de testar seu código, é dizer o que esperamos que o código retorne,
+por meio de uma prova:</p>
+<pre><code class="language-rust ignore">// O terceiro dia útil depois de uma segunda é uma quinta
+TesteDiaUtil : Equal Dia (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda))) Dia.quinta
+TesteDiaUtil = Equal.refl</code></pre>
+<p>Os detalhes de como provas funcionam serão explicados mais a frente. No momento,
+o que precisa ser entendido disso é:</p>
+<ul>
+<li>Tem-se a constatação de que <code>(ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda)))</code> é igual a <code>Dia.quinta</code></li>
+<li>Essa constatação foi nomeada <code>TesteDiaUtil</code></li>
+<li><code>TesteDiaUtil = Equal.refl</code> diz que constatação pode ser provada usando apenas simplificação nos dois lados</li>
+</ul>
+<p>Para testar que essa prova (e qualquer outra prova adiante) está correta, você precisa checar o arquivo, usando o comando <code>kind2 check &lt;file&gt;</code>,
+que deve te retornar algo como:</p>
+<pre><code class="language-terminal">All terms check.
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="booleanos"><a class="header" href="#booleanos">Booleanos</a></h3>
+<p>Semelhantemente, podemos declarar o tipo <code>Bool</code>, para booleanos:</p>
+<pre><code class="language-rust ignore">type Bool {
+	true
+	false
+}</code></pre>
+<!-- TODO mudar isso aqui caso tenhamos um gerenciador de pacotes -->
+<p>Nós estamos declarando nossos próprios booleanos só para demonstrar como fazer tudo do zero.
+O Kind tem a sua implementação padrão de booleanos no pacote padrão (o <a href="Book/chapter_02/github.com/Kindelia/Wikind">Wikind</a>), junto de várias outras estruturas e provas. Na verdade, no momento de escrita,
+é necessário que você esteja trabalhando dentro da pasta Wikind para fazer provas e teoremas, pois ainda não temos um gerenciador de pacote e os utilitários de resolução de provas não são built-in.</p>
+<p>Funções que funcionam sobre booleanos são definidas do mesmo jeito que visto anteriormente:</p>
+<pre><code class="language-rust ignore">// Negação lógica
+Notb (b: Bool) : Bool
+Notb Bool.true  = Bool.false
+Notb Bool.false = Bool.true
+
+// E lógico
+Andb (b1: Bool) (b2: Bool) : Bool
+Andb Bool.true  b2 = b2
+Andb Bool.false b2 = Bool.false
+
+// OU lógico
+Orb (b1: Bool) (b2: Bool) : Bool
+Orb Bool.true  b2 = Bool.true
+Orb Bool.false b2 = b2</code></pre>
+<p>As últimas duas funções demonstram como é a sintaxe do Kind para funções de
+múltiplos argumentos, e também mostra que é possível fazer <em>pattern matching</em>
+apenas em parte das variáveis da função, não necessariamente todas.</p>
+<p>Os casos da última função podem ser testados exaustivamente (todas as possibilidades)
+como mostrado a seguir, criando a tabela verdade da operação lógica.</p>
+<pre><code class="language-rust ignore">TestOrb1 : Equal Bool (Orb Bool.true Bool.false) Bool.true
+TestOrb1 = Equal.refl
+
+TestOrb2 : Equal Bool (Orb Bool.false Bool.false) Bool.false
+TestOrb2 = Equal.refl
+
+TestOrb3 : Equal Bool (Orb Bool.false Bool.true) Bool.true
+TestOrb3 = Equal.refl
+
+TestOrb4 : Equal Bool (Orb Bool.true Bool.true) Bool.true
+TestOrb4 = Equal.refl</code></pre>
+<h4 id="nandb"><a class="header" href="#nandb">Nandb</a></h4>
+<p>Substitua o buraco &quot;?&quot;, completando a função seguinte; 
+então confira se ela está correta usando as constatações a seguir (Análogo a como foi feito para a função <code>Orb</code>).
+A função retorna <code>Bool.true</code> se qualquer uma de suas entradas for <code>Bool.false</code></p>
+<pre><code class="language-rust ignore">Nandb (b1: Bool) (b2: Bool) : Bool
+Nandb b1 b2 = ?
+
+Test_nandb1 : Equal Bool (Nandb Bool.true Bool.false) Bool.true
+Test_nandb1 = ?
+
+Test_nandb2 : Equal Bool (Nandb Bool.false Bool.false) Bool.true
+Test_nandb2 = ?
+
+Test_nandb3 : Equal Bool (Nandb Bool.false Bool.true) Bool.true
+Test_nandb3 = ?
+
+Test_nandb4 : Equal Bool (Nandb Bool.true Bool.true) Bool.false
+Test_nandb4 = ?</code></pre>
+<h4 id="and3"><a class="header" href="#and3">And3</a></h4>
+<p>Faça o mesmo para a função <code>Andb3</code> abaixo. Essa função deve retornar <code>Bool.true</code>
+se todas as entradas forem <code>Bool.true</code>, e <code>Bool.false</code> caso contrário</p>
+<pre><code class="language-rust ignore">Andb3 (b1: Bool) (b2: Bool) (b3: Bool) : Bool
+Andb3 b1 b2 b3 = ?
+
+Test_andb3_1 Equal Bool (Andb3 Bool.true Bool.true Bool.true) Bool.true
+Test_andb3_1 = ?
+
+Test_andb3_2 Equal Bool (Andb3 Bool.false Bool.true Bool.true) Bool.false
+Test_andb3_2 = ?
+
+Test_andb3_3 Equal Bool (Andb3 Bool.true Bool.false Bool.true) Bool.false
+Test_andb3_3 = ?
+
+Test_andb3_4 Equal Bool (Andb3 Bool.true Bool.true Bool.false) Bool.false
+Test_andb3_4 = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="tipos-de-função"><a class="header" href="#tipos-de-função">Tipos de função</a></h2>
+<p>Todas as expressões em Kind tem um tipo, descrevendo que tipo de coisa ela computa.
+Por exemplo: <code>Bool.true</code> tem tipo <code>Bool</code>, assim como <code>Notb Bool.true</code> também tem tipo <code>Bool</code>.</p>
+<p>Funções como <code>Notb</code>, antes de receberem argumentos, também tem um tipo, tal qual <code>Bool.true</code> ou <code>Bool.false</code>.
+Os seus tipos são chamados de Tipo de Função, e são denotados com setas.</p>
+<p><code>Notb</code>, por exemplo, seria denotado como <code>Bool -&gt; Bool</code>, que pode ser lido como
+&quot;uma função que recebe um <code>Bool</code> como entrada, e retorna um valor de tipo <code>Bool</code>&quot;.
+Similarmente, o tipo da função <code>Andb</code> é <code>Bool -&gt; Bool -&gt; Bool</code>, significando
+&quot;uma função que recebe dois argumentos do tipo <code>Bool</code> e retorna um valor de tipo <code>Bool</code>&quot;.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="módulos"><a class="header" href="#módulos">Módulos</a></h2>
+<!-- TODO preencher quando tivermos sistema de módulos -->
+<p>Não temos sistema de módulos ainda :pensive:. Para usar funções de outros arquivos,
+precisa-se criar um arquivo dentro do mesmo diretório (Exemplo: a pasta raiz do Wikind).</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="números"><a class="header" href="#números">Números</a></h2>
+<p>Os tipos que definimos até agora são exemplos de tipos enumerados: suas definições
+enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessante
+de definir um tipo é estabelecer uma coleção de <em>regras indutivas</em> descrevendo seus
+elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira:</p>
+<pre><code class="language-rust ignore">type Nat {
+  zero
+  succ (pred: Nat)
+}</code></pre>
+<p>Essa definição pode ser lida como:</p>
+<ul>
+<li><code>Nat.zero</code> é um número natural;</li>
+<li><code>Nat.succ</code> é um construtor que recebe um número natural, construindo outro número natural;
+<ul>
+<li>Ou seja, se <code>n</code> é um número natural, então <code>(Nat.succ n)</code> também será.</li>
+</ul>
+</li>
+</ul>
+<p>Todo tipo definido indutivamente (Como <code>Nat</code>, <code>Bool</code> ou <code>Dia</code>) é um conjunto de expressões.
+A definição de <code>Nat</code> diz como expressões do tipo <code>Nat</code> podem ser construídas:</p>
+<ul>
+<li>A expressão <code>Nat.zero</code> pertence ao conjunto dos <code>Nat</code>;</li>
+<li>Se <code>n</code> é uma expressão do conjunto dos <code>Nat</code>, então <code>(Nat.succ n)</code> também é uma expressão do conjunto dos <code>Nat</code>; e</li>
+<li>Expressões formadas dessas duas formas são as únicas que pertencem à <code>Nat</code>.</li>
+</ul>
+<p>As mesmas regras se aplicam para nossas definições de <code>Dia</code> e <code>Bool</code>.
+As anotações que usamos para eles são análogas à do construtor
+<code>Nat.zero</code>, indicando que não recebem nenhum argumento.</p>
+<p>Essas três condições demonstram o poder das declarações indutivas. Elas implicam
+que a expressão <code>Nat.zero</code>, a expressão <code>(Nat.succ Nat.zero)</code>, a expressão
+<code>(Nat.succ (Nat.succ Nat.zero))</code> e assim por diante, são do conjunto <code>Nat</code>,
+enquanto outras expressões como <code>Bool.true</code>, <code>(Andb Bool.true Bool.false)</code>,
+e <code>(Nat.succ (Nat.succ Bool.false))</code> não são.</p>
+<p>Nós podemos escrever funções simples usando <em>pattern matching</em> em números naturais
+da mesma forma que fizemos acima - por exemplo, a função predecessor:</p>
+<pre><code class="language-rust ignore">Pred (n: Nat) : Nat
+// Como números naturais são estritamente não-negativos,
+// usamos como convenção que qualquer coisa que seria
+// menor do que 0 retorna 0
+Pred  Nat.zero    = Nat.zero
+Pred (Nat.succ k) = k</code></pre>
+<p>O segundo pattern pode ser lido como: &quot;se <code>n</code> tem a forma <code>(Nat.succ k)</code>
+para algum k, retorne k.&quot;</p>
+<pre><code class="language-rust ignore">MinusTwo (n: Nat) : Nat
+MinusTwo  Nat.zero               = Nat.zero
+MinusTwo (Nat.succ  Nat.zero)    = Nat.zero
+MinusTwo (Nat.succ (Nat.succ k)) = k</code></pre>
+<!-- TODO atualizar isso aqui pro sugar de números naturais, se vier a existir -->
+<p>Para evitar ter que escrever uma sequência de <code>Nat.succ</code> toda vez que você quiser
+um <code>Nat</code>, é possível usar sufixo <code>n</code> ao final de número qualquer, exemplo o<code>5n</code>, que recebe um número escrito no tipo primitivo <code>U60</code> mais o sufixo <code>n</code> e retorna o <code>Nat</code> correspondente.
+{...}</p>
+<!-- TODO -->
+<pre><code class="language-rust ignore">Test : Equal Nat 6n (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
+Test = Equal.refl</code></pre>
+<!-- TODO conferir q eu não estou delirando nesse parágrafo -->
+<p>O construtor <code>Nat.succ</code> tem tipo <code>Nat -&gt; Nat</code>, assim como as funções <code>MinusTwo</code>
+e <code>Pred</code>. Todos eles são coisas que, ao serem aplicadas a um <code>Nat</code>, retornam
+um <code>Nat</code>. A diferença essencial entre o <code>Nat.succ</code> e os outros dois, no entanto,
+é que funções vem com regras de redução - por exemplo, <code>Pred (Nat.succ Nat.zero)</code>
+é reduzível para <code>Nat.zero</code> - enquanto que o <code>Nat.succ</code> não. Apesar de ele ser
+uma função aplicável a um argumento, ela não computa nada.</p>
+<p>Para a maioria das definições de funções de números, só <em>pattern matching</em> não
+é suficiente: nós precisaremos também de recursão. Por exemplo, para checar
+que um número <code>n</code> é par, nós podemos checar recursivamente se <code>n-2</code> é par.</p>
+<pre><code class="language-rust ignore">Evenb (n: Nat) : Bool
+Evenb  Nat.zero               = Bool.true
+Evenb (Nat.succ  Nat.zero)    = Bool.false
+Evenb (Nat.succ (Nat.succ k)) = Evenb k</code></pre>
+<p>Nós podemos definir <code>Oddb</code> (função para checar se um número é ímpar) com uma
+declaração recursiva semelhante, mas também temos uma definição mais simples
+e um pouco mais fácil de trabalhar:</p>
+<pre><code class="language-rust ignore">Oddb (n: Nat) : Bool
+Oddb n = Notb (Evenb n)</code></pre>
+<pre><code class="language-rust ignore">TestOddb1 : Equal Bool (Oddb 1n) Bool.true
+TestOddb1 = Equal.refl
+
+TestOddb2 : Equal Bool (Oddb 4n) Bool.false
+TestOddb2 = Equal.refl</code></pre>
+<p>Naturalmente, nós também podemos definir funções com múltiplos argumentos por recursão.</p>
+<pre><code class="language-rust ignore">Plus (n: Nat) (m: Nat) : Nat
+Plus  Nat.zero    m = m
+Plus (Nat.succ k) m = Nat.succ (Plus k m)</code></pre>
+<p>Somar 3n e 2n retornará 5n como esperado.
+A simplificação que o Kind realiza para chegar a esse valor pode ser visualizada assim:</p>
+<pre><code class="language-terminal">Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero))
+
+&gt; Nat.succ (Plus (Nat.succ (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
+pela segunda regra de Plus
+
+&gt; Nat.succ (Nat.succ (Plus (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
+pela segunda regra de Plus
+
+&gt; Nat.succ (Nat.succ (Nat.succ (Plus Nat.zero (Nat.succ (Nat.succ Nat.zero)))))
+pela segunda regra de Plus
+
+&gt; Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))
+pela primeira regra de Plus
+</code></pre>
+<p>A multiplicação pode ser definida usando a definição de Plus, da seguinte forma:</p>
+<pre><code class="language-rust ignore">Mult (n: Nat) (m: Nat) : Nat
+Mult  Nat.zero    m = Nat.zero
+Mult (Nat.succ k) m = Plus m (Mult k m)</code></pre>
+<pre><code class="language-rust ignore">TestMult1 : Equal Nat (Mult 3n 3n) 9n
+TestMult1 = Equal.refl</code></pre>
+<p>Você também pode usar <em>pattern matching</em> em duas expressões ao mesmo tempo:</p>
+<pre><code class="language-rust ignore">Minus (n: Nat) (m: Nat) : Nat
+Minus  Nat.zero     m           = Nat.zero
+Minus  n            Nat.zero    = n
+Minus (Nat.succ k) (Nat.succ j) = Minus k j</code></pre>
+<!-- TODO conferir se wildcard no lhs já está funcionando -->
+<!-- The _ in the first line is a wildcard pattern. Writing _ in a
+pattern is the same as writing some variable that doesn’t get used on the
+right-hand side. This avoids the need to invent a bogus variable name. -->
+<p>O função <code>Exp</code> pode ser definida usando <code>Mult</code>
+(de forma análoga a como se define <code>Mult</code> usando <code>Plus</code>):</p>
+<pre><code class="language-rust ignore">Exp (base: Nat) (power: Nat) : Nat
+Exp base  Nat.zero    = Nat.succ Nat.zero
+Exp base (Nat.succ k) = Mult base (Exp base k)</code></pre>
+<h4 id="factorial"><a class="header" href="#factorial">Factorial</a></h4>
+<p>Lembrando da definição matemática básica de fatorial:</p>
+<p>\[\mathrm
+factorial(n) = \begin{cases}
+\text{se $n$} = 0\,&amp; 1\\ 
+\text{caso contrário}, &amp; n * factorial(n-1)
+\end{cases}
+\]</p>
+<p>\[
+f(x)=\begin{cases}x&amp;(x = 1)\\xf(x-1)&amp;(x\gt 1)\end{cases} , x\in \Bbb{N}
+\]
+Traduza a função fatorial para Kind2:</p>
+<pre><code class="language-rust ignore">Factorial (n: Nat) : Nat
+Factorial n = ?</code></pre>
+<pre><code class="language-rust ignore">TestFactorial1 : Equal Nat (Factorial 3n ) 6n
+TestFactorial1 = ?
+
+TestFactorial2 : Equal Nat (Factorial 5n) 120n
+TestFactorial2 = ?</code></pre>
+<p>A função <code>Eql</code> testa a igualdade entre Naturais, retornando um booleano</p>
+<pre><code class="language-rust ignore">Eql (n: Nat) (m: Nat) : Bool
+Eql  Nat.zero     Nat.zero    = Bool.true
+Eql  Nat.zero    (Nat.succ j) = Bool.false
+Eql (Nat.succ k)  Nat.zero    = Bool.false
+Eql (Nat.succ k) (Nat.succ j) = Eql k j</code></pre>
+<p>A função <code>Lte</code> testa se o primeiro argumento é menor ou igual ao segundo,
+retornando um booleano</p>
+<pre><code class="language-rust ignore">Lte (n: Nat) (m: Nat) : Bool
+Lte  Nat.zero     m           = Bool.true
+Lte (Nat.succ k)  Nat.zero    = Bool.false
+Lte (Nat.succ k) (Nat.succ j) = Lte k j</code></pre>
+<pre><code class="language-rust ignore">TestLte1 : Equal Bool (Lte 2n 2n) Bool.true
+TestLte1 = Equal.refl
+
+TestLte2 : Equal Bool (Lte 2n 4n) Bool.true
+TestLte2 = Equal.refl
+
+TestLte3 : Equal Bool (Lte 4n 2n) Bool.false
+TestLte3 = Equal.refl</code></pre>
+<h4 id="blt_nat"><a class="header" href="#blt_nat">Blt_nat</a></h4>
+<p>A função <code>Blt_nat</code> testa a relação &quot;menor que&quot; em números naturais.
+Em vez de criar uma nova função recursiva, defina ela usando funções previamente definidas.</p>
+<pre><code class="language-rust ignore">Blt_nat (n: Nat) (m: Nat) : Bool
+Blt_nat n m = ?</code></pre>
+<pre><code class="language-rust ignore">Test_blt_nat_1 : Equal Bool (Blt_nat 2n 2n) Bool.false
+Test_blt_nat_1 = ?
+
+Test_blt_nat_2 : Equal Bool (Blt_nat 2n 4n) Bool.true
+Test_blt_nat_2 = ?
+
+Test_blt_nat_3 : Equal Bool (Blt_nat 4n 2n) Bool.false
+Test_blt_nat_3 = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-simplificação"><a class="header" href="#prova-por-simplificação">Prova por Simplificação</a></h2>
+<p>Agora que definimos alguns tipos de dados e funções, vamos começar a provar propriedades
+de seus comportamentos. Na verdade, já estamos fazendo isso: cada função das seções
+anteriores que começa com <code>Test</code>, faz uma afirmação precisa sobre o comportamento de
+alguma função para algumas entradas especificas. As provas dessas afirmações foram
+sempre a mesma: use <code>Equal.refl</code> para checar que ambos os lados são de fato idênticos.</p>
+<p>O mesmo tipo de &quot;prova por simplificação&quot; pode ser usada para provar propriedades mais interessantes.
+Por exemplo, o fato que o <code>Nat.zero</code> é um &quot;elemento neutro&quot; no lado esquerdo da
+adição pode ser provado apenas observando que <code>Plus Nat.zero n</code> reduz para <code>n</code>,
+independente do que é <code>n</code>, fato que pode ser lido diretamente na definição do <code>Plus</code>.</p>
+<pre><code class="language-rust ignore">Plus_Z_n (n: Nat) : Equal Nat (Plus Nat.zero n) n
+Plus_Z_n n = Equal.refl</code></pre>
+<p>Outros teoremas parecidos podem ser provados de forma parecida.</p>
+<pre><code class="language-rust ignore">Plus_1_l (n: Nat) : Equal Nat (Plus (Nat.succ Nat.zero) n) (Nat.succ n)
+Plus_1_l n = Equal.refl
+
+Mult_0_l (n: Nat) : Equal Nat (Mult Nat.zero n) Nat.zero
+Mult_0_l n = Equal.refl </code></pre>
+<p>O <code>_l</code> indica que a prova envolve o valor no lado esquerdo. Por exemplo:
+A prova da soma por 1 no lado esquerdo (<code>Plus_1_l</code>)
+ou a prova da multiplicação por zero no lado esquerdo (<code>Mult_0_l</code>)</p>
+<p>Embora a simplificação seja poderosa o suficiente para provar alguns fatos gerais,
+existem várias declarações que não podem ser demonstradas só com simplificação.
+Por exemplo, não podemos usá-la para provar que <code>Nat.zero</code> é um elemento neutro para adição no lado direito.</p>
+<pre><code class="language-rust ignore">Plus_n_Z (n: Nat) : Equal Nat n (Plus n Nat.zero)
+Plus_n_Z n = Equal.refl</code></pre>
+<pre><code class="language-diff">- ERROR Type mismatch  
+
+   • Got      : Equal Nat n n
+   • Expected : Equal Nat n (Plus n 0n)
+
+   • Context: 
+   •   n : Nat 
+
+   Plus_n_Z n = Equal.refl
+                ┬─────────
+                └Here!
+</code></pre>
+<p>(Você consegue explicar por que isso acontece?)</p>
+<p>O próximo capítulo vai introduzir o conceito de indução,
+uma técnica poderosa que pode ser usada para demonstrar esse teorema.
+Por agora, no entanto, vamos ver mais alguns tipos simples de prova.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-aplicação"><a class="header" href="#prova-por-aplicação">Prova por aplicação</a></h2>
+<p>A nossa primeira ferramenta para resolver provas que não são reduzíveis de cara
+será a aplicação dos dois lados. Para isso, usaremos a função <code>Equal.apply</code>, que
+recebe uma igualdade (um <code>Equal</code>) e uma função, e aplica essa função dos dois lados
+da igualdade, gerando uma nova igualdade.</p>
+<p>Por exemplo:</p>
+<pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
+Example_apply n m e = ?</code></pre>
+<p>O que exatamente temos aqui? Temos uma prova que recebe como argumento uma outra
+prova/igualdade. Isso quer dizer que vamos realizar a nossa prova supondo que a
+prova dada como argumento também é verdadeira. Então, lendo a declaração da prova,
+temos que: &quot;Dados dois naturais, <code>m</code> e <code>n</code>, e uma prova de que eles são iguais,
+provar que <code>Nat.succ m</code> e <code>Nat.succ n</code> também são iguais&quot;.</p>
+<p>Nós aprendemos, nas nossas aulas de matemática, que aplicar uma função dos dois
+lados de uma igualdade mantém a igualdade (<code>x/2 = 3 -&gt; 2*x/2 = 2*3</code>), e podemos
+ver que para provar o que a gente quer, precisamos aplicar a função <code>Nat.succ</code>
+nos dois lados de <code>e</code>, usando <code>Equal.apply</code></p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+  • Expected: (Equal Nat (Nat.succ m) (Nat.succ n)) 
+
+  • Context: 
+  •   n : Nat 
+  •   m : Nat 
+  •   e : (Equal Nat m n) 
+
+  Example_apply n m e = ?
+                        ┬
+                        └Here!
+</code></pre>
+<p>Como o <code>Equal.apply</code> funciona: Ele recebe como primeiro argumento a função a ser
+aplicada dos dois lados, e como segundo argumento a igualdade aonde aplicar a função.
+Se você não entendeu muito bem a passagem da função de argumento (<code>x =&gt; Nat.succ x</code>),
+ela é o que chamamos de função lambda, e é também conhecida como função anônima.
+Funções lambda são identificadas pela sua seta <code>=&gt;</code>, sendo que do lado esquerdo
+da seta fica o nome do argumento da função - use o nome que quiser - e do lado direito
+fica o corpo da função: o que ela retorna. A nossa função lambda atual é uma função
+que recebe um <code>x</code> qualquer e retorna <code>Nat.succ x</code>.</p>
+<p>Podemos ver o resultado disso dando <code>check</code> no arquivo:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+  • Expected: (Equal Nat (Nat.succ m) (Nat.succ n)) 
+
+  • Context: 
+  •   n : Nat 
+  •   m : Nat 
+  •   e       : (Equal Nat m n) 
+  •   e_apply : (Equal Nat (Nat.succ m) (Nat.succ n)) 
+  •   e_apply = (Equal.apply Nat Nat m n (x =&gt; (Nat.succ x)) e) 
+
+  let e_apply = Equal.apply (x =&gt; Nat.succ x) e
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Como <code>e_apply</code> é uma igualdade do tipo <code>Equal Nat (Nat.succ m) (Nat.succ n)</code>,
+a prova que procuramos, é só retornar ele e concluiremos a nossa prova.</p>
+<pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
+Example_apply n m e =
+  let e_apply = Equal.apply (x =&gt; Nat.succ x) e
+  e_apply</code></pre>
+<pre><code class="language-terminal">  All terms checked.
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-análise-de-casos"><a class="header" href="#prova-por-análise-de-casos">Prova por análise de casos</a></h2>
+<p>A próxima ferramenta de provas formais será análise de casos, que significa usar <em>pattern matching</em> na prova.
+Por exemplo, vamos provar que o E lógico de qualquer coisa e Falso sempre é falso:</p>
+<pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b1 Bool.false) Bool.false
+Example_case_analysis b = ?</code></pre>
+<p>Apesar de parecer uma prova que deveria ser resolvida simplesmente com <code>Equal.refl</code>,
+não é o caso. Isso é por conta de a função <code>Andb</code> fazer <em>pattern matching</em> no primeiro
+argumento, e nós não temos o valor dele na prova, então ele fica &quot;agarrado&quot;.</p>
+<p>Para darmos um valor pra ele, e mostrar que a prova está correta para ambos os valores de <code>Bool</code>,
+nós fazemos <em>pattern matching</em> na prova, criando assim duas provas diferentes:
+uma pra quando <code>b</code> for <code>Bool.true</code> e uma pra quando for <code>Bool.false</code>.</p>
+<pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
+Example_case_analysis Bool.true  = ?
+Example_case_analysis Bool.false = ?</code></pre>
+<p>E ambas essas provas são resolvíveis diretamente com <code>Equal.refl</code>, pois o <em>type checker</em>
+consegue reduzir ambos para <code>Equal Bool.false Bool.false</code> direto.</p>
+<pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
+Example_case_analysis Bool.true  = Equal.refl
+Example_case_analysis Bool.false = Equal.refl</code></pre>
+<!-- TODO Reescrita no Kind2 é uma caixa de minhocas por si só,
+talvez colocar mais pro final do capítulo,
+ao talvez até colocar depois desse capítulo -->
+<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-reescrita"><a class="header" href="#prova-por-reescrita">Prova por Reescrita</a></h2>
+<p>Esse teorema é um pouco mais interessante que anteriores:</p>
+<pre><code class="language-rust ignore">Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)</code></pre>
+<p>Assim como mostrado anteriormente, essa é uma prova que dentro de seus argumentos temos
+uma outra prova, ou hipótese: no caso, temos <code>Equal n m</code> - ou seja, <code>n</code> e <code>m</code> são iguais.</p>
+<p>Como n e m são números arbitrários, não podemos só usar simplificação para demonstrar o teorema.
+Em vez disso, nós observando que, já que assumimos <code>Equal n m</code>, poderíamos substituir <code>n</code> por <code>m</code>
+no objetivo e os dois lados ficarão iguais. A função que usamos para fazer essa substituição é a <code>Equal.rewrite</code>.</p>
+<!-- TODO revisar esse parágrafo -->
+<p>Como não podemos reescrever diretamente no objetivo, nós usamos uma outra igualdade e fazemos ela ser igual ao objetivo.
+No nosso caso, usaremos um <code>Equal.apply</code> em <code>e</code> para conseguir essa igualdade.</p>
+<pre><code class="language-rust ignore">Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
+
+Plus_id_example n m e =
+  let app = Equal.apply (k =&gt; Plus k n) e
+  ? </code></pre>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Plus n n) (Plus m m) 
+
+   • Context: 
+   •   n   : Nat 
+   •   m   : Nat 
+   •   e   : Equal Nat n m 
+   •   app : Equal Nat (Plus n n) (Plus m n) 
+   •   app = Equal.apply Nat Nat n m (k =&gt; (Plus k n)) e
+    
+   let app = Equal.apply (k =&gt; Plus k n) e
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Esse <code>app</code> será do tipo <code>Equal (Plus n n) (Plus m n)</code>, como mostrado no comentário.
+Com isso feito, precisamos trocar o <code>n</code> por <code>m</code> no lado direito da igualdade, e pra isso usamos o rewrite:</p>
+<pre><code class="language-rust ignore">Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
+Plus_id_example n m e =
+  let app = Equal.apply (k =&gt; Plus k n) e
+  let rrt = Equal.rewrite e (x =&gt; Equal (Plus n n) (Plus m x)) app
+  rrt</code></pre>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Plus n n) (Plus m m) 
+
+   • Context: 
+   •   n   : Nat 
+   •   m   : Nat 
+   •   e   : Equal Nat n m 
+   •   app : Equal Nat (Plus n n) (Plus m n) 
+   •   app = Equal.apply Nat Nat n m (k =&gt; (Plus k n)) e 
+   •   rrt : Equal Nat (Plus n n) (Plus m m) 
+   •   rrt = Equal.rewrite Nat n m e (x =&gt; Equal Nat (Plus n n) (Plus m x)) app
+</code></pre>
+<p>O retorno da operação <code>Equal.rewrite</code> já será a prova que precisamos,
+então só retornamos direto o resultado da função.</p>
+<h4 id="plus_id_exercise"><a class="header" href="#plus_id_exercise">Plus_id_exercise</a></h4>
+<p>Prove que:</p>
+<pre><code class="language-rust ignore">Plus_id_exercise (n: Nat) (m: Nat) (o: Nat) (e1: Equal Nat n m) (e2: Equal Nat m o) : Equal Nat (Plus n m) (Plus m o)
+Plus_id_exercise n m o e1 e2 = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="equalchain-e-equalmirror"><a class="header" href="#equalchain-e-equalmirror"><code>Equal.chain</code> e <code>Equal.mirror</code></a></h2>
+<p>Nessa parte não falaremos de nenhuma ferramenta inerentemente nova,
+mas sim de alguns utilitários de provas para facilitar o uso das ferramentas anteriores.</p>
+<p>Imagine o exemplo:</p>
+<pre><code class="language-rust ignore">Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a</code></pre>
+<p>Parece um exemplo trivial. Se <code>a</code> é igual a <code>b</code>, <code>b</code> é igual a <code>a</code>, correto?
+Apesar de correto, o <em>type checker</em> do Kind não reconhece essa igualdade, pois para ele, a ordem é importante.
+Para esse tipo de situação, temos a função <code>Equal.mirror</code>, que simplesmente troca os lados de uma igualdade.</p>
+<pre><code class="language-rust ignore">Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a
+Example_mirror a b e = 
+   let mir = Equal.mirror e
+   mir</code></pre>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat b a 
+
+   • Context: 
+   •   a   : Nat 
+   •   b   : Nat 
+   •   e   : Equal Nat a b
+   •   mir : Equal Nat b a 
+   •   mir = Equal.mirror Nat a b e
+</code></pre>
+<p>Apesar de não parecer muito útil no momento, essa operação é muito útil para nosso segundo utilitário: <code>Equal.chain</code>.
+<code>Equal.chain</code> é um caso específico do <code>Equal.rewrite</code>, no qual você reescreve um lado inteiro de uma igualdade usando outra.</p>
+<pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c</code></pre>
+<p>Como nós já conhecemos o <code>Equal.rewrite</code>, poderíamos usar ele para resolver esse teorema, mas ao invés disso vamos usar o <code>Equal.chain</code>.
+<code>Equal.chain</code> funciona &quot;encadeando&quot; duas igualdades que tenham a mesma expressão no lado direito da primeira igualdade e no lado esquerdo da segunda,
+&quot;grudando&quot; essas igualdades pela expressão em comum, gerando uma nova igualdade com as outras duas expressões (<code>Equal.chain (a=b) (b=c) = (a=c)</code>).
+Por exemplo, no nosso exemplo, o lado direito das duas igualdades é igual. Se usarmos <code>Equal.mirror</code> em uma delas, podemos dar <code>Equal.chain</code> nelas:</p>
+<pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c
+Example_chain a b c e1 e2 =
+  let eql = Equal.mirror e2
+  let chn = Equal.chain e1 e3
+</code></pre>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat b c
+
+   • Context: 
+   •   a   : Nat 
+   •   b   : Nat 
+   •   c   : Nat 
+   •   e1  : Equal Nat b (Plus a a) 
+   •   e2  : Equal Nat c (Plus a a) 
+   •   e3  : Equal Nat (Plus a a) c
+   •   e3  = Equal.mirror Nat c (Plus a a) e2
+   •   chn : Equal Nat b c
+   •   chn = Equal.chain Nat b (Plus a a) c e1 e3
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="mais-exercícios"><a class="header" href="#mais-exercícios">Mais exercícios</a></h2>
+<h4 id="boolean_functions"><a class="header" href="#boolean_functions">Boolean_functions</a></h4>
+<p>Use os conhecimentos ensinados até aqui para resolver o teorema:</p>
+<pre><code class="language-rust ignore">Identity_fn_applied_twice (f: Bool -&gt; Bool) (e: (x: Bool) -&gt; Equal Bool (f x) x) (b : Bool) : Equal Bool (f (f b)) b
+Identity_fn_applied_twice f e b = ?</code></pre>
+<p>Depois, resolva o teorema <code>negation_fn_applied_twice</code>, que é o mesmo que o anterior,
+mas mudando a hipótese para <code>Equal (f x) (Not x)</code></p>
+<h4 id="andb_eq_orb"><a class="header" href="#andb_eq_orb">Andb_eq_orb</a></h4>
+<p>Prove o seguinte teorema (Lembre-se que voce pode provar teoremas intermediários separadamente)</p>
+<pre><code class="language-rust ignore">Andb_eq_orb (b: Bool) (c: Bool) (e: Equal Bool (Andb b c) (Orb b c)) : Equal Bool b c
+Andb_eq_orb b c prf = ?</code></pre>
+<h4 id="binary"><a class="header" href="#binary">Binary</a></h4>
+<p>Considere uma representação diferente de números naturais, usando um sistema binário ao
+invés de unário. Ou seja, ao invés de termos apenas zero ou um sucessor de um número,
+nós podemos ter:</p>
+<ul>
+<li>zero;</li>
+<li>o dobro de um número;</li>
+<li>o dobro de um número mais 1.</li>
+</ul>
+<ol>
+<li>Primeiro, escreva uma definição indutiva desse tipo, chamando-o de <code>Bin</code>.
+(Lembre-se que, no fundo, a própria definição de <code>Nat</code> como <code>zero</code> ou <code>succ n</code>
+não tem sentido intrínseco. Ela só diz que um elemento de <code>Nat</code> pode ser um <code>zero</code>
+ou um <code>succ n</code> se <code>n</code> também for <code>Nat</code>. A interpretação disso como um sistema de valores
+0, 1, 2, etc, vem de como nós trabalhamos com esse tipo <code>Nat</code>. A sua definição de <code>Bin</code>
+idealmente também será tão simples quanto. Serão as funções que você fizer sobre <code>Bin</code>
+que darão sentido matemático a ele).</li>
+<li>Então, escreva uma função <code>Incr</code> para incrementar um <code>Bin</code>, e uma função
+<code>Bin_to_nat</code> para converter de <code>Bin</code> para <code>Nat</code>.</li>
+<li>Escreva cinco provas que testam suas funções de incremento e de conversão.
+Note que incrementar um binário e então convertê-lo deve ser chegar no mesmo
+resultado que convertê-lo primeiro e então incrementar o <code>Nat</code>.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="indução-prova-por-indução"><a class="header" href="#indução-prova-por-indução">Indução: Prova por Indução</a></h1>
+<h2 id="módulo-de-indução"><a class="header" href="#módulo-de-indução">Módulo de indução</a></h2>
+<p>Nesse capítulo nós veremos sobre provas por indução, mas antes de prosseguirmos
+para a indução em si, podemos analisar casos simples onde apenas a reflexão do
+caso já prova o teorema.</p>
+<pre><code class="language-rust ignore">Problems.t0 (n: Nat) : Equal Nat (Plus Nat.zero n) n</code></pre>
+<p>Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat n n) 
+
+   • Context: 
+   •   n : Nat 
+
+    Problems.t0 n = ?
+                    ┬
+                    └Here!
+</code></pre>
+<p>No <em>Problems.t0</em> o Kind reduz a soma de &quot;<em>0 + n</em>&quot; automaticamente para <em>n</em> e
+que devemos provar a igualdade entre <em>n</em> e <em>n</em>. Nesse caso basta escrever &quot;<em>Equal</em>.<strong>refl</strong>&quot; e obtemos a resposta de
+confirmação:</p>
+<pre><code class="language-terminal">All terms check.
+
+</code></pre>
+<pre><code class="language-rust ignore">Problems.t1 (n: Nat) : Equal Nat (Plus n Nat.zero) n</code></pre>
+<p>Feito o primeiro problema, o seguinte é muito similar, é a soma de &quot;<em>n + 0 = n</em>&quot; e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Plus n 0n) n) 
+
+   • Context: 
+   •   n   : Nat 
+
+   Problems.t1 n = ?
+                   ┬
+                   └Here!
+</code></pre>
+<p>No primeiro caso o Kind reduz pois o <em>zero</em> está à direita e o <em>Type
+Checker</em> já reduz automaticamente, a soma de entre <em>0</em> e <em>n</em> para <em>n</em>.
+Entretanto, quando o primeiro <em>input</em> é uma variável, o Kind necessita
+verificar para cada caso e como é um número natural, há infinitos casos a serem
+testados, isto é, de zero a infinito.</p>
+<p>De início podemos pensar que são tantos casos e que é impossível analisar todos
+eles, já que são infinitos, mas logo percebemos que é possível reduzir a dois,
+um é o número <em>zero</em> e o outro é um número que <em>sucede</em> o <em>zero</em> <em>n</em> vezes
+depois.</p>
+<p>Analisando para o caso de <em>zero</em> nosso objetivo é provar que <em>zero</em> é igual
+a <em>zero</em>:</p>
+<pre><code class="language-rust ignore">• Expected: Equal Nat Nat.zero Nat.zero</code></pre>
+<p>Agora basta dar o <em>Equal</em>.<strong>refl</strong> e o caso zero já foi comprovado, basta
+apenas responder para o <em>sucessor</em> de <em>zero</em></p>
+<p>Nosso objetivo é provar que para todo número <em>n</em>, ao adicionar <em>0</em> o
+resultado será <em>n</em>, mas já temos uma nova ferramenta que nos auxilia nessa
+prova e é a prova para o caso <em>zero</em>, basta reduzir <em>n</em> até que o
+necessário seja apenas a reflexão e podemos fazer isso por meio da
+recursão e para isso definimos o novo <em>n</em> como o antecessor dele. No Kind nós
+podemos fazer isso simplesmente definindo o <em>n</em> atual como sendo o sucessor
+do próximo <em>n</em> e chamar a função para n recursivamente. Isso é feito da
+seguinte forma:</p>
+<pre><code class="language-rust ignore">Problems.t1 (Nat.succ n)   = ?</code></pre>
+<p>e temos como novo objetivo provar que o sucessor da soma entre <em>n</em> e <em>0</em> é
+igual ao sucessor de <em>n</em></p>
+<pre><code class="language-rust ignore">- Expected: Equal Nat (Nat.succ (Plus n Nat.zero)) (Nat.succ n)</code></pre>
+<p>Para trabalhar com a indução nessa recursão, devemos definir uma variável para
+o caso original de <em>n</em></p>
+<pre><code class="language-rust ignore">Problems.t1 (n: Nat)       : Equal (Plus n Nat.zero) n
+Problems.t1 Nat.zero       = Equal.refl
+Problems.t1 (Nat.succ n)   =
+    let ind = Problems.t1 n
+    ?</code></pre>
+<p>Ao dar o <em>Type Check</em> temos como retorno a seguinte resposta:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   ind : (Equal Nat (Plus n 0n) n) 
+   •   ind = (Problems.t1 n) 
+
+   let ind = Problems.t1 n
+     ?
+     ┬
+     └Here!
+</code></pre>
+<p>Ao analisar nosso objetivo e a indução, percebemos que a única diferença entre
+o objetivo e a nossa variável <em>ind</em> é o <em>Nat</em>.<strong>succ</strong>, basta então
+incrementar a variável <em>ind</em> com o <em>Nat</em>.<strong>succ</strong>, para isso nós criamos uma
+nova variável e usamos uma função <em>lambda</em>:</p>
+<pre><code class="language-rust ignore">let app = Equal.apply (x =&gt; (Nat.succ x)) ind</code></pre>
+<p>No caso acima nós chamamos a função <em>Equal</em>.<strong>apply</strong> para aplicar a nossa
+função <em>lambda</em> ao <em>ind</em>. A função <code>x =&gt; (Nat.succ x)</code> serve para adicionar
+<em>Nat</em>.<strong>succ</strong> a todo elemento recebido na variável. Como nossa variável <em>ind</em>
+é uma função que recebe uma outra variável <em>n</em>, a nossa função <em>lambda</em>
+incrementa a <em>n</em> com <em>Nat</em>.<strong>succ</strong>, o que retorna exatamente o nosso
+objetivo:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+
+   • Context: 
+   •   n   : Nat 
+   •   ind : (Equal Nat (Plus n 0n) n) 
+   •   ind = (Problems.t1 n) 
+   •   app : (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
+   •   app = (Equal.apply Nat Nat (Plus n 0n) n (x =&gt; (Nat.succ x)) ind)  
+
+   let app = Equal.apply (x =&gt; (Nat.succ x)) ind
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Podemos perceber que o <em>app</em> é exatamente igual ao <em>Expected</em>, que é o nosso
+objetivo e basta apenas retornar ele, o app para que o <em>Type Check</em> valide
+a nossa prova:</p>
+<pre><code class="language-terminal">All terms check.
+
+</code></pre>
+<p>Há casos em que a indução é ainda mais simples, basta compreender o que está acontecendo. Imagine que você quer provar que um número <code>n</code> menos ele mesmo é igual a <em>zero</em>, independente de qual seja esse número. Como faríamos?
+Primeiro, nós verificamos para o caso dele ser <em>zero</em> e é uma igualdade verdadeira, <em>zero</em> menos <em>zero</em> é igual a <em>zero</em>. Depois, nós induzimos o caso para o caso de <em>zero</em>, que sabemos ser verdadeiro. Parece complicado? Não é, é absurdamente simples, vamos ver como fica isso em <em>Kind</em>:</p>
+<pre><code class="language-rs">Minus_diag (n: Nat)     : Equal Nat (Minus  n n) Nat.zero
+Minus_diag Nat.zero     = Equal.refl
+Minus_diag (Nat.succ n) = Minus_diag n
+</code></pre>
+<p>Perceba, essa é uma indução simples, nós falamos que a prova vale para o número e o antecessor dele e, por usarmos uma recursão, para todos os antecessores até <em>zero</em>, que é o caso que verificamos ser verdadeiro.
+Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesmo sempre dará <em>zero</em>, independente de qual for esse número.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="exercícios"><a class="header" href="#exercícios">Exercícios</a></h2>
+<p>Prove o seguinte usando indução. Você pode precisar de resultados previamente comprovados.</p>
+<pre><code class="language-rust ignore">Mult_0_r (n: Nat) : Equal Nat (Mult n Nat.zero) Nat.zero
+Mult_0_r n = ?
+
+Plus_n_sm (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Plus n m)) (Plus n (Nat.succ m))
+Plus_n_sm n m = ?
+
+Plus_comm (n: Nat) (m: Nat) : Equal Nat (Plus n m) (Plus m n)
+Plus_comm n m = ?
+
+Add_0_r (n: Nat) : Equal Nat (Plus n Nat.zero) n
+Add_0_r n = ?
+
+Plus_assoc (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Plus n (Plus m p)) (Plus (Plus n m) p)
+Plus_assoc n m p = ?</code></pre>
+<p>Considere a seguinte função que dobra o argumento recebido</p>
+<pre><code class="language-rust ignore">Double (n: Nat)     : Nat
+Double Nat.zero     = Nat.zero
+Double (Nat.succ n) = Nat.succ (Nat.succ (Double n))</code></pre>
+<p>Use indução para provar esses seguintes teoremas sobre <em>Double</em>:</p>
+<pre><code class="language-rust ignore">Double_plus (n: Nat) : Equal Nat (Double n) (Plus n n)
+Double_plus n = ?</code></pre>
+<p>Alguns teoremas é necessário analisar a melhor forma de se provar, por exemplo, para provar que um numero é par, poderíamos provar pelo sucessor dele, mas isso nos faria ter que provar para o sucessor do sucessor dele, isso faz com a que a prova de <em>Evenb</em> ser mais difícil por indução, então é importante perceber quando é necessário e quando não é.</p>
+<pre><code class="language-rust ignore">Evenb_s (n: Nat) : Equal Bool (Evenb (Nat.succ n)) (Notb  (Evenb n))
+Evenb_s n = ?</code></pre>
+<h2 id="outro-caso"><a class="header" href="#outro-caso">Outro caso</a></h2>
+<p>Vamos verificar se a a igualdade &quot;n +(<em>m</em> + 1) = 1 + (<em>n</em> + <em>m</em>)&quot; é verdadeira</p>
+<p>Primeiro, o nosso problema:</p>
+<pre><code class="language-rust ignore">Problems.t2 (n: Nat) (m: Nat) : Equal Nat (Plus n (Nat.succ m)) (Nat.succ(Plus n m))</code></pre>
+<p>Verificamos o primeiro caso, quando <em>n</em> é zero:</p>
+<pre><code class="language-rust ignore">Problems.t2 Nat.zero m = Equal.refl</code></pre>
+<p>e partimos para o caso seguinte</p>
+<pre><code class="language-rust ignore">Problems.t2 (Nat.succ n) m = ?</code></pre>
+<p>e o nosso objetivo atual vira:</p>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
+<p>Traduzindo, o sucessor da adição de <em>n</em> e o sucessor de <em>m</em> é igual ao
+sucessor do sucessor da adição de <em>n</em> e <em>m</em>. Para resolver esse problema,
+invocaremos a indução:</p>
+<pre><code class="language-rust ignore">let ind = Problems.t2 n m</code></pre>
+<p>e o nosso objetivo atual é provar que:</p>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
+<p>Traduzindo novamente, que o <em>sucessor</em> da adição de <em>n</em> e o <em>sucessor</em> de <em>m</em> é igual ao <em>sucessor</em> do <em>sucessor</em> da adição de <em>n</em> e <em>m</em>.</p>
+<p>mas agora nós temos uma ferramenta muito útil, a nossa variável ind que é:</p>
+<pre><code class="language-rust ignore">Equal Nat (Plus n (Nat.succ m)) (Nat.succ (Plus n m))</code></pre>
+<p>Ora, analisando o nosso objetivo e a nossa variável ind, podemos perceber que
+basta dar um <em>Nat</em>.<strong>succ</strong> em ambos os lados da indução e ela ficará
+exatamente igual ao nosso objetivo, para isso usaremos uma função
+<em>lambda</em>:</p>
+<pre><code class="language-rust ignore">let app = Equal.apply (x =&gt; (Nat.succ x)) ind</code></pre>
+<p>E a nossa variável <em>app</em> retornará o nosso objetivo:</p>
+<pre><code class="language-rust ignore">Equal Nat (Nat.succ (Plus n (Nat.succ m))) (Nat.succ (Nat.succ (Plus n m)))</code></pre>
+<p>Bastando apenas retornar o <em>app</em> para e o Kind nos retornará o tão almejado
+<em>All terms check</em>.</p>
+<h1 id="usando-outros-teoremas"><a class="header" href="#usando-outros-teoremas">Usando outros teoremas</a></h1>
+<p>Em Kind, como na matemática informal, grandes provas são frequentemente divididas em uma sequência de
+teoremas, com provas posteriores referindo-se a teoremas anteriores. Mas às vezes uma prova
+exigirá algum fato variado que é muito trivial e de muito pouco geral
+interesse em dar-lhe o seu próprio nome de nível superior. Nesses casos, é conveniente
+ser capaz de simplesmente enunciar e provar o “sub-teorema” necessário exatamente no ponto
+onde é usado.</p>
+<p>Analisemos o seguinte teorema da comutação da adição:</p>
+<pre><code class="language-rust ignore">Problems.t3 (n: Nat) (m: Nat) : Equal Nat (Plus n  m) (Plus m n)</code></pre>
+<p>No primeiro caso, para <em>n</em> e <em>m</em> igual a zero nós temos uma reflexão:</p>
+<pre><code class="language-rust ignore">Problems.t3 Nat.zero Nat.zero = Equal.refl</code></pre>
+<p>Então partimos para o próximo caso:</p>
+<pre><code class="language-rust ignore">Problems.t3 (Nat.succ n) m = ?</code></pre>
+<p>E aqui parece que temos um novo problema:</p>
+<pre><code class="language-rust ignore">Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))</code></pre>
+<p>Ao analisar o problema, percebemos que dentro dele há um teorema já provado, de
+que o <em>sucessor</em> da adição de dois números é igual a adição de um número com o
+<em>sucessor</em> dele, então podemos usar isso ao nosso
+favor.</p>
+<p>Começaremos aplicando um <em>Nat</em>.<strong>succ</strong> no nosso problema original:</p>
+<pre><code class="language-rust ignore">let ind_a = Equal.apply (x =&gt; (Nat.succ x)) (Problems.t3 n m )</code></pre>
+<p>Depois invocaremos nosso problema já resolvido, o <em>Problems</em>.<strong>t2</strong>:</p>
+<pre><code class="language-rust ignore">let ind_b = Problems.t2 m n</code></pre>
+<p>Ao dar o <em>Type Check</em>, o terminal nos retorna:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))) 
+
+   • Context: 
+   •   n     : Nat 
+   •   m     : Nat 
+   •   ind_a : (Equal Nat (Nat.succ (Plus n m)) (Nat.succ (Plus m n))) 
+   •   ind_a = (Equal.apply Nat Nat (Plus n m) (Plus m n) (x =&gt; (Nat.succ x)) (Problems.t3 n m)) 
+   •   ind_b : (Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus m n))) 
+   •   ind_b = (Problems.t2 m n) 
+ 
+   let ind_b = Problems.t2 m n
+     ?
+     ┬
+     └Here!
+</code></pre>
+<p>Agora podemos perceber que a primeira parte da <em>ind_a</em> é igual ao inverso da
+primeira parte do nosso
+objetivo e a primeira parte da <em>ind_b</em> é igual a segunda do objetivo, basta
+apenas organizar e juntar as partes necessárias. Para isso usaremos a
+<em>Equal</em>.<strong>mirror</strong> e a <em>Equal</em>.<strong>chain</strong>.</p>
+<pre><code class="language-rust ignore">let ind_c = Equal.chain ind_b Equal.mirror ind_a</code></pre>
+<p>E o ind_c nos retorna um valor similar ao desejado:</p>
+<pre><code class="language-rust ignore">• Expected: Equal Nat (Nat.succ (Plus n m)) (Plus m (Nat.succ n))
+•   ind_c : Equal Nat (Plus m (Nat.succ n)) (Nat.succ (Plus n m))</code></pre>
+<p>Podemos perceber que um é o outro espelhado, para torná-los iguais, usaremos o
+<em>Equal</em>.<strong>mirror</strong> novamente:</p>
+<pre><code class="language-rust ignore">let app = Equal.mirror ind_c</code></pre>
+<p>Ao chamar o <em>app</em> o <em>Type Check</em> nos retorna a mensagem <em>All terms checked</em> e
+desta forma provamos, por meio da indução e usando uma outra prova, a comutação
+da adição, ou seja, que a soma de <em>n</em> e <em>m</em> é igual a soma de <em>m</em> e <em>n</em>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="mais-exercícios-1"><a class="header" href="#mais-exercícios-1">Mais exercícios</a></h2>
+<p>Você pode usar a <em>rewrite</em> ou <em>chain</em> nessa prova, escolha o que achar mais fácil</p>
+<pre><code class="language-rust ignore">Plus_swap (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Plus n (Plus m p)) (Plus m (Plus n p))
+Plus_swap n m p = ?</code></pre>
+<p>Agora prove a comutatividade da multiplicação. (Você provavelmente precisará definir e provar um teorema auxiliar separado para ser usado na prova deste. Você pode descobrir que <em>Plus_swap</em> é útil.</p>
+<pre><code class="language-rust ignore">Mult_comm (n: Nat) (m: Nat) : Equal Nat (Mult n m) (Mult m n)
+Mult_comm n m = ?</code></pre>
+<p>Pegue um pedaço de papel. Para cada um dos teoremas a seguir, primeiro pense se (a) pode ser provado usando apenas simplificação e reescrita, (b) também requer análise de caso (destruição) ou (c) também requer indução. Anote sua previsão.
+Em seguida, preencha a prova. (Não há necessidade de entregar seu pedaço de papel; isso é apenas para incentivá-lo a refletir antes de hackear!)</p>
+<pre><code class="language-rust ignore">Lte_refl (n: Nat) : Equal Bool Bool.true (Lte n n)
+Lte_refl n = ?
+
+Zero_nbeq_s (n: Nat) : Equal Bool (Eql (Nat.zero) (Nat.succ n)) Bool.false
+Zero_nbeq_s n = ?
+
+And_false_r (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
+And_false b = ?
+
+S_nbeq_0 (n: Nat) : Equal Bool (Eql (Nat.succ n) Nat.zero) Bool.false
+
+Mult_1_l (n: Nat) : Equal Nat (Mult (Nat.succ Nat.zero) n) n
+Mult_1_l n = ?
+
+All3_spec (b: Bool) (c: Bool) : Equal Bool (Orb (Orb (Andb b c) (Notb  b)) (Notb  c)) Bool.true
+All3_spec b c = ?
+
+Mult_plus_distr_r (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Mult (Plus n m) p) (Plus (Mult n p) (Mult m p))
+Mult_plus_distr_r n m p = ?
+
+Mult_assoc (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Mult (Mult m p)) (Mult (Mult n m) p)
+Mult_assoc n m p = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="estrutura-de-dados"><a class="header" href="#estrutura-de-dados">Estrutura de dados</a></h1>
+<h2 id="listas-trabalhando-com-dados-estruturados"><a class="header" href="#listas-trabalhando-com-dados-estruturados">Listas: trabalhando com dados estruturados</a></h2>
+<p>A partir de agora, veremos dados estruturados, em especial as listas e pares, e que podem conter elementos de diversos tipos. Na definição do tipo, já mostraremos eles com tipos <em>polimórficos</em>, mas não se assombre, veremos sobre isso no próximo capítulo, apenas vamos ignorar o tipo e acompanhar a explicação, fará mais sentido ao decorrer do nosso estudo.</p>
+<h3 id="pares-de-números"><a class="header" href="#pares-de-números">Pares de Números</a></h3>
+<p>Em uma definição de tipo indutivo, cada construtor pode receber qualquer número
+de argumentos -- nenhum como o <code>Bool</code>, <code>Empty</code> ou um como o <code>*Nat*</code> -- e
+temos o <code>Pair</code> que recebe dois argumentos (podendo ser até mesmo outros dois
+pares) e retorna um tipo:</p>
+<pre><code class="language-rust ignore">record Pair (a) (b) </code></pre>
+<p>Os dois argumentos recebidos são transformados no primeiro componente, o <code>fst</code>, e
+o segundo, o <code>snd</code>.</p>
+<pre><code class="language-rust ignore">record Pair (a) (b) {
+  fst : a
+  snd : b
+} </code></pre>
+<p>A forma de construir um par de <em>Nat</em> é a seguinte:</p>
+<pre><code class="language-rust ignore">Pair.new Nat Nat a b  : (Pair a b)</code></pre>
+<p>Aqui estão duas funções simples para extrair o primeiro e o segundo componentes de um par. As definições também ilustram como fazer a correspondência de padrões em dois argumentos construtores.</p>
+<pre><code class="language-rust ignore">Fst (pair: Pair Nat Nat) : Nat
+Fst (Pair.new Nat Nat fst snd) = fst</code></pre>
+<p>Exemplo 1: (Fst Nat (List Nat) (Pair 2n [1n,2n,3n])) -&gt;  2n</p>
+<pre><code class="language-rust ignore">Snd (pair: Pair Nat Nat) : Nat
+Snd (Pair.new Nat Nat fst snd) = snd</code></pre>
+<p>Exemplo 2: (Snd Nat (List Nat) (Pair 2n [1n,2n,3n])) -&gt; [1n,2n,3n]</p>
+<h3 id="algumas-provas"><a class="header" href="#algumas-provas">Algumas provas</a></h3>
+<p>Vamos tentar provar alguns fatos simples sobre pares. Se declararmos as coisas de uma maneira particular (e ligeiramente peculiar), podemos completar provas com apenas reflexividade:</p>
+<pre><code class="language-rust ignore">Surjective_pairing (p: Pair Nat Nat) : Equal (Pair Nat Nat) p (Pair.new (Fst p) (Snd p))
+Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl</code></pre>
+<p>Mas *Equal.*<strong>refl</strong> não é suficiente caso a declaração seja:</p>
+<pre><code class="language-rust ignore">Surjective_pairing (Pair.new Nat Nat fst snd) = Equal.refl</code></pre>
+<p>Já que o Kind espera</p>
+<pre><code class="language-rust ignore">Equal (Pair Nat Nat) p (Pair.new (Fst p) (Snd p))</code></pre>
+<p>E recebeu</p>
+<pre><code class="language-rust ignore">Equal p p</code></pre>
+<p>Nós devemos &quot;expor&quot; a estrutura interna do <em>par</em> para que o <em>Type Checker</em>
+possa verificar se <code>p</code> é realmente igual a <code>Pair.new (Fst p) (Snd p)</code></p>
+<h4 id="snd_fst_is_swap"><a class="header" href="#snd_fst_is_swap">Snd_fst_is_swap</a></h4>
+<pre><code class="language-rust ignore">Snd_fst_is_swap (p: Pair Nat Nat ) : Equal (Pair Nat Nat) (Pair.swap Nat Nat (Pair.swap Nat Nat p) p)
+Snd_fst_is_swap (Pair.new Nat Nat fst snd) = ? </code></pre>
+<h4 id="fst_swap_is_snd"><a class="header" href="#fst_swap_is_snd">Fst_swap_is_snd</a></h4>
+<pre><code class="language-rust ignore">Fst_swap_is_inverse (p: Pair Nat Nat) (a: Nat) (b: Nat) : Equal (Pair Nat Nat) (Pair.swap Nat Nat (Pair.new a b) (Pair.new b a))
+Fst_swap_is_inverse p a b = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="listas-de-números"><a class="header" href="#listas-de-números">Listas de números</a></h2>
+<p>Generalizando a definição de pares, podemos descrever o tipo de listas de números assim: “Uma lista ou é a lista vazia ou então um conjunto de um elemento e outra Lista&quot;, esse tipo não é composto de um <code>head</code> e uma <code>tail</code>.</p>
+<pre><code class="language-rust ignore">type List (t) {
+  nil
+  cons (head: t) (tail: List t)
+}</code></pre>
+<p>Como vamos tratar de apenas um tipo, é interessante reescrever o tipo de lista para um definido, o escolhido foi o <em>Nat</em>:</p>
+<pre><code class="language-rust ignore">type NatList {
+  nil
+  cons (head: Nat) (tail: NatList)
+}</code></pre>
+<p>ou</p>
+<pre><code class="language-rust ignore">type NatList {
+   List Nat
+}</code></pre>
+<p>Podemos perceber que em ambas as notações, há um <code>head</code> e um <code>tail</code>, sendo que o
+<em>head</em> recebe um elemento do tipo <em>Nat</em> e a <em>tail</em> recebe uma lista do tipo <em>Nat</em>.</p>
+<p>Por exemplo, uma lista de três números naturais 1n, 2n e 3n seria escrita da
+seguinte forma:</p>
+<p><code>[1n, 2n, 3n]</code></p>
+<p>O Kind, entretanto, lê de outra forma:</p>
+<p><code>[1n, [2n, 3n]]</code></p>
+<p>onde o <code>1n</code> é a head e o <code>[2n, 3n]</code> é a tail. Da mesma forma, ao olhar para uma
+lista de 4 elementos <code>[1n, 2n, 3n, 4n]</code>, agora veremos da seguinte forma:</p>
+<p><code>[1n, [2n, [3n, 4n]]]</code></p>
+<p>A lista possui o <code>head</code> <code>1n</code> e a <code>tail</code> <code>[2n, [3n, 4n]]</code>, que, por sua vez, possui a
+<code>head</code> <code>2n</code> e a <code>tail</code> <code>[3n, 4n]</code> que também possui sua <code>head</code> <code>3n</code> e sua tail <code>4n</code>.</p>
+<p>Pode parecer assustador, mas é um monstro amigável:</p>
+<p><img src="Book/chapter_04/../../Imgs/listmonster.png" alt="img" /></p>
+<p>[fonte da imagem: http://learnyouahaskell.com/starting-out]</p>
+<h3 id="repeat"><a class="header" href="#repeat">Repeat</a></h3>
+<p>A função <em>repeat</em> recebe um número <em>n</em> e um valor, retornando uma lista de tamanho <em>n</em> onde todos os elementos é o valor declarado.</p>
+<pre><code class="language-rust ignore">// Exemplo: (Repeat 3 Bool.true) -&gt; [True, True, True]
+Repeat (x: Nat) (count: Nat) : List Nat
+Repeat x Nat.zero            = [] 
+Repeat x (Nat.succ count)    = List.cons Nat x (Repeat count x)</code></pre>
+<h3 id="length"><a class="header" href="#length">Length</a></h3>
+<p>A função <em>length</em> calcula o tamanho da lista</p>
+<pre><code class="language-rust ignore">// Exemplo: (Length [1,2,3]) -&gt; 3
+Length (xs: List Nat) : Nat
+Length List.nil              = 0n
+Length (List.cons head tail) = (Nat.succ (Length tail))</code></pre>
+<h3 id="concat"><a class="header" href="#concat">Concat</a></h3>
+<p>A função <em>concat</em> concatena (anexa) duas listas.</p>
+<pre><code class="language-rust ignore">Concat (xs: List Nat) (ys: List Nat) : List Nat
+Concat (List.nil)            ys = ys
+Concat (List.cons head tail) ys = List.cons Nat head (Concat tail ys)</code></pre>
+<h3 id="head-e-tail"><a class="header" href="#head-e-tail">Head e Tail</a></h3>
+<p>A função head retorna o primeiro elemento (a “cabeça”) da
+list, enquanto tail retorna tudo menos o primeiro elemento (a “cauda”). Claro, o
+lista vazia não tem primeiro elemento, então devemos tratar esse caso com um tipo <em>Maybe</em>,
+recebendo um <em>Maybe</em>.<strong>none</strong> caso a lista seja vazia ou um <em>Maybe</em>.<strong>some</strong>
+caso tenha um valor.</p>
+<pre><code class="language-rust ignore">// Exemplo: (Head 0n [1n,2n,3n]) -&gt; 1n
+Head (default: Nat) (xs: List Nat) :  Nat
+Head default (List.nil)            = default
+Head default (List.cons head tail) = head</code></pre>
+<pre><code class="language-rust ignore">// Exemplo: (Tail Nat [1,2,3]) -&gt; [2,3]
+Tail (xs: List Nat)        : List Nat
+Tail (List.nil)            = []
+Tail (List.cons head tail) = tail</code></pre>
+<pre><code class="language-rust ignore">Test_head1 : Equal Nat (Head 0n [1n,2n,3n]) 1n
+Test_head1 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Test_head2 : Equal Nat (Head 0n List.nil) 0n
+Test_head2 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Test_head3 : Equal (List Nat) (Tail [1n, 2n, 3n]) [2n, 3n]
+Test_head3 = Equal.refl</code></pre>
+<h3 id="exercícios-1"><a class="header" href="#exercícios-1">Exercícios</a></h3>
+<h4 id="list_funs"><a class="header" href="#list_funs">List_funs</a></h4>
+<p>Complete as definições de Nonzeros, Oddmembers e Countoddmembers abaixo. Dê uma olhada nos testes para entender o que essas funções devem fazer.</p>
+<pre><code class="language-rust ignore">Nonzeros (xs: List Nat) : List Nat
+Nonzeros xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_nonzeros : Equal (List Nat) (Nonzeros [0n,1n,0n,2n,3n,0n,0n]) [1n,2n,3n]
+Test_nonzeros = ?</code></pre>
+<pre><code class="language-rust ignore">Oddmembers (xs: List Nat) : List Nat
+Oddmembers xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_oddmembers : Equal (List Nat) (Oddmembers [0n,1n,0n,2n,3n,0n,0n]) [1n,3n]
+Test_oddmembers = ?</code></pre>
+<pre><code class="language-rust ignore">CountOddMembers (xs: List Nat)  : Nat
+CountOddMembers xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_countoddmembers1 : Equal Nat (CountOddMembers [1n,0n,3n,1n,4n,5n]) 4n
+Test_countoddmembers1 = ?</code></pre>
+<h4 id="alternate"><a class="header" href="#alternate">Alternate</a></h4>
+<p>Complete a definição de alternate, que “compacta” duas listas em uma, alternando entre os elementos tomados da primeira lista e elementos da segunda. Veja os testes abaixo para mais exemplos específicos.</p>
+<pre><code class="language-rust ignore">Alternate (xs: List Nat) (ys: List Nat) : List Nat
+Alternate xs ys = ?</code></pre>
+<pre><code class="language-rust ignore">Test_alternate1 : Equal (List Nat) (Alternate [1n,2n,3n] [4n,5n,6n]) [1n,4n,2n,5n,3n,6n]
+Test_alternate1 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_alternate2 : Equal (List Nat) (Alternate [1n] [4n,5n,6n]) [1n,4n,5n,6n]
+Test_alternate2 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_alternate3 : Equal (List Nat) (Alternate  [1n,2n,3n] [4n]) [1n,4n,2n,3n]
+Test_alternate3 = ? </code></pre>
+<pre><code class="language-rust ignore">Test_alternate4 : Equal (List Nat) (Alternate [] [20n,30n]) [20n,30n]
+Test_alternate4 = ?</code></pre>
+<h4 id="functions"><a class="header" href="#functions">Functions</a></h4>
+<p>Complete as seguintes definições para as funções count, sum, add, e member das listas de naturais</p>
+<pre><code class="language-rust ignore">Count (v: Nat) (xs: List Nat) : Nat
+Count v xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_count1 : Equal Nat (Count 1n [1n,2n,3n,1n,4n,1n]) 3n
+Test_count1 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_count2 : Equal Nat (Count 6n [1n,2n,3n,1n,4n,1n]) 0n
+Test_count2 = ?</code></pre>
+<pre><code class="language-rust ignore">Sum (xs: List Nat) (ys: List Nat) : List Nat
+Sum xs ys = ?</code></pre>
+<pre><code class="language-rust ignore">Test_sum1 : Equal Nat (Count 1n (Sum [1n,2n,3n] [1n,4n,1n])) 3n
+Test_sum1 = ?</code></pre>
+<pre><code class="language-rust ignore">Add (n: Nat) (xs: List Nat) : List Nat
+Add n xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_add1 : Equal Nat (Count 1n (Add 1n [1n,4n,1n])) 3n
+Test_add1 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_add2 : Equal Nat (Count 5n (Add 1n [1n,4n,1n])) 0n
+Test_add2 = ?</code></pre>
+<pre><code class="language-rust ignore">Member (v: Nat) (xs: List Nat) : Bool
+Member v xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_member1 : Equal Bool (Member 1n [1n,4n,1n]) Bool.true
+Test_member1 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_member2 : Equal Bool (Member 2n [1n,4n,1n]) Bool.false
+Test_member2 = ?</code></pre>
+<h4 id="more_functions"><a class="header" href="#more_functions">More_functions</a></h4>
+<p>Aqui estão mais algumas funções de <code>List Nat</code> para você praticar. Quando remove_one é aplicado a uma lista sem o número a ser removido, ele deve retornar a mesma lista inalterada</p>
+<pre><code class="language-rust ignore">Remove_one (v: Nat) (xs: List Nat) : List Nat
+Remove_one v xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_one1 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,5n,4n,1n])) 0n
+Test_remove_one1 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_one2 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,4n,1n])) 0n
+Test_remove_one2 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_one3 : Equal Nat (Count 4n (Remove_one 5n [2n,1n,5n,4n,1n,4n])) 2n
+Test_remove_one3 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_one4 : Equal Nat (Count 5n (Remove_one 5n [2n,1n,5n,4n,5n,1n,4n])) 1n
+Test_remove_one4 = ?</code></pre>
+<pre><code class="language-rust ignore">Remove_all (v: Nat) (xs: List Nat) : List Nat
+Remove_all v xs = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_all1  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,5n,4n,1n])) 0n
+Test_remove_all1  = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_all2  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,4n,1n])) 0n
+Test_remove_all2  = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_all3  : Equal Nat (Count 4n (Remove_all 5n [2n,1n,5n,4n,1n,4n])) 2n
+Test_remove_all3  = ?</code></pre>
+<pre><code class="language-rust ignore">Test_remove_all4  : Equal Nat (Count 5n (Remove_all 5n [2n,1n,5n,4n,5n,1n,4n,5n,1n,4n])) 0n
+Test_remove_all4  = ?</code></pre>
+<pre><code class="language-rust ignore">Subset (xs: List Nat) (ys: List Nat)  : Bool
+Subset xs ys = ?</code></pre>
+<pre><code class="language-rust ignore">Test_subset1 : Equal Bool (Subset [1n,2n] [2n,1n,4n,1n]) Bool.true
+Test_subset1 = ?</code></pre>
+<pre><code class="language-rust ignore">Test_subset2 : Equal Bool (Subset [1n,2n,2n] [2n,1n,4n,1n]) Bool.false
+Test_subset2 = ?</code></pre>
+<h4 id="theorem"><a class="header" href="#theorem">Theorem</a></h4>
+<p>Anote um teorema interessante, envolvendo as funções count e add e prove-o. Note que, como este problema é um pouco aberto, é possível que você venha com um teorema que seja verdadeiro, mas cuja prova requer técnicas que você ainda não aprendeu. Sinta-se à vontade para pedir ajuda se ficar preso!</p>
+<pre><code class="language-rust ignore">Theorem : ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="raciocínio-sobre-listas"><a class="header" href="#raciocínio-sobre-listas">Raciocínio sobre listas</a></h2>
+<p>Assim como os números, fatos simples sobre funções de processamento de lista podem às vezes ser provado inteiramente por simplificação. Por exemplo, a simplificação realizada por
+<code>Equal.refl</code> é suficiente para este teorema...</p>
+<pre><code class="language-rust ignore">`List.nil`_app (xs: List Nat) : Equal (Concat (List.nil Nat) xs) xs
+`List.nil`_app xs = Equal.refl</code></pre>
+<p>... isso porque o Kind &quot;vê&quot; o  <code>List.nil</code> e já reduz automaticamente a igualdade da mesma forma que ocorre com os números naturais, com o <code>Nat.zero</code></p>
+<p>Além disso, como acontece com os números, às vezes é útil realizar uma análise de caso no possíveis formas (vazias ou não vazias) de uma lista desconhecida</p>
+<pre><code class="language-rust ignore">Tl_length_pred (xs: List Nat)         : Equal Nat (Pred (Length xs)) (Length (Tail xs))
+Tl_length_pred List.nil               = Equal.refl
+Tl_length_pred (List.cons head tail)  = Equal.refl</code></pre>
+<p>Caso o usuário não abra os casos e use direto o <code>Equal.refl</code>, o Kind retorna um erro de tipo:</p>
+<pre><code class="language-diff">- ERROR  Type mismatch
+
+   • Got      : Equal Nat (Nat.pred (Length xs)) (Nat.pred (Length xs)) 
+   • Expected : Equal Nat (Nat.pred (Length xs)) (Length (Tail xs)) 
+
+   • Context: 
+   •   xs : (List Nat) 
+
+   Tl_length_pred xs = Equal.refl
+                       ┬─────────
+                       └Here!
+</code></pre>
+<p>Da mesma forma, alguns teoremas precisam de indução para suas provas.</p>
+<ul>
+<li><em>Micro-Sermão. Simplesmente ler scripts de prova de exemplo não o levará muito longe! É importante trabalhar os detalhes de cada um, usando Kind e pensando no que cada passo alcança. Caso contrário, é mais ou menos garantido que os exercícios não farão sentido quando você chegar a eles.</em> ( ಠ ʖ̯ ಠ)</li>
+</ul>
+<h3 id="indução-em-listas"><a class="header" href="#indução-em-listas">Indução em Listas</a></h3>
+<p>Provas por indução sobre tipos de dados como <code>List</code> são um pouco menos familiares do que a indução de números naturais padrão, mas a ideia é igualmente simples. Cada declaração de dados define um conjunto de valores de dados que podem ser construídos usando os construtores declarados: um booleano pode ser True ou False; um número pode ser Zero ou Succ aplicado a outro número; uma lista de naturais pode ser <code>List.nil</code> ou <code>List.cons</code> aplicado a um número e uma lista.</p>
+<p>Além disso, as aplicações dos construtores declarados entre si são as únicas
+possíveis formas que os elementos de um conjunto definido indutivamente podem ter, e este fato
+diretamente dá origem a uma maneira de raciocinar sobre conjuntos indutivamente definidos: um número
+é Zero ou então é Succ aplicado a um número menor; uma lista é <code>List.nil</code> ou então
+é um <code>List.cons</code> aplicado a algum número e a alguma lista menor; etc. Então, se tivermos e mente
+alguma proposição <code>p</code> que menciona uma lista <code>l</code> e queremos argumentar que <code>p</code> vale
+para todas as listas, podemos raciocinar da seguinte forma:</p>
+<ul>
+<li>Primeiro, mostre que <code>p</code> é verdadeiro para <code>l</code> quando <code>l</code> é <code>List.nil</code>.</li>
+<li>Então mostre que <code>p</code> é verdadeiro para <code>l</code> quando <code>l</code> é <code>List.cons n l</code> para algum número <code>n</code> e alguma lista menor <code>l</code>, assumindo que <code>p</code> é verdadeiro para <code>l</code>.</li>
+</ul>
+<p>Como listas maiores só podem ser construídas a partir de listas menores, eventualmente chegando a <code>List.nil</code>,
+esses dois argumentos juntos estabelecem a verdade de <code>p</code> para todas as listas <code>l</code>. Aqui está um
+exemplo concreto:</p>
+<pre><code class="language-rust ignore">Concat_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (Concat (Concat xs ys) zs) (Concat xs (Concat ys zs))
+Concat_assoc List.nil                               ys zs = Equal.refl
+Concat_assoc (List.cons Nat xs.head xs.tail)        ys zs = 
+  let ind = Concat_assoc xs.tail ys zs
+  let app = Equal.apply (x =&gt; (List.cons xs.head x)) ind
+  app</code></pre>
+<p>Nós recebemos três listas <code>xs</code>, <code>ys</code> e <code>zs</code> e verificamos se a concatenação da de <code>xs</code> e <code>ys</code> com  <code>zs</code> é igual a de <code>xs</code> com a de <code>ys</code> com <code>zs</code>
+Para isso nós verificamos para o caso de <code>xs</code> ser uma lista vazia, então recebemos uma reflexão da concatenação é entre <code>ys</code> e <code>zs</code> e basta dar um <code>*Equal*.**refl**</code></p>
+<p>Em seguida nós &quot;abrimos&quot; o <code>xs</code> para obter o <code>xs.tail</code> para a nossa indução, e recebemos como objetivo:</p>
+<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs))) 
+</code></pre>
+<p>e a nossa variável <code>ind</code> é:</p>
+<pre><code> • ind: Equal (List Nat) (Concat (Concat xs.tail ys) zs) (Concat xs.tail (Concat ys zs))
+</code></pre>
+<p>bastando apenas aplicar um <code>List.cons xs.head</code> em ambos os lados da igualdade para ter o objetivo final e é isso o que fazemos no <code>app</code>:</p>
+<pre><code> • app : Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs)))
+</code></pre>
+<p><em>OBSERVAÇÃO</em>
+O Type Check nos retorna tipos <code>t2</code>, <code>t3</code> e outros gerados no mesmo estilo e podemos ignorar e até mesmo apagar na hora de comparar o retorno das variáveis como vemos no seguinte caso:</p>
+<pre><code> • Expected: Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs))) 
+ •   app   : Equal (List Nat) (List.cons Nat xs.head (Concat (Concat xs.tail ys) zs)) (List.cons Nat xs.head (Concat xs.tail (Concat ys zs)))
+</code></pre>
+<!-- e apagando os tipos gerados e os `holes`:
+
+```
+- Expected: Equal (List) (List.cons xs.head (Concat (Concat xs.tail ys) zs)) (List.cons xs.head (Concat xs.tail (Concat ys zs))))
+- app : Equal (List) (List.cons xs.head (Concat (Concat xs.tail ys) zs)) (List.cons xs.head (Concat xs.tail (Concat ys zs))))
+``` -->
+<!-- TODO holes -->
+<p>Dessa forma fica mais fácil perceber que o <code>app</code> e o <code>Expected</code> são idênticos, então não é necessário se assustar ao ver esses tipos gerados</p>
+<h4 id="invertendo-uma-lista"><a class="header" href="#invertendo-uma-lista">Invertendo uma lista</a></h4>
+<p>Para um exemplo um pouco mais complicado de prova indutiva sobre listas, suponha que usamos <code>Concat</code> para definir uma função de reversão de lista <code>Rev</code>:</p>
+<pre><code class="language-rust ignore">Rev (xs: List Nat)        : List Nat
+Rev List.nil              = List.nil Nat
+Rev (List.cons head tail) = Concat (Rev tail) [head]
+
+Test_rev1 : Equal (List Nat) (Rev [1n,2n,3n]) [3n,2n,1n]
+Test_rev1 = Equal.refl
+
+Test_rev2 : Equal (Rev List.nil) List.nil
+Test_rev2 = Equal.refl</code></pre>
+<h4 id="propriedades-da-rev"><a class="header" href="#propriedades-da-rev">Propriedades da Rev</a></h4>
+<p>Agora vamos provar alguns teoremas sobre o rev que acabamos de definir. Para algo um pouco mais desafiador do que vimos, vamos provar
+que inverter uma lista não altera seu comprimento. Nossa primeira tentativa fica presa
+o caso sucessor...</p>
+<pre><code class="language-rust ignore">Rev_length_firsttry (xs: List Nat)              : Equal Nat (Length (Rev xs)) (Length xs)
+Rev_length_firsttry List.nil                    = Equal.refl
+Rev_length_firsttry (List.cons xs.head xs.tail) =
+   let ind = Rev_length_firsttry xs.tail
+   ?</code></pre>
+<p>O Type Check nos retorna o seguinte objetivo e contexto:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
+
+   • Context: 
+   •   head : Nat 
+   •   tail : (List Nat) 
+   •   ind  : Equal Nat (Length (Rev tail)) (Length tail)
+   •   ind  = (Rev_length_firsttry tail) 
+
+   let ind = Rev_length_firsttry tail
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Agora nós temos que provar que o tamanho da concatenação do reverso do tail da lista e a head dela é igual ao sucessor do tamanho da tail, então precisaremos usar algumas outras provas, uma dela é que o tamanho da concatenação de duas listas é o mesmo da soma do tamanho das de cada uma delas:</p>
+<pre><code class="language-rust ignore">Concat_length (xs: List Nat) (ys: List Nat)  : Equal Nat (Length (Concat xs ys)) (Plus (Length xs) (Length ys))
+Concat_length List.nil ys                    = Equal.refl
+Concat_length (List.cons xs.head xs.tail) ys =
+   let ind = Concat_length xs.tail ys
+   let app = Equal.apply (x =&gt; (Nat.succ x)) ind
+   app</code></pre>
+<p>Além dessa prova, usaremos outras já provadas nos  capítulos anteriores:</p>
+<pre><code class="language-rust ignore">Plus_n_z (n: Nat)     : Equal Nat n (Plus n Nat.zero)
+Plus_n_sn (n: Nat) (m: Nat) : Equal Nat (Nat.succ (Plus n m)) (Plus n (Nat.succ m))
+Plus_comm (n: Nat) (m: Nat) : Equal Nat (Plus n m) (Plus m n)</code></pre>
+<p>E agora é possível provar o nosso teorema:</p>
+<pre><code class="language-rust ignore">Rev_length (xs: List Nat)               : Equal Nat (Length (Rev xs)) (Length xs)
+Rev_length List.nil                     = Equal.refl
+Rev_length (List.cons Nat head tail)  =
+   let ind   = Rev_length tail
+   ?</code></pre>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
+
+   • Context: 
+   •   head : Nat 
+   •   tail : (List Nat) 
+   •   ind  : Equal Nat (Length (Rev tail)) (Length tail) 
+   •   ind  = (Rev_length tail) 
+
+   let ind   = Rev_length tail
+      ?
+      ┬
+      └Here!
+</code></pre>
+<p>Nós criamos uma variável com nossa auxiliar <code>Concat_length</code>:</p>
+<pre><code class="language-rust ignore">Rev_length (xs: List Nat)             : Equal Nat (Length (Rev xs)) (Length xs)
+Rev_length List.nil                   = Equal.refl
+Rev_length (List.cons Nat head tail)  =
+   let ind  = Rev_length tail
+   let aux1 = Concat_length (Rev xs.tail) [xs.head]
+   ?</code></pre>
+<p>Recebemos um novo contexto para nos auxiliar, o</p>
+<pre><code> • aux1: Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n)
+</code></pre>
+<p>A <code>aux1</code> é igual ao lado esquerdo do nosso <code>Expected</code>, então metade do trabalho já foi resolvido, basta o outro lado da igualdade e para isso nós criamos uma nova variável, a <code>aux2</code>:</p>
+<pre><code class="language-rust ignore">let aux2 = Plus_comm (Length (Rev xs.tail)) (1n)</code></pre>
+<p>Agora nosso contexto está ainda melhor:</p>
+<pre><code class="language-rust ignore"> • aux2: Equal Nat (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) </code></pre>
+<p>Como estamos progredindo nas provas formais, é possível perceber que o lado esquerdo da <code>aux2</code> é igual ao direito da <code>aux1</code> e podemos encadear um no outro com o <code>Equal.chain</code>:</p>
+<pre><code class="language-rust ignore">let chn = Equal.chain aux1 aux2</code></pre>
+<p>Ao dar o Type Check, vemos nosso novo contexto:</p>
+<pre><code class="language-Terminal"> • chn : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))
+</code></pre>
+<p>Nossa variável <code>chn</code> é praticamente idêntica ao nosso <code>Expected</code> só diferindo na parte final, pois <code>Expected</code> espera um <code>Nat.succ (Length xs.tail)</code> e o <code>chn</code> nos dá <code>Nat.succ (Length (Rev xs.tail))</code>, mas nós temos a variável <code>ind</code> que nos retorna essa igualdade. Vamos relembrar:</p>
+<pre><code class="language-Terminal"> • ind: Equal Nat (Length (Rev tail)) (Length tail) 
+</code></pre>
+<p>Incrível, não é? Ela nos retorna exatamente o que precisamos, que o tamanho do reverso da <code>tail</code> é igual ao tamanho da <code>tail</code>, então basta reescrever a variável <code>ind</code> na nossa <code>chn</code>:</p>
+<pre><code class="language-rust ignore">let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (Concat (Rev tail) (List.cons head (List.nil)))) (Nat.succ x )) chn</code></pre>
+<p>Vamos ver nosso novo contexto, apenas ocultando os tipos para uma leitura mais fácil:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: Equal Nat (Length (Concat (Rev tail) (List.cons _ head (List.nil _)))) (Nat.succ (Length tail)) 
+
+   • Context: 
+   •   head : Nat 
+   •   tail : (List Nat) 
+   •   ind  : Equal Nat (Length (Rev tail)) (Length tail) 
+   •   ind  = (Rev_length tail) 
+   •   aux1 : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) 
+   •   aux1 = (Concat_length (Rev tail) (List.cons Nat head (List.nil Nat))) 
+   •   aux2 : Equal Nat (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) 
+   •   aux2 = (Plus_comm (Length (Rev tail)) 1n) 
+   •   chn  : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length (Rev tail)))
+   •   chn  = Equal.chain Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Plus (Length (Rev tail)) 1n) (Nat.succ (Length (Rev tail))) aux1 aux2 
+   •   rrt  : Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ (Length tail)) 
+   •   rrt  = Equal.rewrite Nat (Length (Rev tail)) (Length tail) ind (x =&gt; Equal Nat (Length (Concat (Rev tail) (List.cons Nat head (List.nil Nat)))) (Nat.succ x))) chn
+</code></pre>
+<p>Agora é muito mais fácil perceber que nosso <code>rrt</code> é exatamente o nosso <code>Expected</code>, então nossa prova fica assim:</p>
+<pre><code class="language-rust ignore">Rev_length (xs: List Nat)            : Equal Nat (Length (Rev xs)) (Length xs)
+Rev_length List.nil                  = Equal.refl
+Rev_length (List.cons Nat head tail) =
+   let ind   = Rev_length tail
+   let aux1  = Concat_length (Rev tail) [head]
+   let aux2  = Plus_comm (Length (Rev tail)) (1n)
+   let chn   = Equal.chain aux1 aux2
+   let rrt = Equal.rewrite ind (x =&gt; Equal Nat (Length (Concat (Rev tail) [head])) (Nat.succ x)) chn
+   rrt</code></pre>
+<h3 id="exercícios-de-listas-parte-1"><a class="header" href="#exercícios-de-listas-parte-1">Exercícios de Listas, parte 1</a></h3>
+<h4 id="list_exercises"><a class="header" href="#list_exercises">List_exercises</a></h4>
+<p>Vamos praticar um pouco mais com as listas:</p>
+<pre><code class="language-rust ignore">Concat_nil_r (xs: List Nat) : Equal (Concat xs List.nil) xs
+Concat_nil_r xs = ?
+
+Concat_assoc (xs: List Nat) (ys: List Nat) (zs: List Nat) : Equal (Concat (Concat xs ys) zs) (Concat xs (Concat ys zs))
+Concat_assoc xs ys zs = ?
+
+Rev_app_distr (xs: List Nat) (ys: List Nat) : Equal (Rev (Concat xs ys)) (Concat (Rev ys) (Rev xs))
+Rev_app_distr xs ys = ?
+
+Rev_involutive (xs: List Nat) : Equal (Rev (Rev xs)) xs
+Rev_involutive xs = ?</code></pre>
+<p>Há uma solução curta para a próxima. Se você estiver achando muito difícil ou começar a ficar longo demais,
+recue e tente procurar uma maneira mais simples.</p>
+<pre><code class="language-rust ignore">Concat_assoc4 (l1: List Nat) (l2: List Nat) (l3: List Nat) (l4: List Nat) : Equal (List Nat) (Concat l1 (Concat l2 (Concat l3 l4))) (Concat (Concat (Concat l1 l2) l3) l4)
+Concat_assoc4 l1 l2 l3 l4 = ? </code></pre>
+<p>Um exercício sobre sua implementação de <em>Nonzeros</em>:</p>
+<pre><code class="language-rust ignore">Nonzeros_app (xs: List Nat) (ys: List Nat) : Equal (List Nat) (Nonzeros (Concat xs ys)) (Concat (Nonzeros xs) (Nonzeros ys))
+Nonzeros_app xs ys = ?</code></pre>
+<h4 id="beq_natlist"><a class="header" href="#beq_natlist">Beq_NatList</a></h4>
+<p>Preencha a definição de beq_NatList, que compara listas de números para igualdade. Prove que beq_NatList xs ys produz <em>Bool.true</em> para cada lista.</p>
+<pre><code class="language-rust ignore">Beq_NatList (xs: List Nat) (ys: List Nat) : Bool
+Beq_NatList xs ys = ? 
+
+Test_beq_natlist1 : Equal Bool (Beq_list List.nil List.nil) Bool.true
+Test_beq_natlist1 = ?
+
+Test_beq_natlist2 : Equal Bool (Beq_list [1n,2n,3n] [1n,2n,3n]) Bool.true
+Test_beq_natlist2 = ?
+
+Test_beq_natlist3 : Equal Bool (Beq_list [1n,2n,3n] [1n,2n,4n]) Bool.false
+Test_beq_natlist3 = ?
+
+Beq_natlist_refl (xs: List Nat) : Equal Bool Bool.true (Beq_list xs xs)
+Beq_natlist_refl xs = ?</code></pre>
+<h3 id="exercícios-de-listas-parte-2"><a class="header" href="#exercícios-de-listas-parte-2">Exercícios de Listas, parte 2</a></h3>
+<h4 id="proofs"><a class="header" href="#proofs">Proofs</a></h4>
+<p>Prove o seguinte teorema, ele ajudará você na prova seguinte</p>
+<pre><code class="language-rust ignore">Ble_n_succ_n (n: Nat) : Equal Bool (Lte n (Nat.succ n)) Bool.true
+Ble_n_succ_n n = ? </code></pre>
+<p>Aqui estão mais alguns pequenos teoremas para provar sobre suas definições sobre listas.</p>
+<pre><code class="language-rust ignore">Count_member_nonzero (xs: List Nat) : Equal Bool (Lte 1n (Count 1n (List.cons 1n xs))) Bool.true
+Count_member_nonzero xs = ?</code></pre>
+<h4 id="rev_injective"><a class="header" href="#rev_injective">Rev_injective</a></h4>
+<p>Prove que a função <em>Rev</em> é injetiva - isto é</p>
+<pre><code class="language-rust ignore">Rev_injective (xs: List Nat) (ys: List Nat) (e: Equal (List Nat) (Rev xs) (Rev ys)) :tail Equal (List Nat) xs ys
+Rev_injective xs ys e = ?  </code></pre>
+<h4 id="opcional-count_sum"><a class="header" href="#opcional-count_sum">Opcional: Count_sum</a></h4>
+<p>Escreva um teorema interessante sobre Listas envolvendo as funções count e sum, e prova-o. (Você pode encontrar que a dificuldade da prova depende de como você definiu o count!)</p>
+<pre><code class="language-rust ignore">Count_sum : ?
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="maybe"><a class="header" href="#maybe">Maybe</a></h2>
+<p>Suponha que a gente queira escrever uma função que retorna o enésimo número de uma lista.
+Nós então definimos um número que é aplicado a uma lista de naturais e então retorna o número que ocupa essa posição. Dessa forma, nós precisamos definir um número para ser retornado caso o número seja maior do que o tamanho da lista.</p>
+<pre><code class="language-rust ignore">Nth_bad (n: Nat) (xs: List Nat)            : Nat
+Nth_bad n List.nil                         = 42n // Valor arbitrário 
+Nth_bad Nat.zero (List.cons head tail)     = head
+Nth_bad (Nat.succ n) (List.cons head tail) = Nth_bad n tail</code></pre>
+<p>Esta solução não é tão boa: se nth_bad retornar 0, não podemos dizer se esse valor
+realmente aparece na entrada sem processamento adicional. Uma alternativa melhor é
+para alterar o tipo de retorno de nth_bad para incluir um valor de erro como um possível resultado.
+Chamamos esse tipo <em>Maybe</em>, pois ele pode ou não ter algo, se tiver é um <em>Maybe.some</em> desse algo, se não tiver, é um <em>Maybe.none</em>.</p>
+<pre><code class="language-rust ignore">type Maybe (t) {
+  none 
+  some (value: t)
+}</code></pre>
+<pre><code class="language-rust ignore">type NatMaybe {
+  none 
+  some (value: Nat)
+}</code></pre>
+<p>ou</p>
+<pre><code class="language-rust ignore">type NatMaybe { 
+  Maybe Nat
+}</code></pre>
+<p>Podemos então alterar a definição acima de nth_bad para retornar None quando a lista for
+muito curto e Some a quando a lista tem membros suficientes e aparece na posição
+n. Chamamos essa nova função de nth_error para indicar que pode resultar em um erro.</p>
+<p>Essa prova ainda serve pra nos apresentar outro recurso do Kind, expressões condicionais, o <em>if</em> e <em>else</em></p>
+<pre><code class="language-rust ignore">Nth_error (n: Nat) (xs: List Nat) : Maybe Nat
+Nth_error n List.nil              = Maybe.none
+Nth_error n (List.cons head tail) = 
+  let ind = Nth_error (Pred n) tail
+  Bool.if (Eql n 0n) (Maybe.some Nat head) (ind)
+
+Test_nth_error1 : Equal (Nth_error 0n [4n,5n,6n,7n]) (Maybe.some 4n)
+Test_nth_error1 = Equal.refl
+
+Test_nth_error2 : Equal (Nth_error 3n [4n,5n,6n,7n]) (Maybe.some 7n)
+Test_nth_error2 = Equal.refl
+
+Test_nth_error3 : Equal (Nth_error 9n [4n,5n,6n,7n]) Maybe.none
+Test_nth_error3 = Equal.refl</code></pre>
+<!-- TODO -->
+<pre><code class="language-rust ignore">Extract (d: Nat) (o: Maybe Nat) : Nat
+Extract d (Maybe.some k)        = k
+Extract d (Maybe.none)          = d</code></pre>
+<h4 id="head_error"><a class="header" href="#head_error">Head_error</a></h4>
+<p>Usando a mesma ideia, corrija a função <code>Head</code> de antes para que não tenhamos que passar um elemento padrão para o caso <code>List.nil</code></p>
+<pre><code class="language-rust ignore">Head_error (xs: List Nat) : Maybe Nat
+Head_error xs = ?
+
+Test_head_error1 : Equal (Head_error List.nil) Maybe.none
+Test_head_error1 = ?
+
+Test_head_error2 : Equal (Head_error [1n]) (Maybe.some Nat 1n)
+Test_head_error2 = ?
+
+Test_head_error3 : Equal (Head_error  [5n,6n]) (Maybe.some Nat 5n)
+Test_head_error3 = ?</code></pre>
+<h4 id="opcional-extract_head"><a class="header" href="#opcional-extract_head">Opcional: Extract_head</a></h4>
+<p>Este exercício relaciona sua novo <code>Head_error</code> para o antigo <code>Head</code>.</p>
+<pre><code class="language-rust ignore">Extract_head (l: List Nat) (default: Nat) : Equal Nat (Head default l)  (Extract default (Head_error l))
+Extract_head l default = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="polimorfismo"><a class="header" href="#polimorfismo">Polimorfismo</a></h1>
+<p>Neste capítulo, continuamos nosso desenvolvimento de conceitos básicos de programação. Nossos novos princípios essenciais são o polimorfismo (funções de abstração sobre o
+tipos de dados que eles manipulam) e funções de ordem superior (funções de tratamento como dados). Começamos com o polimorfismo.</p>
+<h2 id="listas-polimórficas"><a class="header" href="#listas-polimórficas">Listas Polimórficas</a></h2>
+<p>Nos últimos dois capítulos, trabalhamos com listas polimórficas, você pode só não ter percebido. Obviamente, programas interessantes também precisam ser capazes de
+manipular listas com elementos de outros tipos – listas de strings, listas de booleanos,
+listas de listas, etc. Poderíamos apenas definir um novo tipo de dados indutivo para cada um deles,
+por exemplo...</p>
+<pre><code class="language-rust ignore">type BoolList {
+   nil 
+   cons (head: Bool) (tail: List Bool) 
+}</code></pre>
+<p>.. mas isso rapidamente se tornaria tedioso, em parte porque temos que compensar
+nomes de construtor diferentes para cada tipo de dados, mas principalmente porque também
+precisamos definir novas versões de todas as nossas funções de manipulação de listas (length, rev, etc.)
+para cada nova definição de tipo de dados.</p>
+<p>Para evitar toda essa repetição, o <em>Kind</em> suporta definições de tipos indutivos polimórficos.
+Por exemplo, aqui está um tipo de dados de lista polimórfica e que já vimos no capítulo anterior:</p>
+<pre><code class="language-rust ignore">type List (t) {
+   nil 
+   cons (head: t) (tail: List t) 
+}</code></pre>
+<p>Esse tipo já exite no Kind e podemos perceber que ele é idententico ao BoolList , mas com um tipo <code>a</code>, esse <em>tipo</em> recebe qualquer outro tipo, seja <em>Nat</em>, <em>Bool</em>, <em>Maybe</em> e etc.
+Não precisamos criar um tipo de lista para cada um dos tipos de dados, podemos usar esse que adota todas as formas existentes.</p>
+<p>Que tipo de coisa é a própria Lista? Uma boa maneira de pensar sobre isso é que List é
+uma função de Tipos para defi   nições indutivas; ou, em outras palavras, List é
+uma função de Tipos para Tipos. Para qualquer tipo específico x, o tipo List x é um
+conjunto indutivamente definido de listas cujos elementos são do tipo x.</p>
+<p>Com esta definição, quando usamos os construtores <code>List.nil</code> e <code>List.cons</code> para construir listas,
+precisamos dizer ao Kind o tipo dos elementos nas listas que estamos construindo - isto
+é, que <code>List.nil</code> e <code>List.cons</code> agora são construtores polimórficos. Observe os tipos de
+construtores:</p>
+<pre><code class="language-rust ignore">record Pair (a) (b) {
+  fst : a
+  snd : b
+}</code></pre>
+<p>Nosso tipo <em>Pair</em> recebe outros dois tipos, o <code>a</code> e o <code>b</code> e retorna um par dos dois tipos. Não foi necessário definir se o par era de números naturais,
+booleanos, listas, bits ou outros pares, nós deixamos a função apta a tratar todos os pares possíveis e isso é graças ao <em>polimorfismo</em>.</p>
+<p>Agora podemos voltar e fazer versões polimórficas de todas as listas de processamento
+funções que escrevemos antes. Aqui está a repetição, por exemplo:</p>
+<pre><code class="language-rust ignore">Repeat &lt;a: Type&gt; (x: a) (count: Nat) : List a
+Repeat a x Nat.zero                  = List.nil
+Repeat a x (Nat.succ count)          = List.cons x (Repeat x count)</code></pre>
+<p>Tal como acontece com <code>List.nil</code> e Contras, podemos usar repeat aplicando-o primeiro a um tipo e depois a
+seu argumento de lista:</p>
+<pre><code class="language-rust ignore">Test_repeat1 : Equal (Repeat 4n 2n) (List.cons 4n (List.cons 4n List.nil))
+Test_repeat1 = Equal.refl</code></pre>
+<p>Para usar repeat para construir outros tipos de listas, simplesmente instanciamos com um parâmetro de tipo apropriado:</p>
+<pre><code class="language-rust ignore">Test_repeat2 : Equal (Repeat Bool.false 1n) (List.cons Bool.false List.nil)
+Test_repeat2 = Equal.refl</code></pre>
+<h3 id="inferência-de-anotação-de-tipo"><a class="header" href="#inferência-de-anotação-de-tipo">Inferência de anotação de tipo</a></h3>
+<p>Vamos escrever a definição do <code>repeat</code> novamente, mas dessa vez omitindo o tipo, mas atenção, essa não é uma boa prática usar o <code>hole</code>, servirá apenas para compreender o poder do Kind e como ele pode ajudar o usuário a encontrar o que deseja.</p>
+<pre><code class="language-rust ignore">Repeat (x: _) (count: Nat) : List _
+Repeat x Nat.zero          = ?</code></pre>
+<p>Ao rodar o <em>Type Check</em> o terminal nos retorna:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (List _) 
+
+   • Context: 
+   •   x : _ 
+
+   Repeat x Nat.zero = ?
+                       ┬
+                       └Here!
+</code></pre>
+<p>Para o caso do contador ser zero, que é o nosso ponto de parada, nós precisamos retornar uma lista do tipo não definido.
+Como fizemos quando nosso tipo era definido, estamos criando uma lista que não repete o termo nenhuma vez, retornamos um <em>List.nil</em>, depois nós verificamos para o caso de uma lista que repetirá o valor <em>count</em> vezes, para isso nós usaremos a recursão por meio do <code>Nat.succ pred</code>, isto é, o nosso <em>count</em> é igual ao sucessor do predecessor dele.</p>
+<pre><code class="language-rust ignore">Repeat x (Nat.succ count) = ?</code></pre>
+<p>E o o <em>Type Check</em> nos retorna:</p>
+<pre><code class="language-diff">+ INFO  Inspection.
+
+   • Expected: (List _) 
+
+   • Context: 
+   •   x     : _ 
+   •   count : Nat 
+
+   Repeat x (Nat.succ count) = ?
+                               ┬
+                               └Here!
+</code></pre>
+<p>Agora basta construir a lista com o valor e chamar a função para o predecessor de count, assim construindo a lista até que chegue a zero.</p>
+<pre><code class="language-rust ignore">Repeat (x: _) (count: Nat) : List _
+Repeat x Nat.zero          = List.nil
+Repeat x (Nat.succ count)  = List.cons x (Repeat x count)</code></pre>
+<p>Podemos perceber que, apesar de não definir o tipo de <em>x</em>, o <em>Kind</em> é poderoso para descobrir o tipo que é nosso x quando usamos o <em>hole</em> <code>_</code>. Embora seja possível e possa até facilitar construir uma aplicação inteira usando essa notação, não é uma boa prática, já que, a depender do caso, pode ser inferido um tipo diferente do que o desejado. É interessante sempre definir o tipo do nosso elemento, mesmo que seja um tipo polimórfico.</p>
+<p>No primeiro caso, quando definimos o tipo <code>a</code>, já abarcamos todos os tipos possíveis, não sendo necessário o uso do hole e essa é a mágica do polimorfismo, ele nos permite usar uma mesma função para diversos tipos diferentes.</p>
+<p>Para usar uma função polimórfica, nós precisamos passar um ou mais tipos em adição aos outros argumentos. Por exemplo, no caso do <em>repeat</em>, nós passamos o tipo <code>&lt;a: Type&gt;</code> e que cada elemento da nossa lista é desse tipo. Fizemos o mesmo com o tipo <em>Pair</em>, que recebia como argumento dois tipos <em>a</em> e <em>b</em>.</p>
+<p>Agora fica muito mais fácil compreender os exemplos que usamos no capítulo anterior, quando apresentamos funções como a de <em>length</em> e <em>append</em>:</p>
+<pre><code class="language-rust ignore">Length &lt;a&gt; (xs: List a) : Nat
+Length (List.nil t)            = Nat.zero
+Length (List.cons t head tail) = (Nat.succ (Length tail))
+
+Concat &lt;a: Type&gt; (xs: List a) (ys: List a) : List a
+Concat (List.nil)                     ys = ys
+Concat (List.cons head tail)          ys = List.cons head (Concat tail ys)
+</code></pre>
+<p>Perceba, há duas notações, uma onde apenas usamos <code>&lt;a&gt;</code> e outra onde usamos <code>&lt;a: Type&gt;</code>, podemos usar qualquer uma delas, o <em>Kind</em> é capaz de compreender as duas formas, será de escolha do desenvolvedor qual ele usará e da complexidade do que será desenvolvido, uma vez que, em códigos muito complexos, talvez seja interessante deixar explícito a outros programadores o que é cada coisa.</p>
+<p>Agora é a hora de implementar nossas funções com o tipo implícito, usando o <code>hole</code> e <code>sugar syntax</code>:</p>
+<pre><code class="language-rust ignore">Concat_implicito (xs: List _) (ys: List _) : List _
+Concat_implicito []                     ys = ys
+Concat_implicito (List.cons head tail)  ys = List.cons head (Concat_implicito tail ys)</code></pre>
+<p>Aqui nós aprendemos mais uma coisa, o <em>sugar syntax</em> para uma lista vazia e que é apenas <code>[]</code>, mas isso está errado, uma vez que o <code>sugar syntax</code> no kind não funciona no lado esquerdo do escopo da função, somente do lado direito funciona. Ao usar o <em>sugar syntax</em> errado, o que o <em>Kind</em> apresenta como erro:</p>
+<pre><code class="language-diff">- ERROR  Unexpected token '['.
+    Concat_implicito []  ys = ys
+                  ┬
+                  └Here!
+</code></pre>
+<p>Portanto, é sempre importante saber exatamente o que está sendo feito, ainda mais quando usamos <em>sugar syntax</em>, ela serve pra facilitar a nossa vida, mas pode causar alguns problemas quando usada de forma indevida e isso serve igualmente para o <em>hole</em> e tipos polimórficos nos auxiliam a escrever um programa mais seguro e, ao mesmo tempo, capaz de servir para inúmeros casos.</p>
+<p>Outra função que podemos reescrever é a de reverse:</p>
+<pre><code class="language-rust ignore">Rev &lt;a&gt; (xs: List a) : List a
+Rev List.nil              = [] // sugar syntax de List.nil
+Rev (List.cons head tail) = Concat (Rev tail) [head] // sugar syntax de (List.cons head List.nil)
+
+Length &lt;a&gt; (xs: List a) : Nat
+Length List.nil              = 0n // sugar syntax de Nat.zero
+Length (List.cons head tail) = Nat.succ (Length tail)</code></pre>
+<p>Feito isso, basta apenas provar que nossas funções são verdadeiras:</p>
+<pre><code class="language-rust ignore">Test_rev1 : Equal (Rev [1,2,3]) [3,2,1]
+Test_rev1 = Equal.refl
+
+Test_rev2 : Equal (Rev [Bool.true]) [Bool.true]
+Test_rev2 = Equal.refl
+
+Test_length1 : Equal (Length [1,2,3]) 3n
+Test_length1 = Equal.refl</code></pre>
+<h4 id="exercícios-polimórficos"><a class="header" href="#exercícios-polimórficos">Exercícios polimórficos</a></h4>
+<p>Aqui estão alguns exercícios simples, semelhantes aos da seção de Listas, para praticar o polimorfismo. Complete as provas abaixo.</p>
+<pre><code class="language-rust ignore">Concat_nil_r &lt;a&gt; (xs: List a) : Equal (Concat xs List.nil) xs
+Concat_nil_r xs = ?
+
+Concat_assoc &lt;a&gt; (xs: List a) (ys: List a) (zs: List a) : Equal (Concat xs (Concat ys zs)) (Concat (Concat xs ys) zs)
+Concat_assoc xs ys zs = ?
+
+Concat_length &lt;a&gt; (xs: List a) (ys: List a) : Equal (Length (Concat xs ys)) (Plus (Length xs) (Length ys))
+Concat_length xs ys = ?</code></pre>
+<h4 id="mais-exercícios-polimórficos"><a class="header" href="#mais-exercícios-polimórficos">Mais exercícios polimórficos</a></h4>
+<p>Aqui estão alguns um pouco mais interessantes...</p>
+<pre><code class="language-rust ignore">Rev_app_distr &lt;a&gt; (xs: List a) (ys: List a) : Equal (Rev (Concat xs ys)) (Concat (Rev ys) (Rev xs))
+Rev_app_distr xs ys = ?
+
+Rev_involutive &lt;a&gt; (xs: List a) : Equal (Rev (Rev xs)) xs
+Rev_involutive xs = ?</code></pre>
+<h2 id="pares-polimórficos"><a class="header" href="#pares-polimórficos">Pares polimórficos</a></h2>
+<p>Seguindo o mesmo padrão, a definição de tipo
+que demos no último capítulo para pares de números podem ser generalizados para polimórficos
+pares:</p>
+<pre><code class="language-rust ignore">record Pair (a) (b) {
+  fst : a
+  snd : b
+} </code></pre>
+<p>Essa é exatamente a primeira definição de pares que vimos no capítulo anterior e, agora, podemos compreender perfeitamente o que são os tipos <code>a</code> e <code>b</code> na definição do tipo <em>Pair</em>.</p>
+<p>Nós podemos refazer as funções de <em>Pares</em>, mas agora para tipos polimórficos:</p>
+<pre><code class="language-rust ignore">Fst &lt;a&gt; &lt;b&gt; (pair: Pair a b) : a
+Fst (Pair.new fst snd) = fst
+
+Snd &lt;a&gt; &lt;b&gt; (pair: Pair a b) : b
+Snd (Pair.new fst snd) = snd</code></pre>
+<p>A seguinte função recebe duas listas e combina elas numa lista de pares. Nas linguagens funcionais, isso é comumente chamada de <em>Zip</em>.</p>
+<pre><code class="language-rust ignore">Zip &lt;a&gt; &lt;b&gt; (xs: List a) (ys: List b) : (List (Pair a b))
+Zip [] ys = []
+Zip xs [] = []
+Zip (List.cons xs.h xs.t) (List.cons ys.h ys.t) = List.cons (Pair.new xs.h xs.t) (Zip xs.t ys.t)</code></pre>
+<h4 id="check"><a class="header" href="#check">Check</a></h4>
+<p>Sem rodar o programa, tente responder a seguinte pergunta:</p>
+<ul>
+<li>O que a combinação de [1, 2] e [Bool.true, Bool.false, Bool.false, Bool.true] retornará?</li>
+</ul>
+<p>Agora rode o código e veja se acertou.</p>
+<h4 id="split"><a class="header" href="#split">Split</a></h4>
+<p>A função <em>Split</em> é o inverso da <em>Zip</em>, ela recebe uma lista de pares e retorna um par de listas. Em muitas linguagens funcionais ela é chamada de <em>Unzip</em>.</p>
+<p>Preencha a definição de divisão abaixo. Certifique-se de que ela passe no teste unitário fornecido.</p>
+<pre><code class="language-rust ignore">Split &lt;a&gt; &lt;b&gt; (xs: List (Pair a b)) : Pair (List a) (List b)
+Split xs = ?
+
+Test_split : Equal (Split [(Pair.new 1 Bool.false), (Pair.new 2 Bool.false)]) (Pair.new ([1, 2]) ([Bool.false, Bool.false]))
+Test_split = ?</code></pre>
+<h4 id="polimorfismo-com-maybe"><a class="header" href="#polimorfismo-com-maybe">Polimorfismo com maybe</a></h4>
+<p>No capítulo anterior, nós também vimos o tipo <em>Maybe</em>, só que para tipos naturais, entretanto, como vimos no capítulo atual, nossas estruturas de dados podem ser polimórficas, o que significa que o tipo <em>Maybe</em> também é polimórfico e é isso o que veremos agora.</p>
+<pre><code class="language-rust ignore">type Maybe (t) {
+  none 
+  some (value: t)
+}</code></pre>
+<p>Dessa forma, podemos escrever a função do <em>enésimo</em> erro para ele ser usado com todos os tipos de listas:</p>
+<pre><code class="language-rust ignore">Nth_error &lt;a&gt; (n: Nat) (xs: List a) : Maybe a
+Nth_error a n List.nil              = Maybe.none
+Nth_error a n (List.cons head tail) =
+  let ind = Nth_error (Pred n) tail
+  Bool.if (Eql n 0n) (Maybe.some head) (ind)
+
+
+Test_nth_error1 : Equal (Nth_error 0n [4n,5n,5n,7n]) (Maybe.some 4n)
+Test_nth_error1 = Equal.refl
+
+Test_nth_error2 : Equal (Nth_error 2n [Bool.true]) Maybe.none
+Test_nth_error2 = Equal.refl
+
+Test_nth_error3 : Equal (Nth_error 1n [[1n],[2n]]) (Maybe.some [2n])
+Test_nth_error3 = Equal.refl
+</code></pre>
+<h4 id="hd_error"><a class="header" href="#hd_error">Hd_error</a></h4>
+<p>Complete a definição de uma versão polimórfica da função Hd_error do último capítulo. Certifique-se de que ele passe nos testes de unitários abaixo.</p>
+<pre><code class="language-rust ignore">Hd_error &lt;a&gt; (xs: Lista a) : Maybe a
+Hd_error xs = ?
+
+Test_hd_error1 : Equal (Hd_error [1, 2]) (Maybe.some 1)
+Test_hd_error1 = ?
+
+Test_hd_error2 : Equal (Hd_error [[1], [2]]) (Maybe.some [1])
+Test_hd_error2 = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="funções-como-dados"><a class="header" href="#funções-como-dados">Funções como dados</a></h2>
+<p>Como muitas outras linguagens de programação modernas – incluindo todas as linguagens funcionais (ML, Haskell, Scheme, Scala, Clojure etc.) – o Kind trata as funções como cidadãos de primeira classe, permitindo que sejam passadas como argumentos para outras funções,
+retornados como resultados, armazenados em estruturas de dados, etc.</p>
+<h3 id="funções-de-alta-ordem-higher-order-functions"><a class="header" href="#funções-de-alta-ordem-higher-order-functions">Funções de Alta Ordem (Higher-Order Functions.)</a></h3>
+<p>Funções que manipulam outras funções são frequentemente chamadas de funções de alta ordem (ou ainda de &quot;ordem superior&quot;). Aqui está um exemplo simples:</p>
+<pre><code class="language-rust ignore">Doit3times &lt;x&gt; (f: x -&gt; x) (n: x) : x
+Doit3times f x = (f (f (f x)))
+
+Test_doit3times1 : Equal (Doit3times (x =&gt; MinusTwo x) 9n) 3n
+Test_doit3times1 = Equal.refl
+
+Test_doit3times2 : Equal (Doit3times (x =&gt; Notb x) Bool.true) (Bool.false)
+Test_doit3times2 = Equal.refl</code></pre>
+<h3 id="filtro"><a class="header" href="#filtro">Filtro</a></h3>
+<p>Aqui está uma função de alta ordem mais útil, pegando uma lista de xs e um predicado em x (uma função de x para Bool) e “filtrando” a lista, retornando uma nova lista contendo apenas aqueles elementos para os quais o predicado retorna True.</p>
+<pre><code class="language-rust ignore">Filter &lt;x&gt; (test: x -&gt; Bool) (xs: List x) : List x
+Filter test List.nil                      = []
+Filter test (List.cons head tail)         =
+   Bool.if (test head) (List.cons head (Filter test tail)) (Filter test tail)</code></pre>
+<p>Por exemplo, se aplicarmos o filtro de &quot;é par&quot; numa lista de números, ela nos retornará uma outra lista apena com os números pares</p>
+<pre><code class="language-rust ignore">Test_filter1 : Equal (Filter (x =&gt; Evenb x) [1,2,3,4,5])  [2,4]  
+Test_filter1 = Equal.refl
+
+Length_is_one &lt;x&gt; (xs: List x) : Bool
+Length_is_one xs               = Eql (Length xs) 1n
+
+Test_filter2 : Equal (Filter (x =&gt; Length_is_one x) ([[1],[1,2],[3],[1,2,3],[21]])) ([[1],[3],[21]])
+Test_filter2 = Equal.refl</code></pre>
+<p>Podemos usar filter para fornecer uma versão concisa da função Countoddmembers do capítulo Listas.</p>
+<pre><code class="language-rust ignore">CountOddMembers (xs: List Nat) : Nat
+CountOddMembers xs             = Length (Filter (x =&gt; Oddb x) xs)
+
+Test_CountOddMembers1 : Equal (CountOddMembers  [1n,0n,3n,1n,4n,5n]) 4n
+Test_CountOddMembers1 = Equal.refl
+
+Test_CountOddMembers2 : Equal (CountOddMembers  [0n 2n,4n]) 0n
+Test_CountOddMembers2 = Equal.refl
+
+Test_CountOddMembers3 : Equal (CountOddMembers []) 0n
+Test_CountOddMembers3 = Equal.refl</code></pre>
+<h3 id="funções-anônimas"><a class="header" href="#funções-anônimas">Funções anônimas</a></h3>
+<p>É indiscutivelmente um pouco triste, no exemplo acima, ser forçado a definir a função <em>Length_is_one</em> e dar-lhe um nome apenas para poder passá-la como um argumento para filtrar, já que provavelmente nunca a usaremos novamente.
+Além disso, este não é um exemplo isolado: ao usar funções de ordem superior, muitas vezes queremos passar como argumentos funções “únicas” que nunca mais usaremos; ter que dar um nome a cada uma dessas funções seria tedioso.
+Felizmente, existe uma maneira melhor. Podemos construir uma função “on the fly” sem declará-la no nível superior ou dar-lhe um nome.</p>
+<pre><code class="language-rust ignore">Test_anon_fun : Equal (Doit3times (x =&gt; (Mult x x)) 2n) 256n
+Test_anon_fun = Equal.refl</code></pre>
+<p>A expressão <code>x =&gt; (Mult x x)</code> pode ser lida como <em>a função recebe um número <code>n</code> e retorna <code>n * n</code></em></p>
+<p>Aqui está o exemplo de <em>Filter</em> reescrita pra usar uma função anonima:</p>
+<pre><code class="language-rust ignore">Test_filter2 : Equal (Filter (x =&gt; (Length_is_one x)) [[1],[1,2],[2],[1,2,3],[21]]) [[1],[2],[21]]
+Test_filter2 = Equal.refl
+</code></pre>
+<h4 id="filter_even_gt7"><a class="header" href="#filter_even_gt7">Filter_even_gt7</a></h4>
+<p>Use <em>Filter</em> com funções anônimas (em vez de definição de função) para escrever uma função <code>Filter_even_gt7</code> que recebe uma lista de números naturais como entrada e retorna uma lista apenas daqueles que são pares e maiores que 7.</p>
+<pre><code class="language-rust ignore">Filter_even_gt7 (xs: List Nat) : List Nat
+Filter_even_gt7 xs = ?
+
+Test_filter_even_gt7a: Equal (Filter_even_gt7 [1n,2n,3n,4n,5n,7n,8n,9n,10n,11n,12n]) [8n,10n,12n]
+Test_filter_even_gt7a = ?
+
+Test_filter_even_gt7b : Equal (Filter_even_gt7 [5n, 2n, 6n, 19n, 129n]) []
+Test_filter_even_gt7b = ?</code></pre>
+<p>Uma pequena observação, o leitor mais atento percebeu que usamos uma nova notação, os <em>n</em> após os números, esse é um <em>sugar syntax</em> que o <em>Kind</em> possui, nós podemos escrever números naturais apenas acrescentando um <em>n</em> ao número, entretanto essa é uma sintaxe que pode acabar pesando para Kind. Imagine que o usuário pretende apenas adicionar o número <em>1</em> ao <em>1000000</em>, é um cálculo simples e que o Kind faz com uma mão nas costas, mas fica um pouco mais pesado quando usado o <em>sugar syntax</em> dos números naturais, a soma será um <code>Plus 1n 1000000n</code>, mas o <em>Kind</em> precisará verificar cada <em>Nat.succ</em> até o <em>um milhão e um</em>, ou seja, serão <em>um milhão e um</em> &quot;Nat.succ&quot; computados de forma desnecessárias. Essa sintaxe é bem útil, mas devemos usar com cuidado, o ideal é que para números grandes seja usado um <em>U60.to_nat</em>, que é bem mais leve para o Kind.</p>
+<h4 id="partition"><a class="header" href="#partition">Partition</a></h4>
+<p>Use <em>Filter</em> para escrever uma função <em>Partition</em> em <em>Kind</em></p>
+<pre><code class="language-rust ignore">Partition &lt;x&gt; (test: x -&gt; Bool) (xs: List x) : Pair (List x) (List x)
+Partition test xs = ?</code></pre>
+<p>Dado um conjunto x, uma função de teste do tipo x -&gt; Bool e uma Lista x, a função Partition deve retornar um par de listas. O primeiro membro do par é a sub-lista da lista original contendo os elementos que satisfazem o teste, e o segundo é a sub-lista contendo aqueles que falham no teste. A ordem dos elementos nas duas sub-listas deve ser a mesma da lista original.</p>
+<pre><code class="language-rust ignore">Test_partition1 : Equal (Partition (x =&gt; Oddb x) [1n,2n,3n,4n,5n]) (Pair.new [1n,3n,5n] [2n,4n])
+Test_partition1 = ?
+
+Test_partition2 : Equal (Partition (x =&gt; Bool.false) [5n, 9n, 0n]) (Pair.new [] [5n, 9n, 0n])
+</code></pre>
+<h3 id="map"><a class="header" href="#map">Map</a></h3>
+<p>Outra função de alta ordem muito útil é a <em>Map</em></p>
+<pre><code class="language-rust ignore">Map &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (xs: List x)  : List y
+Map f List.nil                        = List.nil
+Map f (List.cons head tail)           = List.cons (f head) (Map f tail)</code></pre>
+<p>Ela recebe uma função <code>f</code> e uma lista <code>xs = [n1, n2, n3, ...]</code> e retorna a lista <code>[f n1, f n2, f n3, ...]</code>, onde <code>f</code> é aplicado a cada elemento de <code>xs</code>. Por exemplo:</p>
+<pre><code class="language-rust ignore">Test_map1 : Equal (Map (x =&gt; Plus 3n x) [2n, 0n, 2n]) [5n, 3n, 5n]
+Test_map1 = Equal.refl</code></pre>
+<p>Os tipos de elementos da lista de entrada e saída não precisam ser os mesmos, pois <em>Map</em> aceita dois argumentos de tipo, <code>x</code> e <code>y</code>; dessa forma pode ser aplicada uma de números para booleanos para produzir uma lista de booleanos:</p>
+<pre><code class="language-rust ignore">
+Test_map2 : Equal (Map (x =&gt; Nat.is_odd x) [2n, 1n, 2n, 5n]) [Bool.false, Bool.true, Bool.false, Bool.true]
+Test_map2 = Equal.refl</code></pre>
+<p>Pode até ser aplicada a uma lista de números uma função que retorne uma lista de lista de booleanos:</p>
+<pre><code class="language-rust ignore">Test_map3 = Equal (Map (x =&gt; [(Nat.is_even x), (Nat.is_odd x)]) [2n, 1n, 2n, 5n]) [[Bool.true, Bool.false], [Bool.false, Bool.true], [Bool.true, Bool.false], [Bool.false, Bool.true]]
+Test_map3 = Equal.refl</code></pre>
+<h4 id="map_rev"><a class="header" href="#map_rev">Map_rev</a></h4>
+<p>Vamos dificultar um pouco mais as coisas. Mostre a comutatividade de Rev e Map, você pode precisar de uma função auxiliar:</p>
+<pre><code class="language-rust ignore">Map_rev &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (xs: List x) : Equal (Map f (Rev xs)) (Rev (Map f xs))
+Map_rev f xs = ?</code></pre>
+<h4 id="flat_equal"><a class="header" href="#flat_equal">Flat_equal</a></h4>
+<p>A função <em>Map</em> mapeia uma <code>List x</code> para uma <code>List y</code> usando uma função do tipo <code>x -&gt; y</code>. Podemos definir uma função semelhante, <code>Flat_map</code>, que mapeia uma Lista x para uma Lista y usando uma função f do tipo <code>x -&gt; Lista y</code>. Sua definição deve funcionar &quot;achatando&quot; os resultados de f, assim:</p>
+<pre><code class="language-rust ignore">Flat_equal : Equal (Flat_map ( x =&gt; ([x , (Plus x 1n), (Plus x 2n)])) [1n, 5n, 10n]) [1n, 2n, 3n, 5n, 6n, 7n, 10n, 11n, 12n]
+Flat_equal = Equal.refl
+
+Flat_map &lt;x&gt; &lt;y&gt; (f: x -&gt; List y) (xs: List x) : List y
+Flat_map f xs = ?
+
+Test_flat_map1 : Equal (Flat_map (x =&gt; [x, x, x]) [1n, 5n, 4n]) [1n, 1n, 1n, 5n, 5n, 5n, 4n, 4n, 4n]
+Test_flat_map1 = ?</code></pre>
+<p>As listas não são o único tipo indutivo para o qual podemos escrever uma função <em>Map</em>. Aqui está a definição de mapa para o tipo Maybe:</p>
+<pre><code class="language-rust ignore">Maybe_map &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (a: Maybe x)  : Maybe y
+Maybe_map f Maybe.none                      = Maybe.none
+Maybe_map f (Maybe.some x)                  = Maybe.some (f x)</code></pre>
+<h3 id="fold"><a class="header" href="#fold">Fold</a></h3>
+<p>Uma função de ordem superior ainda mais poderosa é chamada <em>Fold</em>. Esta função é a inspiração para a operação “reduce” que está no coração da estrutura de programação distribuída map/reduce do Google.</p>
+<pre><code class="language-rust ignore">Fold &lt;x&gt; &lt;y&gt; (f: x -&gt; y -&gt; y) (xs: List x) (a: y)   : y
+Fold f List.nil a                                   = a
+Fold f (List.cons head tail) a                      = f head (Fold f tail a)
+
+Test_fold1 : Equal (Fold (x =&gt; y =&gt; (Bool.and x y)) [Bool.true, Bool.true, Bool.false] Bool.false) Bool.false
+Test_fold1 = ?
+
+Test_fold2 : Equal (Fold (x =&gt; y =&gt; (* x y)) [1, 2, 3, 4] 1) 24
+Test_fold2 = ?
+
+Test_fold3 : Equal (Fold (x =&gt; y =&gt; (Concat x y)) [[1], [], [2, 3], [], [4]] [5, 6, 7]) [1, 2, 3, 4, 5, 6, 7]
+Test_fold3 = ?</code></pre>
+<h4 id="fold_types_different"><a class="header" href="#fold_types_different">Fold_types_different</a></h4>
+<p>Observe que o tipo <em>Fold</em> é parametrizado por duas variáveis de tipo, x e y, e o parâmetro f é um operador binário que recebe um x e um y e retorna um y. Você consegue pensar em uma situação em que seria útil que x e y fossem diferentes?</p>
+<h3 id="funções-que-constroem-funções"><a class="header" href="#funções-que-constroem-funções">Funções que constroem funções</a></h3>
+<p>A maioria das funções de ordem superior sobre as quais falamos até agora usam funções como argumentos. Vejamos alguns exemplos que envolvem o retorno de funções como resultados de outras funções. Para começar, aqui está uma função que recebe um valor x (extraído de algum tipo x) e retorna uma função de Nat para x que retorna x sempre que é chamada, ignorando seu argumento Nat</p>
+<pre><code class="language-rust ignore">Constfun &lt;y&gt; (x: y) : Nat -&gt; y
+Constfun x = y =&gt; x</code></pre>
+<pre><code class="language-rust ignore">Ftrue : Nat -&gt; Bool
+Ftrue = Constfun Bool.true</code></pre>
+<pre><code class="language-rust ignore">Constfun_example1 : Equal ((Ftrue) 0n) Bool.true
+Constfun_example1 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Constfun_example2 : Equal ((Constfun 5n) 99n) 5n
+Constfun_example2 = Equal.refl</code></pre>
+<!-- Na verdade, as funções de múltiplos argumentos que já vimos também são exemplos de passagem de funções como dados. Para ver por que, lembre-se do tipo de adição -->
+<!-- [>  <] -->
+<!-- [> # TODO: <] -->
+<!-- [>  <] -->
+<!-- ```rust,ignore -->
+<!-- Plus Nat -> Nat : Nat -->
+<!-- ``` -->
+<!-- [> Cada "->" nesta expressão é, na verdade, um operador binário em tipos. Este operador é associativo à direita, então o tipo de Plus é realmente uma abreviação para (Nat -> Nat) -> Nat – ou seja, pode ser lido como dizendo que “Plus é uma função de um argumento que pega um Nat e retorna uma função de um argumento que pega outro Nat e retorna um Nat.” Nos exemplos acima, sempre aplicamos mais a ambos os argumentos ao mesmo tempo, <] -->
+<!-- [> mas se quisermos, podemos fornecer apenas o primeiro. Isso é chamado de aplicação parcial <] -->
+<!-- [>  <] -->
+<!-- [> # fim to todo <] -->
+<!--  -->
+<pre><code class="language-rust ignore">Plus3 : Nat -&gt; Nat
+Plus3 = n =&gt; Plus 3n n</code></pre>
+<pre><code class="language-rust ignore">Test_plus3_1 : Equal ((Plus3) 4n) 7n
+Test_plus3_1 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Test_plus3_2 : Equal (Doit3times (Plus3) 0n) 9n
+Test_plus3_2 = Equal.refl</code></pre>
+<pre><code class="language-rust ignore">Test_plus3_3 : Equal (Doit3times (x =&gt; Plus 3n x) 0n) 9n
+Test_plus3_3 = Equal.refl</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="exercícios-adicionais"><a class="header" href="#exercícios-adicionais">Exercícios adicionais</a></h2>
+<p>Muitas funções comuns em listas podem ser implementado em termos de <em>Fold</em>. Por exemplo, aqui está uma definição alternativa de comprimento:</p>
+<pre><code class="language-rust ignore">Fold_length &lt;x&gt; (xs: List x) : Nat
+Fold_length xs = Fold (x =&gt; y Nat.succ y) xs 0n</code></pre>
+<pre><code class="language-rust ignore">Test_fold_length1 : Equal (Fold_length [4, 7, 0]) 3n
+Test_fold_length1 = Equal.refl</code></pre>
+<p>Prove a validade de <em>Fold_length</em>:</p>
+<pre><code class="language-rust ignore">Fold_length_correct &lt;x&gt; (xs: List x) : Equal (Fold_length xs) (List.length xs)
+Fold_length_correct xs = ?</code></pre>
+<p>Nós também podemos definir <em>Map</em> nos termos de <em>Fold</em>. Termine a função:</p>
+<pre><code class="language-rust ignore">Fold_map &lt;x&gt; &lt;y&gt; (f: x -&gt; y) (xs: List x) : List y
+Fold_map f xs = ?</code></pre>
+<p>Escreva um teorema fold_map_correct em Kind declarando que <em>Fold_map</em> está correto e prove isso:</p>
+<pre><code class="language-rust ignore">Fold_map_correct : ?</code></pre>
+<p>No Kind, uma função <code>f: a -&gt; b -&gt; c</code> realmente tem o tipo <code>a -&gt; (b -&gt; c)</code>. Ou seja, se você der a f um valor do tipo <code>a</code>, ele fornecerá a função <code>g: b -&gt; c</code>. Se você der a ´g´ um valor do tipo ´b´, ele retornará um valor do tipo ´c´. Isso permite a aplicação parcial, como em <code>Plus3</code>. Processar uma lista de argumentos com funções que retornam funções é chamado de currying, em homenagem ao lógico Haskell Curry.</p>
+<p>Por outro lado, podemos reinterpretar a função <code>f: a -&gt; b -&gt; c</code> como <code>(Pair a b) -&gt; c</code>. Isso é chamado de uncurrying. Com uma função binária uncurry, ambos os argumentos devem ser fornecidos ao mesmo tempo como um par; não há aplicação parcial.</p>
+<p>Podemos definir o curry da seguinte forma:</p>
+<pre><code class="language-rust ignore">Pair_curry &lt;x&gt; &lt;y&gt; &lt;z&gt; (f: (Pair x y) -&gt; z) (x_val: x) (y_val: y) : z 
+Pair_curry f x_val y_val = ?</code></pre>
+<p>Como exercício, defina seu inverso, <code>Pair_uncurry</code>. Em seguida, prove os teoremas abaixo para mostrar que os dois são inversos.</p>
+<pre><code class="language-rust ignore">Pair_uncurry &lt;x&gt; &lt;y&gt; &lt;z&gt; (f: x -&gt; y -&gt; z) (p: Pair x y) : z
+Pair_uncurry f p = ?</code></pre>
+<p>Como um exemplo (trivial) da utilidade do curry, podemos usá-lo para encurtar um dos exemplos que vimos acima:</p>
+<pre><code class="language-rust ignore">Test_map2 : Equal (Map (x =&gt; Plus 3n x) [2n,0n,2n]) [5n,3n,5n]
+Test_map2 = Equal.refl</code></pre>
+<p>Exercício de reflexão: antes de executar os comandos a seguir, você pode calcular os tipos de
+Pair_curry e Pair_uncurry?</p>
+<pre><code class="language-rust ignore">Uncurry_curry &lt;x&gt; &lt;y&gt; &lt;z&gt; (f: x -&gt; y -&gt; z) (x_val: x) (y_val: y) : 
+   Equal z (Pair_curry (p =&gt; Pair_uncurry f p) x_val y_val) (f x_val y_val)
+Uncurry_curry f x_val y_val = ?</code></pre>
+<pre><code class="language-rust ignore">Curry_uncurry &lt;x&gt; &lt;y&gt; &lt;z&gt; (f:(Pair x y) -&gt; z) (p: Pair x y) : 
+   Equal z (Pair_uncurry (x =&gt; y =&gt; Pair_curry f x y) p) (f p)
+Curry_uncurry f p = ?</code></pre>
+<p>Lembre-se da definição da função Nth_error<code>(Nth_error_informal)</code>:</p>
+<pre><code class="language-rust ignore">Nth_error_informal &lt;x&gt; (l: List x) (n: Nat) : Maybe x
+Nth_error_informal List.nil n = Maybe.none 
+Nth_error_informal (List.cons head tail) Nat.zero = Maybe.some head 
+Nth_error_informal (List.cons head tail) (Nat.succ n) = Nth_error tail n</code></pre>
+<p>Escreva uma prova informal do seguinte teorema:</p>
+<pre><code class="language-rust ignore">Nat -&gt; List -&gt; (Equal (Length List) Nat) : Equal (Nth_error_informal List Nat) Maybe.none</code></pre>
+<p>Nós podemos explorar uma forma alternativa de definir os números naturais, usando os <em>Numerais de Church</em>, nomeado em homenagem ao matemático Alonzo Church. Podemos representar um número natural n como uma função que recebe uma função <code>s</code> como parâmetro e retorna <code>s</code> iterado n vezes.</p>
+<pre><code class="language-rust ignore">Num &lt;x&gt; : Type
+Num x = (x -&gt; x) -&gt; x -&gt; x</code></pre>
+<p>Vamos ver como escrever alguns números com esta notação. Iterar uma função uma vez deve ser o mesmo que apenas aplicá-la. Desta forma:</p>
+<pre><code class="language-rust ignore">One : Num
+One = s =&gt; z =&gt; s z </code></pre>
+<p>Perceba, a função aplica um <code>s</code> a um <code>z</code>, se lermos o <code>s</code> como <em>sucessor</em> e o <code>z</code> como <em>zero</em>, temos que o <em>One</em> é igual ao <em>sucessor de zero</em>.</p>
+<p>Similarmente, o <em>Two</em> aplica a função <code>s</code> duas vezes ao <code>z</code>:</p>
+<pre><code class="language-rust ignore">Two : Num
+Two = s =&gt; z =&gt; s (s z)</code></pre>
+<p>Definir zero é um pouco mais complicado: como podemos “aplicar uma função zero vezes”? A resposta é realmente simples: basta retornar o argumento intocado.</p>
+<pre><code class="language-rust ignore">Zero : Num
+Zero = s =&gt; z =&gt; z</code></pre>
+<p>Mais geralmente, um número n pode ser escrito como <code>s =&gt; z =&gt; s (s ... (s z) ...)</code>, com n ocorrências de <code>s</code>. Observe em particular como a função doit3times que definimos anteriormente é, na verdade, apenas a representação de Church do 3.</p>
+<pre><code class="language-rust ignore">Three : Num
+Three = s =&gt; z =&gt; Doit3times s z</code></pre>
+<p>Complete as definições das seguintes funções. Certifique-se de que os testes unitários correspondentes sejam aprovados, provando-os com <em>Equal.refl</em></p>
+<h4 id="sucessor"><a class="header" href="#sucessor">Sucessor</a></h4>
+<p>Sucessor de um número natural:</p>
+<pre><code class="language-rust ignore">Succ (n: Num) : Num
+Succ n = ?
+
+Succ_1 : Equal (Succ Zero) (One)
+Succ_1 = ?
+
+Succ_2 : Equal (Succ One) (Two)
+Succ_2 = ?
+
+Succ_3 : Equal (Succ Two) (Three)
+Succ_3 = ?</code></pre>
+<h4 id="adição"><a class="header" href="#adição">Adição</a></h4>
+<p>Adição de dois números naturais:</p>
+<pre><code class="language-rust ignore">Plus (n: Num) (n: Num) : Num
+Plus n m = ?
+
+Plus_1 : Equal (Plus One Zero) (One)
+Plus_1 = ?
+
+Plus_2 : Equal (Plus Two One) (Plus One Two)
+Plus_2 = ?
+
+Plus_3 : Equal (Plus (Plus Two Two) Three) (Plus One (Plus Three Three))
+Plus_3 = ?</code></pre>
+<h4 id="multiplicação"><a class="header" href="#multiplicação">Multiplicação</a></h4>
+<pre><code class="language-rust ignore">Mult (n: Num) (m: Num) : Num
+Mult n m = ?
+
+Mult_1 : Equal (Mult One One) One
+Mult_1 = ?
+
+Mult_2 : Equal (Mult Zero (Plus Three Three)) Zero
+Mult_2 = ?
+
+Mult_3 : Equal (Mult Two Three) (Plus Three Three)
+Mult_3 = ?</code></pre>
+<h4 id="exponenciação"><a class="header" href="#exponenciação">Exponenciação</a></h4>
+<p>Não é possível fazê-lo funcionar com <code>Exp (n: Num) (m: Num) : Num</code>. O polimorfismo desempenha um papel crucial aqui. No entanto, escolher o tipo certo para iterar pode ser complicado. Se você encontrar um erro de &quot;inconsistência&quot;, tente iterar em um tipo diferente: o próprio Num geralmente é problemático.</p>
+<pre><code class="language-rust ignore">Exp (n: Num) (m: Num -&gt; Num) : Num
+Exp n m = ?
+
+Exp_1 : Equal (Exp Two Two) (Plus Two Two)
+Exp_1 = ?
+
+Exp_2 : Equal (Exp Three Two) (Plus (Mult Two (Mult Two Two)) One)
+Exp_2 = ?
+
+Exp_3 : Equal (Exp Three Zero) One
+Exp_3 = ?</code></pre>
+<h4 id="predecessor"><a class="header" href="#predecessor">Predecessor</a></h4>
+<pre><code class="language-rust ignore">Pred (n: Num -&gt; Num) : Num
+Pred n = ?
+
+Pred_1 : Equal (Pred Zero) (Zero)
+Pred_1 = ?
+
+Pred_2 : Equal (Pred Two) (One)
+Pred_2 = ?
+
+Pred_3 : Equal (Pred Three) (Two)
+Pred_3 = ?</code></pre>
+<h4 id="subtração"><a class="header" href="#subtração">Subtração</a></h4>
+<pre><code class="language-rust ignore">Sub (n: Num) (m: Num) : Num
+Sub n m = ?
+
+Sub_1 : Equal (Sub One Zero) (One)
+Sub_1 = ?
+
+Sub_2 : Equal (Sub Two Two) (Sub One One)
+Sub_2 = ?
+
+Sub_3 : Equal (Sub Three One) Two
+Sub_3 = ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lógica-em-kind"><a class="header" href="#lógica-em-kind">Lógica em Kind</a></h1>
+<p>Nos capítulos anteriores, vimos muitos exemplos de afirmações factuais (proposições) e formas de apresentar evidências de sua veracidade (provas). Em particular, trabalhamos extensivamente com proposições de igualdade da forma <em>e1 = e2</em>, com implicações <em>(p -&gt; q)</em>, e com proposições quantificadas <em>(x -&gt; P(x))</em>. Neste capítulo, veremos como Kind pode ser usado para realizar outras formas familiares de raciocínio lógico.</p>
+<p>Antes de mergulhar nos detalhes, vamos falar um pouco sobre o status das declarações matemáticas em Kind. Lembre-se de que Kind é uma linguagem tipada, o que significa que toda expressão sensível em seu mundo tem um tipo associado. As afirmações lógicas não são exceção: qualquer afirmação que possamos tentar provar em Kind tem um tipo, ou seja, Type, o tipo de proposições. Podemos ver isso com o tipo <em>Booleano</em>:</p>
+<pre><code class="language-rust ignore">Bool: Type
+Bool.true  : Bool
+Bool.false : Bool</code></pre>
+<p>No tipo <em>Bool</em> nós temos o Bool.<strong>true</strong> e o Bool.<strong>false</strong>. Para criar o
+tipo Bool nós declaramos que ele é um tipo (Type) e depois que o
+Bool.<strong>true</strong> e o Bool.<strong>false</strong> são do tipo Bool. Vendo como é, fica bem
+mais simples. Muitas vezes nos assombramos ao ver o nome &quot;funcional&quot;, mas
+Kind é uma linguagem muito amigável, veremos bem sobre isso mais para a
+frente.</p>
+<p>Outro exemplo possível é o <em>Nat</em>, dos números naturais. Números
+naturais são todos os números inteiros maiores ou igual a zero. Ou seja, eles começam com o número zero e vão até o infinito, mas não possuem valores decimais. Ou seja, o <strong>3</strong> é um número natural, mas o <strong>3,14</strong> não é, da mesma forma que o <strong>-3</strong> também não é. Então sabemos que o número natural é feito de <em>zero</em> e dos <em>sucessores</em> dele. Vamos ver como isso é no kind:</p>
+<pre><code class="language-rust ignore">Nat: Type
+Nat.zero             : Nat
+Nat.succ (pred: Nat) : Nat</code></pre>
+<p>Percebemos que a construção é similar aos <em>Booleanos</em>, mas há um
+elemento extra no Nat.<strong>succ</strong>, que é o &quot;(pred: Nat)&quot;, e isso se deve ao
+fato de que, enquanto no outro nós tínhamos apenas duas opções de retorno
+(<em>True</em> ou <em>False</em>), agora temos uma infinidade de números que o código
+precisa compreender, além de que deve haver uma forma do código parar de rodar
+(veremos mais sobre isso ao decorrer desse estudo), uma vez que um código que
+nunca para de rodar é um código que nunca nos dará o resultado.</p>
+<p>Porém, de qualquer forma, percebemos que a estrutura do <strong>Nat</strong> é basicamente
+a mesma do <strong>Bool</strong>, isso nos mostra que podemos criar qualquer tipo,
+desde que sigamos a mesma estrutura. Vamos criar o tipo suco:</p>
+<pre><code class="language-rust ignore">Suco : Type
+Suco.laranja : Suco
+Suco.caju    : Suco</code></pre>
+<p>O suco de laranja possui dois construtores, o Suco.<strong>laranja</strong> e o
+Suco.<strong>caju</strong>. Esse tipo é fictício, ele não existia até então, mas agora
+podemos usar ele como um tipo e isso nos mostra que, graças ao design do Kind,
+podemos criar uma infinidade de tipos, pois todo tipo é uma função.</p>
+<p>Entender a construção dos <em>tipos</em> impedirá que alguns erros de sintaxe ocorram.</p>
+<p>Apenas revisando, nosso elemento <em>Suco</em> é do tipo <em>Type</em> e o Suco.<strong>laranja</strong> é do tipo <em>Suco</em>. Desta forma, em termos leigos, temos que o elemento fica a direita dos dois pontos e o tipo a esquerda</p>
+<p><code>elemento : Tipo</code></p>
+<p>Como dito antes, até mesmo os tipos são funções, logo podemos ter uma função
+como tipo. Por exemplo:</p>
+<pre><code class="language-rust ignore">Problema : (Equal Bool Bool.true Bool.true</code></pre>
+<p>Podemos perceber que temos um elemento chamado &quot;Problema&quot; e ele é do
+tipo &quot;(Equal Bool Bool.true Bool.true)&quot;. Nós já vimos essa estrutura diversas vezes nos últimos capítulos e agora é fácil entender que essa função é um tipo e, da mesma forma que <strong>não escrevemos</strong></p>
+<pre><code class="language-rust ignore">Suco: Type
+Suco.laranja : Type</code></pre>
+<p><strong>Não podemos</strong> simplesmente copiar a função para os construtores desse tipo.
+O <em>Suco</em> é tipo <em>Type</em>, mas o <em>Suco</em>.<strong>laranja</strong> não é do tipo <em>Type</em>, ele é
+do tipo <em>Suco</em>.</p>
+<p>Mas atenção, observe que todas as proposições sintaticamente bem formadas têm o tipo Type em Kind, independentemente de serem verdadeiras ou não. Simplesmente ser uma proposição é uma coisa; ser demonstrável é outra coisa!</p>
+<p>De fato, as proposições não têm apenas tipos: elas são objetos de primeira classe que podem ser manipulados da mesma forma que as outras entidades no mundo de Kind. Até agora, vimos um local primário onde as proposições podem aparecer: nas assinaturas de tipo das funções.</p>
+<pre><code class="language-rust ignore">Plus_2_2_is_4 : Equal (Plus 2n 2n) 4n
+Plus_2_2_is_4 = Equal.refl</code></pre>
+<p>Mas as proposições podem ser usadas de muitas outras maneiras. Por exemplo, podemos dar um nome a uma proposição como um valor próprio, assim como demos nomes a expressões de outros tipos.</p>
+<pre><code class="language-rust ignore">Plus_fact : Type
+Plus_fact = Equal (Plus 2n 2n) 4n</code></pre>
+<p>Posteriormente, podemos usar esse nome em qualquer situação em que uma proposição seja esperada – por exemplo, em uma declaração de função.</p>
+<pre><code class="language-rust ignore">Plus_fact_is_true : Plus_fact
+Plus_fact_is_true = Equal.refl</code></pre>
+<p>Também podemos escrever proposições parametrizadas – isto é, funções que recebem argumentos de algum tipo e retornam uma proposição. Por exemplo, a seguinte função pega um número e retorna uma proposição afirmando que esse número é igual a três:</p>
+<pre><code class="language-rust ignore">Is_three (n: Nat) : Type
+Is_three n = Equal Nat n 3n</code></pre>
+<p>Em Kind, diz-se que funções que retornam proposições definem propriedades de seus argumentos.
+Por exemplo, aqui está uma propriedade (polimórfica) que define a noção familiar de uma função injetiva</p>
+<pre><code class="language-rust ignore">Injective &lt;a&gt; &lt;b&gt; (f: a -&gt; b) : Type
+Injective a b f = (x: a) -&gt; (y: a) -&gt; (e: Equal b (f x) (f y)) -&gt; (Equal a x y)</code></pre>
+<p>Nós podemos instanciar uma regra de injetividade com</p>
+<pre><code class="language-rust ignore">Nat.succ_injective : Injective ((x: Nat) =&gt; Nat.succ x)
+Nat.succ_injective =
+  (a: Nat) =&gt;
+  (b: Nat) =&gt;
+  (e: Equal Nat (Nat.succ a) (Nat.succ b)) =&gt;
+  Equal.apply (x =&gt; Nat.pred x) e</code></pre>
+<!-- e criar tipos que precisam de injetividade com
+
+```rust,ignore
+type Injective <a: Type> <b: Type> (f: a -> b) {
+  new (p: Nat.succ_injective f)
+}
+
+InjectiveNat : Injective (n => Nat.succ n)
+InjectiveNat = Injective.new Nat.succ_injective
+``` -->
+<div style="break-before: page; page-break-before: always;"></div><h2 id="conectivos-lógicos"><a class="header" href="#conectivos-lógicos">Conectivos Lógicos</a></h2>
+<h3 id="conjunção"><a class="header" href="#conjunção">Conjunção</a></h3>
+<p>A conjunção (ou lógico <em>e</em>) em kind recebe duas proposições <em>a</em> e <em>b</em>, que devem retornar um valor <em>booleano</em> <code>true</code> ou <code>false</code>.</p>
+<pre><code class="language-rust ignore">Bool.and (a: Bool) (b: Bool) : Bool
+Bool.and Bool.true  b = b
+Bool.and Bool.false b = Bool.false</code></pre>
+<p>Se <em>a</em> é verdadeiro, basta apenas retornar o valor de <em>b</em>, agora se o <em>a</em> for falso, não há a necessidade de verificar o valor do segundo elemento.</p>
+<p>Por se tratar de um caso limitado (há apenas duas opções) dá para verificar com uma prova simples:</p>
+<pre><code class="language-rust ignore">ConjuntiveBool : Equal Bool (Bool.and Bool.true Bool.false) Bool.false
+ConjuntiveBool = Equal.refl</code></pre>
+<h4 id="and_exercise"><a class="header" href="#and_exercise">And_exercise</a></h4>
+<pre><code class="language-rust ignore">And_exercise : Pair (Equal (Plus 3n 4n) 7n) (Equal (Mult 2n 2n) 4n)
+And_exercise = ?</code></pre>
+<p>Tanto para provar declarações conjuntivas. Para ir na outra direção – ou seja, usar uma hipótese conjuntiva para ajudar a provar outra coisa – empregamos o pattern matching.
+Se o contexto de prova contiver uma hipótese h da forma (a,b), a divisão de caso irá substituí-la por um padrão de pares (a,b).</p>
+<pre><code class="language-rust ignore">And_example2 (n: Nat) (m: Nat) (e: Pair (Equal n 0n) (Equal m 0n)) : Equal (Plus n m ) 0n
+And_example2 Nat.zero Nat.zero e        = Equal.refl
+And_example2 Nat.zero (Nat.succ m ) e   = 
+    let p = (Equal.rewrite
+    (Pair.snd e)
+    (x =&gt; match Nat x {
+        zero =&gt; Empty
+        succ =&gt; Unit
+    })
+    (Unit.new))
+    Empty.absurd p
+And_example2 (Nat.succ n) m e           =
+    let p = (Equal.rewrite
+    (Pair.fst e)
+    (x =&gt; match Nat x {
+        zero =&gt; Empty
+        succ =&gt; Unit 
+    })
+    (Unit.new))
+    Empty.absurd p</code></pre>
+<p>Você pode se perguntar por que nos preocupamos em agrupar as duas hipóteses n = 0 e m = 0 em uma única conjunção, já que também poderíamos ter declarado o teorema com duas premissas separadas:</p>
+<pre><code class="language-rust ignore">And_example2a (n: Nat) (m: Nat) (e1: Equal n 0n) (e2: Equal m 0n) : Equal (Plus n m) 0n
+And_example2a Nat.zero Nat.zero e1 e2        = Equal.refl
+And_example2a Nat.zero (Nat.succ m ) e1 e2   = 
+    let p = (Equal.rewrite
+    (e2)
+    (x =&gt; match Nat x {
+        zero =&gt; Empty
+        succ =&gt; Unit
+    })
+    (Unit.new))
+    Empty.absurd p
+And_example2a (Nat.succ n) m e1 e2           =
+    let p = (Equal.rewrite
+    (e1)
+    (x =&gt; match Nat x {
+        zero =&gt; Empty
+        succ =&gt; Unit 
+    })
+    (Unit.new))
+    Empty.absurd p
+</code></pre>
+<p>Para este teorema, ambas as formulações são adequadas. Mas é importante entender como trabalhar com hipóteses conjuntivas porque as conjunções geralmente surgem de etapas intermediárias em provas, especialmente em desenvolvimentos maiores. Aqui está um exemplo simples:</p>
+<pre><code class="language-rust ignore">And_example3 (n: Nat) (m: Nat) (e: Equal (Plus n m) 0n) : Equal (Mult n m) 0n
+And_example3 Nat.zero m e =  Equal.refl
+And_example3 (Nat.succ n) m e =
+    let p = (Equal.rewrite 
+        (e)
+        (x =&gt; match Nat x {
+            zero =&gt; Empty 
+            succ =&gt; Unit                      
+        })
+        (Unit.new))
+    Empty.absurd p</code></pre>
+<p>Outra situação comum com conjunções é que sabemos (a,b), mas em algum contexto precisamos apenas de a (ou apenas b). Os seguintes teoremas são úteis em tais casos:</p>
+<pre><code class="language-rust ignore">Proj1 &lt;p&gt; &lt;q&gt; (a: Pair p q) : p
+Proj1 (Pair.new fst snd)    = fst</code></pre>
+<h4 id="proj2"><a class="header" href="#proj2">Proj2</a></h4>
+<pre><code class="language-rust ignore">Proj2 &lt;p&gt; &lt;q&gt; (b: Pair p q) : q
+Proj2 (Pair.new fst snd)    = ?</code></pre>
+<p>Por fim, às vezes precisamos reorganizar a ordem das conjunções e/ou agrupar as conjunções de múltiplas vias. Os seguintes teoremas de comutatividade e associatividade são úteis em tais casos.</p>
+<pre><code class="language-rust ignore">And_commut &lt;p&gt; &lt;q&gt; (c: Pair p q) : Pair q p
+And_commut (Pair.new fst snd)    = Pair.new snd fst</code></pre>
+<h4 id="and_assoc"><a class="header" href="#and_assoc">And_assoc</a></h4>
+<pre><code class="language-rust ignore">And_assoc &lt;p&gt; &lt;q&gt; &lt;r&gt; (a: Pair p (Pair q r))  : Pair (Pair p q) r
+And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?</code></pre>
+<h3 id="disjunção"><a class="header" href="#disjunção">Disjunção</a></h3>
+<p>Outro conectivo importante é a disjunção, ou lógico, de duas proposições:
+<code>Either</code> a b é verdadeiro quando a ou b é. O primeiro caso foi marcado com <em>left</em> e o segundo com <em>right</em>.
+Para usar uma hipótese disjuntiva em uma prova, procedemos pela análise de caso, que, como para Nat ou outros tipos de dados, pode ser feita com correspondência de padrões. Aqui está um exemplo:</p>
+<pre><code class="language-rust ignore">Or_example (n: Nat) (m: Nat) (e: (Either (Equal n 0n) (Equal m 0n))) : Equal (Mult n m) 0n
+Or_example Nat.zero m e     = Equal.refl
+Or_example n Nat.zero e     = Mult_0_r n
+Or_example (Nat.succ n) m (Either.left l r val) = 
+    let p = (Equal.rewrite
+        (val)
+        ( x =&gt; match Nat x {
+            zero =&gt; Empty 
+            succ =&gt; Unit            
+        })
+        (Unit.new))
+    Empty.absurd p
+Or_example (Nat.succ n) (Nat.succ m) (Either.right l r val) = 
+    let p = (Equal.rewrite 
+        (val)
+        ( x =&gt; match Nat x {
+            zero =&gt; Empty
+            succ =&gt; Unit                   
+        })
+        (Unit.new))
+Empty.absurd p</code></pre>
+<p>Inversamente, para mostrar que uma disjunção é válida, precisamos mostrar que um de seus lados é válido. Isso pode ser feito por meio dos construtores Left e Right mencionados acima. Aqui está um uso trivial...</p>
+<pre><code class="language-rust ignore"><span class="boring">axiom
+</span>Or_intro_left &lt;a&gt; &lt;b&gt; (t: a) : Either a b
+Or_intro_left t = Either.left t
+
+<span class="boring">axiom
+</span>Or_intro_right &lt;a&gt; &lt;b&gt; (t: b) : Either a b
+Or_intro_right t = Either.right t</code></pre>
+<p>... e um exemplo um pouco mais interessante exigindo ambos</p>
+<pre><code class="language-rust ignore">Zero_or_succ (n: Nat)     : Either (Equal n 0n) (Equal n (Nat.succ (Nat.pred n)))
+Zero_or_succ Nat.zero     = Either.left  Equal.refl
+Zero_or_succ (Nat.succ n) = Either.right Equal.refl</code></pre>
+<h4 id="mult_eq_0"><a class="header" href="#mult_eq_0">Mult_eq_0</a></h4>
+<pre><code class="language-rust ignore"><span class="boring">axiom
+</span>Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Mult n m) 0n) : Either (Equal n 0n) (Equal m 0n)
+Mult_eq_0 n m e = ?</code></pre>
+<h4 id="or_commut"><a class="header" href="#or_commut">Or_commut</a></h4>
+<pre><code class="language-rust ignore">Or_commut &lt;p&gt; &lt;q&gt; (e: Either p q) : Either q p
+Or_commut e: ?</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="falsidade-e-negação"><a class="header" href="#falsidade-e-negação">Falsidade e Negação</a></h2>
+<p>Até agora, nos preocupamos principalmente em provar que certas coisas são verdadeiras – adição é comutativa, anexação de listas é associativa, etc. Claro, também podemos estar interessados em resultados negativos, mostrando que certas proposições não são verdadeiras. Em Kind, tais declarações negativas são expressas com a função de nível de tipo de negação <em>Not</em>.</p>
+<p>Para ver como a negação funciona, relembre a discussão do princípio da explosão do capítulo anterior; ela afirma que, se assumirmos uma contradição, então qualquer outra proposição pode ser derivada. Seguindo essa intuição, poderíamos definir <code>Not p</code> como <code>q -&gt; (p -&gt; q)</code>. Kind realmente faz uma escolha ligeiramente diferente, definindo <em>Not</em> como <em>p -&gt; Empty</em>, onde <em>Empty</em> é uma proposição contraditória específica definida na biblioteca padrão como um tipo de dados sem construtores.</p>
+<pre><code class="language-rust ignore">Empty: Type
+
+Not &lt;p: Type&gt;: Type
+Not p = p -&gt; Empty</code></pre>
+<p>Como <em>Empty</em> é uma proposição contraditória, o princípio da explosão também se aplica a ela. Se obtivermos <em>Empty</em> no contexto de prova, podemos chamá-lo de <em>Empty</em> ou absurd para completar qualquer objetivo:</p>
+<pre><code class="language-rust ignore">Ex_falso_quodlibet &lt;p&gt; : Empty -&gt; p
+Ex_falso_quodlibet p   = e =&gt; Empty.absurd e</code></pre>
+<p>O <em>latim ex falso quodlibet</em> significa, literalmente, “da falsidade segue o que você quiser”; este é outro nome comum para o princípio da explosão.</p>
+<h4 id="not_implies_our_not"><a class="header" href="#not_implies_our_not">Not_implies_our_not</a></h4>
+<p>Mostre que a definição da negação em Kind implica a intuitiva mencionada acima:</p>
+<pre><code class="language-rust ignore">Not_implies_our_not &lt;p&gt; &lt;q&gt; (e: Not p) : q -&gt; (p -&gt; q)
+Not_implies_our_not p q e = ?</code></pre>
+<p>É assim que usamos Not para afirmar que 0 e 1 são elementos diferentes de Nat:</p>
+<pre><code class="language-rust ignore">Zero_not_one : Not (Equal Nat.zero (Nat.succ Nat.zero))
+Zero_not_one = 
+  (emp =&gt; 
+    let app = Equal.apply (x =&gt; Nat.is_zero x) emp
+    Equal.rewrite app (e =&gt; if e {Nat} else {Empty}) Nat.zero)</code></pre>
+<p>É preciso um pouco de prática para se acostumar a trabalhar com a negação em Kind. Mesmo que você possa ver perfeitamente por que uma afirmação envolvendo negação é verdadeira, pode ser um pouco complicado no começo colocar as coisas na configuração certa para que Kind possa entender! Aqui estão as provas de alguns fatos familiares para você se aquecer:</p>
+<pre><code class="language-rust ignore">Not_false : Not Empty
+Not_false = e =&gt; Empty.absurd e
+
+Contradiction_implies_anythig &lt;p&gt; &lt;q&gt; (a: Pair p (Not p)) : q
+Contradiction_implies_anythig p q (Pair.new fst snd) =
+  let app = snd fst
+  Empty.absurd app
+</code></pre>
+<h4 id="double_neg_inf"><a class="header" href="#double_neg_inf">Double_neg_inf</a></h4>
+<p>Escreva uma prova informal de Double_neg:
+Teorema: Se p, então (não (não p)), para qualquer proposição p.</p>
+<h4 id="contrapositive"><a class="header" href="#contrapositive">Contrapositive</a></h4>
+<pre><code class="language-rust ignore">Contrapositive &lt;p&gt; &lt;q&gt; (f: p -&gt; q) : (Not q -&gt; Not p)
+Contrapositive p q f = ?</code></pre>
+<h4 id="not_both_true_and_false"><a class="header" href="#not_both_true_and_false">Not_both_true_and_false</a></h4>
+<pre><code class="language-rust ignore">Not_both_true_and_false &lt;p&gt; : Not (Pair p (Not p))
+Not_both_true_and_false p = ?</code></pre>
+<p>Da mesma forma, já que a desigualdade envolve uma negação, é preciso um pouco de prática para trabalhar com ela de forma fluente. Aqui está um truque útil. Se você estiver tentando provar uma meta que é absurda (por exemplo, o estado final é Bool.false == Bool.true), aplique Empty.absurd para mudar a meta para Empty. Isso facilita o uso de pressupostos do tipo (Not p) que podem estar disponíveis no contexto - em particular, pressupostos do tipo Not (x == y).</p>
+<pre><code class="language-rust ignore">Not_true_is_false (b: Bool) (e: Not (Equal Bool b Bool.true)) : Equal Bool b Bool.false
+Not_true_is_false Bool.false e = Equal.refl
+Not_true_is_false Bool.true e = Empty.absurd (e Equal.refl)</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="verdade"><a class="header" href="#verdade">Verdade</a></h2>
+<p>Além de Empty, a biblioteca padrão do Kind também define Unit, uma proposição que é trivialmente verdadeira. Para provar isso, usamos a constante:</p>
+<pre><code class="language-rust ignore">True_is_true : Unit
+True_is_true = Unit.new</code></pre>
+<p>Ao contrário de Empty, que é amplamente utilizado, Unit é usado bastante raramente em provas, já que é trivial (e, portanto, pouco interessante) provar como objetivo e não carrega nenhuma informação útil como hipótese. No entanto, pode ser bastante útil ao definir provas complexas usando condicionais ou como um parâmetro para provas de ordem superior. Veremos exemplos desse uso de Unit mais tarde.</p>
+<h2 id="equivalência"><a class="header" href="#equivalência">Equivalência</a></h2>
+<p>Equivalência Lógica. A útil conectiva &quot;se e somente se&quot;, que afirma que duas proposições têm o mesmo valor de verdade, é apenas a conjunção de duas implicações.</p>
+<pre><code class="language-rust ignore">record Equivalence (p: Type) (q: Type) {
+ lft: p -&gt; q 
+ rgt: q -&gt; p
+}</code></pre>
+<pre><code class="language-rust ignore">//#axiom
+Equivalence.lft &lt;p&gt; &lt;q&gt; (e: Equivalence p q) : p 
+Equivalence.lft (Equivalence.new l r)        = r (Equivalence.rgt (Equivalence.new l r))
+
+//#axiom
+Equivalence.rgt &lt;p&gt; &lt;q&gt; (e: Equivalence p q) : q 
+Equivalence.rgt (Equivalence.new l r)        = l (Equivalence.lft (Equivalence.new l r))</code></pre>
+<pre><code class="language-rust ignore">Not_true_iff_false (b: Bool) : Equivalence (Not (Equal Bool b Bool.true)) (Equal Bool b Bool.false)
+Not_true_iff_false  b = Equivalence.new (x =&gt; Not_true_is_false b x) (y =&gt; Not_true_and_false b y)</code></pre>
+<pre><code class="language-rust ignore">Not_true_and_false (b : Bool) (e: Equal Bool b Bool.false) : Not (Equal Bool b Bool.true)
+Not_true_and_false Bool.false Equal.refl = 
+ emp =&gt; 
+ let p = Equal.rewrite emp
+   (x =&gt; match Bool x {
+    true =&gt; Empty
+    false =&gt; Unit
+    }) 
+    (Unit.new)
+ Empty.absurd p
+Not_true_and_false Bool.true e = 
+ let p = Equal.rewrite e 
+  (x =&gt; if x 
+  {Unit} 
+  else 
+  {Empty}) 
+ (Unit.new)
+ Empty.absurd p</code></pre>
+<h3 id="simétrica"><a class="header" href="#simétrica">Simétrica</a></h3>
+<p>Uma relação é simétrica se, para todos os elementos p e q em seu domínio, se p é equivalente a q, então q é equivalente a p. Isso pode ser provado com a seguinte regra:</p>
+<pre><code class="language-rust ignore">Equivalence.mirror &lt;p&gt; &lt;q&gt; (e: Equivalence p q) : Equivalence q p
+Equivalence.mirror p q (Equivalence.new lft rgt) = (Equivalence.new rgt lft)</code></pre>
+<h3 id="reflexividade"><a class="header" href="#reflexividade">Reflexividade</a></h3>
+<p>Uma relação é reflexiva se, para todo elemento p em seu domínio, p é equivalente a si mesmo. Isso pode ser provado com a seguinte regra:</p>
+<pre><code class="language-rust ignore">Equivalence.refl &lt;p&gt; : Equivalence p p
+Equivalence.refl p = ?</code></pre>
+<h3 id="transitividade"><a class="header" href="#transitividade">Transitividade</a></h3>
+<p>Uma relação é transitiva se, para todos os elementos p, q, e r em seu domínio, se p é equivalente a q e q é equivalente a r, então p é equivalente a r. Isso pode ser provado com a seguinte regra:</p>
+<pre><code class="language-rust ignore">Equivalence.chain &lt;p&gt; &lt;q&gt; &lt;r&gt; (e0: Equivalence p q) (e1: Equivalence q r) : Equivalence p r
+Equivalence.chain p q r e0 e1 = ?</code></pre>
+<h4 id="or_distributes_over_and"><a class="header" href="#or_distributes_over_and">Or_distributes_over_and</a></h4>
+<pre><code class="language-rust ignore">Or_distributes_over_and &lt;p&gt; &lt;q&gt; &lt;r&gt; : Equivalence (Either p (Pair q r)) (Pair (Either p q) (Either p r))
+Or_distributes_over_and p q r = ?</code></pre>
+<p>Equivalência de forma especial, evitando a necessidade de alguma manipulação de estado de prova de baixo nível. Em particular, rewrite e reflexividade podem ser usados com afirmações iff, não apenas igualdades.
+Aqui está um exemplo simples demonstrando como essas táticas funcionam com iff. Primeiro, vamos provar algumas equivalências básicas de iff</p>
+<pre><code class="language-rust ignore">Mult_0 (n: Nat) (m: Nat) : Equivalence (Equal Nat (Mult n m) 0n) (Either (Equal Nat n 0n) (Equal Nat m 0n))
+Mult_0 n m = Equivalence.new (x =&gt; To_mult_0 n m x) (y =&gt; Or_example n m y)
+
+To_mult_0 (n: Nat) (m: Nat) (e: Equal Nat (Mult n m) 0n) : (Either (Equal Nat n 0n) (Equal Nat m 0n))
+To_mult_0 Nat.zero Nat.zero Equal.refl = Either.right Equal.refl
+To_mult_0 Nat.zero (Nat.succ m) Equal.refl = Either.left Equal.refl
+To_mult_0 (Nat.succ n) Nat.zero e = Either.right Equal.refl
+To_mult_0 (Nat.succ n) (Nat.succ m) e = 
+  let a = Plus_comm (Mult n (Nat.succ m)) (Nat.succ m)
+  let b = Equal.chain (Equal.mirror e) a
+  let c = (Equal.rewrite b
+   (x =&gt; match Nat x {
+    zero =&gt; Unit
+    succ =&gt; Empty
+    })
+    (Unit.new)) 
+  Empty.absurd c</code></pre>
+<pre><code class="language-rust ignore">Or_assoc &lt;p&gt; &lt;q&gt; &lt;r&gt; : Equivalence (Either p (Either q r)) (Either (Either p q) r)
+Or_assoc = Equivalence.new (x =&gt; To_or_assoc x) (y =&gt; Fro_or_assoc y)
+
+To_or_assoc &lt;p&gt; &lt;q&gt; &lt;r&gt; (e: Either p (Either q r)) : Either (Either p q) r
+To_or_assoc (Either.left e) = Either.left (Either.left e)
+To_or_assoc (Either.right p (Either q r) (Either.left e)) = Either.left (Either.right e)
+To_or_assoc (Either.right p (Either q r) (Either.right e)) = Either.right e
+
+Fro_or_assoc &lt;p&gt; &lt;q&gt; &lt;r&gt; (e: Either (Either p q) r) : Either p (Either q r)
+Fro_or_assoc (Either.left (Either p q) r (Either.left e)) = Either.left e
+Fro_or_assoc (Either.left (Either p q) r (Either.right e)) = Either.right (Either.left e)
+Fro_or_assoc (Either.right (Either p q) r e) = Either.right (Either.right e)</code></pre>
+<p>Agora podemos usar esses fatos com Equal.rewrite e Equal.refl para fornecer provas suaves de afirmações envolvendo equivalências. Aqui está uma versão ternária do resultado anterior de Mult_0:</p>
+<pre><code class="language-rust ignore">Mult_0_3 (n: Nat) (m: Nat) (p: Nat) : Equivalence (Equal Nat (Mult n (Mult m p)) 0n) (Either (Equal Nat n 0n) (Either (Equal Nat m 0n) (Equal Nat p 0n)))
+Mult_0_3 n m p = Equivalence.new (x =&gt; To_mult_0_3 n m p x) (y =&gt; Fro_mult_0_3 n m p y)
+
+To_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: (Equal Nat (Nat.mul n (Nat.mul m p)) 0n)) : (Either (Equal Nat n 0n) (Either (Equal Nat m 0n) (Equal Nat p 0n)))
+To_mult_0_3 n m p e = Either.swap (Equivalence.rgt (Or_assoc (Equal m 0n) (Equal p 0n) (Equal n 0n)))
+
+Fro_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: Either (Equal Nat n 0n) (Either (Equal Nat m 0n) (Equal Nat p 0n))) : (Equal Nat (Mult n (Mult m p)) 0n)
+Fro_mult_0_3 (n: Nat) (m: Nat) (p: Nat) (e: Either (Equal Nat n 0n) (Either (Equal Nat m 0n) (Equal Nat p 0n))) : (Equal Nat (Nat.mul n (Nat.mul m p)) 0n)
+Fro_mult_0_3 Nat.zero m p (Either.left Equal.refl) = Equal.refl
+Fro_mult_0_3 n Nat.zero p (Either.right a (Either b c) (Either.left Equal.refl)) = Mult_comm 0n n
+Fro_mult_0_3 n m Nat.zero (Either.right a (Either b c) (Either.right Equal.refl)) = Equal.chain (Mult_assoc n m 0n) (Mult_0_r (Nat.mul n m))
+Fro_mult_0_3 (Nat.succ n) m p (Either.left e) = 
+ let p = (Equal.rewrite 
+   e
+   (x =&gt; match Nat x {
+    zero =&gt; Empty
+    succ =&gt; Unit
+    }) 
+    (Unit.new)) 
+  Empty.absurd p
+Fro_mult_0_3 n (Nat.succ m) p (Either.right a (Either b c) (Either.left e)) = 
+ let p = (Equal.rewrite 
+   e
+   (x =&gt; match Nat x {
+    zero =&gt; Empty
+    succ =&gt; Unit
+    }) 
+    (Unit.new)) 
+  Empty.absurd p
+Fro_mult_0_3 n m (Nat.succ p) (Either.right a (Either b c) (Either.right e)) = 
+ let p = (Equal.rewrite 
+   e
+   (x =&gt; match Nat x {
+    zero =&gt; Empty
+    succ =&gt; Unit
+    }) 
+    (Unit.new)) 
+  Empty.absurd p</code></pre>
+<p>A tática apply também pode ser usada com equivalência. Quando recebe uma equivalência como seu argumento, o apply tenta adivinhar em qual lado da equivalência usar.</p>
+<pre><code class="language-rust ignore">Apply_iff_example (n: Nat) (m: Nat) (e: Equal Nat (Mult n m) 0n) : Either (Equal Nat n 0n) (Equal Nat m 0n) 
+Apply_iff_example n m e = Equivalence.rgt (Mult_0 n m)
+</code></pre>
+<h2 id="quantificação-existencial"><a class="header" href="#quantificação-existencial">Quantificação Existencial</a></h2>
+<p>Outro importante conectivo lógico é a quantificação existencial. Para dizer que há algum x do tipo Type tal que alguma propriedade p é verdadeira para x, escrevemos (Sigma x p).</p>
+<pre><code class="language-rust ignore">record Sigma (x: Type) (p: x -&gt; Type) {
+  fst : x
+  snd : (p fst)
+}</code></pre>
+<ul>
+<li><em>Atualmente, o Kind-lang tem bug compilador que está afetando a aplicação lambda do Sigma.</em></li>
+</ul>
+<p>Para provar uma afirmação da forma (Sigma x p), devemos mostrar que p é verdadeira para alguma escolha específica de valor para x, conhecido como testemunho do existencial. Isso é feito em duas etapas: Primeiro, explicitamente informamos ao Kind qual testemunho x temos em mente escrevendo-o no primeiro parâmetro. Então, provamos que p é verdadeira depois que todas as ocorrências de x são substituídas por Type.</p>
+<pre><code class="language-rust ignore">Four_is_even : Sigma Nat (n =&gt; (Equal Nat 4n (Nat.add n n)))
+Four_is_even = $ 2n Equal.refl</code></pre>
+<p>Por outro lado, se temos uma hipótese existencial (Sigma x p) no contexto, podemos fazer um pattern match nela para obter um testemunho x e uma hipótese afirmando que p é verdadeira para x.</p>
+<pre><code class="language-rust ignore">Exists_example_2 (n: Nat) (m: Sigma Nat (m =&gt; (Equal Nat n (Nat.add 4n m)))) : Sigma Nat (o =&gt; (Equal Nat n (Nat.add 2n o)))
+Exists_example_2 n (Sigma.new Nat s fst snd) = Sigma.new fst ?</code></pre>
+<h4 id="dist_not_exists"><a class="header" href="#dist_not_exists">Dist_not_exists</a></h4>
+<p>Prove que &quot;p é verdadeira para todos os x&quot; implica &quot;não há x para o qual p não seja verdadeira&quot;.</p>
+<pre><code class="language-rust ignore">Dist_not_exists &lt;a&gt; &lt;p: a -&gt; Type&gt; (f: (x: a) -&gt; (p x)) : Not (Sigma a (x =&gt; ( Not (p x))))
+Dist_not_exists a p f = ?</code></pre>
+<h4 id="dist_exists_or"><a class="header" href="#dist_exists_or">Dist_exists_or</a></h4>
+<p>Prove que a quantificação existencial distribui-se sobre a disjunção.</p>
+<pre><code class="language-rust ignore">Dist_exists_or &lt;a&gt; &lt;p: a -&gt; Type&gt; &lt;q: a -&gt; Type&gt; : Equivalence (Sigma a (x =&gt; (Either (p x) (q x)))) (Either (Sigma a (x =&gt; (p x))) (Sigma a (x =&gt; (q x))))
+Dist_exists_or a p q = ?dist_exists_or_rhs</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="contribuidores"><a class="header" href="#contribuidores">Contribuidores</a></h1>
+<ul>
+<li><a href="https://github.com/NaoEhSavio">NaoEhSavio</a></li>
+<li><a href="https://github.com/SergioBonatto">Bonatto</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </body>
+</html>

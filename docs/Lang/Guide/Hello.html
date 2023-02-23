@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hello Kind!</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../Welcome.html">A Kind Welcome!</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../Guide/About.html"><strong aria-hidden="true">1.</strong> About Kind</a></li><li class="chapter-item expanded "><a href="../Guide/Learning.html"><strong aria-hidden="true">2.</strong> Learning Kind Basics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Guide/Terminal.html"><strong aria-hidden="true">2.1.</strong> Terminal</a></li><li class="chapter-item expanded "><a href="../Guide/Installation.html"><strong aria-hidden="true">2.2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../Guide/IDE.html"><strong aria-hidden="true">2.3.</strong> Text Editors</a></li><li class="chapter-item expanded "><a href="../Guide/Hello.html" class="active"><strong aria-hidden="true">2.4.</strong> Hello Kind!</a></li></ol></li><li class="chapter-item expanded "><a href="../Basic/Basics.html"><strong aria-hidden="true">3.</strong> Kind Basics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Basic/Types.html"><strong aria-hidden="true">3.1.</strong> Types</a></li><li class="chapter-item expanded "><a href="../Basic/Constructors.html"><strong aria-hidden="true">3.2.</strong> Constructors</a></li><li class="chapter-item expanded "><a href="../Basic/Functions.html"><strong aria-hidden="true">3.3.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../Basic/TypeChecker.html"><strong aria-hidden="true">3.4.</strong> Type Checker</a></li></ol></li><li class="chapter-item expanded "><a href="../Examples/Examples.html"><strong aria-hidden="true">4.</strong> Examples</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Examples/Basic.html"><strong aria-hidden="true">4.1.</strong> Type Examples</a></li><li class="chapter-item expanded "><a href="../Examples/Constructors.html"><strong aria-hidden="true">4.2.</strong> Constructors Examples</a></li><li class="chapter-item expanded "><a href="../Examples/Function.html"><strong aria-hidden="true">4.3.</strong> Function Examples</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Voyage</li><li class="chapter-item expanded "><a href="../Voyage/Voyage.html"><strong aria-hidden="true">5.</strong> A Kind Voyage!</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Voyage/Constructors.html"><strong aria-hidden="true">5.1.</strong> Constructors with Value</a></li><li class="chapter-item expanded "><a href="../Voyage/Polymorphic.html"><strong aria-hidden="true">5.2.</strong> Polymorphic Types</a></li><li class="chapter-item expanded "><a href="../Voyage/Accessing.html"><strong aria-hidden="true">5.3.</strong> Accessing Constructor Values</a></li><li class="chapter-item expanded "><a href="../Voyage/Examples/Examples.html"><strong aria-hidden="true">5.4.</strong> Examples</a></li><li class="chapter-item expanded "><a href="../Voyage/Examples/Maybe_Pair_Variation.html"><strong aria-hidden="true">5.5.</strong> Maybe and Pair Basics</a></li><li class="chapter-item expanded "><a href="../Voyage/Examples/Maybe_Pair.html"><strong aria-hidden="true">5.6.</strong> Maybe and Pair</a></li><li class="chapter-item expanded "><a href="../Voyage/Examples/Intermediate_Types.html"><strong aria-hidden="true">5.7.</strong> Intermediate Types</a></li><li class="chapter-item expanded "><a href="../Voyage/Examples/Intermediate_Funtions.html"><strong aria-hidden="true">5.8.</strong> Intermediate Functions</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Discovery</li><li class="chapter-item expanded "><a href="../Discovery/Discovery.html"><strong aria-hidden="true">6.</strong> A Kind Discovery!</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Discovery/Currying.html"><strong aria-hidden="true">6.1.</strong> Currying</a></li><li class="chapter-item expanded "><a href="../Discovery/Numbers.html"><strong aria-hidden="true">6.2.</strong> Natural Numbers</a></li><li class="chapter-item expanded "><a href="../Discovery/Recursive.html"><strong aria-hidden="true">6.3.</strong> Recursive Algorithms</a></li><li class="chapter-item expanded "><a href="../Discovery/Examples/Syntax.html"><strong aria-hidden="true">6.4.</strong> Syntax Sugar</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../Contributors.html">Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="hello-kind"><a class="header" href="#hello-kind">Hello Kind</a></h1>
+<p>This is definitely not another &quot;Hello World!&quot; guide. Or is it?</p>
+<p>By this point, Kind should already be installed in your machine. If not, please go back to <a href="./Installation.html">Installation</a> and move along with the instructions.</p>
+<p>You are not sure Kind is correctly installed? Try proceeding with this guide, if it doesn't work, well... it's not installed. If it worked, then you're ready to learn how to become a <del>PRO GAMER</del> Kind programmer!~</p>
+<p>In this guide, command lines and text editors will be used, so make sure the terminal is open to proceed through the steps. Don't know what is a Terminal and Text Editor? So go back to <a href="./Terminal.html">Terminal</a> guide and <a href="./IDE.html">Text Editors</a>.</p>
+<h2 id="creating-the-documents"><a class="header" href="#creating-the-documents">Creating the documents</a></h2>
+<p>First of all, create a directory to store the Kind files. It is recommended to use a dedicated directory to keep all the exercises and examples, but feel free to do as you want.</p>
+<p>The three commands below will create a directory called 'KindExamples' and a file called 'hello_world.kind2' inside the project directory. Use them in order:</p>
+<pre><code>//Making a directory
+mkdir KindExamples
+</code></pre>
+<pre><code>//Moving through directories
+cd    KindExamples
+</code></pre>
+<pre><code>//Making a file
+touch hello_world.kind2  ////CMD use &quot;copy nul hello_world.kind2 &gt; nul&quot;
+</code></pre>
+<p>The .kind2 extension is what makes it a Kind file. For example, a file that ends with .exe is an Executable; .js is a JavaScript file; .rs is a Rust file, etc.</p>
+<p>If the commands were used correctly, the file hello_world.kind2 should be inside the folder KindExamples. Then it's time for fun, CODING!</p>
+<h2 id="hello-world"><a class="header" href="#hello-world">Hello World</a></h2>
+<p>Open the hello_world.kind2 file on the <a href="./IDE.html">Text Editors</a>, it is going to be empty, but no worries, remember our little story in <a href="./Guide/About.html">About Kind</a> about exploring a Universe? This is just your first exploration.</p>
+<ul>
+<li><em>Starting now, there are going to be some advanced concepts. But don't be scared, everything will make sense in the future, ethoses concepts that are pertinent will be explained in it's given time.</em></li>
+<li><em>It is recommended that you manually type the codes, instead of copy pasting them in your file.</em></li>
+</ul>
+<p>Let's write your first code into the hello_world.kind2 file:</p>
+<pre><code>//hello_world.kind2
+Main {
+  &quot;Hello, Kind!&quot;
+}
+</code></pre>
+<p>And that's it! That's how a Kind &quot;Hello World!&quot; is written. A print function in four lines.</p>
+<h2 id="type-checking"><a class="header" href="#type-checking">Type Checking</a></h2>
+<p>With the code ready, you should use the Type Check to see if everything is in order. The Type Checker is unknown until now in this guide, but will be explained further. Right now, simply understand it as a verifier that checks if the file is correctly typed and &quot;typed&quot; (haha!).</p>
+<p>To Type Check a Kind file, just use the command Kind fileName.kind2. For the hello_world.kind2 file it would be:</p>
+<pre><code>//Terminal
+kind2 check hello_world.kind2
+</code></pre>
+<p>The message &quot;All terms check.&quot; means your file is ready!</p>
+<pre><code>//Terminal
+All terms check.
+</code></pre>
+<p>The Type Check is ok? Then let's run the code.</p>
+<h2 id="running-the-code"><a class="header" href="#running-the-code">Running the code</a></h2>
+<p>To Run a file in Kind, use the command <code>kind2 run nomeDoArquivo.kind</code>. Yes, the fileName goes without the extension in this case. It should look like this:</p>
+<pre><code>//Terminal
+kind2 run hello_world.kind2
+</code></pre>
+<p>And voila! your terminal should print Hello, Kind! back to you.</p>
+<!-- To print any other messages, re-open the file and change the Parameters insideIO.print function. An example is to type IO.print("I am amazing!")  and run the file, try it! -->
+<p>Just remember every steps above, Type Check it then run!</p>
+<pre><code>//Terminal
+&quot;Hello, Kind!&quot;
+</code></pre>
+<p>With that you've finished your first exploration and may call yourself a Kind Astronaut, congratulations! Welcome to the Kind programming world!</p>
+<p>In this first mission you explored your first ecosystem, discovered.</p>
+<p>You just explored your first ecosystem and discovered your first function. The next section will go deeper into the <a href="../Basic/Basics.html">Kind Basics</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Guide/IDE.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../Basic/Basics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Guide/IDE.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../Basic/Basics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
