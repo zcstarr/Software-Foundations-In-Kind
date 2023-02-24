@@ -21,7 +21,7 @@ And this guide addresses the one that Kind uses, the Static Type Checker.
 
 ### What it does
 
-The Type Checker does two sorts of verifications: 
+The Type Checker does two sorts of verifications:
 
 - Syntax Verification
 - Types Verification
@@ -31,26 +31,35 @@ In the first step, the Type Checker checks the syntax of the code. Syntax is the
 ```diff
 - ERROR  Unexpected token 'true'.
 
-type Bool 
-	true
-	┬───
-	└Here!
-	false
-
+type Bool  
+ true
+ ┬───
+ └Here!
+ false
+}
 ```
-Above, the Type Checker found an error in the code. See how it says how it was expected a curly bracket, and instead found the letter "true". That's why this code is missing a "{" to open the constructors' box. 
-If no syntax error is found in the code, the Type Checker will proceed to its next function, to verify if the Types are correct. Kind is strongly Typed, therefore it's always necessary to explicit the types that are in the code. 
+
+Above, the Type Checker found an error in the code. See how it says how it was expected a curly bracket, and instead found the letter "true". That's why this code is missing a "{" to open the constructors' box.
+If no syntax error is found in the code, the Type Checker will proceed to its next function, to verify if the Types are correct. Kind is strongly Typed, therefore it's always necessary to explicit the types that are in the code.
 
 Imagine you are reading a code that uses the Bool Type, and in some point you verify that a function returns a Nat type (the type of the natural numbers). The Type Checker mission is to find and point this mismatch. That way, this code can be corrected and will be more safe, reliable and clearer. The Type Checker is like your best friend when writing.
 
-
 It is called  Static Type Checker because it checks everything before running the program. iIf both syntax and type are ok, the console will show the message: All terms check. This means that the file Syntax and Types are right and ready to run!
 
+```
+//Terminal
+All terms check.
+```
 
+It is strongly recommended to Type Check a file every time before running it, to avoid potential time waste. Because, if the types are wrong, there will be a compilation error message, and it will be necessary to type check it all over again, and that's double of your time wasted!
+To type check a file, simply use this command:
 
+```
+//Terminal
+kind2 check hello_world.kind2
+```
 
-
-
+You must replace the fileName for the name of the file you're using, and don't forget the extension .kind!
+Knowing how to use this powerful tool, let's learn more about what gives life to Kind, the functions.
 
 Thats all of the Kind Basics! if have come all this way congrats! now you can write basic functions in Kind, now, we can proceed to Kind Intermediate! Let's go Rookie, time for us go to a Voyage!
-

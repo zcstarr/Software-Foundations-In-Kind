@@ -507,7 +507,185 @@ type Bool {
 </code></pre>
 <p>The <code>Bool.true</code> and <code>Bool.false</code> are the correct way to call those constructors outside their Type. In this case, the Bool Type.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions---basic"><a class="header" href="#functions---basic">Functions - Basic</a></h1>
-<p>Before proceeding to learn about functions, and how to use constructors inside them, it is important to understand about an important tool in Kind's enviromment, the Type Checker!</p>
+<p>The life inside Kind Universe.</p>
+<h2 id="what-are-functions"><a class="header" href="#what-are-functions">What are Functions</a></h2>
+<p>Functions gives types and constructors a meaning. Types, by themselves, are simply a categorization of constructors, but, when applied to functions, that's when the &quot;magic&quot; happens!</p>
+<p>Just like the Astronaut from About Kind story, let's explore the Boolean planet to &quot;discover&quot; and document  the functions  &quot;<strong>AND</strong>&quot;, &quot;<strong>NOT</strong>&quot; and &quot;<strong>OR</strong>&quot;  (Don't it just look like some sort of time travel? Are you the Astronaut from the story?).</p>
+<p>The Bool still has no concrete use, since it still has no function. True and false is just names for the constructors, but even so, they got to have some logic behind them. Let's start with Not Function, the <strong>Boolean Negation</strong>.</p>
+<h2 id="defining-a-function"><a class="header" href="#defining-a-function">Defining a Function</a></h2>
+<p>Functions in Kind are like mathematical functions, you tell them how to work, give them something to work with and it will return an answer. Let's see how it works in the example bellow:</p>
+<pre><code class="language-rust ignore">// selfReturningFunction.kind2
+
+Identity (b: Bool) : Bool
+Identity Bool.true = Bool.true
+Identity Bool.false = Bool.false</code></pre>
+<p>This is a function that returns the input itself, it is called Identity function. And it is a simple example of the functions' syntax in Kind. In the first line there are a lot of information about the function for us and the machine to interpret it. And so here is a  &quot;translation&quot; of this first line:</p>
+<ul>
+<li><em>&quot;Hmrm <code>clears throat</code> identity is a function that receives a variable named b , which is of the type Bool, and the function returns something of the type Bool.&quot;</em></li>
+</ul>
+<h2 id="function-anatomy"><a class="header" href="#function-anatomy">Function Anatomy</a></h2>
+<p>--Img--</p>
+<p>[Yes, all of that is written up there, functions in Kind always start with their name, the name not necessarily needs to start with a lower case letter, but its my personal preference, you could name it ItSelf or Itself.After you name the function we open brackets and we write the arguments followed to the type of that function (b: Bool) (c: Bool) (d: Bool) and then we close brackets. Once we are done listing all the arguments our function has we add a cólon :  to tell Kind we have named our function and listing the arguments and we proceed to the return, after the Cólon it means that our function is going to give us a result of something of that type, in our example we decided to use Bool as the type of return, but it could be any existing type in Kind, even a type you create yourself. [It is kind erroneous calling it a variable since they are immutable, they are values of that type, but we call them variable]]</p>
+<h2 id="return"><a class="header" href="#return">Return</a></h2>
+<p>Lets use our box again, when we pattern matched our variable and we got either true or false, now we must specify what to return for those cases, on our example we returned Bool.true when true and Bool.false for false, that means we covered every possibility in the <code>type Bool</code> and we gave a Bool return to the function, which is what it expected.</p>
+<p>for the box, it would look like this:</p>
+<p>--Img--</p>
+<p>You always gotta fill the answer with something of the type you specified in first place, it won't work if you return something of a different type from what you specified, this would be an example;</p>
+<pre><code class="language-rust ignore">Wrong (a: Bool) : Bool
+Wrong Bool.true = Bool.true
+Wrong Bool.false = Nat.zero</code></pre>
+<p>Nat.zero is something of the type Nat, but we specified the return as a Bool, therefore the type checker would return an error of type in this situation.</p>
+<pre><code class="language-diff">// Type mismatch in the function named wrong.
+
+-   ERROR  Type mismatch
+
+  • Got      : Nat 
+  • Expected : Bool 
+
+  Wrong Bool.true = Bool.true
+  Wrong Bool.false = Nat.zero
+                     ┬───────
+                     └Here!
+</code></pre>
+<p>As we have seen in Type Checker, this is how a code would return with the wrong type</p>
+<h2 id="pattern-matching---match"><a class="header" href="#pattern-matching---match">Pattern Matching - match</a></h2>
+<p>All a data constructor does is holding values together. When we want to use them we need to deconstruct in order to specify what to do based on which constructor is being used. This is done with pattern matching. Type is the creator, holder, container, match is the deconstructed, analyzer, bond breaker.</p>
+<p>Pattern matching is the act of verify possible matches of a given value, this is done sequentially.</p>
+<p>On our functions in Kind we call it case and we give the value our variable, like in the second line of our example, we verify within b the possible matches, in that case it can only be true or false, since the Bool type  has only two possible matches.</p>
+<p>Let's go back to our boxes, here is the boolean box:</p>
+<p>--Img--</p>
+<p>~~These are the two possible cases of a value of the type Bool, it's either true or false, because its how we defined in our type Bool , so when we open a match of something from the type Bool,  its like if we were opening the box, looking at every possibility and giving them an answer to what to do when the pattern matches for every of the single cases. ~~</p>
+<p>To visualize the options we can use branches to see clearer the possible paths.</p>
+<pre><code class="language-rust ignore">  match variable
+   /       \ 
+ true      false
+  |          |     
+  ?a         ?b 
+</code></pre>
+<ul>
+<li>
+<p>?a is the return for the function <code>MATCH</code> the variable we input is true.</p>
+</li>
+<li>
+<p>?b is the return for the function <code>MATCH</code> the variable we input is false.</p>
+</li>
+</ul>
+<p>in our example itself we returned True case b is true and False case b is false.</p>
+<pre><code class="language-rust ignore">    match b
+   /      \ 
+ true     false
+  |         |     
+ true     false</code></pre>
+<p>The returns are the tips of the branches.</p>
+<h2 id="basic-function-example"><a class="header" href="#basic-function-example">Basic Function Example</a></h2>
+<p>First things first, create a new file <code>namedNegation.kind2</code>.</p>
+<p>In our <code>Negation.kind2</code> file we start with the first line (You can try doing it by yourself, click <a href="Basic/../Examples/Function.html">here</a> for the answer)</p>
+<pre><code class="language-rust ignore">Negation.function (b: Bool) : Bool 
+Negation.function b = ?help</code></pre>
+<h2 id="kind-goals"><a class="header" href="#kind-goals">Kind Goals</a></h2>
+<p>A goal can be written as ? followed by a name. For example, <code>?help</code> is a goal named <code>help</code>. Goals are extremely useful when developing algorithms and proofs, as they allow you to keep a part of your program incomplete while you work on the rest. They also allow you to inspect the context and expected type on that part. For example, our <code>help</code> goal in negation will display:</p>
+<pre><code class="language-diff">+  INFO  Inspection.
+
+    • Expected: Bool 
+
+    • Context: 
+    •   b : Bool 
+
+    Negation.function (b: Bool) : Bool 
+    Negation.function b = ?help
+                          ┬────
+                          └Here!
+</code></pre>
+<p>Notice how it shows the type it expects on each hole, as well as the context available there.</p>
+<p>Our function named <code>function</code>has only one variable for us to work with, now if we had more variables and needed to look even further in our branches of possibilities, we could open a case inside a case (pattern match a value inside another branch). We are going to look further in the following examples.</p>
+<h2 id="intermediate-function-example"><a class="header" href="#intermediate-function-example">Intermediate Function Example</a></h2>
+<p>After we defined the &quot;<strong>NOT</strong>&quot; function, we still have the &quot;<strong>AND</strong>&quot; and &quot;<strong>OR</strong>&quot; functions, but those functions have two variables as arguments, and we need to verify deeper down inside each case, lets investigate together.</p>
+<p>Now that we are done with the <code>Negation.kind2</code> file, we can save it and open a new one named <code>Logics.kind2</code></p>
+<p>The logical <strong>AND</strong> operator returns <em>true</em> if both operands are <strong>true</strong> and returns <em>false</em> otherwise, and the result is of type <code>Bool</code>. This is how the function header would look like:</p>
+<pre><code class="language-rust ignore">Logics.and (a: Bool) (b: Bool) : Bool
+Logics.and a b = ?ab</code></pre>
+<p>If you want, you can proceed by yourself. After this line, it is the solution and explanation.</p>
+<pre><code class="language-rust ignore">Logics.and (a: Bool) (b: Bool) : Bool
+Logics.and Bool.true b = ?a
+Logics.and Bool.false b = ?b</code></pre>
+<p>We are pattern matching our variable b , in the first branch, we are working with the possibility of b being true, in that case we must analyze a  because the answer depends on that, since its only true if both of our values are true.</p>
+<pre><code class="language-rust ignore">      case b
+     /       \ 
+-&gt; true      false
+    |          |     
+   ?a         ?b 
+</code></pre>
+<p>We can open a case in the variable a  when we are analyzing the case of b  being true. It would look like that</p>
+<pre><code class="language-rust ignore">Logics.and (a: Bool) (b: Bool) : Bool
+Logics.and Bool.true  Bool.true = ?a
+Logics.and Bool.false Bool.true = ?b
+Logics.and a          Bool.false = ?c</code></pre>
+<p>Now we are working with both cases:</p>
+<ul>
+<li><code>Case b is true and case a is true</code> = Goal a (?a)</li>
+<li><code>Case b is true and case a is false</code> = Goal b (?b)</li>
+</ul>
+<pre><code class="language-rust ignore">       case b
+      /      \ 
+    true     false
+     |         |     
+-&gt; case a      ?c
+   /    \
+ ?a      ?b </code></pre>
+<p>Following our logic, when A and B are true, the answer is true, therefore the goal a (?a) is Bool.true, and when B is true but A is false, we have Bool.false as answer:</p>
+<pre><code class="language-rust ignore">Logics.and (a: Bool) (b: Bool) : Bool
+Logics.and Bool.true  Bool.true = Bool.true
+Logics.and Bool.false Bool.true = Bool.false
+Logics.and a          Bool.false = ?c</code></pre>
+<pre><code class="language-rust ignore">       case b
+      /      \ 
+    true     false
+     |         |     
+-&gt; case a      ?c
+   /    \
+true    false
+ |        |
+true     false</code></pre>
+<p>We have now finished our left branch, or, the  branch with value true. Time for us to go to the false branch.</p>
+<p>We do the same as we did before, but we know both values MUST be true in order for the function to return true, therefore if b is already false, it is impossible for it to return true, we would get the function looking like that:</p>
+<pre><code class="language-rust ignore">Logics.and (a: Bool) (b: Bool) : Bool
+Logics.and Bool.true  Bool.true = Bool.true
+Logics.and Bool.false Bool.true = Bool.false
+Logics.and a          Bool.false = Bool.false</code></pre>
+<pre><code class="language-rust ignore">       case b
+      /      \ 
+    true     false
+     |         |     
+   case a    false  &lt;-
+   /    \
+true    false
+ |        |
+true     false  </code></pre>
+<p>And this is how the And function would look like in Kind .  .  . BUT! you can improve it even further, i wont give you the answer here, but you are more than welcome to do it yourself, don't worry if you cant find the answer now, you can come back later and redo it with way more knowledge! ahh!! the smarter version is in <a href="Basic/../Examples/Function.html">Functions</a> if you want to look for it.</p>
+<h2 id="running-a-function"><a class="header" href="#running-a-function">Running a Function</a></h2>
+<p>Now that we have learned all about how to build a function, it is time for us to test our logics and if the function is working as intended, if we wrote everything right and all type checked, it means all types and syntaxes are right, and in here, we are going to learn how to run a function.</p>
+<p>First we are going to add the name of the file as a function in the code, without arguments just the name and a return, since our file is named <code>Logics.kind2</code>we are going to add it to the bottom of the file, with the return of the function we are going to try out. We are testing the <code>Logics.and</code> function, therefore the return is of the Bool type, we would add a line with the following code:</p>
+<pre><code class="language-rust ignore">Main : Bool {
+  ...
+}</code></pre>
+<p><code>Main: type of Return</code></p>
+<p>Bellow that line we call our function to run, our <code>Logics.and</code>  function receives two booleans as argument of the variables <code>a</code>  and <code>b</code> , so we are going to test it with two booleans:</p>
+<pre><code class="language-rust ignore">Logics.and (a: Bool) (b: Bool) : Bool
+Logics.and Bool.true  Bool.true = Bool.true
+Logics.and Bool.false Bool.true = Bool.false
+Logics.and a          Bool.false = Bool.false
+
+Main : Bool {
+  Logics.and Bool.true Bool.false 
+}</code></pre>
+<p>If you want to try other options, you can change the two arguments as the following examples:</p>
+<pre><code class="language-rust ignore">//Examples of function call:
+// Logics.and (Bool.true)  (Bool.true)
+// Logics.and (Bool.false) (Bool.true)
+// Logics.and (Bool.false) (Bool.false)</code></pre>
+<p>Note: Kind can only run one function at time, you can have as many functions in a file as you want, but you can only run one at a time.</p>
+<p>With all this knowledge, you can do the &quot;<strong>OR</strong>&quot; logics, and you can also find more basic Bool <a href="https://github.com/HigherOrderCO/class/blob/main/Kind/Exercises/ex_00.kind2">exercises in our github</a>. The &quot;<strong>OR</strong>&quot; logic answer can be found <a href="Basic/../Examples/Function.html#function-or-with-syntax-sugar">here</a>.</p>
+<p>Before proceeding to learn about functions, and how to use constructors inside them, it is important to understand about an important tool in Kind's environment, the Type Checker!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="type-checker"><a class="header" href="#type-checker">Type Checker</a></h1>
 <p>Expected description, found joke.</p>
 <p>The Type Checker is one of Kind's strongest features, and throughout this book it will be used very often. Remember back in <a href="Basic/../Guide/Hello.html">Hello Kind!</a> where we &quot;type checked&quot; a file? Now is the time to understand what really happened there.</p>
@@ -522,7 +700,7 @@ type Bool {
 </ul>
 <p>And this guide addresses the one that Kind uses, the Static Type Checker.</p>
 <h3 id="what-it-does"><a class="header" href="#what-it-does">What it does</a></h3>
-<p>The Type Checker does two sorts of verifications: </p>
+<p>The Type Checker does two sorts of verifications:</p>
 <ul>
 <li>Syntax Verification</li>
 <li>Types Verification</li>
@@ -530,22 +708,33 @@ type Bool {
 <p>In the first step, the Type Checker checks the syntax of the code. Syntax is the language used in Kind, just like all the other languages in the word. Portuguese, deutsch, english and so on, every one of these has its own rules and methods, and it's used to communicate. Kind syntax works in the same way, and the Type Checker will verify if there it is no mistakes in your writing. If it finds any mistake, Kind's Type Checker will point to you where and what it is.</p>
 <pre><code class="language-diff">- ERROR  Unexpected token 'true'.
 
-type Bool 
-	true
-	┬───
-	└Here!
-	false
-
+type Bool  
+ true
+ ┬───
+ └Here!
+ false
+}
 </code></pre>
-<p>Above, the Type Checker found an error in the code. See how it says how it was expected a curly bracket, and instead found the letter &quot;true&quot;. That's why this code is missing a &quot;{&quot; to open the constructors' box. 
-If no syntax error is found in the code, the Type Checker will proceed to its next function, to verify if the Types are correct. Kind is strongly Typed, therefore it's always necessary to explicit the types that are in the code. </p>
+<p>Above, the Type Checker found an error in the code. See how it says how it was expected a curly bracket, and instead found the letter &quot;true&quot;. That's why this code is missing a &quot;{&quot; to open the constructors' box.
+If no syntax error is found in the code, the Type Checker will proceed to its next function, to verify if the Types are correct. Kind is strongly Typed, therefore it's always necessary to explicit the types that are in the code.</p>
 <p>Imagine you are reading a code that uses the Bool Type, and in some point you verify that a function returns a Nat type (the type of the natural numbers). The Type Checker mission is to find and point this mismatch. That way, this code can be corrected and will be more safe, reliable and clearer. The Type Checker is like your best friend when writing.</p>
 <p>It is called  Static Type Checker because it checks everything before running the program. iIf both syntax and type are ok, the console will show the message: All terms check. This means that the file Syntax and Types are right and ready to run!</p>
+<pre><code>//Terminal
+All terms check.
+</code></pre>
+<p>It is strongly recommended to Type Check a file every time before running it, to avoid potential time waste. Because, if the types are wrong, there will be a compilation error message, and it will be necessary to type check it all over again, and that's double of your time wasted!
+To type check a file, simply use this command:</p>
+<pre><code>//Terminal
+kind2 check hello_world.kind2
+</code></pre>
+<p>You must replace the fileName for the name of the file you're using, and don't forget the extension .kind!
+Knowing how to use this powerful tool, let's learn more about what gives life to Kind, the functions.</p>
 <p>Thats all of the Kind Basics! if have come all this way congrats! now you can write basic functions in Kind, now, we can proceed to Kind Intermediate! Let's go Rookie, time for us go to a Voyage!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-type-examples"><a class="header" href="#basic-type-examples">Basic Type Examples</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-constructors-examples"><a class="header" href="#basic-constructors-examples">Basic Constructors Examples</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-function-examples"><a class="header" href="#basic-function-examples">Basic Function Examples</a></h1>
+<h2 id="function-or-with-syntax-sugar"><a class="header" href="#function-or-with-syntax-sugar">Function Or with Syntax Sugar</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-kind-voyage"><a class="header" href="#a-kind-voyage">A Kind Voyage!</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="constructors-with-value"><a class="header" href="#constructors-with-value">Constructors with Value</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="polymorphic-types"><a class="header" href="#polymorphic-types">Polymorphic Types</a></h1>
