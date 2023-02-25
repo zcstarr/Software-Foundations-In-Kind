@@ -1,4 +1,4 @@
-# Functions - Basic
+# Basic Functions
 
 The life inside Kind Universe.
 

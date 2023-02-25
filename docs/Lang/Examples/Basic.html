@@ -144,6 +144,45 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="basic-type-examples"><a class="header" href="#basic-type-examples">Basic Type Examples</a></h1>
+<p>Then, in this section you may find Basic type examples with only Nullary Constructors.</p>
+<h2 id="type-single"><a class="header" href="#type-single">Type Single</a></h2>
+<pre><code class="language-Rust ignore">// A type with only one constructor that doesn't have a stored value.
+type Single { 
+  lonely       // :(
+}
+
+// Single concrete values: 
+  // Single.lonely
+</code></pre>
+<h2 id="type-bool"><a class="header" href="#type-bool">Type Bool</a></h2>
+<pre><code class="language-Rust ignore">// A type with two constructors where both doesn't have a stored value.
+
+type Bool { 
+  true
+  false
+}
+
+// Bool concrete values:
+  // Bool.true
+  // Bool.false
+</code></pre>
+<h2 id="type-cardinal"><a class="header" href="#type-cardinal">Type Cardinal</a></h2>
+<pre><code class="language-Rust ignore">Type Cardinal
+// A type with four constructors and neither of them have a stored value.
+
+type Cardinal { 
+  north
+  south
+  west
+  east
+}
+
+// Cardinal concrete values: 
+  // Cardinal.north
+  // Cardinal.south
+  // Cardinal.west
+  // Cardinal.east
+</code></pre>
 
                     </main>
 

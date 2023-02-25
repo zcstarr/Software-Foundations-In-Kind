@@ -1,4 +1,4 @@
-# Types - Basic
+# Basic Types
 
 What you need to know about Types in Kind.
 

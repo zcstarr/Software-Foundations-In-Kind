@@ -438,7 +438,7 @@ This works too //</code></pre>
 <p>Now that you, fellow Kind Astronaut, know went through all this preparation, our journey has everything to begin! </p>
 <p>Let's start by learning what are these so called &quot;<a href="Basic/../Basic/Types.html">Types</a>&quot;.</p>
 <p>&quot;Types of what?! Fruits?&quot; - Recruit nº42.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="types---basic"><a class="header" href="#types---basic">Types - Basic</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="basic-types"><a class="header" href="#basic-types">Basic Types</a></h1>
 <p>What you need to know about Types in Kind.</p>
 <p>Types, which is short for &quot;Data Types&quot;, have an important role in Kind's environment. They provide Kind the information about which type of data it's going to work with. That's why the word &quot;Type&quot; appears a lot throughout this guide.</p>
 <p>So, it is extremely important that you get as comfortable as possible using it. Please, read this guide as many times as necessary to fell like an expert in this subject.</p>
@@ -476,7 +476,7 @@ type Typename {
 </code></pre>
 <p>It is very important to name constructors based on what value they will have inside the functions, it improves the readability of the code.</p>
 <p>Now that you know Types a little bit better, it's time to dig deeper into what constitutes a type. Let's proceed to <a href="Basic/./Constructors.html">Constructors</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="constructors---basic"><a class="header" href="#constructors---basic">Constructors - Basic</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="--basic-constructors"><a class="header" href="#--basic-constructors">- Basic Constructors</a></h1>
 <p>What are they building?</p>
 <p>Constructor is a short name for &quot;data constructor&quot;. Every one of them belongs to a Type and stores a value. It can be used to store values together, but can also store none. In that last case it is called a Nullary Constructor, meaning that they are constants.</p>
 <p>Here is an example of Constructors from the Bool Type:</p>
@@ -506,7 +506,7 @@ type Bool {
     Bool.false
 </code></pre>
 <p>The <code>Bool.true</code> and <code>Bool.false</code> are the correct way to call those constructors outside their Type. In this case, the Bool Type.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="functions---basic"><a class="header" href="#functions---basic">Functions - Basic</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="basic-functions"><a class="header" href="#basic-functions">Basic Functions</a></h1>
 <p>The life inside Kind Universe.</p>
 <h2 id="what-are-functions"><a class="header" href="#what-are-functions">What are Functions</a></h2>
 <p>Functions gives types and constructors a meaning. Types, by themselves, are simply a categorization of constructors, but, when applied to functions, that's when the &quot;magic&quot; happens!</p>
@@ -731,10 +731,155 @@ kind2 check hello_world.kind2
 Knowing how to use this powerful tool, let's learn more about what gives life to Kind, the functions.</p>
 <p>Thats all of the Kind Basics! if have come all this way congrats! now you can write basic functions in Kind, now, we can proceed to Kind Intermediate! Let's go Rookie, time for us go to a Voyage!</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<p>After learning about Constructors, Types and Functions, you may use this section to see and study some examples from each of them. Simply use the index navigation below:</p>
+<ol>
+<li><a href="Examples/./Basic.html">Basic Types Examples</a></li>
+<li><a href="Examples/./Constructors.html">Basic Constructor Examples</a></li>
+<li><a href="Examples/./Function.html">Basic Function Examples</a></li>
+</ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-type-examples"><a class="header" href="#basic-type-examples">Basic Type Examples</a></h1>
+<p>Then, in this section you may find Basic type examples with only Nullary Constructors.</p>
+<h2 id="type-single"><a class="header" href="#type-single">Type Single</a></h2>
+<pre><code class="language-Rust ignore">// A type with only one constructor that doesn't have a stored value.
+type Single { 
+  lonely       // :(
+}
+
+// Single concrete values: 
+  // Single.lonely
+</code></pre>
+<h2 id="type-bool"><a class="header" href="#type-bool">Type Bool</a></h2>
+<pre><code class="language-Rust ignore">// A type with two constructors where both doesn't have a stored value.
+
+type Bool { 
+  true
+  false
+}
+
+// Bool concrete values:
+  // Bool.true
+  // Bool.false
+</code></pre>
+<h2 id="type-cardinal"><a class="header" href="#type-cardinal">Type Cardinal</a></h2>
+<pre><code class="language-Rust ignore">Type Cardinal
+// A type with four constructors and neither of them have a stored value.
+
+type Cardinal { 
+  north
+  south
+  west
+  east
+}
+
+// Cardinal concrete values: 
+  // Cardinal.north
+  // Cardinal.south
+  // Cardinal.west
+  // Cardinal.east
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-constructors-examples"><a class="header" href="#basic-constructors-examples">Basic Constructors Examples</a></h1>
+<p>Here are examples of nullary constructors using different Types.</p>
+<h2 id="single-constructors"><a class="header" href="#single-constructors">Single Constructors</a></h2>
+<pre><code class="language-Rust ignore">// A type with only one constructor without a stored value.
+
+type Single {
+  lonely       // :(
+}
+
+// Single constructor: 
+  // lonely
+</code></pre>
+<h2 id="bool-constructors"><a class="header" href="#bool-constructors">Bool Constructors</a></h2>
+<pre><code class="language-Rust ignore">// A type with two constructors where both do not have a stored value.
+
+type Bool { 
+  true
+  false 
+}
+
+// Bool constructors:
+  // true
+  // false
+</code></pre>
+<h2 id="cardinal-constructors"><a class="header" href="#cardinal-constructors">Cardinal Constructors</a></h2>
+<pre><code class="language-Rust ignore">// A type with four constructors and neither of them have a stored value.
+
+type Cardinal { 
+  north  
+  south  
+  west   
+  east     
+}
+
+// Cardinal constructors: 
+  // north
+  // south
+  // west
+  // east
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="basic-function-examples"><a class="header" href="#basic-function-examples">Basic Function Examples</a></h1>
-<h2 id="function-or-with-syntax-sugar"><a class="header" href="#function-or-with-syntax-sugar">Function Or with Syntax Sugar</a></h2>
+<p>And finally, some Basic Function Examples using the Boolean Type.</p>
+<h2 id="function-identity"><a class="header" href="#function-identity">Function Identity</a></h2>
+<pre><code class="language-Rust ignore">Identity (b: Bool): Bool 
+Identity b = b
+</code></pre>
+<p>The <code>Identity</code> function always returns the input value itself. Therefore, if &quot;b&quot; value is &quot;True&quot; then the output is also &quot;True&quot;. The same would happen if the value of &quot;b&quot; is &quot;False&quot;.</p>
+<h2 id="function-negation"><a class="header" href="#function-negation">Function Negation</a></h2>
+<pre><code class="language-Rust ignore">Negation (a: Bool) : Bool 
+Negation Bool.true = Bool.false
+Negation Bool.false = Bool.true  
+</code></pre>
+<p>The function negation always returns the opposite of the user input. If the input is the Boolean &quot;True&quot;, it returns &quot;False&quot;. The contrary is also correct.</p>
+<h2 id="function-and"><a class="header" href="#function-and">Function And</a></h2>
+<pre><code class="language-Rust ignore">
+Negation (a: Bool) : Bool 
+Negation Bool.true = Bool.false
+Negation Bool.false = Bool.true 
+</code></pre>
+<p>This function basically returns True if both inputs are &quot;True&quot;. Taking close attention to the &quot;True&quot; branch inside &quot;case b&quot;, you may realize it does the same as function identity, returns the value of the input itself. Also, you don't really need to examine the &quot;False&quot; branch, because every other input will return False.
+So, let's take a look on how to better write this function.</p>
+<h2 id="function-and-with-pattern-matching"><a class="header" href="#function-and-with-pattern-matching">Function And with Pattern Matching</a></h2>
+<pre><code class="language-Rust ignore">And (a: Bool) (b: Bool) : Bool
+And Bool.true Bool.true = Bool.true
+And Bool.true Bool.false = Bool.false
+And Bool.false Bool.true = Bool.false
+And Bool.false Bool.false = Bool.false
+</code></pre>
+<p>One possible way to write the function is opening the &quot;case a b&quot;, in other worlds, opening both cases at the same time. But, in this situation, there are a lot of Bool.false outcomes. To avoid this repetition you can set a default answer and make the cases that matches this to be implicit. Just like below:</p>
+<pre><code class="language-Rust ignore">And (a: Bool) (b: Bool) : Bool
+And Bool.true  b = b
+And Bool.false b = Bool.false
+</code></pre>
+<h2 id="function-or"><a class="header" href="#function-or">Function Or</a></h2>
+<pre><code class="language-Rust ignore">Or (a: Bool) (b: Bool) : Bool
+Or Bool.true Bool.true = Bool.true
+Or Bool.true Bool.false = Bool.true
+Or Bool.false Bool.true = Bool.true
+Or Bool.false Bool.false = Bool.false
+</code></pre>
+<p>According to the Or logics, if any input to this function is &quot;True&quot;, then the outcome will also be &quot;True&quot;. That's why the &quot;True&quot; branch on &quot;case a&quot; does not depend on the &quot;b&quot; value.
+On the other hand, for the &quot;False&quot; branch inside the same case, the outcome depends purely on the &quot;b&quot; value. If it is &quot;True&quot; the function returns &quot;True&quot;, and if it is &quot;False&quot; the return will also be &quot;False&quot;.</p>
+<p>Let's see how it is possible to would work using Pattern Matching.</p>
+<h2 id="function-or-with-pattern-matching"><a class="header" href="#function-or-with-pattern-matching">Function Or with Pattern Matching</a></h2>
+<pre><code class="language-Rust ignore">Or (a: Bool) (b: Bool) : Bool {
+ match Bool a {
+    true =&gt; Bool.true
+    false =&gt; b
+  }
+}
+</code></pre>
+<p>It basically happens the same as the function AND example, there is a repetition of the same outcome, in this case the &quot;Bool.true&quot;. So it is possible to do the sabe as we did before, set it as the default answer and implicit some of the pattern match cases. It would look like this:</p>
+<pre><code class="language-Rust ignore">Or (a: Bool) (b: Bool) : Bool
+Or Bool.true  b = Bool.true
+Or Bool.false b = b
+</code></pre>
+<h2 id="function-equal-with-composition"><a class="header" href="#function-equal-with-composition">Function Equal with composition</a></h2>
+<pre><code class="language-Rust ignore">Eql (a: Bool) (b: Bool) : Bool
+Eql Bool.true   Bool.true  = Bool.true
+Eql Bool.false  Bool.false = Bool.true
+Eql a           b          = Bool.false
+</code></pre>
+<p>You can use functions inside functions as well, that is, hacking the game! We are going to learn about it later, but as you are already here, know that you can compose functions.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-kind-voyage"><a class="header" href="#a-kind-voyage">A Kind Voyage!</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="constructors-with-value"><a class="header" href="#constructors-with-value">Constructors with Value</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="polymorphic-types"><a class="header" href="#polymorphic-types">Polymorphic Types</a></h1>
