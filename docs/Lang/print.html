@@ -1463,9 +1463,90 @@ type Multiple (a: Type) (b: Type) {
 </code></pre>
 <p>The swap functions simply swaps the first with the second element of the pair. Basically it creates a new pair where the second element is the first and vice versa.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="a-kind-discovery"><a class="header" href="#a-kind-discovery">A Kind Discovery!</a></h1>
+<p>Black holes and Revelations</p>
+<p>Kind's universe is unlimited, there it is countless planets and also countless life forms ,but in here we are going to explore some abstractions, and the most important for this part, recursion and some ways to work with them:</p>
+<ol>
+<li><a href="Discovery/./Currying.html">Currying</a></li>
+<li><a href="Discovery/./Numbers.html">Nat and List Types</a></li>
+<li><a href="Discovery/./Recursive.html">Recursive Algorithms</a></li>
+</ol>
+<p>The <a href="https://en.wikipedia.org/wiki/Natural_number">Natural Number</a> Planet and the Pair Planet.</p>
+<p>In our voyage we are going to have a very similar approach that we had in Kind Basics, but instead we are in a Intermediate level, the learning curve here is a little bit higher but nothing impossible, i am sure that together we can understand and work with these types, so, let's go buddy, time for us to learn more things about Constructors.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="currying"><a class="header" href="#currying">Currying</a></h1>
+<p>Spicing things up</p>
+<h2 id="a-different-method-to-represent-a-function"><a class="header" href="#a-different-method-to-represent-a-function">A Different method to represent a function</a></h2>
+<p>We learned in <a href="Discovery/../Basic/Functions.html">Basic Functions</a> the standard method to build a function but here things are about to get spicy.</p>
+<h2 id="currying-1"><a class="header" href="#currying-1">Currying</a></h2>
+<p>Currying is the transformation of a function with multiple arguments into a sequence of single-argument functions. That means converting a function like this f(a) (b) (c). The variables, a, b and c must have a type in Kind, lets name them a,b and c Polymorphic Types, since they can be of any type, and represent them using an Arrow:</p>
+<pre><code class="language-rs ignore">f: a -&gt; b -&gt; c
+</code></pre>
+<p>In this example the function f has an argument of the type a, then one of the type b and return something of the type c, remember, a, b and c are only names for the Polymorphic Types, they can have the same type:</p>
+<pre><code class="language-rs ignore">f (a: Bool) (b:Bool) : Bool         // Bool.eql, Bool.or, Bool.and, ...
+/////////////////////////
+f:    Bool -&gt;  Bool -&gt; Bool        // Bool.eql, Bool.or, Bool.and, ...
+/////////////////////////
+f:    Bool -&gt;  Bool -&gt; Bool
+|      |        |       |
+v      v        v       v
+f (a: Bool) (b:Bool) : Bool
+</code></pre>
+<p>This method works for representing Generic Functions, since our function f can be any Bool function that receives two arguments, we don't clearly know which function we are referring to, that means we abstracted the specific function to a generic one.
+We are going to use this syntax in some functions and to understand better the <a href="Discovery/./Numbers.html">type Nat</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="natural-numbers"><a class="header" href="#natural-numbers">Natural Numbers</a></h1>
+<h2 id="a-new-voyage"><a class="header" href="#a-new-voyage">A New Voyage</a></h2>
+<p>Welcome to the new planet, i hope you aren't dizzy from the travel! Let's go partner, I have many things I want to show you, and ah, welcome to the  Natural Number Planet.
+Then let me ask you, when i said Natural Numbers, and thinking of types, can you imagine us doing an infinite type, since the natural numbers can go from zero to positive infinite? Well, you could go with:</p>
+<pre><code class="language-Rust ignore">type Nat { 
+  zero
+  one
+  two
+  three
+  ....
+}
+</code></pre>
+<p>And that would take ages (forever i would say), that's what the natural numbers thought as well, then they had to figure out how to have all numbers in a much smaller structure, it had to fit in a Planet. After years, the Nat (We are going to affectionately call them Nat, the type Nat) found out how:</p>
+<pre><code>type Nat {
+  zero
+  succ (pred: Nat)
+}
+</code></pre>
+<p>Within these 2 constructors, the type Nat managed to approach all positive infinite numbers starting with zero, if you can't see how yet, by the end of this page, we are going to be able to!
+Also, just to make it clear, succ is a short name for Successor and pred is for Predecessor.</p>
+<pre><code>type Nat {
+  zero                // Nullary constructor
+  succ (pred: Nat)    // constructor with value
+}
+</code></pre>
+<p>As we can see, zero is a constant, a Nullary constructor (which is true), now succ has a variable named pred of the type Nat.</p>
+<p>Constructors with value</p>
+<p>Lets remember two things here:</p>
+<ul>
+<li>To declare concrete values, we write typename.constructor, using Bool as example we would have either Bool.true or Bool.false as valid concrete data to Bool type.</li>
+<li>Functions have a name, followed to its arguments, the type, then the return.
+Now that we know the Nat type, if we were to declare its concrete values we would have:</li>
+</ul>
+<pre><code class="language-Rust ignore">Nat.zero
+Nat.succ
+</code></pre>
+<p>Lets make a new file, named Numbers.kind and type check both of values, remembering, we can only do it one by one in Kind.</p>
+<p>We add a line with Numbers: Nat  to our file and lets test first the Nat.zero:</p>
+<pre><code class="language-Rust ignore">Numbers: Nat
+
+All terms check.
+</code></pre>
+<p>Time for us to do the same with the Nat.succ:</p>
+<pre><code>Type mismatch.
+- Expected: Nat
+- Detected: (pred:Nat) -&gt; Nat
+</code></pre>
+<p>The type checker acuses a Type mismatch, since it expected something of the type Nat, and found a function that has an argument of the type Nat, and then this function is something of the type Nat.</p>
+<ul>
+<li>In kind we write a function the way we learned in <a href="Discovery/../Basic/Functions.html">Basic Functions</a>, but we can represent it with arrows -&gt;  as explained in <a href="Discovery/./Currying.html">Currying</a>, you can find more examples about it <a href="Discovery/../Voyage/Examples/Intermediate_Funtions.html">here</a>.</li>
+</ul>
+<h2 id="succs-and-preds"><a class="header" href="#succs-and-preds">Succs and Preds</a></h2>
+<p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="recursive-algorithms"><a class="header" href="#recursive-algorithms">Recursive Algorithms</a></h1>
+<p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="syntax-sugar"><a class="header" href="#syntax-sugar">Syntax Sugar</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contribuidores"><a class="header" href="#contribuidores">Contribuidores</a></h1>
 

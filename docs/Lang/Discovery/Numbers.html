@@ -144,6 +144,58 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="natural-numbers"><a class="header" href="#natural-numbers">Natural Numbers</a></h1>
+<h2 id="a-new-voyage"><a class="header" href="#a-new-voyage">A New Voyage</a></h2>
+<p>Welcome to the new planet, i hope you aren't dizzy from the travel! Let's go partner, I have many things I want to show you, and ah, welcome to the  Natural Number Planet.
+Then let me ask you, when i said Natural Numbers, and thinking of types, can you imagine us doing an infinite type, since the natural numbers can go from zero to positive infinite? Well, you could go with:</p>
+<pre><code class="language-Rust ignore">type Nat { 
+  zero
+  one
+  two
+  three
+  ....
+}
+</code></pre>
+<p>And that would take ages (forever i would say), that's what the natural numbers thought as well, then they had to figure out how to have all numbers in a much smaller structure, it had to fit in a Planet. After years, the Nat (We are going to affectionately call them Nat, the type Nat) found out how:</p>
+<pre><code>type Nat {
+  zero
+  succ (pred: Nat)
+}
+</code></pre>
+<p>Within these 2 constructors, the type Nat managed to approach all positive infinite numbers starting with zero, if you can't see how yet, by the end of this page, we are going to be able to!
+Also, just to make it clear, succ is a short name for Successor and pred is for Predecessor.</p>
+<pre><code>type Nat {
+  zero                // Nullary constructor
+  succ (pred: Nat)    // constructor with value
+}
+</code></pre>
+<p>As we can see, zero is a constant, a Nullary constructor (which is true), now succ has a variable named pred of the type Nat.</p>
+<p>Constructors with value</p>
+<p>Lets remember two things here:</p>
+<ul>
+<li>To declare concrete values, we write typename.constructor, using Bool as example we would have either Bool.true or Bool.false as valid concrete data to Bool type.</li>
+<li>Functions have a name, followed to its arguments, the type, then the return.
+Now that we know the Nat type, if we were to declare its concrete values we would have:</li>
+</ul>
+<pre><code class="language-Rust ignore">Nat.zero
+Nat.succ
+</code></pre>
+<p>Lets make a new file, named Numbers.kind and type check both of values, remembering, we can only do it one by one in Kind.</p>
+<p>We add a line with Numbers: Nat  to our file and lets test first the Nat.zero:</p>
+<pre><code class="language-Rust ignore">Numbers: Nat
+
+All terms check.
+</code></pre>
+<p>Time for us to do the same with the Nat.succ:</p>
+<pre><code>Type mismatch.
+- Expected: Nat
+- Detected: (pred:Nat) -&gt; Nat
+</code></pre>
+<p>The type checker acuses a Type mismatch, since it expected something of the type Nat, and found a function that has an argument of the type Nat, and then this function is something of the type Nat.</p>
+<ul>
+<li>In kind we write a function the way we learned in <a href="../Basic/Functions.html">Basic Functions</a>, but we can represent it with arrows -&gt;  as explained in <a href="./Currying.html">Currying</a>, you can find more examples about it <a href="../Voyage/Examples/Intermediate_Funtions.html">here</a>.</li>
+</ul>
+<h2 id="succs-and-preds"><a class="header" href="#succs-and-preds">Succs and Preds</a></h2>
+<p>TODO</p>
 
                     </main>
 
