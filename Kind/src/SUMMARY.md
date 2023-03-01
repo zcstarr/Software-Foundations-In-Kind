@@ -37,6 +37,7 @@
   - [Conectivos Lógicos](./Book/chapter_06/6,1.md)
   - [Falsidade e Negação](./Book/chapter_06/6,2.md)
   - [Verdade, Equivalência e Quantificação](./Book/chapter_06/6,3.md)
+  - [Programação com proposições](Book/chapter_06/6,4.md)
 
 -----------
 
