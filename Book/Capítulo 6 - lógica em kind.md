@@ -598,3 +598,54 @@ In_example_2 n (Either.right e)           = $ 2n (Either.lft e)
 
 Também podemos provar lemas mais genéricos e de nível superior sobre In. Observe, no próximo exemplo, como In começa sendo aplicado a uma variável e só é expandido quando fazemos análise de casos nessa variável:
 
+
+```rust ignore
+In_map <a> <b> (f: a -> b) (xs: List a) (x: a) (i: In x xs) : In (f x) (List.map xs f) 
+In_map a b f (List.nil) x i = Empty.absurd i
+In_map a b f (List.cons xs.h xs.t) x (Either.right e) = Either.right (In_map f xs.t x e)
+In_map a b f (List.cons xs.h xs.t) x (Either.left e)  = 
+    (Equal.rewrite e 
+    (y => (Either (Equal (f x) (f y)) (In (f x) (List.map xs.t f)))) 
+    (Either.left Equal.refl))
+```
+
+Essa forma de definir proposições recursivamente, embora conveniente em alguns casos, também tem algumas desvantagens. Em particular, está sujeita às restrições usuais do Kind em relação à definição de funções recursivas, por exemplo, o requisito de que elas sejam "obviamente terminantes". No próximo capítulo, veremos como definir proposições indutivamente, uma técnica diferente com seu próprio conjunto de pontos fortes e limitações.
+
+
+#### 2.0.1 In_map_equiv
+```rust ignore
+In_map_equiv <a> <b> (f: a -> b) (l: List a) (y: b) :
+   Equivalence (In y (List.map l f)) (Sigma a (x => (Pair (Equal (f x) y) (In x l))))
+In_map_equiv a b f l y = ?
+```
+
+#### 2.0.2 In_app_equiv
+```rust ignore
+In_app_equiv <a> (x: a) (l1: List a) (l2: List a) :
+  (Equivalence (In x (List.concat l1 l2)) (Either (In x l1) (In x l2)))
+In_app_equiv a x l1 l2 = ?
+```
+
+#### 2.0.3 All
+Lembre-se de que funções que retornam proposições podem ser vistas como propriedades de seus argumentos. Por exemplo, se *p* tem o tipo `Nat -> Type`, então `p n` afirma que a propriedade p é verdadeira para n.
+
+Inspirado em *In*, escreva uma função recursiva *All* afirmando que alguma propriedade *p* é verdadeira para todos os elementos de uma lista *l*. Para garantir que sua definição esteja correta, prove o lema *All_In* abaixo. (É claro que sua definição não deve apenas repetir o lado esquerdo de *All_In*.)
+
+```rust ignore
+All <t> (p: t -> Type) (l: List t)  : Type
+All t p l = ?
+
+All_in <t> (p: t -> Type) (l: List t) : Equivalence ((x: t) -> (i: In x l) -> p x) (All p l)
+All_in t p l = ?
+```
+
+#### 2.0.4 Combine_odd_even
+Complete a definição da função combine_odd_even abaixo. Ela recebe como argumentos duas propriedades de números, podd e peven, e deve retornar uma propriedade p tal que p n é equivalente a podd n quando n é ímpar e equivalente a peven n caso contrário.
+
+```rust ignore
+Combine_odd_even (podd: Nat -> Type) (peven: Nat -> Type) : Nat -> Type
+Combine_odd_even podd peven = ?
+```
+
+
+
