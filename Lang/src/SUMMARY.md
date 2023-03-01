@@ -13,10 +13,10 @@
   - [Constructors](./Basic/Constructors.md)
   - [Functions](./Basic/Functions.md)
   - [Type Checker](./Basic/TypeChecker.md)
-- [Examples](./Examples/Examples.md)
-  - [Type Examples](./Examples/Basic.md)
-  - [Constructors Examples](./Examples/Constructors.md)
-  - [Function Examples](./Examples/Function.md)
+  - [Examples](./Examples/Examples.md)
+    - [Type Examples](./Examples/Basic.md)
+    - [Constructors Examples](./Examples/Constructors.md)
+    - [Function Examples](./Examples/Function.md)
 
 # Voyage
 
@@ -24,11 +24,12 @@
   - [Constructors with Value](./Voyage/Constructors.md)
   - [Polymorphic Types](./Voyage/Polymorphic.md)
   - [Accessing Constructor Values](./Voyage/Accessing.md)
+  - [More about Functions](./Voyage/Functions.md)
   - [Examples](./Voyage/Examples/Examples.md)
-  - [Maybe and Pair Basics](./Voyage/Examples/Maybe_Pair_Variation.md)
-  - [Maybe and Pair](./Voyage/Examples/Maybe_Pair.md)
-  - [Intermediate Types](./Voyage/Examples/Intermediate_Types.md)
-  - [Intermediate Functions](./Voyage/Examples/Intermediate_Funtions.md)
+    - [Maybe and Pair Basics](./Voyage/Examples/Maybe_Pair_Basics.md)
+    - [Maybe and Pair](./Voyage/Examples/Maybe_Pair_Variation.md)
+    - [Intermediate Types](./Voyage/Examples/Intermediate_Types.md)
+    - [Intermediate Functions](./Voyage/Examples/Intermediate_Funtions.md)
 
 # Discovery
 
