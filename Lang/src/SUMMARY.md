@@ -13,10 +13,10 @@
   - [Constructors](./Basic/Constructors.md)
   - [Functions](./Basic/Functions.md)
   - [Type Checker](./Basic/TypeChecker.md)
-  - [Examples](./Examples/Examples.md)
-    - [Type Examples](./Examples/Basic.md)
-    - [Constructors Examples](./Examples/Constructors.md)
-    - [Function Examples](./Examples/Function.md)
+  - [Examples](./Basic/Examples/Examples.md)
+    - [Type Examples](./Basic/Examples/Basic.md)
+    - [Constructors Examples](./Basic/Examples/Constructors.md)
+    - [Function Examples](./Basic/Examples/Function.md)
 
 # Voyage
 

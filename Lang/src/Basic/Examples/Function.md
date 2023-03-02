@@ -24,10 +24,11 @@ The function negation always returns the opposite of the user input. If the inpu
 ## Function And
 
 ```Rust,ignore
-
-Negation (a: Bool) : Bool 
-Negation Bool.true = Bool.false
-Negation Bool.false = Bool.true 
+And (a: Bool) (b: Bool) : Bool
+And Bool.true Bool.true = Bool.true
+And Bool.true Bool.false = Bool.false
+And Bool.false Bool.true = Bool.false
+And Bool.false Bool.false = Bool.false 
 ```
 
 This function basically returns True if both inputs are "True". Taking close attention to the "True" branch inside "case b", you may realize it does the same as function identity, returns the value of the input itself. Also, you don't really need to examine the "False" branch, because every other input will return False.
@@ -36,12 +37,15 @@ So, let's take a look on how to better write this function.
 ## Function And with Pattern Matching
 
 ```Rust,ignore
-And (a: Bool) (b: Bool) : Bool
-And Bool.true Bool.true = Bool.true
-And Bool.true Bool.false = Bool.false
-And Bool.false Bool.true = Bool.false
-And Bool.false Bool.false = Bool.false
+And (a: Bool) (b: Bool) : Bool {
+  match Bool a {
+    true => b
+    false => Bool.false
+  }
+}
+
 ```
+
 One possible way to write the function is opening the "case a b", in other worlds, opening both cases at the same time. But, in this situation, there are a lot of Bool.false outcomes. To avoid this repetition you can set a default answer and make the cases that matches this to be implicit. Just like below:
 
 ```Rust,ignore
@@ -49,6 +53,7 @@ And (a: Bool) (b: Bool) : Bool
 And Bool.true  b = b
 And Bool.false b = Bool.false
 ```
+
 ## Function Or
 
 ```Rust,ignore
@@ -91,4 +96,5 @@ Eql Bool.true   Bool.true  = Bool.true
 Eql Bool.false  Bool.false = Bool.true
 Eql a           b          = Bool.false
 ```
+
 You can use functions inside functions as well, that is, hacking the game! We are going to learn about it later, but as you are already here, know that you can compose functions.

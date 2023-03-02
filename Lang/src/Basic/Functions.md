@@ -111,7 +111,7 @@ The returns are the tips of the branches.
 
 First things first, create a new file ``namedNegation.kind2``.
 
-In our ``Negation.kind2`` file we start with the first line (You can try doing it by yourself, click [here](../Examples/Function.md) for the answer)
+In our ``Negation.kind2`` file we start with the first line (You can try doing it by yourself, click [here](./Examples/Function.md) for the answer)
 
 ```rust,ignore
 Negation.function (b: Bool) : Bool 
@@ -240,7 +240,7 @@ true    false
 true     false  
 ```
 
-And this is how the And function would look like in Kind .  .  . BUT! you can improve it even further, i wont give you the answer here, but you are more than welcome to do it yourself, don't worry if you cant find the answer now, you can come back later and redo it with way more knowledge! ahh!! the smarter version is in [Functions](../Examples/Function.md) if you want to look for it.
+And this is how the And function would look like in Kind .  .  . BUT! you can improve it even further, i wont give you the answer here, but you are more than welcome to do it yourself, don't worry if you cant find the answer now, you can come back later and redo it with way more knowledge! ahh!! the smarter version is in [Functions](./Examples/Function.md) if you want to look for it.
 
 ## Running a Function
 
@@ -280,6 +280,6 @@ If you want to try other options, you can change the two arguments as the follow
 
 Note: Kind can only run one function at time, you can have as many functions in a file as you want, but you can only run one at a time.
 
-With all this knowledge, you can do the "**OR**" logics, and you can also find more basic Bool [exercises in our github](https://github.com/HigherOrderCO/class/blob/main/Kind/Exercises/ex_00.kind2). The "**OR**" logic answer can be found [here](../Examples/Function.md#function-or-with-syntax-sugar).
+With all this knowledge, you can do the "**OR**" logics, and you can also find more basic Bool [exercises in our github](https://github.com/HigherOrderCO/class/blob/main/Kind/Exercises/ex_00.kind2). The "**OR**" logic answer can be found [here](./Examples/Function.md#function-or-with-pattern-matching).
 
 Before proceeding to learn about functions, and how to use constructors inside them, it is important to understand about an important tool in Kind's environment, the Type Checker!
