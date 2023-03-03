@@ -647,5 +647,57 @@ Combine_odd_even (podd: Nat -> Type) (peven: Nat -> Type) : Nat -> Type
 Combine_odd_even podd peven = ?
 ```
 
+Para testar sua definição, prove os seguintes teoremas:
+
+```rust
+Combine_odd_even_intro
+  (n: Nat)
+  (podd:  Nat -> Type)
+  (peven: Nat -> Type)
+  (p1: (Equal (Nat.is_odd n) Bool.true)  -> podd  n)
+  (p2: (Equal (Nat.is_odd n) Bool.false) -> peven n) : (Combine_odd_even (podd) (peven)) n
+Combine_odd_even_intro n podd peven p1 p2 = ?
+
+Combine_odd_even_elim_odd
+  (n: Nat)
+  (podd:  Nat -> Type)
+  (peven: Nat -> Type)
+  (p: (Combine_odd_even podd peven) n)
+  (e: Equal (Nat.is_odd n) Bool.true) : podd n
+Combine_odd_even_elim_odd n podd peven p e = ?
+
+Combine_odd_elim_even
+  (n: Nat)
+  (podd: Nat -> Type)
+  (peven: Nat -> Type)
+  (p: (Combine_odd_even podd peven) n)
+  (e: Equal (Nat.is_odd n) Bool.false) : peven n
+Combine_odd_elim_even n podd peven p e = ?
+```
+
+## Aplicando Teoremas a Argumentos
+
+Uma característica do Kind que o distingue de muitos outros assistentes de prova é que ele trata provas como objetos de primeira classe.
+
+Há muito a ser dito sobre isso, mas não é necessário entender em detalhes para usar o Kind. Esta seção oferece apenas uma amostra, enquanto uma exploração mais profunda pode ser encontrada no capítulo *ProofObjects*.
+
+Vimos que podemos usar o comando *check* para pedir ao Kind que imprima o tipo de uma expressão. Também podemos usar *check* para perguntar a qual teorema um identificador particular se refere.
+
+```rust
+PlusCommutative (m: Nat) (n: Nat) : Equal (Nat.add n m) (Nat.add m n)
+PlusCommutative m n = ?
+```
+Kind imprime a declaração do teorema plusCommutative da mesma forma que imprime o tipo de qualquer termo que pedimos para verificar. Por quê?
+
+A razão é que o identificador plusCommutative se refere na verdade a um objeto de prova - uma estrutura de dados que representa uma derivação lógica estabelecendo a verdade da declaração *(n: Nat) (m: Nat) : n + m = m + n*. O tipo desse objeto é a declaração do teorema do qual é uma prova.
+Intuitivamente, isso faz sentido porque a declaração de um teorema nos diz para que podemos usá-lo, assim como o tipo de um objeto computacional nos diz o que podemos fazer com esse objeto - por exemplo, se temos um termo do tipo Nat -> Nat -> Nat, podemos dar a ele dois Nats como argumentos e obter um Nat de volta. Da mesma forma, se temos um objeto do tipo n = m -> n + n = m + m e fornecemos a ele um "argumento" do tipo n = m, podemos derivar n + n = m + m.
+Operacionalmente, essa analogia vai ainda mais longe: aplicando um teorema, como se fosse uma função, a hipóteses com tipos correspondentes, podemos especializar seu resultado sem ter que recorrer a afirmações intermediárias. Por exemplo, suponha que quiséssemos provar o seguinte resultado:
+
+```rust
+plus_comm3: (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
+
+```
+
+À primeira vista, parece que deveríamos ser capazes de provar isso abrindo os casos, pra caso *zero* e *succ _*, mas isso nos daria um trabalho desnecessário. Vejamamos um exemplo:
 
 
