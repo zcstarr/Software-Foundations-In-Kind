@@ -695,9 +695,89 @@ Operacionalmente, essa analogia vai ainda mais longe: aplicando um teorema, como
 
 ```rust
 plus_comm3: (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
-
 ```
 
 À primeira vista, parece que deveríamos ser capazes de provar isso abrindo os casos, pra caso *zero* e *succ _*, mas isso nos daria um trabalho desnecessário. Vejamamos um exemplo:
 
+```rust
+Plus_comm3a Nat.zero n p = ?
+```
 
+
+Nesse caso, o nosso objetivo é provar:
+```bash
+(Equal _ (Nat.add n p) (Nat.add (Nat.add p 0n) n)) 
+```
+
+Mas veja, para isso nós precisamos de outra prova, a de que 
+```bash
+Equal Nat (Nat.add p 0n) p
+```
+Para resolver essa prova seria esse o caminho:
+```rust
+Add_n_z (n: Nat)       : (Equal (Nat.add n Nat.zero) n)
+Add_n_z Nat.zero       = Equal.refl
+Add_n_z (Nat.succ n)   =
+     let ind = Add_n_z n
+     let app = (Equal.apply (x => (Nat.succ x)) ind)
+     app
+```
+Agora vamos provar:
+```rust
+Plus_comm3a (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
+Plus_comm3a Nat.zero n p = 
+  let pzr = Add_z_r p
+  let com = Plus_comm n p
+  let rwt = Equal.rewrite (Equal.mirror pzr) (x =>(Equal _ (Nat.add n p) (Nat.add (x) n))) com
+  rwt
+```
+Agora só nos resta provar para o caso de *Nat.succ n*
+
+```rust
+Plus_comm3a (Nat.succ m) n p = ?
+```
+e o nosso objetivo é `(Equal _ (Nat.succ (Nat.add m (Nat.add n p))) (Nat.add (Nat.add p n) (Nat.succ m)))` e para isso precisariamos de outras provas, como a que 
+```rust
+Plus_n_sm (n: Nat) (m: Nat) : (Equal Nat (Nat.succ (Nat.add n m))(Nat.add n (Nat.succ m)))
+Plus_n_sm Nat.zero m        = Equal.refl
+Plus_n_sm (Nat.succ n) m    = (Equal.apply (x => (Nat.succ x)) (Plus_n_sm n m))
+```
+E reescrever na prova da comutatividade da adição entre *n* e *p* e depois usar a prova da comutatividade para isso tudo, um trabalho cansativo e, posso dizer, desnecessário. 
+
+Ao invés de abrir os casos, vamos trabalhar com eles como variáveis puras, quase sem valor
+
+```rust
+Plus_comm3 (m: Nat) (n: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
+Plus_comm3 m n p = ?
+```
+Nosso objetivo continua sendo `(Equal _ (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n))` e para entender isso, vamos analisar o nosso problema e os próximos passos serão triviais demais:
+
+* *n + (m + p) = (p + m) + n* 
+
+Isso é exatamente a comutatividade da adição, então basta reescrever a nossa prova *Plus_comm* duas vezes, uma dentro da outra
+```rust
+let a = Equal.rewrite (Plus_comm p m) (x => (Equal (Nat.add n (Nat.add m p)) (Nat.add (x) n))) (Plus_comm3 m n p)
+```
+e veja o que nossa variável *a* retorna
+```bash
+(Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (Nat.add m p) n))
+```
+Estamos quase lá, basta apenas reescrever o segundo *Plus_comm* na adição mais interna do lado direito
+```rust
+let b = Equal.rewrite (Plus_comm m p) (x => (Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (x) n))) a
+```
+e o nosso *b* é exatamente igual ao nosso objetivo
+```bash
+(Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)) 
+```
+A prova completa fica:
+```rust
+Plus_comm3 (m: Nat) (n: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
+Plus_comm3 m n p = 
+  let a = Equal.rewrite (Plus_comm p m) (x => (Equal (Nat.add n (Nat.add m p)) (Nat.add (x) n))) (Plus_comm3 m n p)
+  let b = Equal.rewrite (Plus_comm m p) (x => (Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (x) n))) a
+  b
+```
+Muito mais simples e elegante, não precisava de tanto trabalho, uma breve leitura do problema praticamente já nos entregava a solução. Perceba, isso não foi diferente de tudo o que já fizemos até aqui, é até uma repetição dos passos anteriores, é semelhante à aplicação de uma função polimórfica a um argumento de tipo.
+
+Você pode "usar teoremas como funções" desta maneira com quase todas as táticas que recebem um nome de teorema como argumento. Note também que a aplicação de teorema usa os mesmos mecanismos de inferência que a aplicação de função; portanto, é possível, por exemplo, fornecer wildcards como argumentos a serem inferidos, ou declarar algumas hipóteses de um teorema como implícitas por padrão. Esses recursos são ilustrados na prova abaixo.
