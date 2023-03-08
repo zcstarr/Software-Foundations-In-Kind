@@ -781,3 +781,69 @@ Plus_comm3 m n p =
 Muito mais simples e elegante, não precisava de tanto trabalho, uma breve leitura do problema praticamente já nos entregava a solução. Perceba, isso não foi diferente de tudo o que já fizemos até aqui, é até uma repetição dos passos anteriores, é semelhante à aplicação de uma função polimórfica a um argumento de tipo.
 
 Você pode "usar teoremas como funções" desta maneira com quase todas as táticas que recebem um nome de teorema como argumento. Note também que a aplicação de teorema usa os mesmos mecanismos de inferência que a aplicação de função; portanto, é possível, por exemplo, fornecer wildcards como argumentos a serem inferidos, ou declarar algumas hipóteses de um teorema como implícitas por padrão. Esses recursos são ilustrados na prova abaixo.
+
+
+```rust
+Lemma_app_ex 
+  (n: Nat) 
+  (xs: List Nat) 
+  (i: In n (List.map xs (x => Nat.mul x Nat.zero)))   : Equal Nat n 0n
+Lemma_app_ex n List.nil i                             = Empty.absurd i
+Lemma_app_ex n (List.cons xs.h xs.t) (Either.left i)  = 
+  let mult_0_r_xsh = Mult_0_r xs.h
+  let rwt = Equal.rewrite (Equal.mirror i) (x => Equal Nat x 0n) mult_0_r_xsh
+  rwt
+Lemma_app_ex n (List.cons xs.h xs.t) (Either.right i) = Lemma_app_ex n xs.t i
+```
+Veremos muitos mais exemplos dos estilos desta seção nos capítulos posteriores.
+
+
+## Kind vs Teoria dos Conjuntos
+
+O núcleo lógico do Coq, o Cálculo das Construções Indutivas, difere de algumas maneiras importantes de outros sistemas formais que são usados pelos matemáticos para escrever provas precisas e rigorosas. Por exemplo, na fundação mais popular para a matemática em papel e lápis convencional, a Teoria dos Conjuntos de Zermelo-Fraenkel (ZFC), um objeto matemático pode potencialmente ser membro de muitos conjuntos diferentes; um termo na lógica de Kind, por outro lado, é membro de no máximo um tipo. Essa diferença muitas vezes leva a formas ligeiramente diferentes de capturar conceitos matemáticos informais, mas estes são, em grande parte, bastante naturais e fáceis de trabalhar. Por exemplo, em vez de dizer que um número natural n pertence ao conjunto de números pares, diríamos em Kind que ev n é verdadeiro, onde ev: Nat -> Tipo é uma propriedade que descreve os números pares.
+
+No entanto, há alguns casos em que traduzir o raciocínio matemático padrão para Kind pode ser tanto trabalhoso quanto, às vezes, até impossível, a menos que enriqueçamos a lógica central com axiomas adicionais. Concluímos este capítulo com uma breve discussão de algumas das diferenças mais significativas entre os dois mundos.
+
+### Extensão Funcional. 
+As afirmações de igualdade que vimos até agora dizem principalmente respeito a elementos de tipos indutivos (Nat, Bool, etc.). Mas como o operador de igualdade de Kind é polimórfico, essas não são as únicas possibilidades - em particular, podemos escrever proposições que afirmam que duas funções são iguais uma à outra:
+
+```rust 
+Function_equality_ex1 : Equal (Nat.succ 3n) (Nat.succ (Nat.pred 4n))
+Function_equality_ex1 = Equal.refl
+```
+
+Na prática matemática comum, duas funções f e g são consideradas iguais se produzem as mesmas saídas:
+
+(∀𝑥, 𝑓(𝑥) = 𝑔(𝑥)) → 𝑓 = 𝑔
+
+Isto é conhecido como o princípio da extensão funcional.
+
+De forma informal, uma "propriedade extensional" é aquela que diz respeito ao comportamento observável de um objeto. Assim, a extensão funcional significa simplesmente que a identidade de uma função é completamente determinada pelo que podemos observar a partir dela - isto é, em termos de Kind, os resultados que obtemos após aplicá-la.
+
+A extensão funcional não faz parte dos axiomas básicos do Kind. Isso significa que algumas proposições "razoáveis" não são prováveis.
+
+```rust
+Function_equality_ex2 : Equal ((x: Nat) => Nat.add x 1n) ((x: Nat) => Nat.add 1n x)
+Function_equality_ex2 = ?
+```
+
+No entanto, podemos declarar um teorema e pular a sua prova ou usar um buraco
+
+```rust
+Functional_extensionality <a><b> (f: a -> b) (g: a -> b) (e: (x: a) -> Equal (f x) (g x)) : Equal f g
+```
+
+Agora podemos invocar a extensionalidade funcional em provas:
+```rust
+Function_equality_ex2 : Equal ((x: Nat) => Nat.add x 1n) ((x: Nat) => Nat.add 1n x)
+Function_equality_ex2 =
+  Functional_extensionality ((x: Nat) => Nat.add x 1n) ((x: Nat) => Nat.add 1n x) (x => Plus_comm x 1n)
+```
+
+Naturalmente, devemos ter cuidado ao adicionar novos axiomas à lógica do Kind, pois eles podem torná-la inconsistente - ou seja, podem tornar possível provar todas as proposições, incluindo Void!
+
+Infelizmente, não há uma maneira simples de saber se um axioma é seguro para adicionar: geralmente é necessário um trabalho árduo para estabelecer a consistência de qualquer combinação particular de axiomas.
+
+No entanto, sabe-se que adicionar a extensionalidade funcional, em particular, é consistente.
+
+#### Tr_rev 
