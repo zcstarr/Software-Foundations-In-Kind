@@ -2549,51 +2549,70 @@ Dist_exists_or a p q = ?dist_exists_or_rhs</code></pre>
 <li>Caso contrário, l tem a forma <em>List.cons xh xt</em>. Nesse caso, x ocorre em l se ele é igual a xh ou se ocorre em xt.</li>
 </ul>
 <p>Podemos traduzir isso diretamente em uma função recursiva simples que recebe um elemento e uma lista e retorna uma proposição:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>In &lt;a&gt; (x: a) (xs: List a)    : Type
-In a x List.nil               = Empty
-In a x (List.cons xs.h xs.t)  = Either (Equal x xs.h) (In a x xs.t)
-<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-rust  ignore">In &lt;a&gt; (x: a) (l: List a)    : Type
+In a x List.nil              = Empty
+In a x (List.cons head tail) = Either (Equal a x head) (In a x tail) </code></pre>
 <p>Quando In é aplicado a uma lista concreta, ele se expande em uma sequência concreta de disjunções aninhadas.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>In_example_1 : In 4n [1n, 2n, 3n, 4n, 5n]
+<pre><code class="language-rust  ignore">In_example_1 : In 4n [1n, 2n, 3n, 4n, 5n]
 In_example_1 = (Either.right (Either.right (Either.right (Either.left Equal.refl))))
 
-In_example_2 (n: Nat) (i: In n [2n, 4n])  : Sigma Nat (m =&gt; Equal n (Nat.mul 2n m))
-In_example_2 n (Either.left e)            = $ 1n e
-In_example_2 n (Either.right e)           = $ 2n (Either.lft e)
-<span class="boring">}</span></code></pre></pre>
+In_example_2 (n: Nat) (i: In n [2n, 4n]) : Sigma Nat (m =&gt; Equal Nat n (Nat.mul 2n m))
+In_example_2 n (Either.left e)                                  = $ 1n e
+In_example_2 n (Either.right l (Either rl rr) (Either.left e))  = $ 2n e
+In_example_2 n (Either.right l (Either rl rr) (Either.right e)) = Empty.absurd e</code></pre>
 <p>Também podemos provar lemas mais genéricos e de nível superior sobre In. Observe, no próximo exemplo, como In começa sendo aplicado a uma variável e só é expandido quando fazemos análise de casos nessa variável:</p>
-<pre><code class="language-rust ignore">In_map &lt;a&gt; &lt;b&gt; (f: a -&gt; b) (xs: List a) (x: a) (i: In x xs) : In (f x) (List.map xs f) 
+<pre><code class="language-rust  ignore">In_map &lt;a&gt; &lt;b&gt; (f: a -&gt; b) (l: List a) (x: a) (i: In x l) : In (f x) (List.map l f) 
 In_map a b f (List.nil) x i = Empty.absurd i
-In_map a b f (List.cons xs.h xs.t) x (Either.right e) = Either.right (In_map f xs.t x e)
-In_map a b f (List.cons xs.h xs.t) x (Either.left e)  = 
+In_map a b f (List.cons head tail) x (Either.right e) = Either.right (In_map f tail x e)
+In_map a b f (List.cons head tail) x (Either.left e)  = 
     (Equal.rewrite e 
-    (y =&gt; (Either (Equal (f x) (f y)) (In (f x) (List.map xs.t f)))) 
+    (y =&gt; (Either (Equal (f x) (f y)) (In (f x) (List.map tail f)))) 
     (Either.left Equal.refl))</code></pre>
 <p>Essa forma de definir proposições recursivamente, embora conveniente em alguns casos, também tem algumas desvantagens. Em particular, está sujeita às restrições usuais do Kind em relação à definição de funções recursivas, por exemplo, o requisito de que elas sejam &quot;obviamente terminantes&quot;. No próximo capítulo, veremos como definir proposições indutivamente, uma técnica diferente com seu próprio conjunto de pontos fortes e limitações.</p>
-<h4 id="201-in_map_equiv"><a class="header" href="#201-in_map_equiv">2.0.1 In_map_equiv</a></h4>
-<pre><code class="language-rust ignore">In_map_equiv &lt;a&gt; &lt;b&gt; (f: a -&gt; b) (l: List a) (y: b) :
+<h4 id="in_map_equiv"><a class="header" href="#in_map_equiv">In_map_equiv</a></h4>
+<pre><code class="language-rust  ignore">In_map_equiv &lt;a&gt; &lt;b&gt; (f: a -&gt; b) (l: List a) (y: b) :
    Equivalence (In y (List.map l f)) (Sigma a (x =&gt; (Pair (Equal (f x) y) (In x l))))
 In_map_equiv a b f l y = ?</code></pre>
-<h4 id="202-in_app_equiv"><a class="header" href="#202-in_app_equiv">2.0.2 In_app_equiv</a></h4>
-<pre><code class="language-rust ignore">In_app_equiv &lt;a&gt; (x: a) (l1: List a) (l2: List a) :
+<h4 id="in_app_equiv"><a class="header" href="#in_app_equiv">In_app_equiv</a></h4>
+<pre><code class="language-rust  ignore">In_app_equiv &lt;a&gt; (x: a) (l1: List a) (l2: List a) :
   (Equivalence (In x (List.concat l1 l2)) (Either (In x l1) (In x l2)))
 In_app_equiv a x l1 l2 = ?</code></pre>
-<h4 id="203-all"><a class="header" href="#203-all">2.0.3 All</a></h4>
+<h4 id="all"><a class="header" href="#all">All</a></h4>
 <p>Lembre-se de que funções que retornam proposições podem ser vistas como propriedades de seus argumentos. Por exemplo, se <em>p</em> tem o tipo <code>Nat -&gt; Type</code>, então <code>p n</code> afirma que a propriedade p é verdadeira para n.</p>
 <p>Inspirado em <em>In</em>, escreva uma função recursiva <em>All</em> afirmando que alguma propriedade <em>p</em> é verdadeira para todos os elementos de uma lista <em>l</em>. Para garantir que sua definição esteja correta, prove o lema <em>All_In</em> abaixo. (É claro que sua definição não deve apenas repetir o lado esquerdo de <em>All_In</em>.)</p>
-<pre><code class="language-rust ignore">All &lt;t&gt; (p: t -&gt; Type) (l: List t)  : Type
+<pre><code class="language-rust  ignore">All &lt;t&gt; (p: t -&gt; Type) (l: List t)  : Type
 All t p l = ?
 
 All_in &lt;t&gt; (p: t -&gt; Type) (l: List t) : Equivalence ((x: t) -&gt; (i: In x l) -&gt; p x) (All p l)
 All_in t p l = ?</code></pre>
-<h4 id="204-combine_odd_even"><a class="header" href="#204-combine_odd_even">2.0.4 Combine_odd_even</a></h4>
+<h4 id="combine_odd_even"><a class="header" href="#combine_odd_even">Combine_odd_even</a></h4>
 <p>Complete a definição da função combine_odd_even abaixo. Ela recebe como argumentos duas propriedades de números, podd e peven, e deve retornar uma propriedade p tal que p n é equivalente a podd n quando n é ímpar e equivalente a peven n caso contrário.</p>
-<pre><code class="language-rust ignore">Combine_odd_even (podd: Nat -&gt; Type) (peven: Nat -&gt; Type) : Nat -&gt; Type
+<pre><code class="language-rust  ignore">Combine_odd_even (podd: Nat -&gt; Type) (peven: Nat -&gt; Type) : Nat -&gt; Type
 Combine_odd_even podd peven = ?</code></pre>
+<p>Para testar sua definição, prove os seguintes teoremas:</p>
+<pre><code class="language-rust  ignore">Combine_odd_even_intro
+  (n: Nat)
+  (podd:  Nat -&gt; Type)
+  (peven: Nat -&gt; Type)
+  (p1: (Equal (Nat.is_odd n) Bool.true)  -&gt; podd  n)
+  (p2: (Equal (Nat.is_odd n) Bool.false) -&gt; peven n) : (Combine_odd_even (podd) (peven)) n
+Combine_odd_even_intro n podd peven p1 p2 = ?
+
+Combine_odd_even_elim_odd
+  (n: Nat)
+  (podd:  Nat -&gt; Type)
+  (peven: Nat -&gt; Type)
+  (p: (Combine_odd_even podd peven) n)
+  (e: Equal (Nat.is_odd n) Bool.true) : podd n
+Combine_odd_even_elim_odd n podd peven p e = ?
+
+Combine_odd_elim_even
+  (n: Nat)
+  (podd: Nat -&gt; Type)
+  (peven: Nat -&gt; Type)
+  (p: (Combine_odd_even podd peven) n)
+  (e: Equal (Nat.is_odd n) Bool.false) : peven n
+Combine_odd_elim_even n podd peven p e = ?</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contribuidores"><a class="header" href="#contribuidores">Contribuidores</a></h1>
 <ul>
 <li><a href="https://github.com/NaoEhSavio">NaoEhSavio</a></li>

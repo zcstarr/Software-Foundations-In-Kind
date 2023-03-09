@@ -38,6 +38,7 @@
   - [Natural Numbers](./Discovery/Numbers.md)
   - [Recursive Algorithms](./Discovery/Recursive.md)
   - [Syntax Sugar](./Discovery/Examples/Syntax.md)
+  - [Sugar](./Discovery/Examples/Sugar.md)
 
 ------------------------------
 
