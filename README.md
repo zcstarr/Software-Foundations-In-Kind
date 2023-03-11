@@ -55,4 +55,4 @@ Toda semana:
 
 <!--[Kind - Lang](https://naoehsavio.github.io/learning/docs/Lang/index.html)-->
 
-<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Hotel - Trivago</a>
+<a href="https://shattereddisk.github.io/rickroll/rickroll.mp4" target="_blank">Hotel - Trivago</a>
