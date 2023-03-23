@@ -847,3 +847,46 @@ Infelizmente, não há uma maneira simples de saber se um axioma é seguro para 
 No entanto, sabe-se que adicionar a extensionalidade funcional, em particular, é consistente.
 
 #### Tr_rev 
+Um problema com a definição da função de reversão de lista "rev" que temos é que ela realiza uma chamada a "++" a cada passo. Executar "++" leva tempo assintoticamente linear no tamanho da lista, o que significa que "rev" tem tempo de execução quadrático.
+Podemos melhorar isso com a seguinte definição:
+
+```rust
+Rev_append <x> (l1: List x) (l2: List x)  : List x
+Rev_append x List.nil l2                  = l2
+Rev_append x (List.cons xs.h xs.t) l2     = Rev_append xs.t (List.cons xs.h l2)
+
+Tr_rev <x> (l: List x) : List x
+Tr_rev x l = Rev_append x l List.nil1
+```
+
+Esta versão é dita ser tail-recursive, porque a chamada recursiva à função
+é a última operação que precisa ser executada (ou seja, não precisamos executar ++
+após a chamada recursiva); um compilador decente irá gerar um código muito eficiente neste
+caso. Prove que as duas definições são realmente equivalentes.
+
+```rust
+Tr_rev_correct <a> (xs: List a) : Equal (Tr_rev xs) (Rev xs)
+Tr_rev_correct a xs = ?
+```
+
+### Proposições e Booleans. 
+
+Vimos duas maneiras diferentes de codificar fatos lógicos em Kind: com booleanos (do tipo Bool) e com proposições (do tipo Type).
+Por exemplo, para afirmar que um número n é par, podemos dizer que
+• (1) evenb n retorna True, ou
+• (2) existe um k tal que n = double k. De fato, essas duas noções de paridade são equivalentes, como pode ser facilmente mostrado com um par de lemas auxiliares.
+Muitas vezes dizemos que o booleano evenb n reflete a proposição (n => Equal n (double k)).
+
+```rust
+Evenb_double (k: Nat)     : Equal (Nat.is_even (Nat.double k)) Bool.true
+Evenb_double Nat.zero     = Equal.refl
+Evenb_double (Nat.succ k) = Evenb_double k
+```
+
+#### Evenb_double_conv
+```rust
+Evenb_double_conv (n: Nat):
+  Sigma Nat (k => (Equal n (Bool.if (Evenb n) (Nat.double k) (Nat.succ (Nat.double k)))))
+Evenb_double_conv n = ?
+```
+
