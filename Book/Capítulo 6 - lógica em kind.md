@@ -890,3 +890,129 @@ Evenb_double_conv (n: Nat):
 Evenb_double_conv n = ?
 ```
 
+TODO: terminar `even_bool_prop`
+```rust
+Even_bool_prop (n: Nat): 
+  Equivalence (Equal (Evenb n) Bool.true) (Sigma Nat (k => Equal n (Nat.double k)))
+```
+
+Da mesma forma, para afirmar que dois números *n* e *m* são iguais, podemos dizer (1) que `n == m` retorna `Bool.true` ou (2) que `n = m`. Essas duas noções são equivalentes.
+
+```rust
+Beq_nat_true_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.true) (Equal n1 n2)
+Beq_nat_true_equiv n1 n2 = Equivalence.new (x => To_beq_nat_true n1 n2 x) (y => Fro_beq_nat_true n1 n2 y)
+
+To_beq_nat_true (n1: Nat) (n2: Nat) (e: Equal (Nat.equal n1 n2) Bool.true) : Equal n1 n2  
+To_beq_nat_true Nat.zero Nat.zero Equal.refl = Equal.refl
+To_beq_nat_true Nat.zero (Nat.succ n2) e = 
+  let emp = (Equal.rewrite e 
+    (x => match Bool x {
+      true  => Empty
+      false => Unit
+    })
+    (Unit.new))
+  Empty.absurd emp
+To_beq_nat_true (Nat.succ n1) Nat.zero e = 
+  let emp = (Equal.rewrite e 
+    (x => match Bool x {
+      true  => Empty
+      false => Unit
+    })
+    (Unit.new))
+  Empty.absurd emp
+To_beq_nat_true (Nat.succ n1) (Nat.succ n2) e = Equal.apply (x => Nat.succ x) (Extract_equal n1 n2 e)
+
+Fro_beq_nat_true (n1: Nat) (n2: Nat) (e: Equal  n1 n2) : Equal (Nat.equal n1 n2) Bool.true
+Fro_beq_nat_true Nat.zero Nat.zero Equal.refl = Equal.refl
+Fro_beq_nat_true Nat.zero (Nat.succ n2) e = 
+  let emp = (Equal.rewrite e 
+    (x => match Nat x {
+      zero => Unit
+      succ => Empty
+    })
+    (Unit.new))
+  Empty.absurd emp
+Fro_beq_nat_true (Nat.succ n1) Nat.zero e = 
+  let emp = (Equal.rewrite e 
+    (x => match Nat x {
+      zero => Empty
+      succ => Unit
+    })
+    (Unit.new))
+  Empty.absurd emp
+Fro_beq_nat_true (Nat.succ n1) (Nat.succ n2) e =
+  let e2  = Succ_n1_n2 n1 n2 e
+  let ind = Fro_beq_nat_true n1 n2 e2
+  ind
+
+  Succ_n1_n2 (n1: Nat) (n2: Nat) (e : (Equal Nat (Nat.succ n1) (Nat.succ n2))) : Equal Nat n1 n2
+Succ_n1_n2 Nat.zero Nat.zero e            = Equal.refl
+Succ_n1_n2 (Nat.succ n1) Nat.zero e       = Equal.apply (x => Nat.pred x) e
+Succ_n1_n2 Nat.zero (Nat.succ n2) e       = Equal.apply (x => Nat.pred x) e
+Succ_n1_n2 (Nat.succ n1) (Nat.succ n2) e  = Equal.apply (x => Nat.pred x) e
+
+Extract_equal (n1: Nat) (n2: Nat) (e: Equal (Nat.equal n1 n2) Bool.true) : Equal n1 n2
+Extract_equal Nat.zero Nat.zero (Equal.refl) = Equal.refl
+Extract_equal Nat.zero (Nat.succ n2) (e) = 
+  let emp = (Equal.rewrite e 
+    (x => match Bool x {
+      true  => Empty
+      false => Unit
+    })
+    (Unit.new))
+  Empty.absurd emp
+Extract_equal (Nat.succ n1) Nat.zero (e) = 
+  let emp = (Equal.rewrite e 
+    (x => match Bool x {
+      true  => Empty
+      false => Unit
+    })
+    (Unit.new))
+  Empty.absurd emp
+Extract_equal (Nat.succ n1) (Nat.succ n2) e = Equal.apply (x => Nat.succ x) (Extract_equal n1 n2 e)
+```
+
+No entanto, enquanto as formulações booleanas e proposicionais de uma afirmação são equivalentes do ponto de vista puramente lógico, elas não precisam ser equivalentes operacionalmente. A igualdade fornece um exemplo extremo: saber que n == m = Verdadeiro geralmente é de pouca ajuda direta no meio de uma prova envolvendo n e m; no entanto, se convertermos a declaração para a forma equivalente n = m, podemos reescrevê-la.
+
+O caso dos números pares também é interessante. Lembre-se de que, ao provar a direção inversa de even_bool_prop (ou seja, evenb_double, indo da afirmação proposicional para a booleana), usamos uma indução simples em k. Por outro lado, a conversa (o exercício evenb_double_conv) exigiu uma generalização inteligente, uma vez que não podemos provar diretamente `(k => Equal n (Nat.double k)) = Bool.true`
+
+Para esses exemplos, as afirmações proposicionais são mais úteis do que suas contrapartes booleanas, mas nem sempre é o caso. Por exemplo, não podemos testar se uma proposição geral é verdadeira ou não em uma definição de função; como consequência, o seguinte trecho de código é rejeitado:
+
+```rust
+Is_even_prime : Nat -> Bool
+Is_even_prime = (n: Nat) => Bool.if (Equal n 2n) Bool.true Bool.false
+```
+
+O *Kind* reclama que `n = 2` tem o tipo *Type*, enquanto espera um elemento de *Bool* (ou algum outro tipo indutivo com dois elementos). A razão para esta mensagem de erro tem a ver com a natureza computacional da linguagem central de *Kind*, que é projetada de forma que cada função que ela possa expressar seja computável e total. Uma razão para isso é permitir a extração de programas executáveis a partir dos desenvolvimentos de *Kind*. Como consequência, em *Kind*, Type não tem uma operação de análise de caso universal que diga se uma dada proposição é verdadeira ou falsa, já que tal operação permitiria escrever funções não computáveis.
+
+Embora propriedades gerais não computáveis não possam ser formuladas como computações booleanas, vale ressaltar que muitas propriedades computáveis ​​são mais fáceis de expressar usando *Type* do que *Bool*, já que definições de funções recursivas estão sujeitas a restrições significativas em *Kind*. Por exemplo, o próximo capítulo mostra como definir a propriedade de que uma expressão regular corresponde a uma determinada string usando *Type*. Fazer o mesmo com Bool seria equivalente a escrever um verificador de expressão regular, o que seria mais complicado, mais difícil de entender e mais difícil de raciocinar.
+
+Por outro lado, um importante benefício adicional de afirmar fatos usando booleanos é habilitar alguma automação de prova por meio de computação com termos em Kind, uma técnica conhecida como prova por reflexão. Considere a seguinte afirmação:
+
+```rust
+Even_1000 : Sigma Nat (k => Equal 1000n (Nat.double k))
+```
+
+A prova mais direta desse fato é fornecer o valor de k explicitamente.
+
+```rust
+Even_1000 = $ 500n Equal.refl
+```
+
+Por outro lado, a prova da correspondente afirmação booleana é ainda mais simples:
+```rust
+Even_1000a : Equal (Evenb 1000n) Bool.true
+Even_1000a = Equal.refl
+```
+
+O interessante é que, como as duas noções são equivalentes, podemos usar a formulação booleana para provar a outra sem mencionar explicitamente o valor 500:
+```rust
+Even_1000b : Sigma Nat (k => Equal 1000n (Nat.double k))
+Even_1000b = ? //TODO: Terminar aqui
+```
+
+Embora não tenhamos ganhado muito em termos de tamanho de prova neste caso, provas maiores podem ser consideravelmente simplificadas pelo uso da reflexão. Como um exemplo extremo, a prova do teorema dos 4 cores em Coq usa reflexão para reduzir a análise de centenas de casos diferentes a uma computação booleana. Não abordaremos a reflexão em grande detalhe, mas ela serve como um bom exemplo que mostra as forças complementares dos booleanos e proposições gerais.
+
+#### Logical_connectives 
+Os seguintes lemas relacionam os conectivos proposicionais estudados neste capítulo com as operações booleanas correspondentes.
+
