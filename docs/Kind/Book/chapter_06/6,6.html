@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Kind vs Teoria dos Conjuntos</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introdução</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Comecando.html"><strong aria-hidden="true">1.</strong> Começando</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/sobre.html"><strong aria-hidden="true">1.1.</strong> Kind</a></li><li class="chapter-item expanded "><a href="../../guide/instalacao.html"><strong aria-hidden="true">1.2.</strong> Instalação</a></li><li class="chapter-item expanded "><a href="../../cli/hello.html"><strong aria-hidden="true">1.3.</strong> Olá Mundo!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Olá Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Básico: Introdução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Tipos Enumerados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Dias da semana</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleanos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Tipos de função</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Módulos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Prova por Simplificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Prova por aplicação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Prova por análise de casos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Prova por Reescrita</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain e Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> Mais exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Raciocínio sobre listas</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Lógica em Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Conectivos Lógicos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsidade e Negação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Verdade, Equivalência e Quantificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programação com proposições</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Aplicando Teoremas a Argumentos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html" class="active"><strong aria-hidden="true">6.6.</strong> Kind vs Teoria dos Conjuntos</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contribuidores.html">Contribuidores</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="kind-vs-teoria-dos-conjuntos"><a class="header" href="#kind-vs-teoria-dos-conjuntos">Kind vs Teoria dos Conjuntos</a></h2>
+<p>O núcleo lógico do Coq, o Cálculo das Construções Indutivas, difere de algumas maneiras importantes de outros sistemas formais que são usados pelos matemáticos para escrever provas precisas e rigorosas. Por exemplo, na fundação mais popular para a matemática em papel e lápis convencional, a Teoria dos Conjuntos de Zermelo-Fraenkel (ZFC), um objeto matemático pode potencialmente ser membro de muitos conjuntos diferentes; um termo na lógica de Kind, por outro lado, é membro de no máximo um tipo. Essa diferença muitas vezes leva a formas ligeiramente diferentes de capturar conceitos matemáticos informais, mas estes são, em grande parte, bastante naturais e fáceis de trabalhar. Por exemplo, em vez de dizer que um número natural n pertence ao conjunto de números pares, diríamos em Kind que ev n é verdadeiro, onde ev: Nat -&gt; Tipo é uma propriedade que descreve os números pares.</p>
+<p>No entanto, há alguns casos em que traduzir o raciocínio matemático padrão para Kind pode ser tanto trabalhoso quanto, às vezes, até impossível, a menos que enriqueçamos a lógica central com axiomas adicionais. Concluímos este capítulo com uma breve discussão de algumas das diferenças mais significativas entre os dois mundos.</p>
+<h3 id="extensão-funcional"><a class="header" href="#extensão-funcional">Extensão Funcional.</a></h3>
+<p>As afirmações de igualdade que vimos até agora dizem principalmente respeito a elementos de tipos indutivos (Nat, Bool, etc.). Mas como o operador de igualdade de Kind é polimórfico, essas não são as únicas possibilidades - em particular, podemos escrever proposições que afirmam que duas funções são iguais uma à outra:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Function_equality_ex1 : Equal (Nat.succ 3n) (Nat.succ (Nat.pred 4n))
+Function_equality_ex1 = Equal.refl
+<span class="boring">}</span></code></pre></pre>
+<p>Na prática matemática comum, duas funções f e g são consideradas iguais se produzem as mesmas saídas:</p>
+<p>(∀𝑥, 𝑓(𝑥) = 𝑔(𝑥)) → 𝑓 = 𝑔</p>
+<p>Isto é conhecido como o princípio da extensão funcional.</p>
+<p>De forma informal, uma &quot;propriedade extensional&quot; é aquela que diz respeito ao comportamento observável de um objeto. Assim, a extensão funcional significa simplesmente que a identidade de uma função é completamente determinada pelo que podemos observar a partir dela - isto é, em termos de Kind, os resultados que obtemos após aplicá-la.</p>
+<p>A extensão funcional não faz parte dos axiomas básicos do Kind. Isso significa que algumas proposições &quot;razoáveis&quot; não são prováveis.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Function_equality_ex2 : Equal ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x)
+Function_equality_ex2 = ?
+<span class="boring">}</span></code></pre></pre>
+<p>No entanto, podemos declarar um teorema e pular a sua prova ou usar um buraco</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Functional_extensionality &lt;a&gt;&lt;b&gt; (f: a -&gt; b) (g: a -&gt; b) (e: (x: a) -&gt; Equal (f x) (g x)) : Equal f g
+<span class="boring">}</span></code></pre></pre>
+<p>Agora podemos invocar a extensionalidade funcional em provas:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Function_equality_ex2 : Equal ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x)
+Function_equality_ex2 =
+  Functional_extensionality ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x) (x =&gt; Plus_comm x 1n)
+<span class="boring">}</span></code></pre></pre>
+<p>Naturalmente, devemos ter cuidado ao adicionar novos axiomas à lógica do Kind, pois eles podem torná-la inconsistente - ou seja, podem tornar possível provar todas as proposições, incluindo Void!</p>
+<p>Infelizmente, não há uma maneira simples de saber se um axioma é seguro para adicionar: geralmente é necessário um trabalho árduo para estabelecer a consistência de qualquer combinação particular de axiomas.</p>
+<p>No entanto, sabe-se que adicionar a extensionalidade funcional, em particular, é consistente.</p>
+<h4 id="tr_rev"><a class="header" href="#tr_rev">Tr_rev</a></h4>
+<p>Um problema com a definição da função de reversão de lista &quot;rev&quot; que temos é que ela realiza uma chamada a &quot;++&quot; a cada passo. Executar &quot;++&quot; leva tempo assintoticamente linear no tamanho da lista, o que significa que &quot;rev&quot; tem tempo de execução quadrático.
+Podemos melhorar isso com a seguinte definição:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_append &lt;x&gt; (l1: List x) (l2: List x)  : List x
+Rev_append x List.nil l2                  = l2
+Rev_append x (List.cons xs.h xs.t) l2     = Rev_append xs.t (List.cons xs.h l2)
+
+Tr_rev &lt;x&gt; (l: List x) : List x
+Tr_rev x l = Rev_append x l List.nil1
+<span class="boring">}</span></code></pre></pre>
+<p>Esta versão é dita ser tail-recursive, porque a chamada recursiva à função
+é a última operação que precisa ser executada (ou seja, não precisamos executar ++
+após a chamada recursiva); um compilador decente irá gerar um código muito eficiente neste
+caso. Prove que as duas definições são realmente equivalentes.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Tr_rev_correct &lt;a&gt; (xs: List a) : Equal (Tr_rev xs) (Rev xs)
+Tr_rev_correct a xs = ?
+<span class="boring">}</span></code></pre></pre>
+<h3 id="proposições-e-booleans"><a class="header" href="#proposições-e-booleans">Proposições e Booleans.</a></h3>
+<p>Vimos duas maneiras diferentes de codificar fatos lógicos em Kind: com booleanos (do tipo Bool) e com proposições (do tipo Type).
+Por exemplo, para afirmar que um número n é par, podemos dizer que
+• (1) evenb n retorna True, ou
+• (2) existe um k tal que n = double k. De fato, essas duas noções de paridade são equivalentes, como pode ser facilmente mostrado com um par de lemas auxiliares.
+Muitas vezes dizemos que o booleano evenb n reflete a proposição (n =&gt; Equal n (double k)).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Evenb_double (k: Nat)     : Equal (Nat.is_even (Nat.double k)) Bool.true
+Evenb_double Nat.zero     = Equal.refl
+Evenb_double (Nat.succ k) = Evenb_double k
+<span class="boring">}</span></code></pre></pre>
+<h4 id="evenb_double_conv"><a class="header" href="#evenb_double_conv">Evenb_double_conv</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Evenb_double_conv (n: Nat):
+  Sigma Nat (k =&gt; (Equal n (Bool.if (Evenb n) (Nat.double k) (Nat.succ (Nat.double k)))))
+Evenb_double_conv n = ?
+<span class="boring">}</span></code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Book/chapter_06/6,5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../Contribuidores.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Book/chapter_06/6,5.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../Contribuidores.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
