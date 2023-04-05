@@ -2,7 +2,7 @@
 
 This guide teaches you how to download and install Kind through Rust, using "Cargo", a tool used to manage packages. It may be necessary to have an internet connection to proceed with this guide.
 
-Firstly, install Rust using this [link](www.rust-lang.org/tools/install)
+Firstly, install Rust using this [link](https://www.rust-lang.org/tools/install)
 
 - *Currently, Cargo is the only way to install Kind.*
 - *This guide was written when Kind was in beta version. Therefore, it is necessary to install the* [nightly version](https://doc.rust-lang.org/book/appendix-07-nightly-rust.html).
