@@ -143,34 +143,34 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="instalação"><a class="header" href="#instalação">Instalação</a></h1>
-<p>Este guia ensina como baixar e instalar o Kind através do Rust, Com o &quot;Cargo&quot; uma ferramenta usada para gerenciar pacotes. É possível que seja necessário ter uma conexão com a internet para prosseguir com este guia.</p>
-<p>Primeiramente, instale o Rust usando este <a href="www.rust-lang.org/tools/install">link</a></p>
+                        <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
+<p>This guide teaches you how to download and install Kind through Rust, using &quot;Cargo&quot;, a tool used to manage packages. It may be necessary to have an internet connection to proceed with this guide.</p>
+<p>Firstly, install Rust using this <a href="www.rust-lang.org/tools/install">link</a></p>
 <ul>
-<li><em>Atualmente, o Cargo é a única maneira de instalar o Kind.</em></li>
-<li><em>Este guia foi escrito quando o Kind estava na versão em beta. Portanto, é necessário instalar a versão do</em> Channel <a href="https://doc.rust-lang.org/book/appendix-07-nightly-rust.html">nightly</a>.</li>
+<li><em>Currently, Cargo is the only way to install Kind.</em></li>
+<li><em>This guide was written when Kind was in beta version. Therefore, it is necessary to install the</em> <a href="https://doc.rust-lang.org/book/appendix-07-nightly-rust.html">nightly version</a>.</li>
 </ul>
-<h3 id="instalando-o-kind-no-linux-ou-macos"><a class="header" href="#instalando-o-kind-no-linux-ou-macos">Instalando o Kind no Linux ou MacOS</a></h3>
-<p>Use seu gerenciador de pacotes (Cargo) para instalar o Kind. Para isso, abra o terminal e digite o seguinte código:</p>
+<h3 id="installing-kind-on-linux-or-macos"><a class="header" href="#installing-kind-on-linux-or-macos">Installing Kind on Linux or MacOS</a></h3>
+<p>Use your package manager (Cargo) to install Kind. To do this, open the terminal and type the following code:</p>
 <pre><code>cargo +nightly install kind2
 </code></pre>
-<h3 id="instalando-o-kind-no-windows"><a class="header" href="#instalando-o-kind-no-windows">Instalando o Kind no Windows</a></h3>
-<p>Para usuários do Windows, é possível usar o Kind através do CMD ou WSL2. Se escolher o WSL o método de instalação está neste <a href="https://harsimranmaan.medium.com/install-and-setup-rust-development-environment-on-wsl2-dccb4bf63700">link</a>.</p>
-<p>Use seu gerenciador de pacotes (Cargo) para instalar o Kind. Para isso, abra o Bash(WSL2) ou Terminal(CMD) e digite o seguinte comando:</p>
+<h3 id="installing-kind-on-windows"><a class="header" href="#installing-kind-on-windows">Installing Kind on Windows</a></h3>
+<p>For Windows users, it is possible to use Kind through CMD or WSL2. If you choose WSL, the installation method is in this <a href="https://harsimranmaan.medium.com/install-and-setup-rust-development-environment-on-wsl2-dccb4bf63700">link</a>.</p>
+<p>Use your package manager (Cargo) to install Kind. To do this, open Bash(WSL2) or Terminal(CMD) and type the following command:</p>
 <pre><code>cargo +nightly install kind2
 </code></pre>
-<h3 id="clonando-o-repositório-do-kind---método-1"><a class="header" href="#clonando-o-repositório-do-kind---método-1">Clonando o Repositório do Kind - Método 1</a></h3>
-<p>Clone o repositório do Kind usando o comando do git &quot;git clone&quot;, da seguinte forma:</p>
+<h3 id="cloning-the-kind-repository---method-1"><a class="header" href="#cloning-the-kind-repository---method-1">Cloning the Kind Repository - Method 1</a></h3>
+<p>Clone the Kind repository using the git command &quot;git clone&quot;, as follows:</p>
 <pre><code>git clone https://github.com/HigherOrderCO/Kind
 </code></pre>
-<p>Depois do passo de clone, use o seguente comando para a instalação</p>
+<p>After the cloning step, use the following command for installation:</p>
 <pre><code>cargo +nightly install --path crates/kind-cli --force
 </code></pre>
-<h3 id="clonando-o-repositório-do-kind---método-2"><a class="header" href="#clonando-o-repositório-do-kind---método-2">Clonando o Repositório do Kind - Método 2</a></h3>
-<p>O cargo permite instalar usando o git, sem a necessidade de clonar algum repositório, da seguinte forma:</p>
+<h3 id="cloning-the-kind-repository---method-2"><a class="header" href="#cloning-the-kind-repository---method-2">Cloning the Kind Repository - Method 2</a></h3>
+<p>Cargo allows you to install using git, without the need to clone any repository, as follows:</p>
 <pre><code>cargo +nightly install --git https://github.com/HigherOrderCO/kind.git 
 </code></pre>
-<p>Ao seguir os passos acima, podemos começar a usar o Kind.</p>
+<p>By following the above steps, we can start using Kind.</p>
 
                     </main>
 

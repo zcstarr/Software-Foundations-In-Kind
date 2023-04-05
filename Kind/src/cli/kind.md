@@ -1,30 +1,29 @@
-# Olá Kind
+# Hello Kind!
 
-Agora que você aprendeu como criar um arquivo Kind e executá-lo, vamos aprofundar mais nas bases do Kind. Na próxima seção, você aprenderá sobre o sistema de tipos do Kind, sintaxe, variáveis e funções.
+Now that you have learned how to create and run a Kind file, let's dive deeper into the basics of Kind. In the next section, you will learn about Kind's type system, syntax, variables, and functions.
 
-#### Sistema de tipos do Kind
+#### Kind's Type System
 
-O Kind possui um sistema de tipos estático, o que significa que o tipo de uma variável deve ser conhecido em tempo de compilação. O Kind possui um sistema de tipos rico que inclui tipos primitivos, tipos de dados algébricos e parâmetros de tipo.
+Kind has a static type system, which means that the type of a variable must be known at compile-time. Kind has a rich type system that includes primitive types, algebraic data types, and type parameters.
 
-#### Sintaxe do Kind
+#### Kind Syntax
 
-A sintaxe do Kind é inspirada em linguagens de programação funcional como Haskell. A sintaxe é concisa e expressiva, tornando fácil de ler e escrever código. Ela usa indentação em vez de chaves para definir blocos de código.
+Kind's syntax is inspired by functional programming languages like Haskell. The syntax is concise and expressive, making it easy to read and write code. It uses indentation instead of braces to define blocks of code.
 
-#### Variáveis
+#### Variables
 
-No Kind, as variáveis são declaradas usando a palavra-chave let seguida pelo nome da variável. 
-Por exemplo:
+In Kind, variables are declared using the keyword let followed by the variable name. For example:
 
 ```
 let x = 42
 ```
 
-#### Funções
+#### Functions
 
-As funções no Kind são declaradas usando a primeira letra maiúscula. A função pode recebe parâmetros ou não e retorna um valor. Por exemplo:
+Functions in Kind are declared using the first letter capitalized. The function may take parameters or not and returns a value. For example:
 
 ```
 Nat.add (a: Nat) (b: Nat) : Nat
 ```
 
-Este é apenas um breve resumo das bases do Kind. Você aprenderá mais sobre esses conceitos conforme progredir na guia. Agora que você aprendeu sobre as bases do Kind, é hora de seguir para a próxima seção e aprender sobre conceitos avançados na programação do Kind.
+This is just a brief overview of the basics of Kind. You will learn more about these concepts as you progress through the guide. Now that you have learned about Kind's basics, it's time to move on to the next section and learn about advanced concepts in Kind programming.

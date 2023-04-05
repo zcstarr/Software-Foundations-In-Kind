@@ -1,17 +1,11 @@
-# Olá, Kind
+# Hello, Kind!
 
-Kind tem como objetivo ser mais prático e convencional como uma linguagem. É tipado estaticamente e seus tipos são tão poderosos que você pode até provar teoremas matemáticos com eles.
+Kind is a programming language that aims to be practical and conventional. It is statically typed, which means that data types are defined beforehand and checked at compile time. These types are powerful enough to allow the proof of mathematical theorems.
 
-Uma possível descrição para Kind é imaginar como o Universo quando você tenta capturar uma imagem dele de fora. Quando você cria um novo arquivo no Kind, é como se todo o Universo estivesse lá, exceto a parte que você está procurando não está especificada.
+When creating a new program in Kind, you have access to a vast universe of resources and functionalities. It's like all the tools you need are already there, ready to be used. With each new function or library you discover, it's like a new part of this universe is revealed.
 
-É estranho pensar no universo de fora, pode ficar um pouco confuso, então vamos usar uma pequena história para entender melhor:
+Just like in a real universe, there is always something new to be discovered in Kind. There is a plethora of resources and tools available for you to explore and use in your programs. With such variety, it's possible to create solutions for practically any problem you can imagine.
 
-Somos astronautas, astronautas Kind. Um dia, nesta pequena exploração frutífera, nossa nave espacial encontra um planeta que já tem um nome: "Lógica Booleana". Neste planeta, descobrimos as funções "AND", "NOT" e "OR", e decidimos formalmente provar esses seres. Com tudo provado e documentado, temos dificuldade em encontrar outra função de lógica booleana. Portanto, ao pensar "nosso trabalho está feito", voltamos para a nave Kind para procurar novos planetas para explorar.
+If you're interested in learning more about programming and exploring the vast universe of Kind, then becoming a Kind programmer can be an exciting and rewarding adventure. There are many other Kind programmers out there to collaborate and learn with, making this journey even more exciting.
 
-No entanto, alguns dias depois, há notícias por todo o universo, as pessoas estão falando sobre outros novos tipos de funções descobertas no planeta Lógica Booleana: "XOR", "NAND" e "XNOR". Pouco antes de nossa partida do planeta, outro astronauta Kind chegou lá e encontrou essas novas funções.
-
-Mesmo com todo o trabalho, não conseguimos encontrar essas funções que o outro astronauta encontrou. Mas elas estavam lá. Então, só porque uma função ainda não foi descoberta, não significa que ela não existia antes.
-
-Acima, o Tipo é usado para melhor ilustrar nosso exemplo. É como um planeta em nosso Universo, e suas Definições e Funções são o Bioma e Ecossistema do planeta.
-
-Este Universo Kind é tão grande quanto sua imaginação, na verdade, provavelmente é maior do que isso. Há planetas, ecossistemas e biomas sem fim para serem explorados. Com isso em mente, você gostaria de se tornar um astronauta Kind e embarcar nesta divertida (e não tão perigosa) aventura com muitos outros astronautas?
+In summary, Kind is a modern, powerful, and versatile programming language that offers many opportunities for those who want to learn and explore the vast universe of programming. If you're interested in becoming a Kind programmer, there are many resources available to help you get started, from official documentation to active communities of users and developers.

@@ -1,14 +1,14 @@
-# Começando
+# Starting
 
-## Seja bem-vindo ao Kind
+## Welcome to Kind!
 
-Para uma linguagem eficiente, minimalista e prática, que visa repensar a programação funcional do zero, com um design moderno e consistente.
+Kind is an efficient, minimalist, and practical language that aims to rethink functional programming from scratch with a modern and consistent design.
 
-O objetivo desta documentação é ser tão simples quanto possível para aprender o Kind. Por isso, decidimos adotar um design minimalista e simples, para que você possa encontrar rapidamente o que precisa.
+The goal of this documentation is to be as simple as possible to learn Kind. That's why we decided to adopt a minimalist and simple design so that you can quickly find what you need.
 
-Índice de navegação rápida
+Quick Navigation Index
 
-- Sobre o Kind;
-- Guia de instalação para MacOS, Linux e Windows;
-- Guia de Comandos;
-- Aprendendo os conceitos básicos do Kind;
+- About Kind;
+- Installation guide for MacOS, Linux, and Windows;
+- Command guide;
+- Learning the basic concepts of Kind;

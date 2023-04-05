@@ -1,12 +1,12 @@
 [Kind]
 authors = ["NaoEhSavio", "Bonatto"]
-language = "EN"
+language = "pt-BR"
 multilingual = false
-src = "Kind/src"
-title = "Kind"
+src = "ptBR/src"
+title = "Kind pt-BR"
 
 [build]
-build-dir = "../docs/Kind"
+build-dir = "../../docs/Kind/ptBR"
 use-default-preprocessors = false
 
 [preprocessor.index]
