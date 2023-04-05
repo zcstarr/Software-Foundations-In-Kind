@@ -6,7 +6,7 @@ src = "ptBR/src"
 title = "Kind pt-BR"
 
 [build]
-build-dir = "../../docs/Kind/ptBR"
+build-dir = "../../docs/Kind-ptBR"
 use-default-preprocessors = false
 
 [preprocessor.index]
