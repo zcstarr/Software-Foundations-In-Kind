@@ -143,71 +143,58 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h3 id="dias-da-semana"><a class="header" href="#dias-da-semana">Dias da semana</a></h3>
-<p>A declaração a seguir diz para o Kind que estamos declarando um novo conjunto de dados - um Tipo.</p>
-<pre><code class="language-rust ignore">type Dia { // Dia é um Tipo
-  segunda  // Segunda é um Dia
-  terca    // Terça   é um Dia
-  quarta   // Quarta  é um Dia
-  quinta   // Quinta  é um Dia
-  sexta    // Sexta   é um Dia
-  sabado   // Sábado  é um Dia
-  domingo  // Domingo é um Dia
-  }</code></pre>
-<p>O tipo se chama <code>Dia</code>, e seus membros são <code>Segunda</code>, <code>Terça</code>, <code>Quarta</code>, etc.
-A definição <code>&lt;nome&gt; : &lt;tipo&gt;</code> pode ser lida como: &quot;nome é um tipo&quot;.
-Acima temos tanto um exemplo de criar um tipo novo <code>Dia : Type</code>, quanto a de
-declarar um elemento de um tipo existente <code>Quarta : Dia</code>.</p>
-<p>Agora que temos definido o que é um Dia, podemos escrever funções que operam usando esse tipo.
-Digite o seguinte:</p>
-<pre><code class="language-rust ignore">ProximoDiaUtil (d: Dia) : Dia</code></pre>
-<p>Isso declara que temos uma função chamado <code>ProximoDiaUtil</code>, que recebe um argumento
-chamado <code>d</code>, do tipo <code>Dia</code>, e retorna um <code>Dia</code>.
-Continue a definição da função da seguinte forma:</p>
-<pre><code class="language-rust ignore">ProximoDiaUtil Dia.segunda  = ?
-ProximoDiaUtil Dia.terca    = ?
-ProximoDiaUtil Dia.quarta   = ?
-ProximoDiaUtil Dia.quinta   = ?
-ProximoDiaUtil Dia.sexta    = ?
-ProximoDiaUtil Dia.sabado   = ?
-ProximoDiaUtil Dia.domingo  = ?</code></pre>
-<p>O que estamos fazendo aqui é o que chamamos de <em>pattern matching</em>. Estamos
-declarando como a função deve rodar para cada possibilidade da entrada <code>d</code>.
-Nem sempre será necessário fazer isso, como será mostrado em exemplos mais a frente.</p>
-<p>Por fim, complete as funções escrevendo o que cada uma deve retornar,
-e use espaços para estilizar como preferir:</p>
-<pre><code class="language-rust ignore">ProximoDiaUtil Dia.segunda = Dia.terca
-ProximoDiaUtil Dia.terca   = Dia.quarta
-ProximoDiaUtil Dia.quarta  = Dia.quinta
-ProximoDiaUtil Dia.quinta  = Dia.sexta
-ProximoDiaUtil Dia.sexta   = Dia.segunda
-ProximoDiaUtil Dia.sabado  = Dia.segunda
-ProximoDiaUtil Dia.domingo = Dia.segunda</code></pre>
-<p>Com a função finalizada, nós podemos checar o funcionamento dela com alguns exemplos.
-O jeito principal de fazer isso em Kind é criar uma função <code>Main</code> no seu arquivo,
-e rodando ele com o comando <code>kind2 run &lt;file&gt;</code>.</p>
-<p>Por exemplo, se você escrever a seguinte <code>Main</code> e rodar o arquivo</p>
-<pre><code class="language-rust ignore">Main {
-  // Dois dias úteis depois do sábado
-  ProximoDiaUtil (ProximoDiaUtil Sabado)
+                        <h3 id="days-of-the-week"><a class="header" href="#days-of-the-week">Days of the Week</a></h3>
+<p>The following declaration tells Kind that we are declaring a new set of data - a Type.</p>
+<pre><code class="language-rust ignore">type Day {  // Day is a Type
+  monday    // Monday    is a Day
+  tuesday   // Tuesday   is a Day
+  wednesday // Wednesday is a Day
+  thursday  // Thursday  is a Day
+  friday    // Friday    is a Day
+  saturday  // Saturday  is a Day
+  sunday    // Sunday    is a Day
 }</code></pre>
-<p>Deve ser retornado pra você algo como:</p>
-<pre><code class="language-terminal">(Dia.terca)
+<p>The type is called <code>Day</code>, and its members are <code>Monday</code>, <code>Tuesday</code>, <code>Wednesday</code>, etc. The <code>&lt;name&gt; : &lt;type&gt;</code> definition can be read as &quot;name is a type&quot;.
+Above, we have both an example of creating a new <code>Day : Type</code>, and declaring an element of an existing type <code>Wednesday : Day</code>.</p>
+<p>Now that we have defined what a Day is, we can write functions that operate using this type. Type the following:</p>
+<pre><code class="language-rust ignore">NextWeekday (d: Day) : Day</code></pre>
+<p>This declares that we have a function called NextWeekday, which takes an argument called <code>d</code>, of type <code>Day</code>, and returns a <code>Day</code>. Continue defining the function as follows:</p>
+<pre><code class="language-rust ignore">NextWeekday Day.monday  = ?
+NextWeekday Day.tuesday    = ?
+NextWeekday Day.wednesday  = ?
+NextWeekday Day.thursday = ?
+NextWeekday Day.friday   = ?
+NextWeekday Day.saturday  = ?
+NextWeekday Day.sunday  = ?</code></pre>
+<p>Here, we are doing what we call <em>pattern matching</em>. We are declaring how the function should run for each possibility of the input <code>d</code>. It won't always be necessary to do this, as will be shown in examples later on.</p>
+<p>Finally, complete the functions by writing what each one should return, and use spaces to style as you prefer:</p>
+<pre><code class="language-rust ignore">NextWeekday Day.monday = Day.tuesday
+NextWeekday Day.tuesday   = Day.quarta
+NextWeekday Day.wednesday = Day.thursday
+NextWeekday Day.thursday = Day.sexta
+NextWeekday Day.friday  = Day.monday
+NextWeekday Day.saturday = Day.monday
+NextWeekday Day.sunday = Day.monday</code></pre>
+<p>With the function finished, we can check its operation with some examples. The main way to do this in Kind is to create a <code>Main</code> function in your file and run it with the command <code>kind2 run &lt;file&gt;</code>.</p>
+<p>For example, if you write the following <code>Main</code> and run the file:</p>
+<pre><code class="language-rust ignore">Main {
+  // Two workdays after Saturday
+  NextWeekday (NextWeekday Day.saturday)
+}</code></pre>
+<p>You should get something like:</p>
+<pre><code class="language-terminal">(Day.tuesday)
 </code></pre>
-<p>Outro jeito de testar seu código, é dizer o que esperamos que o código retorne,
-por meio de uma prova:</p>
-<pre><code class="language-rust ignore">// O terceiro dia útil depois de uma segunda é uma quinta
-TesteDiaUtil : Equal Dia (ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda))) Dia.quinta
-TesteDiaUtil = Equal.refl</code></pre>
-<p>Os detalhes de como provas funcionam serão explicados mais a frente. No momento,
-o que precisa ser entendido disso é:</p>
+<p>Another way to test your code is to say what we expect the code to return, through a proof:</p>
+<pre><code class="language-rust ignore">// // The third workday after a Monday is a Thursday
+TestNextWeekday : Equal Day (NextWeekday (NextWeekday (NextWeekday Day.monday))) Day.thursday
+TestNextWeekday = Equal.refl</code></pre>
+<p>The details of how proofs work will be explained later on. For now, what needs to be understood is:</p>
 <ul>
-<li>Tem-se a constatação de que <code>(ProximoDiaUtil (ProximoDiaUtil (ProximoDiaUtil Dia.segunda)))</code> é igual a <code>Dia.quinta</code></li>
-<li>Essa constatação foi nomeada <code>TesteDiaUtil</code></li>
-<li><code>TesteDiaUtil = Equal.refl</code> diz que constatação pode ser provada usando apenas simplificação nos dois lados</li>
+<li>We have the realization that <code>(NextWeekday (NextWeekday (NextWeekday Day.monday)))</code> is equal to <code>Day.thursday</code></li>
+<li>This realization was named <code>TestNextWeekday</code></li>
+<li><code>TestNextWeekday = Equal.refl</code> says that the realization can be proven using only simplification on both sides.</li>
 </ul>
-<p>Para testar que essa prova (e qualquer outra prova adiante) está correta, você precisa checar o arquivo, usando o comando <code>kind2 check &lt;file&gt;</code>,
-que deve te retornar algo como:</p>
+<p>To test that this proof (and any other proof going forward) is correct, you need to check the file using the command <code>kind2 check &lt;file&gt;</code>, which should return something like:</p>
 <pre><code class="language-terminal">All terms check.
 </code></pre>
 
