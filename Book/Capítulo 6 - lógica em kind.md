@@ -1016,3 +1016,42 @@ Embora não tenhamos ganhado muito em termos de tamanho de prova neste caso, pro
 #### Logical_connectives 
 Os seguintes lemas relacionam os conectivos proposicionais estudados neste capítulo com as operações booleanas correspondentes.
 
+```rust
+Andb_true_equiv 
+  (b1: Bool) 
+  (b2: Bool) : Equivalence (Equal (Bool.and b1 b2) Bool.true) (Pair (Equal b1 Bool.true) (Equal b2 Bool.true))
+Andb_true_equiv b1 b2 = ?
+
+
+Orb_true_equiv 
+  (b1: Bool) 
+  (b2: Bool): Equivalence (Equal (Bool.or b1 b2) Bool.true) (Either (Equal b1 Bool.true) (Equal b2 Bool.true))
+Orb_true_equiv b1 b2 = ?
+```
+
+#### Beq_nat_false_equiv
+O teorema a seguir é uma formulação alternativa "negativa" de beq_nat_true_equiv que é mais conveniente em certas situações (veremos exemplos em capítulos posteriores).
+
+```rust
+Beq_nat_false_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.false) (Not (Equal n1 n2))
+Beq_nat_false_equiv n1 n2 = ?
+```
+
+#### Beq_list 
+Dado um operador booleano beq para testar a igualdade de elementos de algum tipo a, podemos definir uma função beq_list beq para testar a igualdade de listas com elementos em a. Complete a definição da função beq_list abaixo. Para garantir que sua definição está correta, prove o lema beq_list_true_equiv.
+
+```rust
+Beq_list <a> (beq: a -> a -> Bool) (xs: List a) (ys: List a) : Bool
+Beq_list a beq  xs ys = ?
+
+Beq_list_true_equiv <a> 
+  (beq: a -> a -> Bool) 
+  (a1: a) 
+  (a2: a) 
+  (e: Equivalence (Equal (beq a1 a2) Bool.true) (Equal a1 a2))
+  (xs: List a)
+  (ys: List a): Equivalence (Equal (Beq_list beq xs ys) Bool.true) (Equal xs ys)
+Beq_list_true_equiv a beq a1 a2 e xs ys = ?
+```
+
+#### All_forallb
