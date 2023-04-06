@@ -49,10 +49,12 @@ Toda semana:
 ## Book
 
 <!--[Kind - Book](https://naoehsavio.github.io/learning/docs/Kind/index.html)-->
-<a href="https://naoehsavio.github.io/learning/docs/Kind/index.html" target="_blank">Kind - Book</a>
+<a href="https://naoehsavio.github.io/learning/docs/Kind/index.html" target="_blank">Kind - Book EN</a>
 
-<a href="https://naoehsavio.github.io/learning/docs/Lang/index.html" target="_blank">Kind - Lang</a>
+<a href="https://naoehsavio.github.io/learning/docs/Kind-ptBR/index.html" target="_blank">Kind - Book pt_BR</a>
+
+<a href="https://naoehsavio.github.io/learning/docs/Lang/index.html" target="_blank">Kind - Lang EN</a>
 
 <!--[Kind - Lang](https://naoehsavio.github.io/learning/docs/Lang/index.html)-->
 
-<a href="https://shattereddisk.github.io/rickroll/rickroll.mp4" target="_blank">Hotel - Trivago</a>
+<!-- <a href="https://shattereddisk.github.io/rickroll/rickroll.mp4" target="_blank">Hotel - Trivago</a> -->

@@ -27,6 +27,3 @@ A programação é uma jornada constante de aprendizado e desenvolvimento pessoa
 Esteja preparado para trabalhar duro e enfrentar desafios, mas também esteja preparado para celebrar suas conquistas e realizações. Lembre-se de se divertir e aproveitar cada momento dessa incrível jornada de aprendizado.
 
 Boas sorte em sua jornada de aprendizado e estamos ansiosos para ver o que vocês irão criar e construir.
-
-
-

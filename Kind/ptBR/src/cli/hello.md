@@ -60,3 +60,7 @@ kind2 run hello_world.kind2
 E pronto! seu terminal deve imprimir "Hello, Kind!" de volta para você.
 
 #### Lembre-se de todos os passos acima, verifique o tipo e depois execute
+
+Ótimo, agora que você tem seu primeiro programa Kind rodando, você pode começar a explorar mais sobre a linguagem e suas funcionalidades. Parabéns pelo seu progresso!
+
+Se tiver alguma dúvida ou precisar de ajuda, não hesite em perguntar. Estou sempre à disposição para ajudar!

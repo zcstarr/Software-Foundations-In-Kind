@@ -1,7 +1,7 @@
 [Kind]
 authors = ["NaoEhSavio", "Bonatto"]
-language = "pt-BR"
-multilingual = true
+language = "EN"
+multilingual = false
 src = "Kind/src"
 title = "Kind"
 
