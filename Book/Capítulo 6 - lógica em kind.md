@@ -1016,3 +1016,97 @@ Embora não tenhamos ganhado muito em termos de tamanho de prova neste caso, pro
 #### Logical_connectives 
 Os seguintes lemas relacionam os conectivos proposicionais estudados neste capítulo com as operações booleanas correspondentes.
 
+```rust
+Andb_true_equiv 
+  (b1: Bool) 
+  (b2: Bool) : Equivalence (Equal (Bool.and b1 b2) Bool.true) (Pair (Equal b1 Bool.true) (Equal b2 Bool.true))
+Andb_true_equiv b1 b2 = ?
+
+
+Orb_true_equiv 
+  (b1: Bool) 
+  (b2: Bool): Equivalence (Equal (Bool.or b1 b2) Bool.true) (Either (Equal b1 Bool.true) (Equal b2 Bool.true))
+Orb_true_equiv b1 b2 = ?
+```
+
+#### Beq_nat_false_equiv
+O teorema a seguir é uma formulação alternativa "negativa" de beq_nat_true_equiv que é mais conveniente em certas situações (veremos exemplos em capítulos posteriores).
+
+```rust
+Beq_nat_false_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.false) (Not (Equal n1 n2))
+Beq_nat_false_equiv n1 n2 = ?
+```
+
+#### Beq_list 
+Dado um operador booleano beq para testar a igualdade de elementos de algum tipo a, podemos definir uma função beq_list beq para testar a igualdade de listas com elementos em a. Complete a definição da função beq_list abaixo. Para garantir que sua definição está correta, prove o lema beq_list_true_equiv.
+
+```rust
+Beq_list <a> (beq: a -> a -> Bool) (xs: List a) (ys: List a) : Bool
+Beq_list a beq  xs ys = ?
+
+Beq_list_true_equiv <a> 
+  (beq: a -> a -> Bool) 
+  (a1: a) 
+  (a2: a) 
+  (e: Equivalence (Equal (beq a1 a2) Bool.true) (Equal a1 a2))
+  (xs: List a)
+  (ys: List a): Equivalence (Equal (Beq_list beq xs ys) Bool.true) (Equal xs ys)
+Beq_list_true_equiv a beq a1 a2 e xs ys = ?
+```
+
+#### All_forallb
+
+```rust
+Forallb <x> (t: x -> Bool) (xs: List x) : Bool
+Forallb x t List.nil = Bool.true
+Forallb x t (List.cons xs.h xs.t) = Bool.and (t xs.h) (Forallb t xs.t)
+
+```
+Prove o teorema abaixo, que relaciona forallb à propriedade All do exercício acima.
+
+
+```rust
+Forallb_true_equiv <x> 
+  (t: x -> Bool) 
+  (xs: List x) : 
+  Equivalence (Equal (Forallb t xs) Bool.true) ((All ((k: x) => Equal (t k) Bool.true) xs))
+Forallb_true_equiv x t xs = ?
+```
+Existem alguma propriedades importantes da função forallb que não são capturadas por esta especificação?
+
+#### Lógica Clássica vs. Lógica Construtiva. 
+
+Vimos que não é possível testar se uma proposição p é verdadeira ou não ao definir uma função Kind. Você pode se surpreender ao descobrir que uma restrição semelhante se aplica às provas! Em outras palavras, o seguinte princípio de raciocínio intuitivo não é derivável em Kind:
+
+```rust
+Excluded_middle <p>: Either p (Not p)
+```
+Para entender operacionalmente por que esse é o caso, lembre-se de que, para provar uma declaração da forma  `Either p q`, usamos as correspondências de padrão *Left* e *Right*, que exigem saber qual lado da disjunção é verdadeiro. Mas a proposição p universalmente quantificada em *Excluded_middle* é uma proposição arbitrária, sobre a qual não sabemos nada. Não temos informações suficientes para escolher qual de Left ou Right aplicar, assim como *Kind* não tem informações suficientes para decidir mecanicamente se p é verdadeira ou não dentro de uma função.
+
+No entanto, se soubermos que *p* é refletida em algum termo booleano *b*, saber se ela é verdadeira ou não é trivial: basta verificar o valor de b.
+
+
+```rust
+Restricted_excluded_middle <p> <q> (b: Bool)(e: Equivalence p (Equal b Bool.true)) : Either p (Not p) 
+Restricted_excluded_middle p q Bool.true  (Equivalence.new pb bp) = Either.left (bp Equal.refl)
+Restricted_excluded_middle p q Bool.false (Equivalence.new pb bp) = Either.right (Empty.absurd (Not_implies_our_not pb))
+```
+
+Em particular, o terceiro excluído é válido para equações n = m, entre números naturais n e m.
+
+```rust
+//TODO: Terminar aqui
+Restricted_excluded_middle_eq (n: Nat) (m: Nat) : Either (Equal n m) (Not (Equal n m))
+Restricted_excluded_middle_eq n m = ?
+
+To_reme (n: Nat) (m: Nat) (e: Equal n m) : Equal (Nat.equal n m) Bool.true
+To_reme Nat.zero Nat.zero e         = Equal.refl
+To_reme Nat.zero (Nat.succ m) e     = Empty.absurd (Not_implies_our_not e)
+To_reme (Nat.succ n) Nat.zero e     = Empty.absurd (Not_implies_our_not e)
+To_reme (Nat.succ n) (Nat.succ m) e = To_reme n m (Succ_injective n m e)
+
+From_reme (n: Nat) (m: Nat) (e: Equal (Nat.equal n m) Bool.true) : Equal n m
+From_reme Nat.zero Nat.zero e         = Equal.refl
+From_reme Nat.zero (Nat.succ m) e     = Empty.absurd (Not_implies_our_not e)
+From_reme (Nat.succ n) Nat.zero e     = Empty.absurd (Not_implies_our_not e)
+From_reme (Nat.succ n) (Nat.succ m) e = Equal.apply (x => Nat.succ x) (From_reme n m e)
