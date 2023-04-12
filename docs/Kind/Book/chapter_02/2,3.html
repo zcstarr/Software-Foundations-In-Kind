@@ -143,17 +143,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h3 id="booleanos"><a class="header" href="#booleanos">Booleanos</a></h3>
-<p>Semelhantemente, podemos declarar o tipo <code>Bool</code>, para booleanos:</p>
+                        <h3 id="booleans"><a class="header" href="#booleans">Booleans</a></h3>
+<p>Similarly, we can declare the <code>Bool</code> type for booleans:</p>
 <pre><code class="language-rust ignore">type Bool {
-	true
-	false
+ true
+ false
 }</code></pre>
 <!-- TODO mudar isso aqui caso tenhamos um gerenciador de pacotes -->
-<p>Nós estamos declarando nossos próprios booleanos só para demonstrar como fazer tudo do zero.
-O Kind tem a sua implementação padrão de booleanos no pacote padrão (o <a href="github.com/Kindelia/Wikind">Wikind</a>), junto de várias outras estruturas e provas. Na verdade, no momento de escrita,
-é necessário que você esteja trabalhando dentro da pasta Wikind para fazer provas e teoremas, pois ainda não temos um gerenciador de pacote e os utilitários de resolução de provas não são built-in.</p>
-<p>Funções que funcionam sobre booleanos são definidas do mesmo jeito que visto anteriormente:</p>
+<p>We are declaring our own booleans just to demonstrate how to do everything from scratch. Kind has its own default implementation of booleans in the standard package (<a href="github.com/Kindelia/Wikind">Wikind</a>), along with many other structures and proofs.</p>
+<p>In fact, at the time of writing, you need to be working within the Wikind folder to do proofs and the theorem resolution utilities are not built-in.</p>
+<p>Functions that operate on booleans are defined in the same way as seen earlier:</p>
 <pre><code class="language-rust ignore">// Negação lógica
 Notb (b: Bool) : Bool
 Notb Bool.true  = Bool.false
@@ -168,11 +167,8 @@ Andb Bool.false b2 = Bool.false
 Orb (b1: Bool) (b2: Bool) : Bool
 Orb Bool.true  b2 = Bool.true
 Orb Bool.false b2 = b2</code></pre>
-<p>As últimas duas funções demonstram como é a sintaxe do Kind para funções de
-múltiplos argumentos, e também mostra que é possível fazer <em>pattern matching</em>
-apenas em parte das variáveis da função, não necessariamente todas.</p>
-<p>Os casos da última função podem ser testados exaustivamente (todas as possibilidades)
-como mostrado a seguir, criando a tabela verdade da operação lógica.</p>
+<p>The last two functions demonstrate the syntax of Kind for multi-argument functions, and also show that it is possible to <em>pattern match</em> only on some of the variables of the function, not necessarily all.</p>
+<p>The cases of the last function can be exhaustively tested (all possibilities) as shown below, creating the truth table of the logical operation.</p>
 <pre><code class="language-rust ignore">TestOrb1 : Equal Bool (Orb Bool.true Bool.false) Bool.true
 TestOrb1 = Equal.refl
 
@@ -185,9 +181,8 @@ TestOrb3 = Equal.refl
 TestOrb4 : Equal Bool (Orb Bool.true Bool.true) Bool.true
 TestOrb4 = Equal.refl</code></pre>
 <h4 id="nandb"><a class="header" href="#nandb">Nandb</a></h4>
-<p>Substitua o buraco &quot;?&quot;, completando a função seguinte; 
-então confira se ela está correta usando as constatações a seguir (Análogo a como foi feito para a função <code>Orb</code>).
-A função retorna <code>Bool.true</code> se qualquer uma de suas entradas for <code>Bool.false</code></p>
+<p>Replace the hole &quot;?&quot;, completing the following function;</p>
+<p>then check if it is correct using the following statements (Analogous to how it was done for the <code>Orb</code> function). The function returns <code>Bool.true</code> if any of its inputs is <code>Bool.false</code>.</p>
 <pre><code class="language-rust ignore">Nandb (b1: Bool) (b2: Bool) : Bool
 Nandb b1 b2 = ?
 
@@ -203,8 +198,7 @@ Test_nandb3 = ?
 Test_nandb4 : Equal Bool (Nandb Bool.true Bool.true) Bool.false
 Test_nandb4 = ?</code></pre>
 <h4 id="and3"><a class="header" href="#and3">And3</a></h4>
-<p>Faça o mesmo para a função <code>Andb3</code> abaixo. Essa função deve retornar <code>Bool.true</code>
-se todas as entradas forem <code>Bool.true</code>, e <code>Bool.false</code> caso contrário</p>
+<p>Do the same for the <code>Andb3</code> function below. This function should return <code>Bool.true</code> if all inputs are <code>Bool.true</code>, and <code>Bool.false</code> otherwise.</p>
 <pre><code class="language-rust ignore">Andb3 (b1: Bool) (b2: Bool) (b3: Bool) : Bool
 Andb3 b1 b2 b3 = ?
 

@@ -143,77 +143,56 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="números"><a class="header" href="#números">Números</a></h2>
-<p>Os tipos que definimos até agora são exemplos de tipos enumerados: suas definições
-enumeram explicitamente um conjunto finito de elemento. Um jeito mais interessante
-de definir um tipo é estabelecer uma coleção de <em>regras indutivas</em> descrevendo seus
-elementos. Por exemplo, nós podemos definir os números naturais da seguinte maneira:</p>
+                        <h2 id="numbers"><a class="header" href="#numbers">Numbers</a></h2>
+<p>The types we have defined so far are examples of enumerated types: their definitions explicitly enumerate a finite set of elements. A more interesting way to define a type is to establish a collection of inductive rules describing its elements. For example, we can define natural numbers as follows:</p>
 <pre><code class="language-rust ignore">type Nat {
   zero
   succ (pred: Nat)
 }</code></pre>
-<p>Essa definição pode ser lida como:</p>
+<p>This definition can be read as:</p>
 <ul>
-<li><code>Nat.zero</code> é um número natural;</li>
-<li><code>Nat.succ</code> é um construtor que recebe um número natural, construindo outro número natural;
+<li><code>Nat.zero</code> is a natural number;</li>
+<li><code>Nat.succ</code> is a constructor that takes a natural number, constructing another natural number;
 <ul>
-<li>Ou seja, se <code>n</code> é um número natural, então <code>(Nat.succ n)</code> também será.</li>
+<li>That is, if <code>n</code> is a natural number, then <code>(Nat.succ n)</code> will also be.</li>
 </ul>
 </li>
 </ul>
-<p>Todo tipo definido indutivamente (Como <code>Nat</code>, <code>Bool</code> ou <code>Dia</code>) é um conjunto de expressões.
-A definição de <code>Nat</code> diz como expressões do tipo <code>Nat</code> podem ser construídas:</p>
+<p>Every type defined inductively (such as <code>Nat</code>, <code>Bool</code> ou <code>Dia</code>) is a set of expressions. The definition of <code>Nat</code> says how expressions of type <code>Nat</code> can be constructed:</p>
 <ul>
-<li>A expressão <code>Nat.zero</code> pertence ao conjunto dos <code>Nat</code>;</li>
-<li>Se <code>n</code> é uma expressão do conjunto dos <code>Nat</code>, então <code>(Nat.succ n)</code> também é uma expressão do conjunto dos <code>Nat</code>; e</li>
-<li>Expressões formadas dessas duas formas são as únicas que pertencem à <code>Nat</code>.</li>
+<li>The expression <code>Nat.zero</code> belongs to the set of <code>Nat</code>;</li>
+<li>If <code>n</code> is an expression in the set of <code>Nat</code>, then <code>(Nat.succ n)</code> is also an expression in the set of <code>Nat</code>;</li>
+<li>Expressions formed in these two ways are the only ones that belong to <code>Nat</code>.</li>
 </ul>
-<p>As mesmas regras se aplicam para nossas definições de <code>Dia</code> e <code>Bool</code>.
-As anotações que usamos para eles são análogas à do construtor
-<code>Nat.zero</code>, indicando que não recebem nenhum argumento.</p>
-<p>Essas três condições demonstram o poder das declarações indutivas. Elas implicam
-que a expressão <code>Nat.zero</code>, a expressão <code>(Nat.succ Nat.zero)</code>, a expressão
-<code>(Nat.succ (Nat.succ Nat.zero))</code> e assim por diante, são do conjunto <code>Nat</code>,
-enquanto outras expressões como <code>Bool.true</code>, <code>(Andb Bool.true Bool.false)</code>,
-e <code>(Nat.succ (Nat.succ Bool.false))</code> não são.</p>
-<p>Nós podemos escrever funções simples usando <em>pattern matching</em> em números naturais
-da mesma forma que fizemos acima - por exemplo, a função predecessor:</p>
+<p>The same rules apply to our definitions of <code>Dia</code> and <code>Bool</code>.
+The annotations we used for them are analogous to the <code>Nat.zero</code> constructor, indicating that they do not receive any arguments.</p>
+<p>These three conditions demonstrate the power of inductive declarations. They imply that the expression <code>Nat.zero</code>, the expression <code>(Nat.succ Nat.zero)</code>, the expression <code>(Nat.succ (Nat.succ Nat.zero))</code> and so on, are of the <code>Nat</code> set, while other expressions such as <code>Bool.true</code>, <code>(Andb Bool.true Bool.false)</code>, and <code>(Nat.succ (Nat.succ Bool.false))</code> are not.</p>
+<p>We can write simple functions using <em>pattern matching</em> on natural numbers in the same way we did above - for example, the predecessor function:</p>
 <pre><code class="language-rust ignore">Pred (n: Nat) : Nat
-// Como números naturais são estritamente não-negativos,
-// usamos como convenção que qualquer coisa que seria
-// menor do que 0 retorna 0
+// Since natural numbers are strictly non-negative,
+// we use as a convention that anything that would be
+// less than 0 returns 0
 Pred  Nat.zero    = Nat.zero
 Pred (Nat.succ k) = k</code></pre>
-<p>O segundo pattern pode ser lido como: &quot;se <code>n</code> tem a forma <code>(Nat.succ k)</code>
-para algum k, retorne k.&quot;</p>
+<p>The second pattern can be read as: &quot;if <code>n</code> has the form <code>(Nat.succ k)</code> for some k, return k.&quot;</p>
 <pre><code class="language-rust ignore">MinusTwo (n: Nat) : Nat
 MinusTwo  Nat.zero               = Nat.zero
 MinusTwo (Nat.succ  Nat.zero)    = Nat.zero
 MinusTwo (Nat.succ (Nat.succ k)) = k</code></pre>
 <!-- TODO atualizar isso aqui pro sugar de números naturais, se vier a existir -->
-<p>Para evitar ter que escrever uma sequência de <code>Nat.succ</code> toda vez que você quiser
-um <code>Nat</code>, é possível usar sufixo <code>n</code> ao final de número qualquer, exemplo o<code>5n</code>, que recebe um número escrito no tipo primitivo <code>U60</code> mais o sufixo <code>n</code> e retorna o <code>Nat</code> correspondente.
+<p>To avoid having to write a sequence of <code>Nat.succ</code> every time you want a <code>Nat</code>, you can use the <code>n</code> suffix at the end of any number, for example o <code>5n</code>, which takes a number written in the primitive type <code>U60</code> plus the <code>n</code> suffix and returns the corresponding <code>Nat</code>.
 {...}</p>
 <!-- TODO -->
 <pre><code class="language-rust ignore">Test : Equal Nat 6n (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))))
 Test = Equal.refl</code></pre>
 <!-- TODO conferir q eu não estou delirando nesse parágrafo -->
-<p>O construtor <code>Nat.succ</code> tem tipo <code>Nat -&gt; Nat</code>, assim como as funções <code>MinusTwo</code>
-e <code>Pred</code>. Todos eles são coisas que, ao serem aplicadas a um <code>Nat</code>, retornam
-um <code>Nat</code>. A diferença essencial entre o <code>Nat.succ</code> e os outros dois, no entanto,
-é que funções vem com regras de redução - por exemplo, <code>Pred (Nat.succ Nat.zero)</code>
-é reduzível para <code>Nat.zero</code> - enquanto que o <code>Nat.succ</code> não. Apesar de ele ser
-uma função aplicável a um argumento, ela não computa nada.</p>
-<p>Para a maioria das definições de funções de números, só <em>pattern matching</em> não
-é suficiente: nós precisaremos também de recursão. Por exemplo, para checar
-que um número <code>n</code> é par, nós podemos checar recursivamente se <code>n-2</code> é par.</p>
+<p>The <code>Nat.succ</code> constructor has type <code>Nat -&gt; Nat</code>, as do the functions <code>MinusTwo</code> and <code>Pred</code>. They are all things that, when applied to a <code>Nat</code>, return a <code>Nat</code>. The essential difference between <code>Nat.succ</code> and the other two, however, is that functions come with reduction rules - for example, <code>Pred (Nat.succ Nat.zero)</code> is reducible to <code>Nat.zero</code> - while <code>Nat.succ</code> does not. Although it is a function applicable to an argument, it does not compute anything.</p>
+<p>For most number function definitions, <em>pattern matching</em> alone is not enough: we will also need recursion. For example, to check whether a number <code>n</code> is even, we can recursively check whether <code>n-2</code> is even.</p>
 <pre><code class="language-rust ignore">Evenb (n: Nat) : Bool
 Evenb  Nat.zero               = Bool.true
 Evenb (Nat.succ  Nat.zero)    = Bool.false
 Evenb (Nat.succ (Nat.succ k)) = Evenb k</code></pre>
-<p>Nós podemos definir <code>Oddb</code> (função para checar se um número é ímpar) com uma
-declaração recursiva semelhante, mas também temos uma definição mais simples
-e um pouco mais fácil de trabalhar:</p>
+<p>We can define O<code>ddb</code> (a function to check if a number is odd) with a similar recursive declaration, but we also have a simpler and somewhat easier to work with definition:</p>
 <pre><code class="language-rust ignore">Oddb (n: Nat) : Bool
 Oddb n = Notb (Evenb n)</code></pre>
 <pre><code class="language-rust ignore">TestOddb1 : Equal Bool (Oddb 1n) Bool.true
@@ -221,33 +200,33 @@ TestOddb1 = Equal.refl
 
 TestOddb2 : Equal Bool (Oddb 4n) Bool.false
 TestOddb2 = Equal.refl</code></pre>
-<p>Naturalmente, nós também podemos definir funções com múltiplos argumentos por recursão.</p>
+<p>Naturally, we can also define functions with multiple arguments by recursion.</p>
 <pre><code class="language-rust ignore">Plus (n: Nat) (m: Nat) : Nat
 Plus  Nat.zero    m = m
 Plus (Nat.succ k) m = Nat.succ (Plus k m)</code></pre>
-<p>Somar 3n e 2n retornará 5n como esperado.
-A simplificação que o Kind realiza para chegar a esse valor pode ser visualizada assim:</p>
+<p>Adding <code>3n</code> and <code>2n</code> will return 5n as expected.
+The simplification that Kind performs to arrive at this value can be visualized as follows:</p>
 <pre><code class="language-terminal">Plus (Nat.succ (Nat.succ (Nat.succ Nat.zero))) (Nat.succ (Nat.succ Nat.zero))
 
 &gt; Nat.succ (Plus (Nat.succ (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
-pela segunda regra de Plus
+by the second rule of Plus
 
 &gt; Nat.succ (Nat.succ (Plus (Nat.succ Nat.zero)) (Nat.succ (Nat.succ Nat.zero)))
-pela segunda regra de Plus
+by the second rule of Plus
 
 &gt; Nat.succ (Nat.succ (Nat.succ (Plus Nat.zero (Nat.succ (Nat.succ Nat.zero)))))
-pela segunda regra de Plus
+by the second rule of Plus
 
 &gt; Nat.succ (Nat.succ (Nat.succ (Nat.succ (Nat.succ Nat.zero))))
-pela primeira regra de Plus
+by the first rule of Plus
 </code></pre>
-<p>A multiplicação pode ser definida usando a definição de Plus, da seguinte forma:</p>
+<p>Multiplication can be defined using the definition of Plus, as follows:</p>
 <pre><code class="language-rust ignore">Mult (n: Nat) (m: Nat) : Nat
 Mult  Nat.zero    m = Nat.zero
 Mult (Nat.succ k) m = Plus m (Mult k m)</code></pre>
 <pre><code class="language-rust ignore">TestMult1 : Equal Nat (Mult 3n 3n) 9n
 TestMult1 = Equal.refl</code></pre>
-<p>Você também pode usar <em>pattern matching</em> em duas expressões ao mesmo tempo:</p>
+<p>You can also use <em>pattern matching</em> on two expressions at the same time:</p>
 <pre><code class="language-rust ignore">Minus (n: Nat) (m: Nat) : Nat
 Minus  Nat.zero     m           = Nat.zero
 Minus  n            Nat.zero    = n
@@ -256,23 +235,22 @@ Minus (Nat.succ k) (Nat.succ j) = Minus k j</code></pre>
 <!-- The _ in the first line is a wildcard pattern. Writing _ in a
 pattern is the same as writing some variable that doesn’t get used on the
 right-hand side. This avoids the need to invent a bogus variable name. -->
-<p>O função <code>Exp</code> pode ser definida usando <code>Mult</code>
-(de forma análoga a como se define <code>Mult</code> usando <code>Plus</code>):</p>
+<p>The <code>Exp</code> function can be defined using <code>Mult</code> (analogous to how <code>Mult</code> is defined using <code>Plus</code>):</p>
 <pre><code class="language-rust ignore">Exp (base: Nat) (power: Nat) : Nat
 Exp base  Nat.zero    = Nat.succ Nat.zero
 Exp base (Nat.succ k) = Mult base (Exp base k)</code></pre>
 <h4 id="factorial"><a class="header" href="#factorial">Factorial</a></h4>
-<p>Lembrando da definição matemática básica de fatorial:</p>
+<p>Recall the basic mathematical definition of factorial:</p>
 <p>\[\mathrm
-factorial(n) = \begin{cases}
-\text{se $n$} = 0\,&amp; 1\\ 
-\text{caso contrário}, &amp; n * factorial(n-1)
+Factorial(n) = \begin{cases}
+\text{if $n$} = 0\,&amp; 1 \<br />
+\\ \text{else} &amp; n * Factorial(n-1)
 \end{cases}
 \]</p>
 <p>\[
-f(x)=\begin{cases}x&amp;(x = 1)\\xf(x-1)&amp;(x\gt 1)\end{cases} , x\in \Bbb{N}
-\]
-Traduza a função fatorial para Kind2:</p>
+f(x)=\begin{cases}x&amp;(x = 1)\\x f(x-1)&amp;(x\gt 1)\end{cases} , x\in \Bbb{N}
+\]</p>
+<p>Translate the factorial function into Kind2:</p>
 <pre><code class="language-rust ignore">Factorial (n: Nat) : Nat
 Factorial n = ?</code></pre>
 <pre><code class="language-rust ignore">TestFactorial1 : Equal Nat (Factorial 3n ) 6n
@@ -280,14 +258,13 @@ TestFactorial1 = ?
 
 TestFactorial2 : Equal Nat (Factorial 5n) 120n
 TestFactorial2 = ?</code></pre>
-<p>A função <code>Eql</code> testa a igualdade entre Naturais, retornando um booleano</p>
+<p>The <code>Eql</code> function tests equality between Naturals, returning a boolean.</p>
 <pre><code class="language-rust ignore">Eql (n: Nat) (m: Nat) : Bool
 Eql  Nat.zero     Nat.zero    = Bool.true
 Eql  Nat.zero    (Nat.succ j) = Bool.false
 Eql (Nat.succ k)  Nat.zero    = Bool.false
 Eql (Nat.succ k) (Nat.succ j) = Eql k j</code></pre>
-<p>A função <code>Lte</code> testa se o primeiro argumento é menor ou igual ao segundo,
-retornando um booleano</p>
+<p>The<code>Lte</code> function tests if the first argument is less than or equal to the second, returning a boolean.</p>
 <pre><code class="language-rust ignore">Lte (n: Nat) (m: Nat) : Bool
 Lte  Nat.zero     m           = Bool.true
 Lte (Nat.succ k)  Nat.zero    = Bool.false
@@ -301,8 +278,8 @@ TestLte2 = Equal.refl
 TestLte3 : Equal Bool (Lte 4n 2n) Bool.false
 TestLte3 = Equal.refl</code></pre>
 <h4 id="blt_nat"><a class="header" href="#blt_nat">Blt_nat</a></h4>
-<p>A função <code>Blt_nat</code> testa a relação &quot;menor que&quot; em números naturais.
-Em vez de criar uma nova função recursiva, defina ela usando funções previamente definidas.</p>
+<p>The <code>Blt_nat</code>function tests the &quot;less than&quot; relationship in natural numbers.
+Instead of creating a new recursive function, define it using previously defined functions.</p>
 <pre><code class="language-rust ignore">Blt_nat (n: Nat) (m: Nat) : Bool
 Blt_nat n m = ?</code></pre>
 <pre><code class="language-rust ignore">Test_blt_nat_1 : Equal Bool (Blt_nat 2n 2n) Bool.false
