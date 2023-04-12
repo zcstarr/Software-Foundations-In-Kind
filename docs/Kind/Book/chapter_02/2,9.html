@@ -143,22 +143,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="prova-por-análise-de-casos"><a class="header" href="#prova-por-análise-de-casos">Prova por análise de casos</a></h2>
-<p>A próxima ferramenta de provas formais será análise de casos, que significa usar <em>pattern matching</em> na prova.
-Por exemplo, vamos provar que o E lógico de qualquer coisa e Falso sempre é falso:</p>
+                        <h2 id="proof-by-case-analysis"><a class="header" href="#proof-by-case-analysis">Proof by Case Analysis</a></h2>
+<p>The next tool for formal proofs will be case analysis, which means using <em>pattern matching</em> in the proof. For example, let's prove that the logical AND of anything and False is always False:</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b1 Bool.false) Bool.false
 Example_case_analysis b = ?</code></pre>
-<p>Apesar de parecer uma prova que deveria ser resolvida simplesmente com <code>Equal.refl</code>,
-não é o caso. Isso é por conta de a função <code>Andb</code> fazer <em>pattern matching</em> no primeiro
-argumento, e nós não temos o valor dele na prova, então ele fica &quot;agarrado&quot;.</p>
-<p>Para darmos um valor pra ele, e mostrar que a prova está correta para ambos os valores de <code>Bool</code>,
-nós fazemos <em>pattern matching</em> na prova, criando assim duas provas diferentes:
-uma pra quando <code>b</code> for <code>Bool.true</code> e uma pra quando for <code>Bool.false</code>.</p>
+<p>Although it may seem like a proof that could be solved simply with <code>Equal.refl</code>, it's not the case. This is because the <code>Andb</code> function pattern matches on the first argument, and we don't have its value in the proof, so it remains &quot;stuck&quot;.</p>
+<p>To give a value to it and show that the proof is correct for both <code>Bool</code> values, we <em>pattern match</em> in the proof, creating two different proofs: one for when <code>b</code> is <code>Bool.true</code> and one for when it's <code>Bool.false</code>.</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = ?
 Example_case_analysis Bool.false = ?</code></pre>
-<p>E ambas essas provas são resolvíveis diretamente com <code>Equal.refl</code>, pois o <em>type checker</em>
-consegue reduzir ambos para <code>Equal Bool.false Bool.false</code> direto.</p>
+<p>And both of these proofs are directly solvable with <code>Equal.refl</code>, since the <em>type checker</em> can reduce both of them to <code>Equal Bool.false Bool.false</code> directly.</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = Equal.refl
 Example_case_analysis Bool.false = Equal.refl</code></pre>

@@ -143,30 +143,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="prova-por-simplificação"><a class="header" href="#prova-por-simplificação">Prova por Simplificação</a></h2>
-<p>Agora que definimos alguns tipos de dados e funções, vamos começar a provar propriedades
-de seus comportamentos. Na verdade, já estamos fazendo isso: cada função das seções
-anteriores que começa com <code>Test</code>, faz uma afirmação precisa sobre o comportamento de
-alguma função para algumas entradas especificas. As provas dessas afirmações foram
-sempre a mesma: use <code>Equal.refl</code> para checar que ambos os lados são de fato idênticos.</p>
-<p>O mesmo tipo de &quot;prova por simplificação&quot; pode ser usada para provar propriedades mais interessantes.
-Por exemplo, o fato que o <code>Nat.zero</code> é um &quot;elemento neutro&quot; no lado esquerdo da
-adição pode ser provado apenas observando que <code>Plus Nat.zero n</code> reduz para <code>n</code>,
-independente do que é <code>n</code>, fato que pode ser lido diretamente na definição do <code>Plus</code>.</p>
+                        <h2 id="proof-by-simplification"><a class="header" href="#proof-by-simplification">Proof by Simplification</a></h2>
+<p>Now that we have defined some data types and functions, let's start proving properties of their behaviors. In fact, we have already been doing this: each function in the previous sections that starts with <code>Test</code> makes a precise assertion about the behavior of some function for specific inputs. The proofs of these assertions were always the same: use <code>Equal.refl</code> to check that both sides are indeed identical.</p>
+<p>The same type of &quot;proof by simplification&quot; can be used to prove more interesting properties. For example, the fact that <code>Nat.zero</code> is a &quot;neutral element&quot; on the left-hand side of addition can be proven simply by observing that <code>Plus Nat.zero n</code> reduces to <code>n</code>, regardless of what <code>n</code> is, a fact that can be read directly from the definition of <code>Plus</code>.</p>
 <pre><code class="language-rust ignore">Plus_Z_n (n: Nat) : Equal Nat (Plus Nat.zero n) n
 Plus_Z_n n = Equal.refl</code></pre>
-<p>Outros teoremas parecidos podem ser provados de forma parecida.</p>
+<p>Other similar theorems can be proven in a similar way.</p>
 <pre><code class="language-rust ignore">Plus_1_l (n: Nat) : Equal Nat (Plus (Nat.succ Nat.zero) n) (Nat.succ n)
 Plus_1_l n = Equal.refl
 
 Mult_0_l (n: Nat) : Equal Nat (Mult Nat.zero n) Nat.zero
 Mult_0_l n = Equal.refl </code></pre>
-<p>O <code>_l</code> indica que a prova envolve o valor no lado esquerdo. Por exemplo:
-A prova da soma por 1 no lado esquerdo (<code>Plus_1_l</code>)
-ou a prova da multiplicação por zero no lado esquerdo (<code>Mult_0_l</code>)</p>
-<p>Embora a simplificação seja poderosa o suficiente para provar alguns fatos gerais,
-existem várias declarações que não podem ser demonstradas só com simplificação.
-Por exemplo, não podemos usá-la para provar que <code>Nat.zero</code> é um elemento neutro para adição no lado direito.</p>
+<p>The <code>_l</code> indicates that the proof involves the value on the left-hand side. For example: the proof of adding 1 on the left-hand side <code>(Plus_1_l)</code> or the proof of multiplying by zero on the left-hand side <code>(Mult_0_l)</code>.</p>
+<p>Although simplification is powerful enough to prove some general facts, there are several statements that cannot be demonstrated with simplification alone. For example, we cannot use it to prove that <code>Nat.zero</code> is a neutral element for addition on the right-hand side.</p>
 <pre><code class="language-rust ignore">Plus_n_Z (n: Nat) : Equal Nat n (Plus n Nat.zero)
 Plus_n_Z n = Equal.refl</code></pre>
 <pre><code class="language-diff">- ERROR Type mismatch  
@@ -181,10 +170,8 @@ Plus_n_Z n = Equal.refl</code></pre>
                 ┬─────────
                 └Here!
 </code></pre>
-<p>(Você consegue explicar por que isso acontece?)</p>
-<p>O próximo capítulo vai introduzir o conceito de indução,
-uma técnica poderosa que pode ser usada para demonstrar esse teorema.
-Por agora, no entanto, vamos ver mais alguns tipos simples de prova.</p>
+<p>(Can you explain why this is?)</p>
+<p>The next chapter will introduce the concept of induction, a powerful technique that can be used to demonstrate this theorem. For now, however, let's see some more simple types of proof.</p>
 
                     </main>
 

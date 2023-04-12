@@ -143,23 +143,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="prova-por-aplicação"><a class="header" href="#prova-por-aplicação">Prova por aplicação</a></h2>
-<p>A nossa primeira ferramenta para resolver provas que não são reduzíveis de cara
-será a aplicação dos dois lados. Para isso, usaremos a função <code>Equal.apply</code>, que
-recebe uma igualdade (um <code>Equal</code>) e uma função, e aplica essa função dos dois lados
-da igualdade, gerando uma nova igualdade.</p>
-<p>Por exemplo:</p>
+                        <h2 id="proof-by-application"><a class="header" href="#proof-by-application">Proof by Application</a></h2>
+<p>Our first tool for proving non-trivial theorems will be applying functions to both sides of an equality. For this, we will use the function <code>Equal.apply</code>, which takes an equality (<code>Equal</code>) and a function, and applies this function to both sides of the equality, generating a new equality.</p>
+<p>For example:</p>
 <pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e = ?</code></pre>
-<p>O que exatamente temos aqui? Temos uma prova que recebe como argumento uma outra
-prova/igualdade. Isso quer dizer que vamos realizar a nossa prova supondo que a
-prova dada como argumento também é verdadeira. Então, lendo a declaração da prova,
-temos que: &quot;Dados dois naturais, <code>m</code> e <code>n</code>, e uma prova de que eles são iguais,
-provar que <code>Nat.succ m</code> e <code>Nat.succ n</code> também são iguais&quot;.</p>
-<p>Nós aprendemos, nas nossas aulas de matemática, que aplicar uma função dos dois
-lados de uma igualdade mantém a igualdade (<code>x/2 = 3 -&gt; 2*x/2 = 2*3</code>), e podemos
-ver que para provar o que a gente quer, precisamos aplicar a função <code>Nat.succ</code>
-nos dois lados de <code>e</code>, usando <code>Equal.apply</code></p>
+<p>What do we have here? We have a proof that takes another proof/equality as argument. This means that we will carry out our proof assuming that the proof given as argument is also true. So, reading the statement of the proof, we have: &quot;Given two naturals, <code>m</code> and <code>n</code>, and a proof that they are equal, prove that <code>Nat.succ m</code> and <code>Nat.succ n</code> are also equal&quot;.</p>
+<p>We learned in our math classes that applying a function to both sides of an equality preserves the equality (<code>x/2 = 3 -&gt; 2x/2 = 23</code>), and we can see that to prove what we want, we need to apply the function <code>Nat.succ</code> to both sides of <code>e</code>, using <code>Equal.apply</code>.</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
   • Expected: (Equal Nat (Nat.succ m) (Nat.succ n)) 
@@ -173,15 +163,8 @@ nos dois lados de <code>e</code>, usando <code>Equal.apply</code></p>
                         ┬
                         └Here!
 </code></pre>
-<p>Como o <code>Equal.apply</code> funciona: Ele recebe como primeiro argumento a função a ser
-aplicada dos dois lados, e como segundo argumento a igualdade aonde aplicar a função.
-Se você não entendeu muito bem a passagem da função de argumento (<code>x =&gt; Nat.succ x</code>),
-ela é o que chamamos de função lambda, e é também conhecida como função anônima.
-Funções lambda são identificadas pela sua seta <code>=&gt;</code>, sendo que do lado esquerdo
-da seta fica o nome do argumento da função - use o nome que quiser - e do lado direito
-fica o corpo da função: o que ela retorna. A nossa função lambda atual é uma função
-que recebe um <code>x</code> qualquer e retorna <code>Nat.succ x</code>.</p>
-<p>Podemos ver o resultado disso dando <code>check</code> no arquivo:</p>
+<p>How does <code>Equal.apply</code> work: It takes as first argument the function to be applied to both sides, and as second argument the equality to which to apply the function. If you didn't understand the passage of the argument function (<code>x =&gt; Nat.succ x</code>), it is what we call a lambda function, and is also known as an anonymous function. Lambda functions are identified by their arrow <code>=&gt;</code>, where on the left side of the arrow is the name of the function argument - use any name you want - and on the right side is the body of the function: what it returns. Our current lambda function is a function that takes any <code>x</code> and returns <code>Nat.succ x</code>.</p>
+<p>We can see the result of this by <code>check</code> the file:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
   • Expected: (Equal Nat (Nat.succ m) (Nat.succ n)) 
@@ -198,8 +181,7 @@ que recebe um <code>x</code> qualquer e retorna <code>Nat.succ x</code>.</p>
       ┬
       └Here!
 </code></pre>
-<p>Como <code>e_apply</code> é uma igualdade do tipo <code>Equal Nat (Nat.succ m) (Nat.succ n)</code>,
-a prova que procuramos, é só retornar ele e concluiremos a nossa prova.</p>
+<p>As <code>e_apply</code> is an equality of type <code>Equal Nat (Nat.succ m) (Nat.succ n)</code>, the proof we are looking for is simply to return it, and we will have concluded our proof.</p>
 <pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e =
   let e_apply = Equal.apply (x =&gt; Nat.succ x) e

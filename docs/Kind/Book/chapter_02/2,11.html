@@ -143,14 +143,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="equalchain-e-equalmirror"><a class="header" href="#equalchain-e-equalmirror"><code>Equal.chain</code> e <code>Equal.mirror</code></a></h2>
-<p>Nessa parte não falaremos de nenhuma ferramenta inerentemente nova,
-mas sim de alguns utilitários de provas para facilitar o uso das ferramentas anteriores.</p>
-<p>Imagine o exemplo:</p>
+                        <h2 id="equalchain-and-equalmirror"><a class="header" href="#equalchain-and-equalmirror">Equal.chain and Equal.mirror</a></h2>
+<p>In this section we will not discuss any inherently new tool, but rather some proof utilities to make use of the previous tools easier.</p>
+<p>Consider the example:</p>
 <pre><code class="language-rust ignore">Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a</code></pre>
-<p>Parece um exemplo trivial. Se <code>a</code> é igual a <code>b</code>, <code>b</code> é igual a <code>a</code>, correto?
-Apesar de correto, o <em>type checker</em> do Kind não reconhece essa igualdade, pois para ele, a ordem é importante.
-Para esse tipo de situação, temos a função <code>Equal.mirror</code>, que simplesmente troca os lados de uma igualdade.</p>
+<p>It seems like a trivial example. If <code>a</code> is equal to <code>b</code>, then <code>b</code> is equal to <code>a</code>, right? Although correct, the type checker of Kind does not recognize this equality, because for it, the order is important. For such situations, we have the function <code>Equal.mirror</code>, which simply swaps the sides of an equality.</p>
 <pre><code class="language-rust ignore">Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a
 Example_mirror a b e = 
    let mir = Equal.mirror e
@@ -166,13 +163,9 @@ Example_mirror a b e =
    •   mir : Equal Nat b a 
    •   mir = Equal.mirror Nat a b e
 </code></pre>
-<p>Apesar de não parecer muito útil no momento, essa operação é muito útil para nosso segundo utilitário: <code>Equal.chain</code>.
-<code>Equal.chain</code> é um caso específico do <code>Equal.rewrite</code>, no qual você reescreve um lado inteiro de uma igualdade usando outra.</p>
+<p>Although it may not seem very useful at the moment, this operation is very useful for our second utility: <code>Equal.chain</code>. <code>Equal.chain</code> is a specific case of <code>Equal.rewrite</code>, in which you rewrite an entire side of an equality using another.</p>
 <pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c</code></pre>
-<p>Como nós já conhecemos o <code>Equal.rewrite</code>, poderíamos usar ele para resolver esse teorema, mas ao invés disso vamos usar o <code>Equal.chain</code>.
-<code>Equal.chain</code> funciona &quot;encadeando&quot; duas igualdades que tenham a mesma expressão no lado direito da primeira igualdade e no lado esquerdo da segunda,
-&quot;grudando&quot; essas igualdades pela expressão em comum, gerando uma nova igualdade com as outras duas expressões (<code>Equal.chain (a=b) (b=c) = (a=c)</code>).
-Por exemplo, no nosso exemplo, o lado direito das duas igualdades é igual. Se usarmos <code>Equal.mirror</code> em uma delas, podemos dar <code>Equal.chain</code> nelas:</p>
+<p>Since we already know <code>Equal.rewrite</code>, we could use it to solve this theorem, but instead we will use <code>Equal.chain</code>.<code>Equal.chain</code> works by &quot;chaining&quot; two equalities that have the same expression on the right side of the first equality and on the left side of the second, &quot;gluing&quot; these equalities together by the common expression, generating a new equality with the other two expressions (<code>Equal.chain (a = b) (b = c) = (a = c)</code>). For example, in our example, the right side of the two equalities is equal. If we use <code>Equal.mirror</code> on one of them, we can then use <code>Equal.chain</code> on them:</p>
 <pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c
 Example_chain a b c e1 e2 =
   let eql = Equal.mirror e2

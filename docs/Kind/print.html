@@ -563,30 +563,19 @@ Test_blt_nat_2 = ?
 
 Test_blt_nat_3 : Equal Bool (Blt_nat 4n 2n) Bool.false
 Test_blt_nat_3 = ?</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-simplificação"><a class="header" href="#prova-por-simplificação">Prova por Simplificação</a></h2>
-<p>Agora que definimos alguns tipos de dados e funções, vamos começar a provar propriedades
-de seus comportamentos. Na verdade, já estamos fazendo isso: cada função das seções
-anteriores que começa com <code>Test</code>, faz uma afirmação precisa sobre o comportamento de
-alguma função para algumas entradas especificas. As provas dessas afirmações foram
-sempre a mesma: use <code>Equal.refl</code> para checar que ambos os lados são de fato idênticos.</p>
-<p>O mesmo tipo de &quot;prova por simplificação&quot; pode ser usada para provar propriedades mais interessantes.
-Por exemplo, o fato que o <code>Nat.zero</code> é um &quot;elemento neutro&quot; no lado esquerdo da
-adição pode ser provado apenas observando que <code>Plus Nat.zero n</code> reduz para <code>n</code>,
-independente do que é <code>n</code>, fato que pode ser lido diretamente na definição do <code>Plus</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="proof-by-simplification"><a class="header" href="#proof-by-simplification">Proof by Simplification</a></h2>
+<p>Now that we have defined some data types and functions, let's start proving properties of their behaviors. In fact, we have already been doing this: each function in the previous sections that starts with <code>Test</code> makes a precise assertion about the behavior of some function for specific inputs. The proofs of these assertions were always the same: use <code>Equal.refl</code> to check that both sides are indeed identical.</p>
+<p>The same type of &quot;proof by simplification&quot; can be used to prove more interesting properties. For example, the fact that <code>Nat.zero</code> is a &quot;neutral element&quot; on the left-hand side of addition can be proven simply by observing that <code>Plus Nat.zero n</code> reduces to <code>n</code>, regardless of what <code>n</code> is, a fact that can be read directly from the definition of <code>Plus</code>.</p>
 <pre><code class="language-rust ignore">Plus_Z_n (n: Nat) : Equal Nat (Plus Nat.zero n) n
 Plus_Z_n n = Equal.refl</code></pre>
-<p>Outros teoremas parecidos podem ser provados de forma parecida.</p>
+<p>Other similar theorems can be proven in a similar way.</p>
 <pre><code class="language-rust ignore">Plus_1_l (n: Nat) : Equal Nat (Plus (Nat.succ Nat.zero) n) (Nat.succ n)
 Plus_1_l n = Equal.refl
 
 Mult_0_l (n: Nat) : Equal Nat (Mult Nat.zero n) Nat.zero
 Mult_0_l n = Equal.refl </code></pre>
-<p>O <code>_l</code> indica que a prova envolve o valor no lado esquerdo. Por exemplo:
-A prova da soma por 1 no lado esquerdo (<code>Plus_1_l</code>)
-ou a prova da multiplicação por zero no lado esquerdo (<code>Mult_0_l</code>)</p>
-<p>Embora a simplificação seja poderosa o suficiente para provar alguns fatos gerais,
-existem várias declarações que não podem ser demonstradas só com simplificação.
-Por exemplo, não podemos usá-la para provar que <code>Nat.zero</code> é um elemento neutro para adição no lado direito.</p>
+<p>The <code>_l</code> indicates that the proof involves the value on the left-hand side. For example: the proof of adding 1 on the left-hand side <code>(Plus_1_l)</code> or the proof of multiplying by zero on the left-hand side <code>(Mult_0_l)</code>.</p>
+<p>Although simplification is powerful enough to prove some general facts, there are several statements that cannot be demonstrated with simplification alone. For example, we cannot use it to prove that <code>Nat.zero</code> is a neutral element for addition on the right-hand side.</p>
 <pre><code class="language-rust ignore">Plus_n_Z (n: Nat) : Equal Nat n (Plus n Nat.zero)
 Plus_n_Z n = Equal.refl</code></pre>
 <pre><code class="language-diff">- ERROR Type mismatch  
@@ -601,27 +590,15 @@ Plus_n_Z n = Equal.refl</code></pre>
                 ┬─────────
                 └Here!
 </code></pre>
-<p>(Você consegue explicar por que isso acontece?)</p>
-<p>O próximo capítulo vai introduzir o conceito de indução,
-uma técnica poderosa que pode ser usada para demonstrar esse teorema.
-Por agora, no entanto, vamos ver mais alguns tipos simples de prova.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-aplicação"><a class="header" href="#prova-por-aplicação">Prova por aplicação</a></h2>
-<p>A nossa primeira ferramenta para resolver provas que não são reduzíveis de cara
-será a aplicação dos dois lados. Para isso, usaremos a função <code>Equal.apply</code>, que
-recebe uma igualdade (um <code>Equal</code>) e uma função, e aplica essa função dos dois lados
-da igualdade, gerando uma nova igualdade.</p>
-<p>Por exemplo:</p>
+<p>(Can you explain why this is?)</p>
+<p>The next chapter will introduce the concept of induction, a powerful technique that can be used to demonstrate this theorem. For now, however, let's see some more simple types of proof.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="proof-by-application"><a class="header" href="#proof-by-application">Proof by Application</a></h2>
+<p>Our first tool for proving non-trivial theorems will be applying functions to both sides of an equality. For this, we will use the function <code>Equal.apply</code>, which takes an equality (<code>Equal</code>) and a function, and applies this function to both sides of the equality, generating a new equality.</p>
+<p>For example:</p>
 <pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e = ?</code></pre>
-<p>O que exatamente temos aqui? Temos uma prova que recebe como argumento uma outra
-prova/igualdade. Isso quer dizer que vamos realizar a nossa prova supondo que a
-prova dada como argumento também é verdadeira. Então, lendo a declaração da prova,
-temos que: &quot;Dados dois naturais, <code>m</code> e <code>n</code>, e uma prova de que eles são iguais,
-provar que <code>Nat.succ m</code> e <code>Nat.succ n</code> também são iguais&quot;.</p>
-<p>Nós aprendemos, nas nossas aulas de matemática, que aplicar uma função dos dois
-lados de uma igualdade mantém a igualdade (<code>x/2 = 3 -&gt; 2*x/2 = 2*3</code>), e podemos
-ver que para provar o que a gente quer, precisamos aplicar a função <code>Nat.succ</code>
-nos dois lados de <code>e</code>, usando <code>Equal.apply</code></p>
+<p>What do we have here? We have a proof that takes another proof/equality as argument. This means that we will carry out our proof assuming that the proof given as argument is also true. So, reading the statement of the proof, we have: &quot;Given two naturals, <code>m</code> and <code>n</code>, and a proof that they are equal, prove that <code>Nat.succ m</code> and <code>Nat.succ n</code> are also equal&quot;.</p>
+<p>We learned in our math classes that applying a function to both sides of an equality preserves the equality (<code>x/2 = 3 -&gt; 2x/2 = 23</code>), and we can see that to prove what we want, we need to apply the function <code>Nat.succ</code> to both sides of <code>e</code>, using <code>Equal.apply</code>.</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
   • Expected: (Equal Nat (Nat.succ m) (Nat.succ n)) 
@@ -635,15 +612,8 @@ nos dois lados de <code>e</code>, usando <code>Equal.apply</code></p>
                         ┬
                         └Here!
 </code></pre>
-<p>Como o <code>Equal.apply</code> funciona: Ele recebe como primeiro argumento a função a ser
-aplicada dos dois lados, e como segundo argumento a igualdade aonde aplicar a função.
-Se você não entendeu muito bem a passagem da função de argumento (<code>x =&gt; Nat.succ x</code>),
-ela é o que chamamos de função lambda, e é também conhecida como função anônima.
-Funções lambda são identificadas pela sua seta <code>=&gt;</code>, sendo que do lado esquerdo
-da seta fica o nome do argumento da função - use o nome que quiser - e do lado direito
-fica o corpo da função: o que ela retorna. A nossa função lambda atual é uma função
-que recebe um <code>x</code> qualquer e retorna <code>Nat.succ x</code>.</p>
-<p>Podemos ver o resultado disso dando <code>check</code> no arquivo:</p>
+<p>How does <code>Equal.apply</code> work: It takes as first argument the function to be applied to both sides, and as second argument the equality to which to apply the function. If you didn't understand the passage of the argument function (<code>x =&gt; Nat.succ x</code>), it is what we call a lambda function, and is also known as an anonymous function. Lambda functions are identified by their arrow <code>=&gt;</code>, where on the left side of the arrow is the name of the function argument - use any name you want - and on the right side is the body of the function: what it returns. Our current lambda function is a function that takes any <code>x</code> and returns <code>Nat.succ x</code>.</p>
+<p>We can see the result of this by <code>check</code> the file:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
   • Expected: (Equal Nat (Nat.succ m) (Nat.succ n)) 
@@ -660,47 +630,36 @@ que recebe um <code>x</code> qualquer e retorna <code>Nat.succ x</code>.</p>
       ┬
       └Here!
 </code></pre>
-<p>Como <code>e_apply</code> é uma igualdade do tipo <code>Equal Nat (Nat.succ m) (Nat.succ n)</code>,
-a prova que procuramos, é só retornar ele e concluiremos a nossa prova.</p>
+<p>As <code>e_apply</code> is an equality of type <code>Equal Nat (Nat.succ m) (Nat.succ n)</code>, the proof we are looking for is simply to return it, and we will have concluded our proof.</p>
 <pre><code class="language-rust ignore">Example_apply (n: Nat) (m: Nat) (e: Equal Nat m n) : Equal Nat (Nat.succ m) (Nat.succ n)
 Example_apply n m e =
   let e_apply = Equal.apply (x =&gt; Nat.succ x) e
   e_apply</code></pre>
 <pre><code class="language-terminal">  All terms checked.
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-análise-de-casos"><a class="header" href="#prova-por-análise-de-casos">Prova por análise de casos</a></h2>
-<p>A próxima ferramenta de provas formais será análise de casos, que significa usar <em>pattern matching</em> na prova.
-Por exemplo, vamos provar que o E lógico de qualquer coisa e Falso sempre é falso:</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="proof-by-case-analysis"><a class="header" href="#proof-by-case-analysis">Proof by Case Analysis</a></h2>
+<p>The next tool for formal proofs will be case analysis, which means using <em>pattern matching</em> in the proof. For example, let's prove that the logical AND of anything and False is always False:</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b1 Bool.false) Bool.false
 Example_case_analysis b = ?</code></pre>
-<p>Apesar de parecer uma prova que deveria ser resolvida simplesmente com <code>Equal.refl</code>,
-não é o caso. Isso é por conta de a função <code>Andb</code> fazer <em>pattern matching</em> no primeiro
-argumento, e nós não temos o valor dele na prova, então ele fica &quot;agarrado&quot;.</p>
-<p>Para darmos um valor pra ele, e mostrar que a prova está correta para ambos os valores de <code>Bool</code>,
-nós fazemos <em>pattern matching</em> na prova, criando assim duas provas diferentes:
-uma pra quando <code>b</code> for <code>Bool.true</code> e uma pra quando for <code>Bool.false</code>.</p>
+<p>Although it may seem like a proof that could be solved simply with <code>Equal.refl</code>, it's not the case. This is because the <code>Andb</code> function pattern matches on the first argument, and we don't have its value in the proof, so it remains &quot;stuck&quot;.</p>
+<p>To give a value to it and show that the proof is correct for both <code>Bool</code> values, we <em>pattern match</em> in the proof, creating two different proofs: one for when <code>b</code> is <code>Bool.true</code> and one for when it's <code>Bool.false</code>.</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = ?
 Example_case_analysis Bool.false = ?</code></pre>
-<p>E ambas essas provas são resolvíveis diretamente com <code>Equal.refl</code>, pois o <em>type checker</em>
-consegue reduzir ambos para <code>Equal Bool.false Bool.false</code> direto.</p>
+<p>And both of these proofs are directly solvable with <code>Equal.refl</code>, since the <em>type checker</em> can reduce both of them to <code>Equal Bool.false Bool.false</code> directly.</p>
 <pre><code class="language-rust ignore">Example_case_analysis (b: Bool) : Equal Bool (Andb b Bool.false) Bool.false
 Example_case_analysis Bool.true  = Equal.refl
 Example_case_analysis Bool.false = Equal.refl</code></pre>
 <!-- TODO Reescrita no Kind2 é uma caixa de minhocas por si só,
 talvez colocar mais pro final do capítulo,
 ao talvez até colocar depois desse capítulo -->
-<div style="break-before: page; page-break-before: always;"></div><h2 id="prova-por-reescrita"><a class="header" href="#prova-por-reescrita">Prova por Reescrita</a></h2>
-<p>Esse teorema é um pouco mais interessante que anteriores:</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="proof-by-rewriting"><a class="header" href="#proof-by-rewriting">Proof by Rewriting</a></h2>
+<p>This theorem is a bit more interesting than the previous ones:</p>
 <pre><code class="language-rust ignore">Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)</code></pre>
-<p>Assim como mostrado anteriormente, essa é uma prova que dentro de seus argumentos temos
-uma outra prova, ou hipótese: no caso, temos <code>Equal n m</code> - ou seja, <code>n</code> e <code>m</code> são iguais.</p>
-<p>Como n e m são números arbitrários, não podemos só usar simplificação para demonstrar o teorema.
-Em vez disso, nós observando que, já que assumimos <code>Equal n m</code>, poderíamos substituir <code>n</code> por <code>m</code>
-no objetivo e os dois lados ficarão iguais. A função que usamos para fazer essa substituição é a <code>Equal.rewrite</code>.</p>
+<p>As shown before, this is a proof that has another proof or hypothesis within its arguments: in this case, we have <code>Equal n m</code> - meaning, <code>n</code> and <code>m</code> are equal.</p>
+<p>Since n and m are arbitrary numbers, we can't just use simplification to prove the theorem. Instead, we observe that, since we assume <code>Equal n m</code>, we could substitute <code>n</code> for <code>m</code> in the goal and both sides will be equal. The function we use to perform this substitution is <code>Equal.rewrite</code>.</p>
 <!-- TODO revisar esse parágrafo -->
-<p>Como não podemos reescrever diretamente no objetivo, nós usamos uma outra igualdade e fazemos ela ser igual ao objetivo.
-No nosso caso, usaremos um <code>Equal.apply</code> em <code>e</code> para conseguir essa igualdade.</p>
+<p>Since we can't rewrite directly in the goal, we use another equality and make it equal to the goal. In our case, we will use an <code>Equal.apply</code> on <code>e</code> to obtain this equality.</p>
 <pre><code class="language-rust ignore">Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
 
 Plus_id_example n m e =
@@ -722,8 +681,7 @@ Plus_id_example n m e =
       ┬
       └Here!
 </code></pre>
-<p>Esse <code>app</code> será do tipo <code>Equal (Plus n n) (Plus m n)</code>, como mostrado no comentário.
-Com isso feito, precisamos trocar o <code>n</code> por <code>m</code> no lado direito da igualdade, e pra isso usamos o rewrite:</p>
+<p>This <code>app</code> will be of type <code>Equal (Plus n n) (Plus m n)</code>, as shown in the comment. With this done, we need to replace <code>n</code> with <code>m</code> on the right-hand side of the equality, and for that we use rewrite:</p>
 <pre><code class="language-rust ignore">Plus_id_example (n: Nat) (m: Nat) (e: Equal Nat n m) : Equal Nat (Plus n n) (Plus m m)
 Plus_id_example n m e =
   let app = Equal.apply (k =&gt; Plus k n) e
@@ -742,20 +700,16 @@ Plus_id_example n m e =
    •   rrt : Equal Nat (Plus n n) (Plus m m) 
    •   rrt = Equal.rewrite Nat n m e (x =&gt; Equal Nat (Plus n n) (Plus m x)) app
 </code></pre>
-<p>O retorno da operação <code>Equal.rewrite</code> já será a prova que precisamos,
-então só retornamos direto o resultado da função.</p>
+<p>The return value of the <code>Equal.rewrite</code> operation will be the proof we need, so we just return the result directly from the function.</p>
 <h4 id="plus_id_exercise"><a class="header" href="#plus_id_exercise">Plus_id_exercise</a></h4>
-<p>Prove que:</p>
+<p>Prove that:</p>
 <pre><code class="language-rust ignore">Plus_id_exercise (n: Nat) (m: Nat) (o: Nat) (e1: Equal Nat n m) (e2: Equal Nat m o) : Equal Nat (Plus n m) (Plus m o)
 Plus_id_exercise n m o e1 e2 = ?</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="equalchain-e-equalmirror"><a class="header" href="#equalchain-e-equalmirror"><code>Equal.chain</code> e <code>Equal.mirror</code></a></h2>
-<p>Nessa parte não falaremos de nenhuma ferramenta inerentemente nova,
-mas sim de alguns utilitários de provas para facilitar o uso das ferramentas anteriores.</p>
-<p>Imagine o exemplo:</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="equalchain-and-equalmirror"><a class="header" href="#equalchain-and-equalmirror">Equal.chain and Equal.mirror</a></h2>
+<p>In this section we will not discuss any inherently new tool, but rather some proof utilities to make use of the previous tools easier.</p>
+<p>Consider the example:</p>
 <pre><code class="language-rust ignore">Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a</code></pre>
-<p>Parece um exemplo trivial. Se <code>a</code> é igual a <code>b</code>, <code>b</code> é igual a <code>a</code>, correto?
-Apesar de correto, o <em>type checker</em> do Kind não reconhece essa igualdade, pois para ele, a ordem é importante.
-Para esse tipo de situação, temos a função <code>Equal.mirror</code>, que simplesmente troca os lados de uma igualdade.</p>
+<p>It seems like a trivial example. If <code>a</code> is equal to <code>b</code>, then <code>b</code> is equal to <code>a</code>, right? Although correct, the type checker of Kind does not recognize this equality, because for it, the order is important. For such situations, we have the function <code>Equal.mirror</code>, which simply swaps the sides of an equality.</p>
 <pre><code class="language-rust ignore">Example_mirror (a: Nat) (b: Nat) (e: Equal Nat a b) : Equal Nat b a
 Example_mirror a b e = 
    let mir = Equal.mirror e
@@ -771,13 +725,9 @@ Example_mirror a b e =
    •   mir : Equal Nat b a 
    •   mir = Equal.mirror Nat a b e
 </code></pre>
-<p>Apesar de não parecer muito útil no momento, essa operação é muito útil para nosso segundo utilitário: <code>Equal.chain</code>.
-<code>Equal.chain</code> é um caso específico do <code>Equal.rewrite</code>, no qual você reescreve um lado inteiro de uma igualdade usando outra.</p>
+<p>Although it may not seem very useful at the moment, this operation is very useful for our second utility: <code>Equal.chain</code>. <code>Equal.chain</code> is a specific case of <code>Equal.rewrite</code>, in which you rewrite an entire side of an equality using another.</p>
 <pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c</code></pre>
-<p>Como nós já conhecemos o <code>Equal.rewrite</code>, poderíamos usar ele para resolver esse teorema, mas ao invés disso vamos usar o <code>Equal.chain</code>.
-<code>Equal.chain</code> funciona &quot;encadeando&quot; duas igualdades que tenham a mesma expressão no lado direito da primeira igualdade e no lado esquerdo da segunda,
-&quot;grudando&quot; essas igualdades pela expressão em comum, gerando uma nova igualdade com as outras duas expressões (<code>Equal.chain (a=b) (b=c) = (a=c)</code>).
-Por exemplo, no nosso exemplo, o lado direito das duas igualdades é igual. Se usarmos <code>Equal.mirror</code> em uma delas, podemos dar <code>Equal.chain</code> nelas:</p>
+<p>Since we already know <code>Equal.rewrite</code>, we could use it to solve this theorem, but instead we will use <code>Equal.chain</code>.<code>Equal.chain</code> works by &quot;chaining&quot; two equalities that have the same expression on the right side of the first equality and on the left side of the second, &quot;gluing&quot; these equalities together by the common expression, generating a new equality with the other two expressions (<code>Equal.chain (a = b) (b = c) = (a = c)</code>). For example, in our example, the right side of the two equalities is equal. If we use <code>Equal.mirror</code> on one of them, we can then use <code>Equal.chain</code> on them:</p>
 <pre><code class="language-rust ignore">Example_chain (a: Nat) (b: Nat) (c: Nat) (e1: Equal Nat b (Plus a a)) (e2 : Equal Nat c (Plus a a)) : Equal Nat b c
 Example_chain a b c e1 e2 =
   let eql = Equal.mirror e2
@@ -798,39 +748,27 @@ Example_chain a b c e1 e2 =
    •   chn : Equal Nat b c
    •   chn = Equal.chain Nat b (Plus a a) c e1 e3
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="mais-exercícios"><a class="header" href="#mais-exercícios">Mais exercícios</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="more-exercises"><a class="header" href="#more-exercises">More Exercises</a></h2>
 <h4 id="boolean_functions"><a class="header" href="#boolean_functions">Boolean_functions</a></h4>
-<p>Use os conhecimentos ensinados até aqui para resolver o teorema:</p>
+<p>Use the knowledge taught so far to solve the theorem:</p>
 <pre><code class="language-rust ignore">Identity_fn_applied_twice (f: Bool -&gt; Bool) (e: (x: Bool) -&gt; Equal Bool (f x) x) (b : Bool) : Equal Bool (f (f b)) b
 Identity_fn_applied_twice f e b = ?</code></pre>
-<p>Depois, resolva o teorema <code>negation_fn_applied_twice</code>, que é o mesmo que o anterior,
-mas mudando a hipótese para <code>Equal (f x) (Not x)</code></p>
+<p>Then, solve the <code>negation_fn_applied_twice</code> theorem, which is the same as the previous one, but changing the hypothesis to <code>Equal (f x) (Not x)</code></p>
 <h4 id="andb_eq_orb"><a class="header" href="#andb_eq_orb">Andb_eq_orb</a></h4>
-<p>Prove o seguinte teorema (Lembre-se que voce pode provar teoremas intermediários separadamente)</p>
+<p>Prove the following theorem (Remember that you can prove intermediate theorems separately):</p>
 <pre><code class="language-rust ignore">Andb_eq_orb (b: Bool) (c: Bool) (e: Equal Bool (Andb b c) (Orb b c)) : Equal Bool b c
 Andb_eq_orb b c prf = ?</code></pre>
 <h4 id="binary"><a class="header" href="#binary">Binary</a></h4>
-<p>Considere uma representação diferente de números naturais, usando um sistema binário ao
-invés de unário. Ou seja, ao invés de termos apenas zero ou um sucessor de um número,
-nós podemos ter:</p>
+<p>Consider a different representation of natural numbers using a binary system instead of unary. That is, instead of having only zero or one successor of a number, we can have:</p>
 <ul>
 <li>zero;</li>
-<li>o dobro de um número;</li>
-<li>o dobro de um número mais 1.</li>
+<li>twice a number;</li>
+<li>twice a number plus 1.</li>
 </ul>
 <ol>
-<li>Primeiro, escreva uma definição indutiva desse tipo, chamando-o de <code>Bin</code>.
-(Lembre-se que, no fundo, a própria definição de <code>Nat</code> como <code>zero</code> ou <code>succ n</code>
-não tem sentido intrínseco. Ela só diz que um elemento de <code>Nat</code> pode ser um <code>zero</code>
-ou um <code>succ n</code> se <code>n</code> também for <code>Nat</code>. A interpretação disso como um sistema de valores
-0, 1, 2, etc, vem de como nós trabalhamos com esse tipo <code>Nat</code>. A sua definição de <code>Bin</code>
-idealmente também será tão simples quanto. Serão as funções que você fizer sobre <code>Bin</code>
-que darão sentido matemático a ele).</li>
-<li>Então, escreva uma função <code>Incr</code> para incrementar um <code>Bin</code>, e uma função
-<code>Bin_to_nat</code> para converter de <code>Bin</code> para <code>Nat</code>.</li>
-<li>Escreva cinco provas que testam suas funções de incremento e de conversão.
-Note que incrementar um binário e então convertê-lo deve ser chegar no mesmo
-resultado que convertê-lo primeiro e então incrementar o <code>Nat</code>.</li>
+<li>First, write an inductive definition of this type, calling it <code>Bin</code>. (Remember that, in essence, the definition of <code>Nat</code> as <code>zero</code> or <code>succ n</code> has no intrinsic meaning. It only says that an element of <code>Nat</code> can be a <code>zero</code> or a s<code>ucc n</code> if <code>n</code> is also <code>Nat</code>. The interpretation of this as a system of values 0, 1, 2, etc., comes from how we work with this type <code>Nat</code>. Your definition of <code>Bin</code> ideally will be as simple as well. It will be the functions you make on <code>Bin</code> that will give mathematical sense to it).</li>
+<li>Then write an <code>Incr</code> function to increment a <code>Bin</code>, and a <code>Bin_to_nat</code> function to convert from <code>Bin</code> to <code>Nat</code>.</li>
+<li>Write five proofs that test your increment and conversion functions. Note that incrementing a binary and then converting it should result in the same result as converting it first and then incrementing the <code>Nat</code>.</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="indução-prova-por-indução"><a class="header" href="#indução-prova-por-indução">Indução: Prova por Indução</a></h1>
 <h2 id="módulo-de-indução"><a class="header" href="#módulo-de-indução">Módulo de indução</a></h2>
@@ -1068,7 +1006,7 @@ apenas organizar e juntar as partes necessárias. Para isso usaremos a
 <p>Ao chamar o <em>app</em> o <em>Type Check</em> nos retorna a mensagem <em>All terms checked</em> e
 desta forma provamos, por meio da indução e usando uma outra prova, a comutação
 da adição, ou seja, que a soma de <em>n</em> e <em>m</em> é igual a soma de <em>m</em> e <em>n</em>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="mais-exercícios-1"><a class="header" href="#mais-exercícios-1">Mais exercícios</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="mais-exercícios"><a class="header" href="#mais-exercícios">Mais exercícios</a></h2>
 <p>Você pode usar a <em>rewrite</em> ou <em>chain</em> nessa prova, escolha o que achar mais fácil</p>
 <pre><code class="language-rust ignore">Plus_swap (n: Nat) (m: Nat) (p: Nat) : Equal Nat (Plus n (Plus m p)) (Plus m (Plus n p))
 Plus_swap n m p = ?</code></pre>
