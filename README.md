@@ -17,12 +17,14 @@ Objetivo: traduzir o [Software Foundations em Idris](https://idris-hackers.githu
 - [x] - Definir padrão;
 - [x] - Refazer exemplos com o novo type check e mensagens de erro;
 - [ ] - Revisar e corrigir erros;
+- [ ] - Traduzir para o Inglês;
 - [x] - Continuar do capitulo 2;
 - [x] - Continuar do capitulo 3;
 - [x] - Continuar do capitulo 4;
 - [x] - Continuar do capitulo 5;
-- [ ] - Continuar do capitulo 6;
+- [x] - Continuar do capitulo 6;
 - [ ] - Continuar do capitulo 7;
+- [ ] - Continuar do capitulo 8;
 
 Toda semana:
 
