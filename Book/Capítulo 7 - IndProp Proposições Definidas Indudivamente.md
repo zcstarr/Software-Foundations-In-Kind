@@ -110,4 +110,43 @@ Ev_double n = ?
 Em outras palavras, se alguém nos dá uma evidência e para a afirmação Ev n, então sabemos que e deve ter uma das duas formas:
 
  - `e` é `ev_z` (e *n* é Nat.zero), ou
- - `e` é `ev_ss`,     
+ - `e` é `ev_ss` aplicando a indução com `n`  e ele é igual ao sucessor do sucessor do `n`\*.     
+
+###### * Nota: Já usamos essa estratégia antes, relembre do exercício *Problems.t3* do capítulo de indução, aqui a diferença é que há apenas um "Nat.succ" a mais na nossa indução.
+
+Isso sugere que deve ser possível analisar uma hipótese da forma `Ev n` da mesma forma que fazemos com estruturas de dados definidas de forma indutiva; em particular, deve ser possível argumentar por *indução* e *análise de casos* sobre essa evidência. Vamos ver alguns exemplos para ver o que isso significa na prática.
+
+### Pattern Matching  nas evidências
+
+Suponha que estamos provando algum fato envolvendo um número *n* e nos é dada a hipótese `Ev n`. Já sabemos como realizar a *análise de casos* em *n* usando a tática de inversão, gerando submetas separadas para o caso em que `n = Nat.zero` e o caso em que `n = Nat.succ n` para algum *n*. Mas para algumas provas, podemos querer analisar diretamente a evidência de que `Ev n` é verdadeiro.
+
+Pela definição de *Ev*, existem dois casos a considerar:
+  - Se a evidência for da forma `ev_z`, sabemos que `n = Nat.zero`.
+  - Caso contrário, a evidência deve ter a forma `ev_ss n e`, onde `n = Nat.succ (Nat.succ n)` e `e` é a evidência para `Ev n`.
+
+Podemos realizar esse tipo de raciocínio em Kind, novamente usando o *pattern matching*. Além de permitir que raciocinemos sobre igualdades envolvendo construtores, a inversão fornece um princípio de análise de casos para proposições definidas de forma indutiva. <!-- Quando usada dessa forma, sua sintaxe é semelhante à da função destruct: passamos a ela uma lista de identificadores separados por caracteres | para nomear os argumentos de cada um dos possíveis construtores.-->
+
+```rust ignore
+Ev_minus2 (n: Nat) (e: Ev n) : Ev (Nat.pred (Nat.pred n))
+Ev_minus2 Nat.zero e = e
+Ev_minus2 (Nat.succ Nat.zero) e = Ev.ev_z
+Ev_minus2 (Nat.succ (Nat.succ n)) (Ev.ev_ss e) = e
+```
+
+Em palavras, aqui está como o raciocínio de *pattern matching* funciona nesta prova:
+  -  Se a evidência for da forma `ev_z`, sabemos que `n = Nat.zero`. Portanto, é suficiente
+mostrar que `Ev (Nat.pred (Nat.pred Nat.zero))` é válido. Pela definição de `Nat.pred`, isso é
+equivalente a mostrar que `Ev Z` é válido, o que segue diretamente de `ev_0`.
+  -  Caso contrário, a evidência deve ter a forma `ev_ss n e`, onde
+`n = Nat.succ (Nat.succ n)` e `e` é a evidência para `Ev n`. Devemos então mostrar que
+`Ev (Nat.pred (Nat.pred (Nat.succ (Nat.succ n))))` é válido, o que, após simplificação, segue
+diretamente de `e`.
+
+Suponha que quiséssemos provar a seguinte variação de *Ev_minus2*:
+
+```rust ignore
+Evss_ev (n: Nat) (e: Ev (Nat.succ (Nat.succ n))) : Ev n
+```
+
+Intuitivamente, sabemos que a evidência para a hipótese não pode consistir apenas do construtor `ev_z`, uma vez que `Nat.zero` e `Nat.succ` são construtores diferentes do tipo *Nat*; portanto, `ev_ss` é o único caso que se aplica. Infelizmente, a função 
+# destruct não é inteligente o suficiente para perceber isso e ainda gera duas submetas. Ainda pior, ao fazê-lo, mantém a meta final inalterada, deixando de fornecer qualquer informação útil para completar a prova.
