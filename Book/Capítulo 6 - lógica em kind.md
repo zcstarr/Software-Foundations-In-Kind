@@ -4,11 +4,11 @@ Nos capítulos anteriores, vimos muitos exemplos de afirmações factuais (propo
 
 Antes de mergulhar nos detalhes, vamos falar um pouco sobre o status das declarações matemáticas em Kind. Lembre-se de que Kind é uma linguagem tipada, o que significa que toda expressão sensível em seu mundo tem um tipo associado. As afirmações lógicas não são exceção: qualquer afirmação que possamos tentar provar em Kind tem um tipo, ou seja, Type, o tipo de proposições. Podemos ver isso com o tipo *Booleano*:
 
-```rust 
+```rust
 Bool: Type
 Bool.true   : Bool
 Bool.false  : Bool
-``` 
+```
 
 No tipo *Bool* nós temos o Bool.**true** e o Bool.**false**. Para criar o
 tipo Bool nós declaramos que ele é um tipo (Type) e depois que o
@@ -19,7 +19,6 @@ frente.
 
 Outro exemplo possível é o *Nat*, dos números naturais. Números
 naturais são todos os números inteiros maiores ou igual a zero. Ou seja, eles começam com o número zero e vão até o infinito, mas não possuem valores decimais. Ou seja, o **3** é um número natural, mas o **3,14** não é, da mesma forma que o **-3** também não é. Então sabemos que o número natural é feito de *zero* e dos *sucessores* dele. Vamos ver como isso é no kind:
-
 
 ```rust
 Nat: Type
@@ -33,7 +32,7 @@ fato de que, enquanto no outro nós tinhamos apenas duas opções de retorno
 (*True* ou *False*), agora temos uma infinidade de números que o código
 precisa compreender, além de que deve haver uma forma do código parar de rodar
 (veremos mais sobre isso ao decorrer desse estudo), uma vez que um código que
-nunca para de rodar é um código que nunca nos dará o resultado. 
+nunca para de rodar é um código que nunca nos dará o resultado.
 
 Porém, de qualquer forma, percebemos que a estrutura do **Nat** é basicamente
 a mesma do **Bool**, isso nos mostra que podemos criar qualquer tipo,
@@ -54,7 +53,7 @@ Entender a construção dos *tipos* impedirá que alguns erros de sintaxe ocorra
 
 Apenas revisando, nosso elemento *Suco* é do tipo *Type* e o Suco.**laranja** é do tipo *Suco*. Desta forma, em termos leigos, temos que o elemento fica a direita dos dois pontos e o tipo a esquerda
 
-`elemento : Tipo` 
+`elemento : Tipo`
 
 Como dito antes, até mesmo os tipos são funções, logo podemos ter uma função
 como tipo. Por exemplo:
@@ -63,16 +62,17 @@ como tipo. Por exemplo:
 Problema : (Equal Bool Bool.true Bool.true
 ```
 
-
 Podemos perceber que temos um elemento chamado "Problema" e ele é do
 tipo "(Equal Bool Bool.true Bool.true)". Nós já vimos essa estrutura diversas vezes nos últimos capítulos e agora é fácil entender que essa função é um tipo e, da mesma forma que **não escrevemos**
+
 ```rust
 Suco: Type
 Suco.laranja : Type
 ```
+
 **Não podemos** simplesmente copiar a função para os construtores desse tipo.
 O *Suco* é tipo *Type*, mas o *Suco*.**laranja** não é do tipo *Type*, ele é
-do tipo *Suco*. 
+do tipo *Suco*.
 
 Mas atenção, observe que todas as proposições sintaticamente bem formadas têm o tipo Type em Kind, independentemente de serem verdadeiras ou não. Simplesmente ser uma proposição é uma coisa; ser demonstrável é outra coisa!
 
@@ -98,10 +98,8 @@ Plus_fact_is_true = Equal.refl
 ```
 <!-- Também podemos escrever proposições parametrizadas – isto é, funções que recebem argumentos de algum tipo e retornam uma proposição. Por exemplo, a seguinte função pega um número e retorna uma proposição afirmando que esse número é igual a três: -->
 
-
 Em Kind, diz-se que funções que retornam proposições definem propriedades de seus argumentos.
 Por exemplo, aqui está uma propriedade (polimórfica) que define a noção familiar de uma função injetiva
-
 
 ```rust
 Algebra.Laws.injectivity <a: Type> <b: Type> (f: a -> b) : Type
@@ -130,9 +128,10 @@ InjectiveNat : Injective (n => Nat.succ n)
 InjectiveNat = Injective.new Nat.succ_injective
 ```
 
-
 ## 1. Conectivos Lógicos
-### 1.1. Conjunção. 
+
+### 1.1. Conjunção
+
 A conjunção (ou lógico *e*) em kind recebe duas proposições *a* e *b*, que devem retornar um valor *booleano* `true` ou `false`.  
 
 ```rust
@@ -141,15 +140,17 @@ Bool.and Bool.true  b = b
 Bool.and Bool.false b = Bool.false
 ```
 
-Se *a* é verdadeiro, basta apenas retornar o valor de *b*, agora se o *a* for falso, não há a necessidade de verificar o valor do segundo elemento. 
+Se *a* é verdadeiro, basta apenas retornar o valor de *b*, agora se o *a* for falso, não há a necessidade de verificar o valor do segundo elemento.
 
 Por se tratar de um caso limitado (há apenas duas opções) dá para verificar com uma prova simples:
+
 ```rust
 ConjuntiveBool : Equal Bool (Bool.and Bool.true Bool.false) Bool.false
 ConjuntiveBool = Equal.refl
 ```
 
-#### 1.1.1 Exercício: 
+#### 1.1.1 Exercício
+
 ```rust
 And_exercise : Pair (Equal (Nat.add 3n 4n) 7n) (Equal (Nat.mul 2n 2n) 4n)
 And_exercise = ?
@@ -206,6 +207,7 @@ And_example2a (Nat.succ n) m e1 e2           =
     Empty.absurd p
 
 ```
+
 Para este teorema, ambas as formulações são adequadas. Mas é importante entender como trabalhar com hipóteses conjuntivas porque as conjunções geralmente surgem de etapas intermediárias em provas, especialmente em desenvolvimentos maiores. Aqui está um exemplo simples:
 
 ```rust
@@ -244,12 +246,14 @@ And_commut (Pair.new fst snd)    = Pair.new snd fst
 ```
 
 #### 1.1.3
+
 ```rust
 And_assoc <p> <q> <r> (a: Pair p (Pair q r))  : Pair (Pair p q) r
 And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?
 ```
 
 ### 1.2 Disjunção
+
 Outro conectivo importante é a disjunção, ou lógico, de duas proposições:
 `Either` a b é verdadeiro quando a ou b é. O primeiro caso foi marcado com *left* e o segundo com *right*.
 Para usar uma hipótese disjuntiva em uma prova, procedemos pela análise de caso, que, como para Nat ou outros tipos de dados, pode ser feita com correspondência de padrões. Aqui está um exemplo:
@@ -285,6 +289,7 @@ Inversamente, para mostrar que uma disjunção é válida, precisamos mostrar qu
 Or_intro <a> <b> (c: Either a b)        : a
 Or_intro a b (Either.left lft rgt val)  = val
 ```
+
 ... e um exemplo um pouco mais interessante exigindo ambos
 
 ```rust
@@ -293,20 +298,22 @@ Zero_or_succ Nat.zero       = Either.left  Equal.refl
 Zero_or_succ (Nat.succ n)   = Either.right Equal.refl
 ```
 
-#### 1.2.1 
+#### 1.2.1
+
 ```rust
 #axiom
 Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Nat.mul n m ) 0n) : Either (Equal n 0n) (Equal m 0n)
 Mult_eq_0 n m = ?
 ```
 
-#### 1.2.2 
+#### 1.2.2
+
 ```rust
 Or_commut <p> <q> (e: Either p q) : Either q p
 Or_commut e: ?
 ```
 
-### 1.3 Falsidade e Negação. 
+### 1.3 Falsidade e Negação
 
 Até agora, nos preocupamos principalmente em provar que certas coisas são verdadeiras – adição é comutativa, anexação de listas é associativa, etc. Claro, também podemos estar interessados em resultados negativos, mostrando que certas proposições não são verdadeiras. Em Kind, tais declarações negativas são expressas com a função de nível de tipo de negação *Not*.
 
@@ -325,9 +332,11 @@ Como *Empty* é uma proposição contraditória, o princípio da explosão tamb�
 Ex_falso_quodlibet <p>  : Empty -> p
 Ex_falso_quodlibet p    = e => Empty.absurd e
 ```
+
 O *latim ex falso quodlibet* significa, literalmente, “da falsidade segue o que você quiser”; este é outro nome comum para o princípio da explosão.
 
-#### 1.3.1 
+#### 1.3.1
+
 Mostre que a definição da negação em Kind implica a intuitiva mencionada acima:
 
 ```rust
@@ -362,6 +371,7 @@ Double_neg p    = (x: p) => (y: Not p) => Contradiction_implies_anythig (Pair.ne
 ```
 
 #### 1.3.2 Double_neg_inf
+
 Escreva uma prova informal para *Double_neg*
 
 Teorema: p implica *Not (Not p)* para qualquer p
@@ -382,7 +392,8 @@ Not_both_true_and_false p   = ?
 
 Da mesma forma, uma vez que a inequação envolve uma negação, é necessário um pouco de prática para trabalhar com ela fluentemente. Aqui está um truque útil. Se você está tentando provar um objetivo que é sem sentido (por exemplo, o estado do objetivo é Falso = Verdadeiro), aplique "absurdo" para mudar o objetivo para "Vazio". Isso facilita o uso de suposições da forma "Não p" que podem estar disponíveis no contexto - em particular, suposições da forma "Não (x=y)"inequação
 
-### 1.4 Verdade 
+### 1.4 Verdade
+
 Além de "Empty", a biblioteca padrão do Kind também define "Unit", uma proposição que é trivialmente verdadeira. Para prová-la, usamos a constante predefinida "()" da seguinte forma:
 
 ```rust
@@ -435,6 +446,7 @@ Not_true_and_false Bool.true h =
 ```
 
 #### 1.5.1 Equiv_properties
+
 Prove que *Equiv* é reflexivo e transitivo
 
 ```rust
@@ -448,11 +460,12 @@ Equiv.chain <p> <q> <r> (e0: Equiv p q) (e1: Equiv q r) : Equiv p r
 Equiv.chain p q r e0 (Equiv.refl x) = ?
 ```
 
-#### 1.5.2 
+#### 1.5.2
+
 ```rust
 Or_distributes_over_and <p> <q> <r> : Equiv (Either p (Pair q r)) (Pair (Either p q) (Either p r))
 Or_distributes_over_and p q r = ?
-``` 
+```
 
 Alguns táticos de Kind tratam declarações de "Equiv" de forma especial, evitando a necessidade de manipulação de estado de prova de baixo nível. Em particular, "rewrite" e "refl" podem ser usados com declarações "Equiv", não apenas igualdades.
 
@@ -526,23 +539,23 @@ Fro_mult_0_3 n (Nat.succ m) p (e) =
   rwt
 Fro_mult_0_3 n m (Nat.succ p) (Either.right a (Either b c) (Either.right e)) =
   let emp = (Equal.rewrite e
-		(x => match Nat x {
-		  zero => Empty
-			succ => Unit
-		}) 
-		(Unit.new)) 
-	Empty.absurd emp
+  (x => match Nat x {
+    zero => Empty
+   succ => Unit
+  }) 
+  (Unit.new)) 
+ Empty.absurd emp
 ```
 
 (A função *Either.rgt* é uma função auxiliar criada para extrair o valor da direita do *Either*, fica como exercício ao leitor o desenvolvimento dela e da *Either.lft*)
-
 
 ```rust
 Apply_equiv_example (n: Nat) (m: Nat) (e: Equal (Nat.mul n m) Nat.zero) : Either (Equal n Nat.zero) (Equal m Nat.zero)
 Apply_equiv_example n m e = Equiv.rgt (Mult_0 n m)
 ```
 
-### 1.6 Quantificação existencial 
+### 1.6 Quantificação existencial
+
 Outra conectiva lógica importante é a quantificação existencial. Para dizer que há algum *x* do tipo *t* tal que alguma propriedade *p* é verdadeira para *x*, escrevemos *Sigma t x p*, onde p é *x -> t*. A anotação de tipo: t pode ser omitida se o Kind for capaz de inferir a partir do contexto qual deve ser o tipo de x.
 
 Para provar uma afirmação da forma *Sigma x p*, devemos mostrar que p é verdadeira para alguma escolha específica de valor para x, conhecido como o testemunho do existencial. Isso é feito em dois passos: Primeiro, declaramos um *Sigma.new*, que pode ser escrito com o sugar syntax `$`, depois dizemos explicitamente ao Kind qual testemunho t temos em mente. Então, provamos que p é verdadeira depois que todas as ocorrências de x são substituídas por t.
@@ -559,24 +572,27 @@ Por outro lado, se tivermos uma hipótese existencial *Sigma x p* no contexto, p
 Exists_example_2 (n: Nat) (m: Sigma Nat (m => (Equal Nat n (Nat.add 4n m)))) : Sigma Nat (o => (Equal Nat n (Nat.add 2n o)))
 Exists_example_2 n (Sigma.new fst snd) = $ fst ? 
 ```
- 
+
 #### 1.6.1 Dist_exists_or
+
 ```rust
 Dist_not_exists <a> <p: a -> Type> (f: (x: a) -> (p x)) : Not (Sigma a (x => ( Not (p x))))
 Dist_not_exists a p f = ?
 ```
 
-#### 1.6.2 Dist_exist_or 
+#### 1.6.2 Dist_exist_or
+
 ```rust
 Dist_exists_or <a> <p: a -> Type> <q: a -> Type> : Equiv (Sigma a (x => (Either (p x) (q x)))) (Either (Sigma a (x => (p x))) (Sigma a (x => (q x))))
 Dist_exist_or a p q = ?
 ```
 
-
 ## 2 Programação com Proposições
+
 As conectivas lógicas que vimos fornecem um vocabulário rico para definir proposições complexas a partir de proposições mais simples. Para ilustrar, vamos ver como expressar a afirmação de que um elemento x ocorre em uma lista l. Observe que essa propriedade tem uma estrutura recursiva simples:
-  * Se l for a lista vazia, então x não pode ocorrer nela, portanto, a propriedade "x aparece em l" é simplesmente falsa.
-  * Caso contrário, l tem a forma *List.cons xh xt*. Nesse caso, x ocorre em l se ele é igual a xh ou se ocorre em xt.
+
+* Se l for a lista vazia, então x não pode ocorrer nela, portanto, a propriedade "x aparece em l" é simplesmente falsa.
+* Caso contrário, l tem a forma *List.cons xh xt*. Nesse caso, x ocorre em l se ele é igual a xh ou se ocorre em xt.
   
 Podemos traduzir isso diretamente em uma função recursiva simples que recebe um elemento e uma lista e retorna uma proposição:
 
@@ -587,6 +603,7 @@ In a x (List.cons xs.h xs.t)  = Either (Equal x xs.h) (In a x xs.t)
 ```
 
 Quando In é aplicado a uma lista concreta, ele se expande em uma sequência concreta de disjunções aninhadas.
+
 ```rust
 In_example_1 : In 4n [1n, 2n, 3n, 4n, 5n]
 In_example_1 = (Either.right (Either.right (Either.right (Either.left Equal.refl))))
@@ -597,7 +614,6 @@ In_example_2 n (Either.right e)           = $ 2n (Either.lft e)
 ```
 
 Também podemos provar lemas mais genéricos e de nível superior sobre In. Observe, no próximo exemplo, como In começa sendo aplicado a uma variável e só é expandido quando fazemos análise de casos nessa variável:
-
 
 ```rust ignore
 In_map <a> <b> (f: a -> b) (xs: List a) (x: a) (i: In x xs) : In (f x) (List.map xs f) 
@@ -611,8 +627,8 @@ In_map a b f (List.cons xs.h xs.t) x (Either.left e)  =
 
 Essa forma de definir proposições recursivamente, embora conveniente em alguns casos, também tem algumas desvantagens. Em particular, está sujeita às restrições usuais do Kind em relação à definição de funções recursivas, por exemplo, o requisito de que elas sejam "obviamente terminantes". No próximo capítulo, veremos como definir proposições indutivamente, uma técnica diferente com seu próprio conjunto de pontos fortes e limitações.
 
-
 #### 2.0.1 In_map_equiv
+
 ```rust ignore
 In_map_equiv <a> <b> (f: a -> b) (l: List a) (y: b) :
    Equivalence (In y (List.map l f)) (Sigma a (x => (Pair (Equal (f x) y) (In x l))))
@@ -620,6 +636,7 @@ In_map_equiv a b f l y = ?
 ```
 
 #### 2.0.2 In_app_equiv
+
 ```rust ignore
 In_app_equiv <a> (x: a) (l1: List a) (l2: List a) :
   (Equivalence (In x (List.concat l1 l2)) (Either (In x l1) (In x l2)))
@@ -627,6 +644,7 @@ In_app_equiv a x l1 l2 = ?
 ```
 
 #### 2.0.3 All
+
 Lembre-se de que funções que retornam proposições podem ser vistas como propriedades de seus argumentos. Por exemplo, se *p* tem o tipo `Nat -> Type`, então `p n` afirma que a propriedade p é verdadeira para n.
 
 Inspirado em *In*, escreva uma função recursiva *All* afirmando que alguma propriedade *p* é verdadeira para todos os elementos de uma lista *l*. Para garantir que sua definição esteja correta, prove o lema *All_In* abaixo. (É claro que sua definição não deve apenas repetir o lado esquerdo de *All_In*.)
@@ -640,6 +658,7 @@ All_in t p l = ?
 ```
 
 #### 2.0.4 Combine_odd_even
+
 Complete a definição da função combine_odd_even abaixo. Ela recebe como argumentos duas propriedades de números, podd e peven, e deve retornar uma propriedade p tal que p n é equivalente a podd n quando n é ímpar e equivalente a peven n caso contrário.
 
 ```rust ignore
@@ -687,6 +706,7 @@ Vimos que podemos usar o comando *check* para pedir ao Kind que imprima o tipo d
 PlusCommutative (m: Nat) (n: Nat) : Equal (Nat.add n m) (Nat.add m n)
 PlusCommutative m n = ?
 ```
+
 Kind imprime a declaração do teorema plusCommutative da mesma forma que imprime o tipo de qualquer termo que pedimos para verificar. Por quê?
 
 A razão é que o identificador plusCommutative se refere na verdade a um objeto de prova - uma estrutura de dados que representa uma derivação lógica estabelecendo a verdade da declaração *(n: Nat) (m: Nat) : n + m = m + n*. O tipo desse objeto é a declaração do teorema do qual é uma prova.
@@ -703,17 +723,20 @@ plus_comm3: (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.ad
 Plus_comm3a Nat.zero n p = ?
 ```
 
-
 Nesse caso, o nosso objetivo é provar:
+
 ```bash
 (Equal _ (Nat.add n p) (Nat.add (Nat.add p 0n) n)) 
 ```
 
-Mas veja, para isso nós precisamos de outra prova, a de que 
+Mas veja, para isso nós precisamos de outra prova, a de que
+
 ```bash
 Equal Nat (Nat.add p 0n) p
 ```
+
 Para resolver essa prova seria esse o caminho:
+
 ```rust
 Add_n_z (n: Nat)       : (Equal (Nat.add n Nat.zero) n)
 Add_n_z Nat.zero       = Equal.refl
@@ -722,7 +745,9 @@ Add_n_z (Nat.succ n)   =
      let app = (Equal.apply (x => (Nat.succ x)) ind)
      app
 ```
+
 Agora vamos provar:
+
 ```rust
 Plus_comm3a (n: Nat) (m: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
 Plus_comm3a Nat.zero n p = 
@@ -731,18 +756,22 @@ Plus_comm3a Nat.zero n p =
   let rwt = Equal.rewrite (Equal.mirror pzr) (x =>(Equal _ (Nat.add n p) (Nat.add (x) n))) com
   rwt
 ```
+
 Agora só nos resta provar para o caso de *Nat.succ n*
 
 ```rust
 Plus_comm3a (Nat.succ m) n p = ?
 ```
-e o nosso objetivo é `(Equal _ (Nat.succ (Nat.add m (Nat.add n p))) (Nat.add (Nat.add p n) (Nat.succ m)))` e para isso precisariamos de outras provas, como a que 
+
+e o nosso objetivo é `(Equal _ (Nat.succ (Nat.add m (Nat.add n p))) (Nat.add (Nat.add p n) (Nat.succ m)))` e para isso precisariamos de outras provas, como a que
+
 ```rust
 Plus_n_sm (n: Nat) (m: Nat) : (Equal Nat (Nat.succ (Nat.add n m))(Nat.add n (Nat.succ m)))
 Plus_n_sm Nat.zero m        = Equal.refl
 Plus_n_sm (Nat.succ n) m    = (Equal.apply (x => (Nat.succ x)) (Plus_n_sm n m))
 ```
-E reescrever na prova da comutatividade da adição entre *n* e *p* e depois usar a prova da comutatividade para isso tudo, um trabalho cansativo e, posso dizer, desnecessário. 
+
+E reescrever na prova da comutatividade da adição entre *n* e *p* e depois usar a prova da comutatividade para isso tudo, um trabalho cansativo e, posso dizer, desnecessário.
 
 Ao invés de abrir os casos, vamos trabalhar com eles como variáveis puras, quase sem valor
 
@@ -750,27 +779,37 @@ Ao invés de abrir os casos, vamos trabalhar com eles como variáveis puras, qua
 Plus_comm3 (m: Nat) (n: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
 Plus_comm3 m n p = ?
 ```
+
 Nosso objetivo continua sendo `(Equal _ (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n))` e para entender isso, vamos analisar o nosso problema e os próximos passos serão triviais demais:
 
-* *n + (m + p) = (p + m) + n* 
+* *n + (m + p) = (p + m) + n*
 
 Isso é exatamente a comutatividade da adição, então basta reescrever a nossa prova *Plus_comm* duas vezes, uma dentro da outra
+
 ```rust
 let a = Equal.rewrite (Plus_comm p m) (x => (Equal (Nat.add n (Nat.add m p)) (Nat.add (x) n))) (Plus_comm3 m n p)
 ```
+
 e veja o que nossa variável *a* retorna
+
 ```bash
 (Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (Nat.add m p) n))
 ```
+
 Estamos quase lá, basta apenas reescrever o segundo *Plus_comm* na adição mais interna do lado direito
+
 ```rust
 let b = Equal.rewrite (Plus_comm m p) (x => (Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (x) n))) a
 ```
+
 e o nosso *b* é exatamente igual ao nosso objetivo
+
 ```bash
 (Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)) 
 ```
+
 A prova completa fica:
+
 ```rust
 Plus_comm3 (m: Nat) (n: Nat) (p: Nat) : Equal (Nat.add n (Nat.add m p)) (Nat.add (Nat.add p m) n)
 Plus_comm3 m n p = 
@@ -778,10 +817,10 @@ Plus_comm3 m n p =
   let b = Equal.rewrite (Plus_comm m p) (x => (Equal Nat (Nat.add n (Nat.add m p)) (Nat.add (x) n))) a
   b
 ```
+
 Muito mais simples e elegante, não precisava de tanto trabalho, uma breve leitura do problema praticamente já nos entregava a solução. Perceba, isso não foi diferente de tudo o que já fizemos até aqui, é até uma repetição dos passos anteriores, é semelhante à aplicação de uma função polimórfica a um argumento de tipo.
 
 Você pode "usar teoremas como funções" desta maneira com quase todas as táticas que recebem um nome de teorema como argumento. Note também que a aplicação de teorema usa os mesmos mecanismos de inferência que a aplicação de função; portanto, é possível, por exemplo, fornecer wildcards como argumentos a serem inferidos, ou declarar algumas hipóteses de um teorema como implícitas por padrão. Esses recursos são ilustrados na prova abaixo.
-
 
 ```rust
 Lemma_app_ex 
@@ -795,8 +834,8 @@ Lemma_app_ex n (List.cons xs.h xs.t) (Either.left i)  =
   rwt
 Lemma_app_ex n (List.cons xs.h xs.t) (Either.right i) = Lemma_app_ex n xs.t i
 ```
-Veremos muitos mais exemplos dos estilos desta seção nos capítulos posteriores.
 
+Veremos muitos mais exemplos dos estilos desta seção nos capítulos posteriores.
 
 ## Kind vs Teoria dos Conjuntos
 
@@ -804,10 +843,11 @@ O núcleo lógico do Coq, o Cálculo das Construções Indutivas, difere de algu
 
 No entanto, há alguns casos em que traduzir o raciocínio matemático padrão para Kind pode ser tanto trabalhoso quanto, às vezes, até impossível, a menos que enriqueçamos a lógica central com axiomas adicionais. Concluímos este capítulo com uma breve discussão de algumas das diferenças mais significativas entre os dois mundos.
 
-### Extensão Funcional. 
+### Extensão Funcional
+
 As afirmações de igualdade que vimos até agora dizem principalmente respeito a elementos de tipos indutivos (Nat, Bool, etc.). Mas como o operador de igualdade de Kind é polimórfico, essas não são as únicas possibilidades - em particular, podemos escrever proposições que afirmam que duas funções são iguais uma à outra:
 
-```rust 
+```rust
 Function_equality_ex1 : Equal (Nat.succ 3n) (Nat.succ (Nat.pred 4n))
 Function_equality_ex1 = Equal.refl
 ```
@@ -834,6 +874,7 @@ Functional_extensionality <a><b> (f: a -> b) (g: a -> b) (e: (x: a) -> Equal (f 
 ```
 
 Agora podemos invocar a extensionalidade funcional em provas:
+
 ```rust
 Function_equality_ex2 : Equal ((x: Nat) => Nat.add x 1n) ((x: Nat) => Nat.add 1n x)
 Function_equality_ex2 =
@@ -846,7 +887,8 @@ Infelizmente, não há uma maneira simples de saber se um axioma é seguro para 
 
 No entanto, sabe-se que adicionar a extensionalidade funcional, em particular, é consistente.
 
-#### Tr_rev 
+#### Tr_rev
+
 Um problema com a definição da função de reversão de lista "rev" que temos é que ela realiza uma chamada a "++" a cada passo. Executar "++" leva tempo assintoticamente linear no tamanho da lista, o que significa que "rev" tem tempo de execução quadrático.
 Podemos melhorar isso com a seguinte definição:
 
@@ -869,7 +911,7 @@ Tr_rev_correct <a> (xs: List a) : Equal (Tr_rev xs) (Rev xs)
 Tr_rev_correct a xs = ?
 ```
 
-### Proposições e Booleans. 
+### Proposições e Booleans
 
 Vimos duas maneiras diferentes de codificar fatos lógicos em Kind: com booleanos (do tipo Bool) e com proposições (do tipo Type).
 Por exemplo, para afirmar que um número n é par, podemos dizer que
@@ -884,6 +926,7 @@ Evenb_double (Nat.succ k) = Evenb_double k
 ```
 
 #### Evenb_double_conv
+
 ```rust
 Evenb_double_conv (n: Nat):
   Sigma Nat (k => (Equal n (Bool.if (Evenb n) (Nat.double k) (Nat.succ (Nat.double k)))))
@@ -891,6 +934,7 @@ Evenb_double_conv n = ?
 ```
 
 TODO: terminar `even_bool_prop`
+
 ```rust
 Even_bool_prop (n: Nat): 
   Equivalence (Equal (Evenb n) Bool.true) (Sigma Nat (k => Equal n (Nat.double k)))
@@ -1000,12 +1044,14 @@ Even_1000 = $ 500n Equal.refl
 ```
 
 Por outro lado, a prova da correspondente afirmação booleana é ainda mais simples:
+
 ```rust
 Even_1000a : Equal (Evenb 1000n) Bool.true
 Even_1000a = Equal.refl
 ```
 
 O interessante é que, como as duas noções são equivalentes, podemos usar a formulação booleana para provar a outra sem mencionar explicitamente o valor 500:
+
 ```rust
 Even_1000b : Sigma Nat (k => Equal 1000n (Nat.double k))
 Even_1000b = ? //TODO: Terminar aqui
@@ -1013,7 +1059,8 @@ Even_1000b = ? //TODO: Terminar aqui
 
 Embora não tenhamos ganhado muito em termos de tamanho de prova neste caso, provas maiores podem ser consideravelmente simplificadas pelo uso da reflexão. Como um exemplo extremo, a prova do teorema dos 4 cores em Coq usa reflexão para reduzir a análise de centenas de casos diferentes a uma computação booleana. Não abordaremos a reflexão em grande detalhe, mas ela serve como um bom exemplo que mostra as forças complementares dos booleanos e proposições gerais.
 
-#### Logical_connectives 
+#### Logical_connectives
+
 Os seguintes lemas relacionam os conectivos proposicionais estudados neste capítulo com as operações booleanas correspondentes.
 
 ```rust
@@ -1030,6 +1077,7 @@ Orb_true_equiv b1 b2 = ?
 ```
 
 #### Beq_nat_false_equiv
+
 O teorema a seguir é uma formulação alternativa "negativa" de beq_nat_true_equiv que é mais conveniente em certas situações (veremos exemplos em capítulos posteriores).
 
 ```rust
@@ -1037,7 +1085,8 @@ Beq_nat_false_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) B
 Beq_nat_false_equiv n1 n2 = ?
 ```
 
-#### Beq_list 
+#### Beq_list
+
 Dado um operador booleano beq para testar a igualdade de elementos de algum tipo a, podemos definir uma função beq_list beq para testar a igualdade de listas com elementos em a. Complete a definição da função beq_list abaixo. Para garantir que sua definição está correta, prove o lema beq_list_true_equiv.
 
 ```rust
@@ -1062,8 +1111,8 @@ Forallb x t List.nil = Bool.true
 Forallb x t (List.cons xs.h xs.t) = Bool.and (t xs.h) (Forallb t xs.t)
 
 ```
-Prove o teorema abaixo, que relaciona forallb à propriedade All do exercício acima.
 
+Prove o teorema abaixo, que relaciona forallb à propriedade All do exercício acima.
 
 ```rust
 Forallb_true_equiv <x> 
@@ -1072,19 +1121,20 @@ Forallb_true_equiv <x>
   Equivalence (Equal (Forallb t xs) Bool.true) ((All ((k: x) => Equal (t k) Bool.true) xs))
 Forallb_true_equiv x t xs = ?
 ```
+
 Existem alguma propriedades importantes da função forallb que não são capturadas por esta especificação?
 
-#### Lógica Clássica vs. Lógica Construtiva. 
+### Lógica Clássica vs. Lógica Construtiva
 
 Vimos que não é possível testar se uma proposição p é verdadeira ou não ao definir uma função Kind. Você pode se surpreender ao descobrir que uma restrição semelhante se aplica às provas! Em outras palavras, o seguinte princípio de raciocínio intuitivo não é derivável em Kind:
 
 ```rust
 Excluded_middle <p>: Either p (Not p)
 ```
+
 Para entender operacionalmente por que esse é o caso, lembre-se de que, para provar uma declaração da forma  `Either p q`, usamos as correspondências de padrão *Left* e *Right*, que exigem saber qual lado da disjunção é verdadeiro. Mas a proposição p universalmente quantificada em *Excluded_middle* é uma proposição arbitrária, sobre a qual não sabemos nada. Não temos informações suficientes para escolher qual de Left ou Right aplicar, assim como *Kind* não tem informações suficientes para decidir mecanicamente se p é verdadeira ou não dentro de uma função.
 
 No entanto, se soubermos que *p* é refletida em algum termo booleano *b*, saber se ela é verdadeira ou não é trivial: basta verificar o valor de b.
-
 
 ```rust
 Restricted_excluded_middle <p> <q> (b: Bool)(e: Equivalence p (Equal b Bool.true)) : Either p (Not p) 
@@ -1131,6 +1181,7 @@ Leva um pouco de prática para entender quais técnicas de prova devem ser evita
 A falha técnica aqui, do ponto de vista construtivo, é que afirmamos provar `Sigma a (x => (p x))` usando uma prova de `Not (Not (Sigma a (x =>(p x))))`. Permitir-nos remover duplas negações de afirmações arbitrárias é equivalente a assumir o terceiro excluído, como mostrado em um dos exercícios abaixo. Assim, essa linha de raciocínio não pode ser codificada em Kind sem assumir axiomas adicionais.
 
 #### Excluded_middle_irrefutable
+
 A consistência do Kind com o axioma geral do terceiro excluído requer raciocínios complicados que não podem ser realizados dentro do próprio Kind. No entanto, o seguinte teorema implica que é sempre seguro assumir um axioma de decidibilidade (ou seja, uma instância do terceiro excluído) para qualquer tipo específico p. Por quê? Porque não podemos provar a negação de tal axioma; se pudéssemos, teríamos tanto `Not (Either p (Not p))` quanto `Not (Not (Either p (Not p)))`, o que é uma contradição.
 
 ```rust
@@ -1139,7 +1190,9 @@ Excluded_middle_irrefutable p = ?
 ```
 
 #### Not_exists_dist
+
 É um teorema da lógica clássica que as seguintes duas afirmações são equivalentes:
+
 ```rust
 Not (Sigma a (k => Not (p k))))
 (x : a) -> p x
@@ -1151,13 +1204,16 @@ O teorema *dist_not_exists* acima prova um lado dessa equivalência. Curiosament
 Not_exists_dist <a> (p: a -> Type) (s: Not (Sigma a (k => Not (p k)))) : (x: a) -> p x
 Not_exists_dist a p s = ?
 ```
+
 sendo que
+
 ```rust
 Excluded_middle <p>: Either p (Not p)
 // Excluded_middle p = Confia 
 ```
 
 #### Classical_axioms
+
 Para aqueles que gostam de um desafio, aqui está um exercício retirado do livro Coq'Art de Bertot e Casteran (p. 123). Cada uma das seguintes quatro afirmações, juntamente com excluded_middle, pode ser considerada como caracterizando a lógica clássica. Não podemos provar nenhum deles em Kind, mas podemos adicionar consistentemente qualquer um deles como um axioma se quisermos trabalhar na lógica clássica.
 
 Prove que todas as cinco proposições (essas quatro mais excluded_middle) são equivalentes.
@@ -1171,4 +1227,3 @@ De_morgan_not_not <p> <q> (np: Pair (Not p) (Not q)) : Either p q
 
 Implies_to_or <p> <q> (pq: p -> q) : Either (Not p) q
 ```
-

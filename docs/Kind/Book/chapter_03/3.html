@@ -1,48 +1,47 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
+        <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Induction: Proof by Induction - </title>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Induction: Proof by Induction</title>
+
+
+        <!-- Custom HTML head -->
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="../../">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
-        <link rel="shortcut icon" href="favicon.png">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- Custom theme stylesheets -->
 
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
-
-        <!-- Custom theme -->
-        
-
-        
         <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        
-
-        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
-        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
         <script>
-            if (typeof Clipboard == 'undefined') {
-                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
-            }
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
-    </head>
-    <body class="light">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,61 +57,83 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
+            var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             }
-            document.querySelector('html').classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="README.html">Introduction</a></li><li><a href="guide/Started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li><a href="guide/About.html"><strong aria-hidden="true">1.1.</strong> About Kind</a></li><li><a href="guide/Installation.html"><strong aria-hidden="true">1.2.</strong> Installation</a></li><li><a href="cli/World.html"><strong aria-hidden="true">1.3.</strong> Hello World!</a></li><li><a href="cli/kind.html"><strong aria-hidden="true">1.4.</strong> Hello Kind!</a></li></ol></li><li><a href="Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Basics: Introduction</a></li><li><ol class="section"><li><a href="Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Enumerated Types</a></li><li><ol class="section"><li><a href="Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Days of the Week</a></li></ol></li><li><a href="Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleans</a></li><li><a href="Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Function Types</a></li><li><a href="Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Modules</a></li><li><a href="Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Numbers</a></li><li><a href="Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Proof by Simplification</a></li><li><a href="Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Proof by Application</a></li><li><a href="Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Proof by Case Analysis</a></li><li><a href="Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Proof by Rewriting</a></li><li><a href="Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain and Equal.mirror</a></li><li><a href="Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> More Exercises</a></li></ol></li><li><a href="Book/chapter_03/3.html" class="active"><strong aria-hidden="true">3.</strong> Induction: Proof by Induction</a></li><li><ol class="section"><li><a href="Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercises</a></li><li><a href="Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> More Exercises</a></li></ol></li><li><a href="Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Data Structures</a></li><li><ol class="section"><li><a href="Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Lists of Numbers</a></li><li><a href="Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Reasoning about Lists</a></li><li><a href="Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li><a href="Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polymorphism</a></li><li><ol class="section"><li><a href="Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Functions as Data</a></li><li><a href="Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Additional Exercises</a></li></ol></li><li><a href="Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Logic in Kind</a></li><li><ol class="section"><li><a href="Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Logical Connectives</a></li><li><a href="Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsity and Negation</a></li><li><a href="Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Truth, Equivalence, and Quantification</a></li><li><a href="Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programming with Propositions</a></li><li><a href="Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Applying Theorems to Arguments</a></li><li><a href="Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Set Theory</a></li><li class="spacer"></li></ol></li><li><a href="Contributors.html">Contributors</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/About.html"><strong aria-hidden="true">1.1.</strong> About Kind</a></li><li class="chapter-item expanded "><a href="../../guide/Installation.html"><strong aria-hidden="true">1.2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../../cli/World.html"><strong aria-hidden="true">1.3.</strong> Hello World!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Hello Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Basics: Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Enumerated Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Days of the Week</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleans</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Function Types</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Modules</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Proof by Simplification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Proof by Application</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Proof by Case Analysis</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Proof by Rewriting</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain and Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html" class="active"><strong aria-hidden="true">3.</strong> Induction: Proof by Induction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercises</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Data Structures</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Lists of Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Reasoning about Lists</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polymorphism</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Functions as Data</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Additional Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Logic in Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Logical Connectives</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsity and Negation</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Truth, Equivalence, and Quantification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programming with Propositions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Applying Theorems to Arguments</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Set Theory</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contributors.html">Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar" class="menu-bar">
-                    <div id="menu-bar-sticky-container">
-                        <div class="left-buttons">
-                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
-                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
-                                <li><button class="theme" id="rust">Rust</button></li>
-                                <li><button class="theme" id="coal">Coal</button></li>
-                                <li><button class="theme" id="navy">Navy</button></li>
-                                <li><button class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                        </div>
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
 
-                        <h1 class="menu-title"></h1>
+                    <h1 class="menu-title"></h1>
 
-                        <div class="right-buttons">
-                            <a href="print.html" title="Print this book">
-                                <i id="print-button" class="fa fa-print"></i>
-                            </a>
-                        </div>
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -122,14 +143,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="Book/chapter_03/3.html#indução-prova-por-indução" id="indução-prova-por-indução"><h1>Indução: Prova por Indução</h1></a>
-<a class="header" href="Book/chapter_03/3.html#módulo-de-indução" id="módulo-de-indução"><h2>Módulo de indução</h2></a>
-<p>Nesse capítulo nós veremos sobre provas por indução, mas antes de prosseguirmos
-para a indução em si, podemos analisar casos simples onde apenas a reflexão do
-caso já prova o teorema.</p>
-<pre><code class="language-rust ignore">Problems.t0 (n: Nat) : Equal Nat (Plus Nat.zero n) n
-</code></pre>
-<p>Ao verificar verificar o objetivo do teorema, recebemos a seguinte resposta:</p>
+                        <h1 id="induction-proof-by-induction"><a class="header" href="#induction-proof-by-induction">Induction: Proof by Induction</a></h1>
+<h2 id="induction"><a class="header" href="#induction">Induction</a></h2>
+<p>In this chapter, we will learn about proof by induction. Before we move on to induction itself, we can analyze simple cases where the reflection of the case already proves the theorem.</p>
+<pre><code class="language-rust ignore">Problems.t0 (n: Nat) : Equal Nat (Plus Nat.zero n) n</code></pre>
+<p>When checking the theorem statement, we receive the following response:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
    • Expected: (Equal Nat n n) 
@@ -141,15 +159,12 @@ caso já prova o teorema.</p>
                     ┬
                     └Here!
 </code></pre>
-<p>No <em>Problems.t0</em> o Kind reduz a soma de &quot;<em>0 + n</em>&quot; automaticamente para <em>n</em> e
-que devemos provar a igualdade entre <em>n</em> e <em>n</em>. Nesse caso basta escrever &quot;<em>Equal</em>.<strong>refl</strong>&quot; e obtemos a resposta de
-confirmação:</p>
+<p>In <em>Problems.t0</em>, Kind automatically reduces the sum of <code>0 + n</code> to <em>n</em>, and we need to prove the equality between <em>n</em> and <em>n</em>. In this case, we simply write <code>Equal.refl</code> and we get the confirmation response:</p>
 <pre><code class="language-terminal">All terms check.
 
 </code></pre>
-<pre><code class="language-rust ignore">Problems.t1 (n: Nat) : Equal Nat (Plus n Nat.zero) n
-</code></pre>
-<p>Feito o primeiro problema, o seguinte é muito similar, é a soma de &quot;<em>n + 0 = n</em>&quot; e essa similaridade pode nos levar a crer que basta invocar a reflexão. Entretanto, no primeiro caso o Kind reduz automaticamente e nesse nós obtemos o seguinte retorno:</p>
+<pre><code class="language-rust ignore">Problems.t1 (n: Nat) : Equal Nat (Plus n Nat.zero) n</code></pre>
+<p>After solving the first problem, the next one is very similar, it is the sum of <code>n + 0 = n</code> and this similarity may lead us to believe that invoking the reflection is enough. However, in the first case, Kind automatically reduces and in this one, we get the following response:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
    • Expected: (Equal Nat (Plus n 0n) n) 
@@ -161,44 +176,22 @@ confirmação:</p>
                    ┬
                    └Here!
 </code></pre>
-<p>No primeiro caso o Kind reduz pois o <em>zero</em> está à direita e o <em>Type
-Checker</em> já reduz automaticamente, a soma de entre <em>0</em> e <em>n</em> para <em>n</em>.
-Entretanto, quando o primeiro <em>input</em> é uma variável, o Kind necessita
-verificar para cada caso e como é um número natural, há infinitos casos a serem
-testados, isto é, de zero a infinito.</p>
-<p>De início podemos pensar que são tantos casos e que é impossível analisar todos
-eles, já que são infinitos, mas logo percebemos que é possível reduzir a dois,
-um é o número <em>zero</em> e o outro é um número que <em>sucede</em> o <em>zero</em> <em>n</em> vezes
-depois.</p>
-<p>Analisando para o caso de <em>zero</em> nosso objetivo é provar que <em>zero</em> é igual
-a <em>zero</em>:</p>
-<pre><code class="language-rust ignore">• Expected: Equal Nat Nat.zero Nat.zero
-</code></pre>
-<p>Agora basta dar o <em>Equal</em>.<strong>refl</strong> e o caso zero já foi comprovado, basta
-apenas responder para o <em>sucessor</em> de <em>zero</em></p>
-<p>Nosso objetivo é provar que para todo número <em>n</em>, ao adicionar <em>0</em> o
-resultado será <em>n</em>, mas já temos uma nova ferramenta que nos auxilia nessa
-prova e é a prova para o caso <em>zero</em>, basta reduzir <em>n</em> até que o
-necessário seja apenas a reflexão e podemos fazer isso por meio da
-recursão e para isso definimos o novo <em>n</em> como o antecessor dele. No Kind nós
-podemos fazer isso simplesmente definindo o <em>n</em> atual como sendo o sucessor
-do próximo <em>n</em> e chamar a função para n recursivamente. Isso é feito da
-seguinte forma:</p>
-<pre><code class="language-rust ignore">Problems.t1 (Nat.succ n)   = ?
-</code></pre>
-<p>e temos como novo objetivo provar que o sucessor da soma entre <em>n</em> e <em>0</em> é
-igual ao sucessor de <em>n</em></p>
-<pre><code class="language-rust ignore">- Expected: Equal Nat (Nat.succ (Plus n Nat.zero)) (Nat.succ n)
-</code></pre>
-<p>Para trabalhar com a indução nessa recursão, devemos definir uma variável para
-o caso original de <em>n</em></p>
+<p>In the first case, Kind reduces because <code>zero</code> is on the right side and the <code>Type Checker</code> automatically reduces the sum between <code>0</code> and <code>n</code> to <code>n</code>. However, when the first <em>input</em> is a variable, Kind needs to check for each case and as it is a natural number, there are infinitely many cases to be tested, that is, from zero to infinity.</p>
+<p>At first, we may think that there are so many cases and it is impossible to analyze all of them, as there are infinitely many, but soon we realize that it is possible to reduce them to two, one is the number <code>zero</code> and the other is a number that <code>succeeds</code> <code>zero n</code> times after.</p>
+<p>Analyzing the case of zero, our goal is to prove that <code>zero</code> is equal to <code>zero</code>:</p>
+<pre><code class="language-rust ignore">• Expected: Equal Nat Nat.zero Nat.zero</code></pre>
+<p>Now, we just need to give the <code>Equal.refl</code> and the zero case has been proven, we just need to respond to the <code>successor</code> of <code>zero</code>.</p>
+<p>Our goal is to prove that for every number <code>n</code>, adding <code>0</code> will result in <code>n</code>, but we already have a new tool that helps us in this proof and it is the proof for the <code>zero</code> case, we just need to reduce <code>n</code> until the only thing needed is reflection, and we can do this by recursion and to do that we define the new <code>n</code> as its predecessor. In Kind, we can simply do this by defining the current <code>n</code> as the successor of the next n and recursively calling the function for <code>n</code>. This is done as follows:</p>
+<pre><code class="language-rust ignore">Problems.t1 (Nat.succ n)   = ?</code></pre>
+<p>and our new goal is to prove that the successor of the sum between <code>n</code> and <code>0</code> is equal to the successor of <code>n</code>.</p>
+<pre><code class="language-rust ignore">- Expected: Equal Nat (Nat.succ (Plus n Nat.zero)) (Nat.succ n)</code></pre>
+<p>To work with induction in this recursion, we must define a variable for the original case of <code>n</code>.</p>
 <pre><code class="language-rust ignore">Problems.t1 (n: Nat)       : Equal (Plus n Nat.zero) n
 Problems.t1 Nat.zero       = Equal.refl
 Problems.t1 (Nat.succ n)   =
     let ind = Problems.t1 n
-    ?
-</code></pre>
-<p>Ao dar o <em>Type Check</em> temos como retorno a seguinte resposta:</p>
+    ?</code></pre>
+<p>When we give the <code>Type Check</code>, we get the following response:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
    • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
@@ -213,18 +206,9 @@ Problems.t1 (Nat.succ n)   =
      ┬
      └Here!
 </code></pre>
-<p>Ao analisar nosso objetivo e a indução, percebemos que a única diferença entre
-o objetivo e a nossa variável <em>ind</em> é o <em>Nat</em>.<strong>succ</strong>, basta então
-incrementar a variável <em>ind</em> com o <em>Nat</em>.<strong>succ</strong>, para isso nós criamos uma
-nova variável e usamos uma função <em>lambda</em>:</p>
-<pre><code class="language-rust ignore">let app = Equal.apply (x =&gt; (Nat.succ x)) ind
-</code></pre>
-<p>No caso acima nós chamamos a função <em>Equal</em>.<strong>apply</strong> para aplicar a nossa
-função <em>lambda</em> ao <em>ind</em>. A função <code>x =&gt; (Nat.succ x)</code> serve para adicionar
-<em>Nat</em>.<strong>succ</strong> a todo elemento recebido na variável. Como nossa variável <em>ind</em>
-é uma função que recebe uma outra variável <em>n</em>, a nossa função <em>lambda</em>
-incrementa a <em>n</em> com <em>Nat</em>.<strong>succ</strong>, o que retorna exatamente o nosso
-objetivo:</p>
+<p>When analyzing our goal and induction, we realize that the only difference between the goal and our variable <code>ind</code> is the <code>Nat.succ</code>. Therefore, we just need to increment the <code>ind</code> variable with <code>Nat.succ</code>. To do this, we create a new variable and use a <code>lambda</code> function:</p>
+<pre><code class="language-rust ignore">let app = Equal.apply (x =&gt; (Nat.succ x)) ind</code></pre>
+<p>In the above case, we call the <code>Equal.apply</code> function to apply our <code>lambda</code> function to <code>ind</code>. The <code>x =&gt; (Nat.succ x)</code> function serves to add <code>Nat.succ</code> to every element received in the variable. Since our <code>ind</code> variable is a function that takes another variable <code>n</code>, our <code>lambda</code> function increments <code>n</code> with <code>Nat.succ</code>, which returns exactly our goal:</p>
 <pre><code class="language-diff">+ INFO  Inspection.
 
    • Expected: (Equal Nat (Nat.succ (Plus n 0n)) (Nat.succ n)) 
@@ -241,36 +225,30 @@ objetivo:</p>
       ┬
       └Here!
 </code></pre>
-<p>Podemos perceber que o <em>app</em> é exatamente igual ao <em>Expected</em>, que é o nosso
-objetivo e basta apenas retornar ele, o app para que o <em>Type Check</em> valide
-a nossa prova:</p>
+<p>We can see that the <code>app</code> is exactly the same as the <code>Expected</code>, which is our goal, and we just need to return it, the app, for the <code>Type Check</code> to validate our proof:</p>
 <pre><code class="language-terminal">All terms check.
 
 </code></pre>
-<p>Há casos em que a indução é ainda mais simples, basta compreender o que está acontecendo. Imagine que você quer provar que um número <code>n</code> menos ele mesmo é igual a <em>zero</em>, independente de qual seja esse número. Como faríamos?
-Primeiro, nós verificamos para o caso dele ser <em>zero</em> e é uma igualdade verdadeira, <em>zero</em> menos <em>zero</em> é igual a <em>zero</em>. Depois, nós induzimos o caso para o caso de <em>zero</em>, que sabemos ser verdadeiro. Parece complicado? Não é, é absurdamente simples, vamos ver como fica isso em <em>Kind</em>:</p>
-<pre><code class="language-rs">Minus_diag (n: Nat)     : Equal Nat (Minus  n n) Nat.zero
+<p>There are cases where induction is even simpler - all we need to do is understand what is happening. Let's say we want to prove that a number <code>n</code> minus itself is always equal to <code>zero</code>, regardless of what that number is. How would we do it?
+First, we check the case where n is <code>zero</code>, and it is a true equality - <code>zero</code> minus <code>zero</code> is equal to <code>zero</code>. Then, we induct the case to the case of <code>zero</code>, which we know is true. Seems complicated? It's not - it's ridiculously simple. Let's see how it looks in <code>Kind</code>:</p>
+<pre><code class="language-rs ignore">Minus_diag (n: Nat)     : Equal Nat (Minus  n n) Nat.zero
 Minus_diag Nat.zero     = Equal.refl
 Minus_diag (Nat.succ n) = Minus_diag n
 </code></pre>
-<p>Perceba, essa é uma indução simples, nós falamos que a prova vale para o número e o antecessor dele e, por usarmos uma recursão, para todos os antecessores até <em>zero</em>, que é o caso que verificamos ser verdadeiro.
-Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesmo sempre dará <em>zero</em>, independente de qual for esse número.</p>
+<p>Notice, this is a simple induction - we say the proof holds for the number and its predecessor, and through recursion, for all predecessors up to <code>zero</code>, which we verified to be true.
+In other words, we prove, in just three lines, that a natural number minus itself will always result in <code>zero</code>, regardless of what that number is.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
-                            <a rel="prev" href="Book/chapter_02/2,12.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../Book/chapter_02/2,12.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
 
-                        
-                            <a rel="next" href="Book/chapter_03/3,1.html" class="mobile-nav-chapters next" title="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../Book/chapter_03/3,1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -278,46 +256,51 @@ Ou seja, provamos, em apenas três linhas, que um número natural menos ele mesm
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-                    <a href="Book/chapter_02/2,12.html" class="nav-chapters previous" title="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../Book/chapter_02/2,12.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
 
-                
-                    <a href="Book/chapter_03/3,1.html" class="nav-chapters next" title="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../Book/chapter_03/3,1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-
-        <!-- Local fallback for Font Awesome -->
+        <!-- Livereload script (if served using the cli tool) -->
         <script>
-            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.type = 'text/css';
-                link.href = '_FontAwesome/css/font-awesome.css';
-                document.head.insertBefore(link, document.head.firstChild)
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
             }
         </script>
 
-        
 
-        
 
-        
+        <script>
+            window.playground_copyable = true;
+        </script>
 
-        
 
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <!-- Custom JS script -->
-        
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
 
     </body>
 </html>
