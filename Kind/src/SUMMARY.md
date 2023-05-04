@@ -35,11 +35,13 @@
   - [Additional Exercises](./Book/chapter_05/5,2.md)
 - [Logic in Kind](./Book/chapter_06/6.md)
   - [Logical Connectives](./Book/chapter_06/6,1.md)
-  - [Falsity and Negation](./Book/chapter_06/6,2.md)
+  - [Falsehood and Negation](./Book/chapter_06/6,2.md)
   - [Truth, Equivalence, and Quantification](./Book/chapter_06/6,3.md)
   - [Programming with Propositions](Book/chapter_06/6,4.md)
   - [Applying Theorems to Arguments](Book/chapter_06/6,5.md)
   - [Kind vs Set Theory](Book/chapter_06/6,6.md)
+  - [Classical vs. Constructive Logic](Book/chapter_06/6,7.md)
+- [Inductively Defined Propositions](Book/chapter_07/7.md)
 
 -----------
 

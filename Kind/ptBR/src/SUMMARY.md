@@ -40,6 +40,7 @@
   - [Programação com proposições](Book/chapter_06/6,4.md)
   - [Aplicando Teoremas a Argumentos](Book/chapter_06/6,5.md)
   - [Kind vs Teoria dos Conjuntos](Book/chapter_06/6,6.md)
+  - [Lógica Clássica vs. Lógica Construtiva](Book/chapter_06/6,7.md)
 
 -----------
 
