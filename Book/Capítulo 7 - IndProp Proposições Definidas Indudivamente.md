@@ -45,7 +45,7 @@ Por que chamar isso de "árvore" (em vez de "pilha", por exemplo)? Porque, em ge
 <br>
 Juntando tudo isso, podemos traduzir a definição de paridade em uma definição formal do Kind usando uma declaração de dados, em que cada construtor corresponde a uma regra de inferência:
 
-```rust
+```rust ignore
 type Ev ~ (n: Nat){
   ev_0 : Ev Nat.zero
   ev_ss <n : Nat> (pred: Ev n) : Ev (Nat.succ (Nat.succ n))
@@ -56,7 +56,7 @@ Essa definição é diferente em um aspecto crucial em relação aos usos anteri
 
 Por outro lado, a definição de*List* nomeia o parâmetro *x* globalmente, forçando o resultado de *Nil* e *Cons* a ser o mesmo `(List x)`. Se tivéssemos tentado omitir o tipo `n : Nat` ao definir *ev_ss*, teríamos visto um erro:
 
-```rust
+```rust ignore
 type Wrong_ev ~ (n: Nat){
   wrong_ev_0 : Ev Nat.zero
   wrong_ev_ss (pred: Ev n) : Ev (Nat.succ (Nat.succ n))
@@ -64,7 +64,7 @@ type Wrong_ev ~ (n: Nat){
 ```
 Com o seguinte retorno:
 
-```diff
+```diff ignore
    - ERROR  Cannot find the definition 'n'.
 
       ┌──[ev.kind2:9:25]
@@ -81,14 +81,14 @@ Com o seguinte retorno:
 
 Podemos pensar na definição de Ev como definindo uma propriedade do Kind `Ev: Nat -> Type`, juntamente com os teoremas `ev_z: Ev 0` e `ev_ss <n : Nat> (pred: Ev n) : Ev (Nat.succ (Nat.succ n))`. Tais "teoremas construtores" têm o mesmo status que teoremas provados. Em particular, podemos aplicar nomes de regras como funções umas às outras para provar Ev para números específicos...
 
-```rust
+```rust ignore
 Ev_4 : Ev 4n
 Ev_4 = Ev.ev_ss 2n (Ev.ev_ss 0n Ev.ev_z)
 ```
 
 Também podemos provar teoremas que têm hipóteses envolvendo Ev.
 
-```rust
+```rust ignore
 Ev_plus5 (n: Nat) : Ev n -> Ev (Nat.add 4n n)
 Ev_plus5 n = x => Ev.ev_ss (Ev.ev_ss x)
 ```
@@ -98,7 +98,7 @@ Mais geralmente, podemos mostrar que qualquer número multiplicado por 2 é par:
 
 #### Ev_double
 
-```rust
+```rust ignore
 Ev_double (n: Nat) : Ev (Nat.double n)
 Ev_double n = ?
 ```
@@ -148,5 +148,17 @@ Suponha que quiséssemos provar a seguinte variação de *Ev_minus2*:
 Evss_ev (n: Nat) (e: Ev (Nat.succ (Nat.succ n))) : Ev n
 ```
 
-Intuitivamente, sabemos que a evidência para a hipótese não pode consistir apenas do construtor `ev_z`, uma vez que `Nat.zero` e `Nat.succ` são construtores diferentes do tipo *Nat*; portanto, `ev_ss` é o único caso que se aplica. Infelizmente, a função 
-# destruct não é inteligente o suficiente para perceber isso e ainda gera duas submetas. Ainda pior, ao fazê-lo, mantém a meta final inalterada, deixando de fornecer qualquer informação útil para completar a prova.
+Intuitivamente, sabemos que a evidência para a hipótese não pode consistir apenas do construtor `ev_z`, uma vez que `Nat.zero` e `Nat.succ` são construtores diferentes do tipo *Nat*; portanto, `ev_ss` é o único caso que se aplica. Infelizmente, o *pattern matching* não é inteligente o suficiente para perceber isso e ainda gera duas submetas. Ainda pior, ao fazê-lo, mantém a meta final inalterada, deixando de fornecer qualquer informação útil para completar a prova.
+
+A tática de inversão, por outro lado, pode detectar (1) que o primeiro caso não se aplica e (2) que o *n* que aparece no caso `Ev_SS` deve ser o mesmo que `n`. Isso nos permite concluir a prova.
+
+```rust ignore
+Evss_ev n (Ev.ev_ss e) = e 
+```
+
+Usando o pattern matching dependente, também podemos aplicar o princípio da explosão a hipóteses "obviamente contraditórias" que envolvem propriedades indutivas. Por exemplo:
+
+```rust ignore
+One_not_even : Not (Ev 1n)
+
+```
