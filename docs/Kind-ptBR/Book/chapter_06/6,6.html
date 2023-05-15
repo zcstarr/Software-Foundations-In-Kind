@@ -1,48 +1,47 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
+        <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Kind vs Teoria dos Conjuntos - </title>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Kind vs Teoria dos Conjuntos</title>
+
+
+        <!-- Custom HTML head -->
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="../../">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
-        <link rel="shortcut icon" href="favicon.png">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- Custom theme stylesheets -->
 
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
-
-        <!-- Custom theme -->
-        
-
-        
         <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        
-
-        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
-        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
         <script>
-            if (typeof Clipboard == 'undefined') {
-                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
-            }
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
-    </head>
-    <body class="light">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,61 +57,83 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
+            var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             }
-            document.querySelector('html').classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="README.html">Introdução</a></li><li><a href="guide/Comecando.html"><strong aria-hidden="true">1.</strong> Começando</a></li><li><ol class="section"><li><a href="guide/sobre.html"><strong aria-hidden="true">1.1.</strong> Kind</a></li><li><a href="guide/instalacao.html"><strong aria-hidden="true">1.2.</strong> Instalação</a></li><li><a href="cli/hello.html"><strong aria-hidden="true">1.3.</strong> Olá Mundo!</a></li><li><a href="cli/kind.html"><strong aria-hidden="true">1.4.</strong> Olá Kind!</a></li></ol></li><li><a href="Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Básico: Introdução</a></li><li><ol class="section"><li><a href="Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Tipos Enumerados</a></li><li><ol class="section"><li><a href="Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Dias da semana</a></li></ol></li><li><a href="Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleanos</a></li><li><a href="Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Tipos de função</a></li><li><a href="Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Módulos</a></li><li><a href="Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Números</a></li><li><a href="Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Prova por Simplificação</a></li><li><a href="Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Prova por aplicação</a></li><li><a href="Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Prova por análise de casos</a></li><li><a href="Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Prova por Reescrita</a></li><li><a href="Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain e Equal.mirror</a></li><li><a href="Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> Mais exercícios</a></li></ol></li><li><a href="Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li><a href="Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li><a href="Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li><a href="Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li><a href="Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li><a href="Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Raciocínio sobre listas</a></li><li><a href="Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li><a href="Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li><a href="Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li><a href="Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li></ol></li><li><a href="Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Lógica em Kind</a></li><li><ol class="section"><li><a href="Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Conectivos Lógicos</a></li><li><a href="Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsidade e Negação</a></li><li><a href="Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Verdade, Equivalência e Quantificação</a></li><li><a href="Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programação com proposições</a></li><li><a href="Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Aplicando Teoremas a Argumentos</a></li><li><a href="Book/chapter_06/6,6.html" class="active"><strong aria-hidden="true">6.6.</strong> Kind vs Teoria dos Conjuntos</a></li><li class="spacer"></li></ol></li><li><a href="Contribuidores.html">Contribuidores</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introdução</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Comecando.html"><strong aria-hidden="true">1.</strong> Começando</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/sobre.html"><strong aria-hidden="true">1.1.</strong> Kind</a></li><li class="chapter-item expanded "><a href="../../guide/instalacao.html"><strong aria-hidden="true">1.2.</strong> Instalação</a></li><li class="chapter-item expanded "><a href="../../cli/hello.html"><strong aria-hidden="true">1.3.</strong> Olá Mundo!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Olá Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Básico: Introdução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Tipos Enumerados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Dias da semana</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleanos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Tipos de função</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Módulos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Prova por Simplificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Prova por aplicação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Prova por análise de casos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Prova por Reescrita</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain e Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> Mais exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Raciocínio sobre listas</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Lógica em Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Conectivos Lógicos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsidade e Negação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Verdade, Equivalência e Quantificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programação com proposições</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Aplicando Teoremas a Argumentos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html" class="active"><strong aria-hidden="true">6.6.</strong> Kind vs Teoria dos Conjuntos</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contribuidores.html">Contribuidores</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar" class="menu-bar">
-                    <div id="menu-bar-sticky-container">
-                        <div class="left-buttons">
-                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
-                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
-                                <li><button class="theme" id="rust">Rust</button></li>
-                                <li><button class="theme" id="coal">Coal</button></li>
-                                <li><button class="theme" id="navy">Navy</button></li>
-                                <li><button class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                        </div>
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
 
-                        <h1 class="menu-title"></h1>
+                    <h1 class="menu-title"></h1>
 
-                        <div class="right-buttons">
-                            <a href="print.html" title="Print this book">
-                                <i id="print-button" class="fa fa-print"></i>
-                            </a>
-                        </div>
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -122,101 +143,91 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="Book/chapter_06/6,6.html#kind-vs-teoria-dos-conjuntos" id="kind-vs-teoria-dos-conjuntos"><h2>Kind vs Teoria dos Conjuntos</h2></a>
+                        <h2 id="kind-vs-teoria-dos-conjuntos"><a class="header" href="#kind-vs-teoria-dos-conjuntos">Kind vs Teoria dos Conjuntos</a></h2>
 <p>O núcleo lógico do Coq, o Cálculo das Construções Indutivas, difere de algumas maneiras importantes de outros sistemas formais que são usados pelos matemáticos para escrever provas precisas e rigorosas. Por exemplo, na fundação mais popular para a matemática em papel e lápis convencional, a Teoria dos Conjuntos de Zermelo-Fraenkel (ZFC), um objeto matemático pode potencialmente ser membro de muitos conjuntos diferentes; um termo na lógica de Kind, por outro lado, é membro de no máximo um tipo. Essa diferença muitas vezes leva a formas ligeiramente diferentes de capturar conceitos matemáticos informais, mas estes são, em grande parte, bastante naturais e fáceis de trabalhar. Por exemplo, em vez de dizer que um número natural n pertence ao conjunto de números pares, diríamos em Kind que ev n é verdadeiro, onde ev: Nat -&gt; Tipo é uma propriedade que descreve os números pares.</p>
 <p>No entanto, há alguns casos em que traduzir o raciocínio matemático padrão para Kind pode ser tanto trabalhoso quanto, às vezes, até impossível, a menos que enriqueçamos a lógica central com axiomas adicionais. Concluímos este capítulo com uma breve discussão de algumas das diferenças mais significativas entre os dois mundos.</p>
-<a class="header" href="Book/chapter_06/6,6.html#extensão-funcional" id="extensão-funcional"><h3>Extensão Funcional.</h3></a>
+<h3 id="extensão-funcional"><a class="header" href="#extensão-funcional">Extensão Funcional.</a></h3>
 <p>As afirmações de igualdade que vimos até agora dizem principalmente respeito a elementos de tipos indutivos (Nat, Bool, etc.). Mas como o operador de igualdade de Kind é polimórfico, essas não são as únicas possibilidades - em particular, podemos escrever proposições que afirmam que duas funções são iguais uma à outra:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Function_equality_ex1 : Equal (Nat.succ 3n) (Nat.succ (Nat.pred 4n))
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Function_equality_ex1 : Equal (Nat.succ 3n) (Nat.succ (Nat.pred 4n))
 Function_equality_ex1 = Equal.refl
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Na prática matemática comum, duas funções f e g são consideradas iguais se produzem as mesmas saídas:</p>
 <p>(∀𝑥, 𝑓(𝑥) = 𝑔(𝑥)) → 𝑓 = 𝑔</p>
 <p>Isto é conhecido como o princípio da extensão funcional.</p>
 <p>De forma informal, uma &quot;propriedade extensional&quot; é aquela que diz respeito ao comportamento observável de um objeto. Assim, a extensão funcional significa simplesmente que a identidade de uma função é completamente determinada pelo que podemos observar a partir dela - isto é, em termos de Kind, os resultados que obtemos após aplicá-la.</p>
 <p>A extensão funcional não faz parte dos axiomas básicos do Kind. Isso significa que algumas proposições &quot;razoáveis&quot; não são prováveis.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Function_equality_ex2 : Equal ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x)
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Function_equality_ex2 : Equal ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x)
 Function_equality_ex2 = ?
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>No entanto, podemos declarar um teorema e pular a sua prova ou usar um buraco</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Functional_extensionality &lt;a&gt;&lt;b&gt; (f: a -&gt; b) (g: a -&gt; b) (e: (x: a) -&gt; Equal (f x) (g x)) : Equal f g
-#}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Functional_extensionality &lt;a&gt;&lt;b&gt; (f: a -&gt; b) (g: a -&gt; b) (e: (x: a) -&gt; Equal (f x) (g x)) : Equal f g
+<span class="boring">}</span></code></pre></pre>
 <p>Agora podemos invocar a extensionalidade funcional em provas:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Function_equality_ex2 : Equal ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x)
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Function_equality_ex2 : Equal ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x)
 Function_equality_ex2 =
   Functional_extensionality ((x: Nat) =&gt; Nat.add x 1n) ((x: Nat) =&gt; Nat.add 1n x) (x =&gt; Plus_comm x 1n)
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Naturalmente, devemos ter cuidado ao adicionar novos axiomas à lógica do Kind, pois eles podem torná-la inconsistente - ou seja, podem tornar possível provar todas as proposições, incluindo Void!</p>
 <p>Infelizmente, não há uma maneira simples de saber se um axioma é seguro para adicionar: geralmente é necessário um trabalho árduo para estabelecer a consistência de qualquer combinação particular de axiomas.</p>
 <p>No entanto, sabe-se que adicionar a extensionalidade funcional, em particular, é consistente.</p>
-<a class="header" href="Book/chapter_06/6,6.html#tr_rev" id="tr_rev"><h4>Tr_rev</h4></a>
+<h4 id="tr_rev"><a class="header" href="#tr_rev">Tr_rev</a></h4>
 <p>Um problema com a definição da função de reversão de lista &quot;rev&quot; que temos é que ela realiza uma chamada a &quot;++&quot; a cada passo. Executar &quot;++&quot; leva tempo assintoticamente linear no tamanho da lista, o que significa que &quot;rev&quot; tem tempo de execução quadrático.
 Podemos melhorar isso com a seguinte definição:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Rev_append &lt;x&gt; (l1: List x) (l2: List x)  : List x
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Rev_append &lt;x&gt; (l1: List x) (l2: List x)  : List x
 Rev_append x List.nil l2                  = l2
 Rev_append x (List.cons xs.h xs.t) l2     = Rev_append xs.t (List.cons xs.h l2)
 
 Tr_rev &lt;x&gt; (l: List x) : List x
 Tr_rev x l = Rev_append x l List.nil1
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Esta versão é dita ser tail-recursive, porque a chamada recursiva à função
 é a última operação que precisa ser executada (ou seja, não precisamos executar ++
 após a chamada recursiva); um compilador decente irá gerar um código muito eficiente neste
 caso. Prove que as duas definições são realmente equivalentes.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Tr_rev_correct &lt;a&gt; (xs: List a) : Equal (Tr_rev xs) (Rev xs)
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Tr_rev_correct &lt;a&gt; (xs: List a) : Equal (Tr_rev xs) (Rev xs)
 Tr_rev_correct a xs = ?
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#proposições-e-booleans" id="proposições-e-booleans"><h3>Proposições e Booleans.</h3></a>
+<span class="boring">}</span></code></pre></pre>
+<h3 id="proposições-e-booleans"><a class="header" href="#proposições-e-booleans">Proposições e Booleans.</a></h3>
 <p>Vimos duas maneiras diferentes de codificar fatos lógicos em Kind: com booleanos (do tipo Bool) e com proposições (do tipo Type).
 Por exemplo, para afirmar que um número n é par, podemos dizer que
 • (1) evenb n retorna True, ou
 • (2) existe um k tal que n = double k. De fato, essas duas noções de paridade são equivalentes, como pode ser facilmente mostrado com um par de lemas auxiliares.
 Muitas vezes dizemos que o booleano evenb n reflete a proposição (n =&gt; Equal n (double k)).</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Evenb_double (k: Nat)     : Equal (Nat.is_even (Nat.double k)) Bool.true
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Evenb_double (k: Nat)     : Equal (Nat.is_even (Nat.double k)) Bool.true
 Evenb_double Nat.zero     = Equal.refl
 Evenb_double (Nat.succ k) = Evenb_double k
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#evenb_double_conv" id="evenb_double_conv"><h4>Evenb_double_conv</h4></a>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Evenb_double_conv (n: Nat):
+<span class="boring">}</span></code></pre></pre>
+<h4 id="evenb_double_conv"><a class="header" href="#evenb_double_conv">Evenb_double_conv</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Evenb_double_conv (n: Nat):
   Sigma Nat (k =&gt; (Equal n (Bool.if (Evenb n) (Nat.double k) (Nat.succ (Nat.double k)))))
 Evenb_double_conv n = ?
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>TODO: terminar <code>even_bool_prop</code></p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Even_bool_prop (n: Nat): 
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Even_bool_prop (n: Nat): 
   Equivalence (Equal (Evenb n) Bool.true) (Sigma Nat (k =&gt; Equal n (Nat.double k)))
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Da mesma forma, para afirmar que dois números <em>n</em> e <em>m</em> são iguais, podemos dizer (1) que <code>n == m</code> retorna <code>Bool.true</code> ou (2) que <code>n = m</code>. Essas duas noções são equivalentes.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Beq_nat_true_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.true) (Equal n1 n2)
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Beq_nat_true_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.true) (Equal n1 n2)
 Beq_nat_true_equiv n1 n2 = Equivalence.new (x =&gt; To_beq_nat_true n1 n2 x) (y =&gt; Fro_beq_nat_true n1 n2 y)
 
 To_beq_nat_true (n1: Nat) (n2: Nat) (e: Equal (Nat.equal n1 n2) Bool.true) : Equal n1 n2  
@@ -287,51 +298,45 @@ Extract_equal (Nat.succ n1) Nat.zero (e) =
     (Unit.new))
   Empty.absurd emp
 Extract_equal (Nat.succ n1) (Nat.succ n2) e = Equal.apply (x =&gt; Nat.succ x) (Extract_equal n1 n2 e)
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>No entanto, enquanto as formulações booleanas e proposicionais de uma afirmação são equivalentes do ponto de vista puramente lógico, elas não precisam ser equivalentes operacionalmente. A igualdade fornece um exemplo extremo: saber que n == m = Verdadeiro geralmente é de pouca ajuda direta no meio de uma prova envolvendo n e m; no entanto, se convertermos a declaração para a forma equivalente n = m, podemos reescrevê-la.</p>
 <p>O caso dos números pares também é interessante. Lembre-se de que, ao provar a direção inversa de even_bool_prop (ou seja, evenb_double, indo da afirmação proposicional para a booleana), usamos uma indução simples em k. Por outro lado, a conversa (o exercício evenb_double_conv) exigiu uma generalização inteligente, uma vez que não podemos provar diretamente <code>(k =&gt; Equal n (Nat.double k)) = Bool.true</code></p>
 <p>Para esses exemplos, as afirmações proposicionais são mais úteis do que suas contrapartes booleanas, mas nem sempre é o caso. Por exemplo, não podemos testar se uma proposição geral é verdadeira ou não em uma definição de função; como consequência, o seguinte trecho de código é rejeitado:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Is_even_prime : Nat -&gt; Bool
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Is_even_prime : Nat -&gt; Bool
 Is_even_prime = (n: Nat) =&gt; Bool.if (Equal n 2n) Bool.true Bool.false
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>O <em>Kind</em> reclama que <code>n = 2</code> tem o tipo <em>Type</em>, enquanto espera um elemento de <em>Bool</em> (ou algum outro tipo indutivo com dois elementos). A razão para esta mensagem de erro tem a ver com a natureza computacional da linguagem central de <em>Kind</em>, que é projetada de forma que cada função que ela possa expressar seja computável e total. Uma razão para isso é permitir a extração de programas executáveis a partir dos desenvolvimentos de <em>Kind</em>. Como consequência, em <em>Kind</em>, Type não tem uma operação de análise de caso universal que diga se uma dada proposição é verdadeira ou falsa, já que tal operação permitiria escrever funções não computáveis.</p>
 <p>Embora propriedades gerais não computáveis não possam ser formuladas como computações booleanas, vale ressaltar que muitas propriedades computáveis ​​são mais fáceis de expressar usando <em>Type</em> do que <em>Bool</em>, já que definições de funções recursivas estão sujeitas a restrições significativas em <em>Kind</em>. Por exemplo, o próximo capítulo mostra como definir a propriedade de que uma expressão regular corresponde a uma determinada string usando <em>Type</em>. Fazer o mesmo com Bool seria equivalente a escrever um verificador de expressão regular, o que seria mais complicado, mais difícil de entender e mais difícil de raciocinar.</p>
 <p>Por outro lado, um importante benefício adicional de afirmar fatos usando booleanos é habilitar alguma automação de prova por meio de computação com termos em Kind, uma técnica conhecida como prova por reflexão. Considere a seguinte afirmação:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Even_1000 : Sigma Nat (k =&gt; Equal 1000n (Nat.double k))
-#}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Even_1000 : Sigma Nat (k =&gt; Equal 1000n (Nat.double k))
+<span class="boring">}</span></code></pre></pre>
 <p>A prova mais direta desse fato é fornecer o valor de k explicitamente.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Even_1000 = $ 500n Equal.refl
-#}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Even_1000 = $ 500n Equal.refl
+<span class="boring">}</span></code></pre></pre>
 <p>Por outro lado, a prova da correspondente afirmação booleana é ainda mais simples:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Even_1000a : Equal (Evenb 1000n) Bool.true
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Even_1000a : Equal (Evenb 1000n) Bool.true
 Even_1000a = Equal.refl
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>O interessante é que, como as duas noções são equivalentes, podemos usar a formulação booleana para provar a outra sem mencionar explicitamente o valor 500:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Even_1000b : Sigma Nat (k =&gt; Equal 1000n (Nat.double k))
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Even_1000b : Sigma Nat (k =&gt; Equal 1000n (Nat.double k))
 Even_1000b = ? //TODO: Terminar aqui
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Embora não tenhamos ganhado muito em termos de tamanho de prova neste caso, provas maiores podem ser consideravelmente simplificadas pelo uso da reflexão. Como um exemplo extremo, a prova do teorema dos 4 cores em Coq usa reflexão para reduzir a análise de centenas de casos diferentes a uma computação booleana. Não abordaremos a reflexão em grande detalhe, mas ela serve como um bom exemplo que mostra as forças complementares dos booleanos e proposições gerais.</p>
-<a class="header" href="Book/chapter_06/6,6.html#logical_connectives" id="logical_connectives"><h4>Logical_connectives</h4></a>
+<h4 id="logical_connectives"><a class="header" href="#logical_connectives">Logical_connectives</a></h4>
 <p>Os seguintes lemas relacionam os conectivos proposicionais estudados neste capítulo com as operações booleanas correspondentes.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Andb_true_equiv 
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Andb_true_equiv 
   (b1: Bool) 
   (b2: Bool) : Equivalence (Equal (Bool.and b1 b2) Bool.true) (Pair (Equal b1 Bool.true) (Equal b2 Bool.true))
 Andb_true_equiv b1 b2 = ?
@@ -341,21 +346,19 @@ Orb_true_equiv
   (b1: Bool) 
   (b2: Bool): Equivalence (Equal (Bool.or b1 b2) Bool.true) (Either (Equal b1 Bool.true) (Equal b2 Bool.true))
 Orb_true_equiv b1 b2 = ?
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#beq_nat_false_equiv" id="beq_nat_false_equiv"><h4>Beq_nat_false_equiv</h4></a>
+<span class="boring">}</span></code></pre></pre>
+<h4 id="beq_nat_false_equiv"><a class="header" href="#beq_nat_false_equiv">Beq_nat_false_equiv</a></h4>
 <p>O teorema a seguir é uma formulação alternativa &quot;negativa&quot; de beq_nat_true_equiv que é mais conveniente em certas situações (veremos exemplos em capítulos posteriores).</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Beq_nat_false_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.false) (Not (Equal n1 n2))
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Beq_nat_false_equiv (n1: Nat) (n2: Nat) : Equivalence (Equal (Nat.equal n1 n2) Bool.false) (Not (Equal n1 n2))
 Beq_nat_false_equiv n1 n2 = ?
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#beq_list" id="beq_list"><h4>Beq_list</h4></a>
+<span class="boring">}</span></code></pre></pre>
+<h4 id="beq_list"><a class="header" href="#beq_list">Beq_list</a></h4>
 <p>Dado um operador booleano beq para testar a igualdade de elementos de algum tipo a, podemos definir uma função beq_list beq para testar a igualdade de listas com elementos em a. Complete a definição da função beq_list abaixo. Para garantir que sua definição está correta, prove o lema beq_list_true_equiv.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Beq_list &lt;a&gt; (beq: a -&gt; a -&gt; Bool) (xs: List a) (ys: List a) : Bool
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Beq_list &lt;a&gt; (beq: a -&gt; a -&gt; Bool) (xs: List a) (ys: List a) : Bool
 Beq_list a beq  xs ys = ?
 
 Beq_list_true_equiv &lt;a&gt; 
@@ -366,48 +369,43 @@ Beq_list_true_equiv &lt;a&gt;
   (xs: List a)
   (ys: List a): Equivalence (Equal (Beq_list beq xs ys) Bool.true) (Equal xs ys)
 Beq_list_true_equiv a beq a1 a2 e xs ys = ?
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#all_forallb" id="all_forallb"><h4>All_forallb</h4></a>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Forallb &lt;x&gt; (t: x -&gt; Bool) (xs: List x) : Bool
+<span class="boring">}</span></code></pre></pre>
+<h4 id="all_forallb"><a class="header" href="#all_forallb">All_forallb</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Forallb &lt;x&gt; (t: x -&gt; Bool) (xs: List x) : Bool
 Forallb x t List.nil = Bool.true
 Forallb x t (List.cons xs.h xs.t) = Bool.and (t xs.h) (Forallb t xs.t)
 
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Prove o teorema abaixo, que relaciona forallb à propriedade All do exercício acima.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Forallb_true_equiv &lt;x&gt; 
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Forallb_true_equiv &lt;x&gt; 
   (t: x -&gt; Bool) 
   (xs: List x) : 
   Equivalence (Equal (Forallb t xs) Bool.true) ((All ((k: x) =&gt; Equal (t k) Bool.true) xs))
 Forallb_true_equiv x t xs = ?
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Existem alguma propriedades importantes da função forallb que não são capturadas por esta especificação?</p>
-<a class="header" href="Book/chapter_06/6,6.html#lógica-clássica-vs-lógica-construtiva" id="lógica-clássica-vs-lógica-construtiva"><h3>Lógica Clássica vs. Lógica Construtiva.</h3></a>
+<h3 id="lógica-clássica-vs-lógica-construtiva"><a class="header" href="#lógica-clássica-vs-lógica-construtiva">Lógica Clássica vs. Lógica Construtiva.</a></h3>
 <p>Vimos que não é possível testar se uma proposição p é verdadeira ou não ao definir uma função Kind. Você pode se surpreender ao descobrir que uma restrição semelhante se aplica às provas! Em outras palavras, o seguinte princípio de raciocínio intuitivo não é derivável em Kind:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Excluded_middle &lt;p&gt;: Either p (Not p)
-#}</code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Excluded_middle &lt;p&gt;: Either p (Not p)
+<span class="boring">}</span></code></pre></pre>
 <p>Para entender operacionalmente por que esse é o caso, lembre-se de que, para provar uma declaração da forma  <code>Either p q</code>, usamos as correspondências de padrão <em>Left</em> e <em>Right</em>, que exigem saber qual lado da disjunção é verdadeiro. Mas a proposição p universalmente quantificada em <em>Excluded_middle</em> é uma proposição arbitrária, sobre a qual não sabemos nada. Não temos informações suficientes para escolher qual de Left ou Right aplicar, assim como <em>Kind</em> não tem informações suficientes para decidir mecanicamente se p é verdadeira ou não dentro de uma função.</p>
 <p>No entanto, se soubermos que <em>p</em> é refletida em algum termo booleano <em>b</em>, saber se ela é verdadeira ou não é trivial: basta verificar o valor de b.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Restricted_excluded_middle &lt;p&gt; &lt;q&gt; (b: Bool)(e: Equivalence p (Equal b Bool.true)) : Either p (Not p) 
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Restricted_excluded_middle &lt;p&gt; &lt;q&gt; (b: Bool)(e: Equivalence p (Equal b Bool.true)) : Either p (Not p) 
 Restricted_excluded_middle p q Bool.true  (Equivalence.new pb bp) = Either.left (bp Equal.refl)
 Restricted_excluded_middle p q Bool.false (Equivalence.new pb bp) = Either.right (Empty.absurd (Not_implies_our_not pb))
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Em particular, o terceiro excluído é válido para equações n = m, entre números naturais n e m.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-//TODO: Terminar aqui
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>//TODO: Terminar aqui
 Restricted_excluded_middle_eq (n: Nat) (m: Nat) : Either (Equal n m) (Not (Equal n m))
 Restricted_excluded_middle_eq n m = ?
 
@@ -422,7 +420,7 @@ From_reme Nat.zero Nat.zero e         = Equal.refl
 From_reme Nat.zero (Nat.succ m) e     = Empty.absurd (Not_implies_our_not e)
 From_reme (Nat.succ n) Nat.zero e     = Empty.absurd (Not_implies_our_not e)
 From_reme (Nat.succ n) (Nat.succ m) e = Equal.apply (x =&gt; Nat.succ x) (From_reme n m e)
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Pode parecer estranho que o princípio do terceiro excluído não esteja disponível por padrão no Kind; afinal, qualquer afirmação deve ser verdadeira ou falsa. No entanto, há uma vantagem em não assumir o princípio do terceiro excluído: as declarações no Kind podem fazer afirmações mais fortes do que as declarações análogas na matemática padrão.</p>
 <p>Pode parecer estranho que o princípio do terceiro excluído não esteja disponível por padrão no Kind; afinal, qualquer afirmação deve ser verdadeira ou falsa. No entanto, há uma vantagem em não assumir o princípio do terceiro excluído: as declarações no Kind podem fazer afirmações mais fortes do que as declarações análogas na matemática padrão. Notavelmente, se houver uma prova no Kind de <code>(Sigma a (x =&gt; (p x)))</code>, é possível exibir explicitamente um valor de x para o qual podemos provar p x - em outras palavras, toda prova de existência é necessariamente construtiva. Lógicas como a do Kind, que não assumem o princípio do terceiro excluído, são referidas como lógicas construtivas. Sistemas lógicos mais convencionais, como o ZFC, nos quais o princípio do terceiro excluído é válido para proposições arbitrárias, são referidos como clássicos.</p>
 <p>O exemplo a seguir ilustra por que assumir o princípio do terceiro excluído pode levar a provas não construtivas:</p>
@@ -432,66 +430,57 @@ From_reme (Nat.succ n) (Nat.succ m) e = Equal.apply (x =&gt; Nat.succ x) (From_r
 <p>Por útil que seja a lógica construtiva, ela tem suas limitações: há muitas declarações que podem ser facilmente provadas na lógica clássica, mas que têm provas construtivas muito mais complicadas, e há algumas que não se sabe ter prova construtiva alguma! Felizmente, assim como a extensão funcionalidade, o princípio do terceiro excluído é conhecido por ser compatível com a lógica do Kind, permitindo-nos adicioná-lo com segurança como um axioma. No entanto, não precisaremos fazer isso neste livro: os resultados que cobrimos podem ser desenvolvidos inteiramente dentro da lógica construtiva a um custo extra negligenciável.</p>
 <p>Leva um pouco de prática para entender quais técnicas de prova devem ser evitadas no raciocínio construtivo, mas os argumentos por contradição, em particular, são infames por levar a provas não construtivas. Aqui está um exemplo típico: suponha que queremos mostrar que existe um x com alguma propriedade p, isto é, tal que p x. Começamos assumindo que nossa conclusão é falsa; isto é <code>Not (Sigma a (x =&gt; (p x)))</code>. A partir desta premissa, não é difícil deduzir <code>(x: a) -&gt; Not (p x)</code>. Se conseguirmos mostrar que esse fato intermediário resulta em uma contradição, chegamos a uma prova de existência sem nunca exibir um valor de x para o qual p x seja verdadeiro!</p>
 <p>A falha técnica aqui, do ponto de vista construtivo, é que afirmamos provar <code>Sigma a (x =&gt; (p x))</code> usando uma prova de <code>Not (Not (Sigma a (x =&gt;(p x))))</code>. Permitir-nos remover duplas negações de afirmações arbitrárias é equivalente a assumir o terceiro excluído, como mostrado em um dos exercícios abaixo. Assim, essa linha de raciocínio não pode ser codificada em Kind sem assumir axiomas adicionais.</p>
-<a class="header" href="Book/chapter_06/6,6.html#excluded_middle_irrefutable" id="excluded_middle_irrefutable"><h4>Excluded_middle_irrefutable</h4></a>
+<h4 id="excluded_middle_irrefutable"><a class="header" href="#excluded_middle_irrefutable">Excluded_middle_irrefutable</a></h4>
 <p>A consistência do Kind com o axioma geral do terceiro excluído requer raciocínios complicados que não podem ser realizados dentro do próprio Kind. No entanto, o seguinte teorema implica que é sempre seguro assumir um axioma de decidibilidade (ou seja, uma instância do terceiro excluído) para qualquer tipo específico p. Por quê? Porque não podemos provar a negação de tal axioma; se pudéssemos, teríamos tanto <code>Not (Either p (Not p))</code> quanto <code>Not (Not (Either p (Not p)))</code>, o que é uma contradição.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Excluded_middle_irrefutable &lt;p&gt; : Not (Not (Either p (Not p)))
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Excluded_middle_irrefutable &lt;p&gt; : Not (Not (Either p (Not p)))
 Excluded_middle_irrefutable p = ?
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#not_exists_dist" id="not_exists_dist"><h4>Not_exists_dist</h4></a>
+<span class="boring">}</span></code></pre></pre>
+<h4 id="not_exists_dist"><a class="header" href="#not_exists_dist">Not_exists_dist</a></h4>
 <p>É um teorema da lógica clássica que as seguintes duas afirmações são equivalentes:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Not (Sigma a (k =&gt; Not (p k))))
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Not (Sigma a (k =&gt; Not (p k))))
 (x : a) -&gt; p x
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>O teorema <em>dist_not_exists</em> acima prova um lado dessa equivalência. Curiosamente, a outra direção não pode ser provada na lógica construtiva. Sua tarefa é mostrar que ela é implicada pelo terceiro excluído.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Not_exists_dist &lt;a&gt; (p: a -&gt; Type) (s: Not (Sigma a (k =&gt; Not (p k)))) : (x: a) -&gt; p x
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Not_exists_dist &lt;a&gt; (p: a -&gt; Type) (s: Not (Sigma a (k =&gt; Not (p k)))) : (x: a) -&gt; p x
 Not_exists_dist a p s = ?
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>sendo que</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Excluded_middle &lt;p&gt;: Either p (Not p)
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Excluded_middle &lt;p&gt;: Either p (Not p)
 // Excluded_middle p = Confia 
-#}</code></pre></pre>
-<a class="header" href="Book/chapter_06/6,6.html#classical_axioms" id="classical_axioms"><h4>Classical_axioms</h4></a>
+<span class="boring">}</span></code></pre></pre>
+<h4 id="classical_axioms"><a class="header" href="#classical_axioms">Classical_axioms</a></h4>
 <p>Para aqueles que gostam de um desafio, aqui está um exercício retirado do livro Coq'Art de Bertot e Casteran (p. 123). Cada uma das seguintes quatro afirmações, juntamente com excluded_middle, pode ser considerada como caracterizando a lógica clássica. Não podemos provar nenhum deles em Kind, mas podemos adicionar consistentemente qualquer um deles como um axioma se quisermos trabalhar na lógica clássica.</p>
 <p>Prove que todas as cinco proposições (essas quatro mais excluded_middle) são equivalentes.</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-Peirce &lt;p&gt; &lt;q&gt;(pq: (p -&gt; q) -&gt; p) : p
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Peirce &lt;p&gt; &lt;q&gt;(pq: (p -&gt; q) -&gt; p) : p
 
 Double_negation_elimination &lt;p&gt; (np: Not (Not p)) : p
 
 De_morgan_not_not &lt;p&gt; &lt;q&gt; (np: Pair (Not p) (Not q)) : Either p q
 
 Implies_to_or &lt;p&gt; &lt;q&gt; (pq: p -&gt; q) : Either (Not p) q
-#}</code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
-                            <a rel="prev" href="Book/chapter_06/6,5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../Book/chapter_06/6,5.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
 
-                        
-                            <a rel="next" href="Contribuidores.html" class="mobile-nav-chapters next" title="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../Contribuidores.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -499,46 +488,51 @@ Implies_to_or &lt;p&gt; &lt;q&gt; (pq: p -&gt; q) : Either (Not p) q
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-                    <a href="Book/chapter_06/6,5.html" class="nav-chapters previous" title="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../Book/chapter_06/6,5.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
 
-                
-                    <a href="Contribuidores.html" class="nav-chapters next" title="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../Contribuidores.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-
-        <!-- Local fallback for Font Awesome -->
+        <!-- Livereload script (if served using the cli tool) -->
         <script>
-            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.type = 'text/css';
-                link.href = '_FontAwesome/css/font-awesome.css';
-                document.head.insertBefore(link, document.head.firstChild)
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
             }
         </script>
 
-        
 
-        
 
-        
+        <script>
+            window.playground_copyable = true;
+        </script>
 
-        
 
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <!-- Custom JS script -->
-        
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
 
     </body>
 </html>

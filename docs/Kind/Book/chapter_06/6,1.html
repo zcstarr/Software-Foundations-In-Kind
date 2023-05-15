@@ -1,48 +1,47 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
+        <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Logical Connectives - </title>
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Logical Connectives</title>
+
+
+        <!-- Custom HTML head -->
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <base href="../../">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
-        <link rel="stylesheet" href="book.css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
-        <link rel="shortcut icon" href="favicon.png">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <!-- Custom theme stylesheets -->
 
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
-
-        <!-- Custom theme -->
-        
-
-        
         <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        
-
-        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
-        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
         <script>
-            if (typeof Clipboard == 'undefined') {
-                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
-            }
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
-    </head>
-    <body class="light">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -58,61 +57,83 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
+            var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             }
-            document.querySelector('html').classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li class="affix"><a href="README.html">Introduction</a></li><li><a href="guide/Started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li><a href="guide/About.html"><strong aria-hidden="true">1.1.</strong> About Kind</a></li><li><a href="guide/Installation.html"><strong aria-hidden="true">1.2.</strong> Installation</a></li><li><a href="cli/World.html"><strong aria-hidden="true">1.3.</strong> Hello World!</a></li><li><a href="cli/kind.html"><strong aria-hidden="true">1.4.</strong> Hello Kind!</a></li></ol></li><li><a href="Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Basics: Introduction</a></li><li><ol class="section"><li><a href="Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Enumerated Types</a></li><li><ol class="section"><li><a href="Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Days of the Week</a></li></ol></li><li><a href="Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleans</a></li><li><a href="Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Function Types</a></li><li><a href="Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Modules</a></li><li><a href="Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Numbers</a></li><li><a href="Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Proof by Simplification</a></li><li><a href="Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Proof by Application</a></li><li><a href="Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Proof by Case Analysis</a></li><li><a href="Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Proof by Rewriting</a></li><li><a href="Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain and Equal.mirror</a></li><li><a href="Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> More Exercises</a></li></ol></li><li><a href="Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Induction: Proof by Induction</a></li><li><ol class="section"><li><a href="Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercises</a></li><li><a href="Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> More Exercises</a></li></ol></li><li><a href="Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Data Structures</a></li><li><ol class="section"><li><a href="Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Lists of Numbers</a></li><li><a href="Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Reasoning about Lists</a></li><li><a href="Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li><a href="Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polymorphism</a></li><li><ol class="section"><li><a href="Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Functions as Data</a></li><li><a href="Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Additional Exercises</a></li></ol></li><li><a href="Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Logic in Kind</a></li><li><ol class="section"><li><a href="Book/chapter_06/6,1.html" class="active"><strong aria-hidden="true">6.1.</strong> Logical Connectives</a></li><li><a href="Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsity and Negation</a></li><li><a href="Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Truth, Equivalence, and Quantification</a></li><li><a href="Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programming with Propositions</a></li><li><a href="Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Applying Theorems to Arguments</a></li><li><a href="Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Set Theory</a></li><li class="spacer"></li></ol></li><li><a href="Contributors.html">Contributors</a></li></ol>
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/About.html"><strong aria-hidden="true">1.1.</strong> About Kind</a></li><li class="chapter-item expanded "><a href="../../guide/Installation.html"><strong aria-hidden="true">1.2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../../cli/World.html"><strong aria-hidden="true">1.3.</strong> Hello World!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Hello Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Basics: Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Enumerated Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Days of the Week</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleans</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Function Types</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Modules</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Proof by Simplification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Proof by Application</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Proof by Case Analysis</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Proof by Rewriting</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain and Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Induction: Proof by Induction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercises</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Data Structures</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Lists of Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Reasoning about Lists</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polymorphism</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Functions as Data</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Additional Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Logic in Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html" class="active"><strong aria-hidden="true">6.1.</strong> Logical Connectives</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsehood and Negation</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Truth, Equivalence, and Quantification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programming with Propositions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Applying Theorems to Arguments</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Set Theory</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,7.html"><strong aria-hidden="true">6.7.</strong> Classical vs. Constructive Logic</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.html"><strong aria-hidden="true">7.</strong> Inductively Defined Propositions</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../../Contributors.html">Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar" class="menu-bar">
-                    <div id="menu-bar-sticky-container">
-                        <div class="left-buttons">
-                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-controls="sidebar">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                                <i class="fa fa-paint-brush"></i>
-                            </button>
-                            <ul id="theme-list" class="theme-popup" aria-label="submenu">
-                                <li><button class="theme" id="light">Light <span class="default">(default)</span></button></li>
-                                <li><button class="theme" id="rust">Rust</button></li>
-                                <li><button class="theme" id="coal">Coal</button></li>
-                                <li><button class="theme" id="navy">Navy</button></li>
-                                <li><button class="theme" id="ayu">Ayu</button></li>
-                            </ul>
-                        </div>
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
 
-                        <h1 class="menu-title"></h1>
+                    <h1 class="menu-title"></h1>
 
-                        <div class="right-buttons">
-                            <a href="print.html" title="Print this book">
-                                <i id="print-button" class="fa fa-print"></i>
-                            </a>
-                        </div>
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -122,24 +143,21 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="Book/chapter_06/6,1.html#conectivos-lógicos" id="conectivos-lógicos"><h2>Conectivos Lógicos</h2></a>
-<a class="header" href="Book/chapter_06/6,1.html#conjunção" id="conjunção"><h3>Conjunção</h3></a>
-<p>A conjunção (ou lógico <em>e</em>) em kind recebe duas proposições <em>a</em> e <em>b</em>, que devem retornar um valor <em>booleano</em> <code>true</code> ou <code>false</code>.</p>
+                        <h2 id="logical-connectives"><a class="header" href="#logical-connectives">Logical Connectives</a></h2>
+<h3 id="conjunction"><a class="header" href="#conjunction">Conjunction</a></h3>
+<p>The conjunction (logical &quot;<em>and</em>&quot;) in kind takes two propositions <em>a</em> and <em>b</em>, which should return a <em>Boolean</em> value <code>true</code> or <code>false</code>.</p>
 <pre><code class="language-rust ignore">Bool.and (a: Bool) (b: Bool) : Bool
 Bool.and Bool.true  b = b
-Bool.and Bool.false b = Bool.false
-</code></pre>
-<p>Se <em>a</em> é verdadeiro, basta apenas retornar o valor de <em>b</em>, agora se o <em>a</em> for falso, não há a necessidade de verificar o valor do segundo elemento.</p>
-<p>Por se tratar de um caso limitado (há apenas duas opções) dá para verificar com uma prova simples:</p>
+Bool.and Bool.false b = Bool.false</code></pre>
+<p>If <em>a</em> is true, it is sufficient to return the value of <em>b</em>. However, if <em>a</em> is false, there is no need to verify the value of the second element.</p>
+<p>Because it is a limited case (there are only two options), it is possible to verify with a simple proof:</p>
 <pre><code class="language-rust ignore">ConjuntiveBool : Equal Bool (Bool.and Bool.true Bool.false) Bool.false
-ConjuntiveBool = Equal.refl
-</code></pre>
-<a class="header" href="Book/chapter_06/6,1.html#and_exercise" id="and_exercise"><h4>And_exercise</h4></a>
+ConjuntiveBool = Equal.refl</code></pre>
+<h4 id="and_exercise"><a class="header" href="#and_exercise">And_exercise</a></h4>
 <pre><code class="language-rust ignore">And_exercise : Pair (Equal (Plus 3n 4n) 7n) (Equal (Mult 2n 2n) 4n)
-And_exercise = ?
-</code></pre>
-<p>Tanto para provar declarações conjuntivas. Para ir na outra direção – ou seja, usar uma hipótese conjuntiva para ajudar a provar outra coisa – empregamos o pattern matching.
-Se o contexto de prova contiver uma hipótese h da forma (a,b), a divisão de caso irá substituí-la por um padrão de pares (a,b).</p>
+And_exercise = ?</code></pre>
+<p>Both for proving conjunctive statements. To go in the other direction – that is, to use a conjunctive hypothesis to help prove something else – we employ pattern matching.</p>
+<p>If the proof context contains a hypothesis h of the form (a,b), the case division will replace it with a pattern of pairs (a,b).</p>
 <pre><code class="language-rust ignore">And_example2 (n: Nat) (m: Nat) (e: Pair (Equal n 0n) (Equal m 0n)) : Equal (Plus n m ) 0n
 And_example2 Nat.zero Nat.zero e        = Equal.refl
 And_example2 Nat.zero (Nat.succ m ) e   = 
@@ -159,9 +177,8 @@ And_example2 (Nat.succ n) m e           =
         succ =&gt; Unit 
     })
     (Unit.new))
-    Empty.absurd p
-</code></pre>
-<p>Você pode se perguntar por que nos preocupamos em agrupar as duas hipóteses n = 0 e m = 0 em uma única conjunção, já que também poderíamos ter declarado o teorema com duas premissas separadas:</p>
+    Empty.absurd p</code></pre>
+<p>You may wonder why we bother to group the two hypotheses <em>n = 0</em> and <em>m = 0</em> into a single conjunction, since we could also have declared the theorem with two separate premises:</p>
 <pre><code class="language-rust ignore">And_example2a (n: Nat) (m: Nat) (e1: Equal n 0n) (e2: Equal m 0n) : Equal (Plus n m) 0n
 And_example2a Nat.zero Nat.zero e1 e2        = Equal.refl
 And_example2a Nat.zero (Nat.succ m ) e1 e2   = 
@@ -182,9 +199,8 @@ And_example2a (Nat.succ n) m e1 e2           =
     })
     (Unit.new))
     Empty.absurd p
-
 </code></pre>
-<p>Para este teorema, ambas as formulações são adequadas. Mas é importante entender como trabalhar com hipóteses conjuntivas porque as conjunções geralmente surgem de etapas intermediárias em provas, especialmente em desenvolvimentos maiores. Aqui está um exemplo simples:</p>
+<p>For this theorem, both formulations are adequate. But it is important to understand how to work with conjunctive hypotheses because conjunctions often arise from intermediate steps in proofs, especially in larger developments. Here is a simple example:</p>
 <pre><code class="language-rust ignore">And_example3 (n: Nat) (m: Nat) (e: Equal (Plus n m) 0n) : Equal (Mult n m) 0n
 And_example3 Nat.zero m e =  Equal.refl
 And_example3 (Nat.succ n) m e =
@@ -195,28 +211,23 @@ And_example3 (Nat.succ n) m e =
             succ =&gt; Unit                      
         })
         (Unit.new))
-    Empty.absurd p
-</code></pre>
-<p>Outra situação comum com conjunções é que sabemos (a,b), mas em algum contexto precisamos apenas de a (ou apenas b). Os seguintes teoremas são úteis em tais casos:</p>
+    Empty.absurd p</code></pre>
+<p>Another common situation with conjunctions is that we know (a,b), but in some context we need only a (or only b). The following theorems are useful in such cases:</p>
 <pre><code class="language-rust ignore">Proj1 &lt;p&gt; &lt;q&gt; (a: Pair p q) : p
-Proj1 (Pair.new fst snd)    = fst
-</code></pre>
-<a class="header" href="Book/chapter_06/6,1.html#proj2" id="proj2"><h4>Proj2</h4></a>
+Proj1 (Pair.new fst snd)    = fst</code></pre>
+<h4 id="proj2"><a class="header" href="#proj2">Proj2</a></h4>
 <pre><code class="language-rust ignore">Proj2 &lt;p&gt; &lt;q&gt; (b: Pair p q) : q
-Proj2 (Pair.new fst snd)    = ?
-</code></pre>
-<p>Por fim, às vezes precisamos reorganizar a ordem das conjunções e/ou agrupar as conjunções de múltiplas vias. Os seguintes teoremas de comutatividade e associatividade são úteis em tais casos.</p>
+Proj2 (Pair.new fst snd)    = ?</code></pre>
+<p>Finally, sometimes we need to rearrange the order of the conjunctions and/or group the conjunctions of multiple paths. The following commutativity and associativity theorems are useful in such cases.</p>
 <pre><code class="language-rust ignore">And_commut &lt;p&gt; &lt;q&gt; (c: Pair p q) : Pair q p
-And_commut (Pair.new fst snd)    = Pair.new snd fst
-</code></pre>
-<a class="header" href="Book/chapter_06/6,1.html#and_assoc" id="and_assoc"><h4>And_assoc</h4></a>
+And_commut (Pair.new fst snd)    = Pair.new snd fst</code></pre>
+<h4 id="and_assoc"><a class="header" href="#and_assoc">And_assoc</a></h4>
 <pre><code class="language-rust ignore">And_assoc &lt;p&gt; &lt;q&gt; &lt;r&gt; (a: Pair p (Pair q r))  : Pair (Pair p q) r
-And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?
-</code></pre>
-<a class="header" href="Book/chapter_06/6,1.html#disjunção" id="disjunção"><h3>Disjunção</h3></a>
-<p>Outro conectivo importante é a disjunção, ou lógico, de duas proposições:
-<code>Either</code> a b é verdadeiro quando a ou b é. O primeiro caso foi marcado com <em>left</em> e o segundo com <em>right</em>.
-Para usar uma hipótese disjuntiva em uma prova, procedemos pela análise de caso, que, como para Nat ou outros tipos de dados, pode ser feita com correspondência de padrões. Aqui está um exemplo:</p>
+And_assoc (Pair.new p (Pair q r) fst (Pair.new snd trd)) = ?</code></pre>
+<h3 id="disjunção"><a class="header" href="#disjunção">Disjunção</a></h3>
+<p>Another important connective is the disjunction, or logical &quot;<em>or</em>&quot;, of two propositions:</p>
+<p><code>Either a b</code> is true when either <em>a</em> or <em>b</em> is <em>true</em>. The first case was marked with <em>left</em>, and the second with <em>right</em>.</p>
+<p>To use a disjunctive hypothesis in a proof, we proceed by case analysis, which, as for Nat or other data types, can be done with pattern matching. Here is an example:</p>
 <pre><code class="language-rust ignore">Or_example (n: Nat) (m: Nat) (e: (Either (Equal n 0n) (Equal m 0n))) : Equal (Mult n m) 0n
 Or_example Nat.zero m e     = Equal.refl
 Or_example n Nat.zero e     = Mult_0_r n
@@ -237,47 +248,38 @@ Or_example (Nat.succ n) (Nat.succ m) (Either.right l r val) =
             succ =&gt; Unit                   
         })
         (Unit.new))
-Empty.absurd p
-</code></pre>
-<p>Inversamente, para mostrar que uma disjunção é válida, precisamos mostrar que um de seus lados é válido. Isso pode ser feito por meio dos construtores Left e Right mencionados acima. Aqui está um uso trivial...</p>
-<pre><code class="language-rust ignore">#axiom
-Or_intro_left &lt;a&gt; &lt;b&gt; (t: a) : Either a b
+Empty.absurd p</code></pre>
+<p>Conversely, to show that a disjunction is valid, we need to show that one of its sides is valid. This can be done through the Left and Right constructors mentioned above. Here is a trivial use...</p>
+<pre><code class="language-rust ignore"><span class="boring">axiom
+</span>Or_intro_left &lt;a&gt; &lt;b&gt; (t: a) : Either a b
 Or_intro_left t = Either.left t
 
-#axiom
-Or_intro_right &lt;a&gt; &lt;b&gt; (t: b) : Either a b
-Or_intro_right t = Either.right t
-</code></pre>
-<p>... e um exemplo um pouco mais interessante exigindo ambos</p>
+<span class="boring">axiom
+</span>Or_intro_right &lt;a&gt; &lt;b&gt; (t: b) : Either a b
+Or_intro_right t = Either.right t</code></pre>
+<p>... and a slightly more interesting example requiring both.</p>
 <pre><code class="language-rust ignore">Zero_or_succ (n: Nat)     : Either (Equal n 0n) (Equal n (Nat.succ (Nat.pred n)))
 Zero_or_succ Nat.zero     = Either.left  Equal.refl
-Zero_or_succ (Nat.succ n) = Either.right Equal.refl
-</code></pre>
-<a class="header" href="Book/chapter_06/6,1.html#mult_eq_0" id="mult_eq_0"><h4>Mult_eq_0</h4></a>
-<pre><code class="language-rust ignore">#axiom
-Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Mult n m) 0n) : Either (Equal n 0n) (Equal m 0n)
-Mult_eq_0 n m e = ?
-</code></pre>
-<a class="header" href="Book/chapter_06/6,1.html#or_commut" id="or_commut"><h4>Or_commut</h4></a>
+Zero_or_succ (Nat.succ n) = Either.right Equal.refl</code></pre>
+<h4 id="mult_eq_0"><a class="header" href="#mult_eq_0">Mult_eq_0</a></h4>
+<pre><code class="language-rust ignore"><span class="boring">axiom
+</span>Mult_eq_0 (n: Nat) (m: Nat) (e: Equal (Mult n m) 0n) : Either (Equal n 0n) (Equal m 0n)
+Mult_eq_0 n m e = ?</code></pre>
+<h4 id="or_commut"><a class="header" href="#or_commut">Or_commut</a></h4>
 <pre><code class="language-rust ignore">Or_commut &lt;p&gt; &lt;q&gt; (e: Either p q) : Either q p
-Or_commut e: ?
-</code></pre>
+Or_commut e: ?</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
-                            <a rel="prev" href="Book/chapter_06/6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../Book/chapter_06/6.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
 
-                        
-                            <a rel="next" href="Book/chapter_06/6,2.html" class="mobile-nav-chapters next" title="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../Book/chapter_06/6,2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -285,46 +287,51 @@ Or_commut e: ?
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-                    <a href="Book/chapter_06/6.html" class="nav-chapters previous" title="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../Book/chapter_06/6.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
 
-                
-                    <a href="Book/chapter_06/6,2.html" class="nav-chapters next" title="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../Book/chapter_06/6,2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-
-        <!-- Local fallback for Font Awesome -->
+        <!-- Livereload script (if served using the cli tool) -->
         <script>
-            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
-                var link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.type = 'text/css';
-                link.href = '_FontAwesome/css/font-awesome.css';
-                document.head.insertBefore(link, document.head.firstChild)
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
             }
         </script>
 
-        
 
-        
 
-        
+        <script>
+            window.playground_copyable = true;
+        </script>
 
-        
 
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <!-- Custom JS script -->
-        
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
 
     </body>
 </html>
