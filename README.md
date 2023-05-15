@@ -16,6 +16,6 @@ mdbook serve Kind --open
 # for the pt-BR version: mdbook serve Kind/ptBR --open
 ```
 ## Contribute
-- Muda o livre
+- Make the appropriate changes in the `./Kind/src` or `./Kind/ptBR`  folder
 - Generate the translation for the other languages
 - Commit at `main` branch
