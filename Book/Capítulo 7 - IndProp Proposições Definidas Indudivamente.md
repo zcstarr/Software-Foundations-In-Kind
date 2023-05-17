@@ -197,14 +197,12 @@ Infelizmente, o segundo caso é mais difícil. Precisamos mostrar (k ** S (S n')
 Se olharmos mais de perto para nosso segundo objetivo, no entanto, podemos ver que algo interessante aconteceu: ao realizar a análise de casos em ``Ev n``, fomos capazes de reduzir o resultado original a um semelhante que envolve uma evidência diferente para`` Ev n: e'``. Mais formalmente, podemos concluir nossa prova mostrando que
 
 ```rust, ignore
-
-(k ** n = double k) // mudar 
+k => Prop.Equal n (Data.Nat.double k)
 ```
 
 o que é o mesmo que a declaração original, mas com ``n'`` em vez de ``n``. Na verdade, não é difícil convencer o Kind de que esse resultado intermediário é suficiente.
 ```rust, ignore
-ev_even (Ev_SS e') 
-
+Ev_even (Data.Nat.succ (Data.Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n e)
 ```
 
 
@@ -293,8 +291,14 @@ Ev_ev_ev Data.Nat.zero m e en = ?
 Este exercício requer apenas a aplicação de lemas existentes. Nenhuma indução ou até mesmo análise de casos é necessária, embora algumas das reescritas possam ser tediosas.
 
 ```rust,ignore 
-ev_plus_plus: Ev (n + m) ౏> Ev (n + p) ౏> Ev (m + p)
-
+Ev_pp 
+  <n: Data.Nat> 
+  <m: Data.Nat> 
+  <p: Data.Nat> 
+  (e1: Ev (Data.Nat.add n m))
+  (e2: Ev (Data.Nat.add n p))
+  : Ev (Data.Nat.add m p)
+Ev_pp Data.Nat.zero m p e1 e2 =
 ```
 
 #### 3.1.3. Exercise: 3 stars, recommended (R_provability)
@@ -458,3 +462,116 @@ FR_to_R Data.Nat.zero (Data.Nat.succ n) Data.Nat.zero eq = Data.Empty.absurd _ /
 FR_to_R (Data.Nat.succ m) Data.Nat.zero Data.Nat.zero eq = Data.Empty.absurd _ // impossible
 FR_to_R (Data.Nat.succ m) (Data.Nat.succ n) Data.Nat.zero eq = Data.Empty.absurd _ // impossible
 ```
+
+#### 4
+```
+type Regexp (t: Type) {
+    emptyset                              : Regexp t
+    emptystr                              : Regexp t
+    chr   (h: t)                          : Regexp t
+    app   (st1: Regexp t) (st2: Regexp t) : Regexp t
+    union (st1: Regexp t) (st2: Regexp t) : Regexp t
+    star  (st1: Regexp t)                 : Regexp t
+  }
+
+#derive[match]
+type Expmatch <t> ~(xs: Data.List t) (r: Regexp t) {
+  mempty              : Expmatch t []   Regexp.emptystr 
+  mchar (x: t)        : Expmatch t [x] (Regexp.chr x)
+  mapp 
+    (s1: Data.List t) 
+    (r1: Regexp t) 
+    (e1: Expmatch s1 r1)
+    (s2: Data.List t)
+    (r2: Regexp t)
+    (e2: Expmatch t s2 r2)
+    : Expmatch t (Data.List.concat s1 s2) (Regexp.app r1 r2)
+  munionl
+    (s1: Data.List t)
+    (s2: Data.List t)
+    (r1: Regexp t)
+    (r2: Regexp t)
+    : Expmatch t s1 (Regexp.union r1 r2)
+  munionr
+    (s1: Data.List t)
+    (s2: Data.List t)
+    (r1: Regexp t)
+    (r2: Regexp t)
+    : Expmatch t s2 (Regexp.union r1 r2)
+  mstarz (r: Regexp t) : Expmatch t [] (Regexp.star r)  
+  mstarapp 
+    (s1: Data.List t) 
+    (s2: Data.List t) 
+    (r1: Regexp t)
+    (e1: Expmatch s1 r1)
+    (e2: Expmatch s2 (Regexp.star r1))
+    : Expmatch t (Data.List.concat s1 s2) (Regexp.star r1)
+}
+
+Regexp_ex1 : Expmatch [1] (Regexp.chr 1)
+Regexp_ex1 = Expmatch.mchar 1 
+
+Regexp_ex2 : Expmatch [1, 2] (Regexp.app (Regexp.chr 1) (Regexp.chr 2))
+Regexp_ex2 = Expmatch.mapp [1] (Regexp.chr 1) (Expmatch.mchar 1) [2] (Regexp.chr 2) (Expmatch.mchar 2)
+
+Regexp_ex3 : Prop.Not (Expmatch [1, 2] (Regexp.chr 1))
+Regexp_ex3 = Data.Empty.absurd _
+
+Regexp_of_list <t> (xs: Data.List t)        : Regexp t
+Regexp_of_list t Data.List.nil              = Regexp.emptystr
+Regexp_of_list t (Data.List.cons xs.h xs.t) = Regexp.app (Regexp.chr xs.h) (Regexp_of_list t xs.t)
+
+Regexp_ex4 : Expmatch [1, 2, 3] (Regexp_of_list [1, 2, 3])
+Regexp_ex4 = 
+  (Expmatch.mapp 
+    [1] 
+    (Regexp.chr 1) 
+    (Expmatch.mchar 1) 
+    [2, 3] 
+    (Regexp_of_list [2, 3])
+    (Expmatch.mapp
+      [2]
+      (Regexp.chr 2)
+      (Expmatch.mchar 2) 
+      [3]
+      (Regexp_of_list [3])
+      (Expmatch.mapp
+        [3]
+        (Regexp.chr 3)
+        (Expmatch.mchar 3)
+        []
+        (Regexp_of_list [])
+        (Expmatch.mempty)
+      )
+    )
+  )
+
+Mstar1 <t> <s: Data.List t> <re: Regexp t> (e: Expmatch s re) : Expmatch s (Regexp.star re)  
+Mstar1 t s re e = 
+  let msz = Expmatch.mstarz re
+  let mss = Expmatch.mstarapp s [] re e msz
+  let lst = List_concat s
+  let rwt = Prop.Equal.rewrite lst (x => (Expmatch t x (Regexp.star re))) mss
+  rwt
+
+List_concat <t> (xs: Data.List t)         : Prop.Equal (Data.List.concat xs Data.List.nil) xs
+List_concat t Data.List.nil               = Prop.Equal.refl
+List_concat t (Data.List.cons xs.h xs.t)  = 
+  let ind = List_concat t xs.t
+  let app = Prop.Equal.apply (x => Data.List.cons xs.h x) ind
+  app
+  ```
+  
+  
+  ##### 4.0.1
+  ```
+  Munion 
+  <t> 
+  <s: Data.List t> 
+  <re1:  Regexp t> 
+  <re2:  Regexp t> 
+  (p: Data.Pair (Expmatch s re1) (Expmatch s re2))
+  : Expmatch s (Regexp.union re1 re2)
+Munion t s re1 re2 (Data.Pair.new fst snd) = 
+  Expmatch.munionl t s [] re1 re2
+  ```
