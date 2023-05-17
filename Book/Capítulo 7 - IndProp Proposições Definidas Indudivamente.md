@@ -216,23 +216,15 @@ ela faz com que o Idris gere uma submeta para cada construtor que poderia ter si
 
 Vamos tentar nosso lema atual novamente:
 ```rust, ignore
-
-
-ev_even': Ev n ౏> (k ** n = double k)
-
-ev_even' Ev_0 = (Z ** Refl)
-
-ev_even' (Ev_SS e') =
-
-let
-
-(k ** prf) = ev_even e'
-
-cprf = cong {f=S} $ cong {f=S} prf
-
-in
-
-rewrite cprf in (S k ** Refl)
+#partial
+Ev_even
+  (n: Data.Nat)
+  (e: Ev n) :
+  (Data.Sigma Data.Nat(k => Prop.Equal n ( Data.Nat.double k)))
+Ev_even Data.Nat.zero e = Data.Sigma.new 0n Prop.Equal.refl
+Ev_even (Data.Nat.succ Data.Nat.zero) e = Data.Empty.absurd _
+Ev_even (Data.Nat.succ (Data.Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n e)
+// Ev_even (Data.Nat.succ (Data.Nat.succ n)) Ev.ev_z = Caso impossível
 ```
 <!--TL:DR
 Aqui, podemos ver que o Idris produziu uma HI que corresponde a E', a única ocorrência recursiva de ev em sua própria definição. Como E' menciona n', a hipótese de indução fala sobre n', em oposição a n ou algum outro número. -->
@@ -241,13 +233,16 @@ A equivalência entre as segunda e terceira definições de paridade agora segue
 
 ```rust,ignore 
 
-ev_even_iff: (Ev n) <౦> (k ** n = double k)
+Ev_even_equiv (n: Data.Nat)  : Equivalence (Ev n) (Data.Sigma Data.Nat (k => Prop.Equal n (Data.Nat.double k)))
+Ev_even_equiv n         = Equivalence.new (x => Ev_even n x) (y => From_eee n y)
 
-ev_even_iff = (ev_even, fro)
+From_eee (n: Data.Nat) (s: Data.Sigma Data.Nat (k => Prop.Equal n (Data.Nat.double k))) : Ev n
+From_eee n (Data.Sigma.new a b fst snd) =
+  Prop.Equal.rewrite (Prop.Equal.mirror (specialize b into #0 in snd)) (x =>(Ev x)) (Ev_double fst)
 
-fro: (k ** n = double k) ౏> (Ev n)
-
-fro (k ** prf) = rewrite prf in ev_double {n=k}
+Ev_double (n: Data.Nat)      : Ev (Data.Nat.double n)
+Ev_double Data.Nat.zero      = Ev.ev_z
+Ev_double (Data.Nat.succ n)  = Ev.ev_ss (Ev_double n)
 
 ```
 
@@ -259,9 +254,8 @@ Os exercícios a seguir fornecem exemplos simples dessa técnica, para ajudá-lo
 
 
 ```rust,ignore 
-ev_sum: Ev n ౏> Ev m ౏> Ev (n + m)
-
-ev_sum x y = ?ev_sum_rhs
+Ev_sum (n: Data.Nat) (m: Data.Nat) (e1: Ev n) (e2: Ev m) : Ev (Data.Nat.add n m)
+Ev_sum n m e1 e2 = ?
 
 ```
 
@@ -270,22 +264,19 @@ ev_sum x y = ?ev_sum_rhs
 Em geral, pode haver várias maneiras de definir uma propriedade indutivamente. Por exemplo, aqui está uma definição alternativa (um pouco forçada) para Ev:
 
 ```rust,ignore 
-
-data Ev' : Nat ౏> Type where
-
-Ev'_0 : Ev' Z
-
-Ev'_2 : Ev' 2
-
-Ev'_sum : Ev' n ౏> Ev' m ౏> Ev' (n + m)
+type Evn ~ (n: Data.Nat){
+  z : Evn Data.Nat.zero
+  d : Evn (Data.Nat.succ (Data.Nat.succ Data.Nat.zero))
+  sum <n : Data.Nat> <m: Data.Nat> (evn: Evn n) (evm: Evn m) : Evn (Data.Nat.add n m)
+} 
 ```
 
 
 Prove que essa definição é logicamente equivalente à antiga. (Você pode querer olhar para o teorema anterior quando chegar à etapa de indução.)
 
 ```rust,ignore 
-ev'_ev: (Ev' n) <౦> Ev n
-ev'_ev = ?ev__ev_rhs
+Ev_evn (n: Data.Nat): Equivalence (Ev n) (Evn n)
+Ev_evn n = ?
 
 ```
 
@@ -294,7 +285,8 @@ Encontrar a coisa apropriada para fazer a indução é um pouco complicado aqui:
 
 ```rust,ignore 
 
-ev_ev__ev: Ev (n + m) ౏> Ev n ౏> Ev m
+Ev_ev_ev (n: Data.Nat) (m: Data.Nat) (e: Ev (Data.Nat.add n m)) (en: Ev n) : Ev m
+Ev_ev_ev Data.Nat.zero m e en = ?
 ```
 
 #### Ev_plus_plus 
