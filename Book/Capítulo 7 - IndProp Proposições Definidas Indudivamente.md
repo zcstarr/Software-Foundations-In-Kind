@@ -210,7 +210,7 @@ Ev_even (Data.Nat.succ (Data.Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n
 Se isso parece familiar, não é coincidência: encontramos problemas semelhantes no capítulo de Indução, ao tentar usar análise de casos para provar resultados que requeriam indução. E mais uma vez, a solução é... indução!
 
 <!--TL:DR O comportamento da indução sobre evidências é o mesmo que o seu comportamento sobre dados: 
-ela faz com que o Idris gere uma submeta para cada construtor que poderia ter sido usado para construir aquela evidência, ao mesmo tempo em que fornece uma hipótese de indução para cada ocorrência recursiva da propriedade em questão. -->
+ela faz com que o Kind gere uma submeta para cada construtor que poderia ter sido usado para construir aquela evidência, ao mesmo tempo em que fornece uma hipótese de indução para cada ocorrência recursiva da propriedade em questão. -->
 
 Vamos tentar nosso lema atual novamente:
 ```rust, ignore
@@ -225,7 +225,7 @@ Ev_even (Data.Nat.succ (Data.Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n
 // Ev_even (Data.Nat.succ (Data.Nat.succ n)) Ev.ev_z = Caso impossível
 ```
 <!--TL:DR
-Aqui, podemos ver que o Idris produziu uma HI que corresponde a E', a única ocorrência recursiva de ev em sua própria definição. Como E' menciona n', a hipótese de indução fala sobre n', em oposição a n ou algum outro número. -->
+Aqui, podemos ver que o Kind produziu uma HI que corresponde a E', a única ocorrência recursiva de ev em sua própria definição. Como E' menciona n', a hipótese de indução fala sobre n', em oposição a n ou algum outro número. -->
 
 A equivalência entre as segunda e terceira definições de paridade agora segue.
 
@@ -540,7 +540,7 @@ type Expmatch <t> ~(xs: Data.List t) (r: Regexp t) {
 Observe que essas regras não são exatamente as mesmas das informais que demos no início da seção. Primeiro, não precisamos incluir uma regra que declare explicitamente que nenhuma string corresponde a EmptySet; simplesmente não incluímos nenhuma regra que teria o efeito de alguma string corresponder a EmptySet. (De fato, a sintaxe das definições indutivas nem mesmo nos permite fornecer tal "regra negativa".) -->
 
 <!-- TL;DR Em segundo lugar, as regras informais para Union e Star correspondem a dois construtores cada: MUnionL / MUnionR e MStar0 / MStarApp. O resultado é logicamente equivalente às regras originais, 
-mas mais conveniente de usar no Idris, uma vez que as ocorrências recursivas de Exp_match são fornecidas como argumentos diretos para os construtores, facilitando a indução com base nas evidências. (Os exercícios exp_match_ex1 e exp_match_ex2 abaixo pedem para provar que os construtores dados na declaração indutiva e os que surgiriam de uma transcrição mais literal das regras informais são de fato equivalentes.) -->
+mas mais conveniente de usar no Kind, uma vez que as ocorrências recursivas de Exp_match são fornecidas como argumentos diretos para os construtores, facilitando a indução com base nas evidências. (Os exercícios exp_match_ex1 e exp_match_ex2 abaixo pedem para provar que os construtores dados na declaração indutiva e os que surgiriam de uma transcrição mais literal das regras informais são de fato equivalentes.) -->
 
 Vamos ilustrar essas regras com alguns exemplos.
 
@@ -709,9 +709,9 @@ Lemma star_app: forall
 
 
 <!-- TL:DR
-Agora podemos prosseguir realizando a indução diretamente com base nas evidências, porque o argumento da primeira hipótese é suficientemente geral, o que significa que podemos descartar a maioria dos casos invertendo a igualdade re' = Star re no contexto. Esse padrão é tão comum que o Idris fornece uma tática para gerar automaticamente tais equações para nós, evitando assim a necessidade de alterar as declarações de nossos teoremas. -->
+Agora podemos prosseguir realizando a indução diretamente com base nas evidências, porque o argumento da primeira hipótese é suficientemente geral, o que significa que podemos descartar a maioria dos casos invertendo a igualdade re' = Star re no contexto. Esse padrão é tão comum que o Kind fornece uma tática para gerar automaticamente tais equações para nós, evitando assim a necessidade de alterar as declarações de nossos teoremas. -->
 
-Invocar a tática remember e as x faz com que o Idris (1) substitua todas as ocorrências da expressão e pela variável x e (2) adicione uma equação x = e ao contexto.
+Invocar a tática remember e as x faz com que o Kind (1) substitua todas as ocorrências da expressão e pela variável x e (2) adicione uma equação x = e ao contexto.
 
 Veja como podemos usá-la para mostrar o resultado acima:
 
@@ -807,3 +807,202 @@ Para agilizar a prova (que você deve preencher), a tática omega, que é habili
 
 pumping m le = ?pumping_rhs
 ```
+
+## Estudo de Caso: Melhorando a Reflexão
+
+Vimos no capítulo de Lógica que frequentemente precisamos relacionar computações booleanas com declarações em Tipo. No entanto, realizar essa conversão da forma como fizemos lá pode resultar em scripts de prova tediosos. Considere a prova do seguinte teorema:
+
+```rust, ignore
+filter_not_empty_In : {n : Nat} -> Not (filter ((==) n) l = []) -> In n l //terminar
+```
+
+No segundo caso, aplicamos explicitamente o lema beq_nat_true à equação gerada ao fazer um dependent match em n == x, para converter a suposição n == x = True em n = m.
+
+Podemos simplificar isso definindo uma proposição indutiva que fornece um melhor princípio de análise de casos para n == m. Em vez de gerar uma equação como n == m = True, que geralmente não é diretamente útil, esse princípio nos fornece imediatamente a suposição que realmente precisamos: n = m.
+
+Na verdade, vamos definir algo um pouco mais geral, que pode ser usado com propriedades arbitrárias (e não apenas igualdades):
+
+```rust, ignore 
+type Reflect  (p: Type) (b: Bool) { //TODO: corrigir
+  ReflectT    (p: Type) (b= True) : Reflect p b
+  ReflectF    (p: Type) (n: Not p) (b= False) : Reflect p b
+}
+```
+
+A propriedade "reflect" recebe dois argumentos: uma proposição p e um booleano b. Intuitivamente, ela afirma que a propriedade p é refletida em (ou seja, equivalente a) o booleano b: p é verdadeira se e somente se b = True. Para entender isso, observe que, por definição, a única maneira de obtermos evidências de que "Reflect p True" é verdadeiro é mostrando que p é verdadeira e usando o construtor "ReflectT". Se invertermos essa afirmação, isso significa que deve ser possível extrair evidências para p a partir de uma prova de "Reflect p True". Da mesma forma, a única maneira de mostrar "Reflect p False" é combinando evidências de "Not p" com o construtor "ReflectF".
+
+É fácil formalizar essa intuição e mostrar que as duas afirmações são de fato equivalentes:
+
+```rust, ignore
+Equiv_reflect <b: Bool> (e: Equiv p  (b = True)) : Reflect p b
+Equiv_reflect Bool.false (pb, _) = ReflectF (uninhabited . pb) Equal.refl
+Equiv_reflect Bool.true (_, bp)  = ReflectT (bp Refl) Equal.refl
+```
+
+#### 5.0.1 reflect_equiv.
+```rust, ignore
+Reflect_equiv (r: Reflect p b) : Equivalence p  (Bool.equal b Bool.true)
+Reflect_equiv x = ?
+```
+
+A vantagem do "Reflect" sobre o conectivo normal "se e somente se" é que, ao destruir uma hipótese ou lema da forma "Reflect p b", podemos realizar uma análise de casos em b ao mesmo tempo em que geramos hipóteses apropriadas nos dois ramos (p no primeiro subobjetivo e Not p no segundo).
+
+```rust, ignore
+Beq_natP <n: Nat> <m : Nat> :  Reflect (Equal n m) (Nat.equal n m)
+Beq_natP {n} {m} = iff_reflect (iff_sym (beq_nat_true_iff n m))
+```
+
+A nova prova de filter_not_empty_In agora segue da seguinte maneira. Observe como as chamadas a destruct e apply são combinadas em uma única chamada a destruct.
+
+(Para ver isso claramente, observe as duas provas de filter_not_empty_In com Kind e observe as diferenças no estado da prova no início do primeiro caso do destruct.)
+
+
+```rust, ignore
+Filter_not_empty_In_ <n : Nat> <n: Not (filter ((x => y => Nat.equal x y) n) l = []) : In n l
+```
+#### 5.0.2. beq_natP_practice. 
+Use beq_natP, como mencionado acima, para provar o seguinte:
+```rust, ignore
+Count (n : Nat) : (l : List Nat) : Nat
+Count n List.nil = 0n
+Count n (List.cons xs.h xs.t) = Nat.add (Bool.if (Nat.equal n xs.h) 1n 0n)  (Count n xs.t)
+
+Beq_natP_practice (e: Equal (count n l) Nat.zero) : Not (In n l)
+Beq_natP_practice e = ? 
+```
+
+Essa técnica nos proporciona apenas uma pequena vantagem em conveniência para as provas que vimos aqui, mas usar o "Reflect" de forma consistente geralmente resulta em scripts de prova perceptivelmente mais curtos e claros à medida que as provas se tornam maiores. Veremos muitos outros exemplos nos próximos capítulos.
+
+O uso da propriedade "reflect" foi popularizado pelo SSReflect, uma biblioteca Coq que tem sido utilizada para formalizar resultados importantes em matemática, incluindo o teorema das 4 cores e o teorema de Feit-Thompson. O nome SSReflect significa "small-scale reflection" (reflexão de pequena escala), ou seja, o uso generalizado da reflexão para simplificar pequenos passos de prova com computações booleanas.
+
+## 6 Exercícios adicionais
+#### 6.0.1 nostutter
+Formular definições indutivas de propriedades é uma habilidade importante que você precisará neste curso. Tente resolver este exercício sem qualquer ajuda.
+
+Dizemos que uma lista "gagueja" se ela repete o mesmo elemento consecutivamente. A propriedade "Nostutter minha_lista" significa que minha_lista não gagueja. Formule uma definição indutiva para Nostutter. (Isso é diferente da propriedade NoDup no exercício abaixo; a sequência [1,4,1] se repete, mas não gagueja).
+
+```rust, ignore
+type Nostutter <t> (l: List t) {
+  RemoveMe : Nostutter []
+}
+```
+Certifique-se de que cada um desses testes seja bem-sucedido, mas sinta-se à vontade para alterar a prova sugerida (em comentários) se ela não funcionar para você. Sua definição pode ser diferente da nossa e ainda estar correta, nesse caso, os exemplos podem precisar de uma prova diferente. (Você vai perceber que as provas sugeridas usam várias táticas sobre as quais não falamos, para torná-las mais robustas em relação às diferentes formas possíveis de definir Nostutter. Provavelmente, você pode apenas descomentá-las e usá-las como estão, mas também pode provar cada exemplo com táticas mais básicas.)
+
+```rust, ignore
+Test_nostutter_1 : Nostutter [3,1,4,1,5,6]
+Test_nostutter_1 = ?
+// Prova. repita o construtor; aplique beq_nat_false_iff; auto.
+
+Test_nostutter_2 : Nostutter []
+Test_nostutter_2 = ?
+// Prova. repita o construtor; aplique beq_nat_false_iff; auto.
+
+Test_nostutter_3 : Nostutter [5]
+Test_nostutter_3 = ?
+// Prova. repita o construtor; aplique beq_nat_false; auto. Qed.
+
+Test_nostutter_4 : Not (Nostutter [3,1,1,4])
+Test_nostutter_4 = ?
+// Prova. intro.
+// repetir correspondência de metas com
+// h: nostutter _ |- _ => inversão h; limpar h; subst
+// end.
+// contradição H1; auto.
+```
+#### 6.0.2. filter_challenge
+Vamos provar que nossa definição de filter do capítulo Poly corresponde a uma especificação abstrata. Aqui está a especificação, escrita informalmente em inglês:
+
+Uma lista l é uma "mescla em ordem" de l1 e l2 se ela contém todos os mesmos elementos de l1 e l2, na mesma ordem de l1 e l2, mas possivelmente intercalados. Por exemplo, 
+
+[1,4,6,2,3] 
+
+é uma mescla em ordem de 
+
+[1,6,2] 
+
+e 
+
+[4,3].
+
+Agora, suponha que temos um conjunto t, uma função test: t -> Bool e uma lista l do tipo List t. Suponha ainda que l é uma mescla em ordem de duas listas, l1 e l2, de modo que cada item em l1 satisfaça test e nenhum item em l2 satisfaça test. Então, filter test l = l1.
+
+Traduza esta especificação em um teorema em Kind e prove-o. (Você precisará começar definindo o que significa uma lista ser uma mescla de outras duas. Faça isso com um tipo de dados indutivo, não uma função.)
+
+#### 6.0.3. filter_challenge_2
+Uma maneira diferente de caracterizar o comportamento do filter é a seguinte: Entre todas as subsequências de l com a propriedade de que test avalia como Verdadeiro para todos os seus elementos, o filter test l é o mais longo. Formalize essa afirmação e prove-a.
+
+#### 6.0.4. palindromes
+Um palíndromo é uma sequência que é lida da mesma forma de trás para frente.
+  -  Defina uma proposição indutiva Pal sobre List t que capture o que significa ser um palíndromo. (Dica: você precisará de três casos. Sua definição deve ser baseada na estrutura da lista; ter apenas um único construtor como 
+   ``` Rust, ignore
+   C <t> (l : List t)  (rev: Equal l (Rev l)) : Pal l
+   ``` 
+   pode parecer óbvio, mas não funcionará muito bem.)
+  - Prove (pal_app_rev) que 
+    ```rust, ignore
+    (l : List t) : Pal (List.concat l (Rev l))
+    ```
+  - Prove (pal_rev) que 
+  ``` rust, ignore
+    (l : List t) (p: Pal l) : Equal l (Rev l)
+    ```
+
+#### 6.0.5. palindrome_converse
+Novamente, a direção contrária é significativamente mais difícil, devido à falta de evidência. Usando sua definição de Pal do exercício anterior, prove que
+```rust, ignore
+(l : List t) ( Equal l (Rev l)) Pal l
+```
+
+#### 6.1. NoDup
+
+Lembre-se da definição da propriedade In do capítulo Lógica, que afirma que um valor x aparece pelo menos uma vez em uma lista l:
+```rust, ignore
+In <t> (x : t) (l : List t) : Type
+In x List.nil = Empty
+In x (List.concat xs.h xs.t) = Either (Equal x xs.h)  (In x xs)
+```
+
+Sua primeira tarefa é usar *In* para definir uma proposição `Disjoint <t> l1 l2`, que deve ser comprovável exatamente quando *l1* e *l2* são listas (com elementos do tipo *t*) que não têm elementos em comum.
+
+Em seguida, use *In* para definir uma proposição indutiva `NoDup <t> l`, que deve ser comprovável exatamente quando *l* é uma lista (com elementos do tipo *t*) em que cada membro é diferente de todos os outros. Por exemplo, `NoDup U60 [1,2,3,4]` e `NoDup Bool []` devem ser comprováveis, enquanto `NoDup Nat [1,2,1]` e `NoDup Bool [True,True]` não devem ser.
+
+Por fim, declare e prove um ou mais teoremas interessantes que relacionam Disjoint, NoDup e List.
+
+#### 6.1.1. pigeonhole principle
+O princípio da gaiola de pombos afirma um fato básico sobre contagem: se distribuirmos mais do que n itens em n gaiolas de pombos, alguma gaiola de pombos deve conter pelo menos dois itens. Como frequentemente acontece, esse fato aparentemente trivial sobre números requer uma máquina não trivial para provar, mas agora temos o suficiente...
+Primeiro, prove um lema fácil e útil.
+
+```rust, ignore
+In_split 
+  <t> 
+  <x: t> 
+  <l: List t> 
+  (i: In x l) 
+  : ([l1] -> [l2] -> ((Prop.Equal l (List.concat l1  (List.cons x  l2)))))
+In_split i = ?
+```
+
+Agora defina uma propriedade Repeats de forma que `Repeats <t> l` afirme que *l* contém pelo menos um elemento repetido (do tipo t).
+
+```rust, ignore
+type  Repeats <t> (l: List t) {
+  -- PREENCHA AQUI
+  RemoveMe' : Repeats [] -- necessário para verificação de tipo, os dados não devem estar vazios
+}
+```
+
+Essa prova é muito mais fácil se você usar a hipótese *excluded_middle* para mostrar que *In* é decidível, ou seja, `Either (In x l) (Not (In x l))`. No entanto, também é possível fazer a prova sem assumir que *In* é decidível; se você conseguir fazer isso, não precisará da hipótese *excluded_middle*.
+
+Aqui está uma maneira de formalizar o princípio da gaiola de pombos. Suponha que a lista *l2* represente uma lista de rótulos de gaiolas de pombos, e a lista *l1* represente os rótulos atribuídos a uma lista de itens. Se houver mais itens do que rótulos, pelo menos dois itens devem ter o mesmo rótulo - ou seja, a lista l1 deve conter repetições.
+
+```rust, ignore
+Pigeonhole_principle : 
+  (f: (x : t) -> In x l1 -> In x l2)
+  (prf: Lt (List.length l2) (List.length l1))
+  : Repeats l1
+pigeonhole_principle f prf = ?
+
+Excluded_middle : (p : Type) : Either p (Not p)
+```
+
+
