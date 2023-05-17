@@ -207,4 +207,101 @@ ev_even (Ev_SS e')
 
 ```
 
-### 2.3 Induction on Evidence
+
+### Induction on Evidence
+Se isso parece familiar, não é coincidência: encontramos problemas semelhantes no capítulo de Indução, ao tentar usar análise de casos para provar resultados que requeriam indução. E mais uma vez, a solução é... indução!
+
+<!--TL:DR O comportamento da indução sobre evidências é o mesmo que o seu comportamento sobre dados: 
+ela faz com que o Idris gere uma submeta para cada construtor que poderia ter sido usado para construir aquela evidência, ao mesmo tempo em que fornece uma hipótese de indução para cada ocorrência recursiva da propriedade em questão. -->
+
+Vamos tentar nosso lema atual novamente:
+```rust, ignore
+
+
+ev_even': Ev n ౏> (k ** n = double k)
+
+ev_even' Ev_0 = (Z ** Refl)
+
+ev_even' (Ev_SS e') =
+
+let
+
+(k ** prf) = ev_even e'
+
+cprf = cong {f=S} $ cong {f=S} prf
+
+in
+
+rewrite cprf in (S k ** Refl)
+```
+<!--TL:DR
+Aqui, podemos ver que o Idris produziu uma HI que corresponde a E', a única ocorrência recursiva de ev em sua própria definição. Como E' menciona n', a hipótese de indução fala sobre n', em oposição a n ou algum outro número. -->
+
+A equivalência entre as segunda e terceira definições de paridade agora segue.
+
+```rust,ignore 
+
+ev_even_iff: (Ev n) <౦> (k ** n = double k)
+
+ev_even_iff = (ev_even, fro)
+
+fro: (k ** n = double k) ౏> (Ev n)
+
+fro (k ** prf) = rewrite prf in ev_double {n=k}
+
+```
+
+Como veremos nos próximos capítulos, a indução sobre evidências é uma técnica recorrente em várias áreas, especialmente na formalização da semântica de linguagens de programação, onde muitas propriedades de interesse são definidas indutivamente.
+
+Os exercícios a seguir fornecem exemplos simples dessa técnica, para ajudá-lo a se familiarizar com ela.
+
+#### Ev_sum
+
+
+```rust,ignore 
+ev_sum: Ev n ౏> Ev m ౏> Ev (n + m)
+
+ev_sum x y = ?ev_sum_rhs
+
+```
+
+
+#### Ev_alternate 
+Em geral, pode haver várias maneiras de definir uma propriedade indutivamente. Por exemplo, aqui está uma definição alternativa (um pouco forçada) para Ev:
+
+```rust,ignore 
+
+data Ev' : Nat ౏> Type where
+
+Ev'_0 : Ev' Z
+
+Ev'_2 : Ev' 2
+
+Ev'_sum : Ev' n ౏> Ev' m ౏> Ev' (n + m)
+```
+
+
+Prove que essa definição é logicamente equivalente à antiga. (Você pode querer olhar para o teorema anterior quando chegar à etapa de indução.)
+
+```rust,ignore 
+ev'_ev: (Ev' n) <౦> Ev n
+ev'_ev = ?ev__ev_rhs
+
+```
+
+#### Ev_ev__ev 
+Encontrar a coisa apropriada para fazer a indução é um pouco complicado aqui:
+
+```rust,ignore 
+
+ev_ev__ev: Ev (n + m) ౏> Ev n ౏> Ev m
+```
+
+#### Ev_plus_plus 
+Este exercício requer apenas a aplicação de lemas existentes. Nenhuma indução ou até mesmo análise de casos é necessária, embora algumas das reescritas possam ser tediosas.
+
+```rust,ignore 
+ev_plus_plus: Ev (n + m) ౏> Ev (n + p) ౏> Ev (m + p)
+
+```
+
