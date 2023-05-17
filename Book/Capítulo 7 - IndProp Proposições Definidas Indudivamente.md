@@ -56,7 +56,7 @@ Essa definição é diferente em um aspecto crucial em relação aos usos anteri
 
 Por outro lado, a definição de*List* nomeia o parâmetro *x* globalmente, forçando o resultado de *Nil* e *Cons* a ser o mesmo `(List x)`. Se tivéssemos tentado omitir o tipo `n : Nat` ao definir *ev_ss*, teríamos visto um erro:
 
-```rust ignore
+```rust,ignore
 type Wrong_ev ~ (n: Nat){
   wrong_ev_0 : Ev Nat.zero
   wrong_ev_ss (pred: Ev n) : Ev (Nat.succ (Nat.succ n))
@@ -74,7 +74,7 @@ Com o seguinte retorno:
       │                            ┬                           ┬
       │                            │                           └Here!
       │                            └Here!
-   10 │    }
+   10 │    
 
 ```
 ("Parâmetro" aqui é jargão do Kind para um argumento à esquerda dos dois pontos em uma definição indutiva; "índice" é usado para se referir a argumentos à direita dos dois pontos.)
@@ -152,13 +152,59 @@ Intuitivamente, sabemos que a evidência para a hipótese não pode consistir ap
 
 A tática de inversão, por outro lado, pode detectar (1) que o primeiro caso não se aplica e (2) que o *n* que aparece no caso `Ev_SS` deve ser o mesmo que `n`. Isso nos permite concluir a prova.
 
-```rust ignore
+```rust, ignore
 Evss_ev n (Ev.ev_ss e) = e 
 ```
 
 Usando o pattern matching dependente, também podemos aplicar o princípio da explosão a hipóteses "obviamente contraditórias" que envolvem propriedades indutivas. Por exemplo:
 
-```rust ignore
+```rust, ignore
 One_not_even : Not (Ev 1n)
 
 ```
+
+### Inversion_practice
+
+Prove os seguintes resultados usando correspondência de padrões.
+
+```rust, ignore
+SSSSev__even: 
+```
+```rust, ignore
+even5_nonsense: 
+```
+
+A maneira como usamos a inversão aqui pode parecer um pouco misteriosa no início. Até agora, só usamos a inversão em proposições de igualdade para utilizar a injetividade dos construtores ou para discriminar entre diferentes construtores. Mas vemos aqui que a inversão também pode ser aplicada para analisar evidências de proposições definidas indutivamente.
+
+Aqui está como a inversão funciona em geral. Suponha que o nome **I** se refere a uma suposição **P** no contexto atual, onde **P** foi definido por uma declaração Indutiva. Então, para cada um dos construtores de **P**, a inversão de **I** gera uma submeta em que **I** foi substituído pelas condições exatas e específicas sob as quais este construtor poderia ter sido usado para provar **P**. Alguns desses submetas serão auto contraditórios; a inversão descarta esses. Aqueles que são deixados representam os casos que devem ser provados para estabelecer a meta original. Para estes, a inversão adiciona todas as equações ao contexto de prova que devem ser verdadeiras para os argumentos fornecidos a **P** (por exemplo, ``Nat.succ (Nat.succ k) = n`` na prova de evSS_ev).
+
+O exercício ev_double acima mostra que nossa nova noção de paridade é implicada pelas duas anteriores (uma vez que, por even_bool_prop no capítulo Lógica, já sabemos que elas são equivalentes entre si). Para mostrar que as três coincidem, nós apenas precisamos do seguinte lema:
+
+```rust, ignore
+
+ev_even: 
+```
+
+Procedemos por análise de casos em Ev n. O primeiro caso pode ser resolvido trivialmente.
+
+```rust, ignore
+
+ev_even Ev_0 =
+```
+mudar 
+Infelizmente, o segundo caso é mais difícil. Precisamos mostrar (k ** S (S n') = double k) ``Syntax sigma``, mas a única suposição disponível é ``e'``, que afirma que ``Ev n'`` é verdadeiro. Uma vez que isso não é diretamente útil, parece que estamos presos e que a análise de casos em ``Ev n ``foi uma perda de tempo.
+
+Se olharmos mais de perto para nosso segundo objetivo, no entanto, podemos ver que algo interessante aconteceu: ao realizar a análise de casos em ``Ev n``, fomos capazes de reduzir o resultado original a um semelhante que envolve uma evidência diferente para`` Ev n: e'``. Mais formalmente, podemos concluir nossa prova mostrando que
+
+```rust, ignore
+
+(k ** n = double k) // mudar 
+```
+
+o que é o mesmo que a declaração original, mas com ``n'`` em vez de ``n``. Na verdade, não é difícil convencer o Kind de que esse resultado intermediário é suficiente.
+```rust, ignore
+ev_even (Ev_SS e') 
+
+```
+
+### 2.3 Induction on Evidence
