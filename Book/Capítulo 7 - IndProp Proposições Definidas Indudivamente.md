@@ -463,8 +463,13 @@ FR_to_R (Data.Nat.succ m) Data.Nat.zero Data.Nat.zero eq = Data.Empty.absurd _ /
 FR_to_R (Data.Nat.succ m) (Data.Nat.succ n) Data.Nat.zero eq = Data.Empty.absurd _ // impossible
 ```
 
-#### 4
-```
+## Case Study: Regular Expressions 
+
+A propriedade Ev fornece um exemplo simples para ilustrar definições indutivas e as técnicas básicas para raciocinar sobre elas, mas não é muito empolgante - afinal, é equivalente às duas definições não indutivas de paridade que já vimos, e não parece oferecer nenhum benefício concreto sobre elas. Para dar uma melhor noção do poder das definições indutivas, vamos mostrar como usá-las para modelar um conceito clássico da ciência da computação: expressões regulares.
+
+Expressões regulares são uma linguagem simples para descrever strings, definidas da seguinte forma:
+
+```rust,ignore
 type Regexp (t: Type) {
     emptyset                              : Regexp t
     emptystr                              : Regexp t
@@ -473,7 +478,26 @@ type Regexp (t: Type) {
     union (st1: Regexp t) (st2: Regexp t) : Regexp t
     star  (st1: Regexp t)                 : Regexp t
   }
+```
 
+Observe que essa definição é polimórfica: expressões regulares em ``Reg_exp t`` descrevem strings com caracteres extraídos de ``t`` - ou seja, listas de elementos de ``t``.
+
+(Nós nos afastamos um pouco da prática padrão ao não exigir que o tipo t seja finito. Isso resulta em uma teoria um pouco diferente de expressões regulares, mas a diferença não é significativa para nossos propósitos.)
+
+Conectamos expressões regulares e strings por meio das seguintes regras, que definem quando uma expressão regular corresponde a alguma string:
+
+• A expressão EmptySet não corresponde a nenhuma string.
+• A expressão EmptyStr corresponde à string vazia [].
+• A expressão Chr x corresponde à string de um caractere [x].
+• Se re1 corresponde a s1 e re2 corresponde a s2, então (App re1 re2) corresponde a (App s1 s2).
+• Se pelo menos uma das expressões re1 e re2 corresponder a s, então Union re1 re2 corresponde a s.
+• Finalmente, se podemos escrever alguma string s como a concatenação de uma sequência de strings s = (App s_1 (App... s_k...)), e a expressão re corresponde a cada uma das strings s_i, então Star re corresponde a s.
+
+Como caso especial, a sequência de strings pode estar vazia, então Star re sempre corresponde à string vazia [] independentemente de qual seja re.
+
+Podemos facilmente traduzir essa definição informal em uma definição de dados da seguinte forma:
+
+```rust,ignore
 #derive[match]
 type Expmatch <t> ~(xs: Data.List t) (r: Regexp t) {
   mempty              : Expmatch t []   Regexp.emptystr 
@@ -507,15 +531,39 @@ type Expmatch <t> ~(xs: Data.List t) (r: Regexp t) {
     (e2: Expmatch s2 (Regexp.star r1))
     : Expmatch t (Data.List.concat s1 s2) (Regexp.star r1)
 }
+```
 
+<!-- Novamente, para legibilidade, também podemos exibir essa definição usando notação de regras de inferência. Ao mesmo tempo, vamos introduzir uma notação de infixa mais legível.
+
+-----------Latex
+
+Observe que essas regras não são exatamente as mesmas das informais que demos no início da seção. Primeiro, não precisamos incluir uma regra que declare explicitamente que nenhuma string corresponde a EmptySet; simplesmente não incluímos nenhuma regra que teria o efeito de alguma string corresponder a EmptySet. (De fato, a sintaxe das definições indutivas nem mesmo nos permite fornecer tal "regra negativa".) -->
+
+<!-- TL;DR Em segundo lugar, as regras informais para Union e Star correspondem a dois construtores cada: MUnionL / MUnionR e MStar0 / MStarApp. O resultado é logicamente equivalente às regras originais, 
+mas mais conveniente de usar no Idris, uma vez que as ocorrências recursivas de Exp_match são fornecidas como argumentos diretos para os construtores, facilitando a indução com base nas evidências. (Os exercícios exp_match_ex1 e exp_match_ex2 abaixo pedem para provar que os construtores dados na declaração indutiva e os que surgiriam de uma transcrição mais literal das regras informais são de fato equivalentes.) -->
+
+Vamos ilustrar essas regras com alguns exemplos.
+
+```rust,ignore
 Regexp_ex1 : Expmatch [1] (Regexp.chr 1)
 Regexp_ex1 = Expmatch.mchar 1 
 
 Regexp_ex2 : Expmatch [1, 2] (Regexp.app (Regexp.chr 1) (Regexp.chr 2))
 Regexp_ex2 = Expmatch.mapp [1] (Regexp.chr 1) (Expmatch.mchar 1) [2] (Regexp.chr 2) (Expmatch.mchar 2)
 
+```
+
+Usando correspondência de padrões, também podemos mostrar que certas strings não correspondem a uma expressão regular:
+
+```rust,ignore
 Regexp_ex3 : Prop.Not (Expmatch [1, 2] (Regexp.chr 1))
 Regexp_ex3 = Data.Empty.absurd _
+```
+
+Podemos definir funções auxiliares para ajudar a escrever expressões regulares. A função reg_exp_of_list constrói uma expressão regular que corresponde exatamente à lista que recebe como argumento:
+
+```rust,ignore
+
 
 Regexp_of_list <t> (xs: Data.List t)        : Regexp t
 Regexp_of_list t Data.List.nil              = Regexp.emptystr
@@ -546,6 +594,12 @@ Regexp_ex4 =
     )
   )
 
+
+```
+
+Também podemos provar fatos gerais sobre Exp_match. Por exemplo, o seguinte lema mostra que toda string s que corresponde a re também corresponde a Star re.
+
+```rust,ignore
 Mstar1 <t> <s: Data.List t> <re: Regexp t> (e: Expmatch s re) : Expmatch s (Regexp.star re)  
 Mstar1 t s re e = 
   let msz = Expmatch.mstarz re
@@ -554,17 +608,15 @@ Mstar1 t s re e =
   let rwt = Prop.Equal.rewrite lst (x => (Expmatch t x (Regexp.star re))) mss
   rwt
 
-List_concat <t> (xs: Data.List t)         : Prop.Equal (Data.List.concat xs Data.List.nil) xs
-List_concat t Data.List.nil               = Prop.Equal.refl
-List_concat t (Data.List.cons xs.h xs.t)  = 
-  let ind = List_concat t xs.t
-  let app = Prop.Equal.apply (x => Data.List.cons xs.h x) ind
-  app
-  ```
-  
-  
-  ##### 4.0.1
-  ```
+
+```
+(Obsere o uso de appendNilRightNeutral*** para alterar o objetivo do teorema para exatamente a mesma forma esperada por MStarApp.)
+
+
+#### Exp_match_ex1
+Os seguintes lemas mostram que as regras de correspondência informais fornecidas no início do capítulo podem ser obtidas a partir da definição indutiva formal.
+
+```rust,ignore
   Munion 
   <t> 
   <s: Data.List t> 
@@ -574,4 +626,184 @@ List_concat t (Data.List.cons xs.h xs.t)  =
   : Expmatch s (Regexp.union re1 re2)
 Munion t s re1 re2 (Data.Pair.new fst snd) = 
   Expmatch.munionl t s [] re1 re2
-  ```
+```
+
+O próximo lema é declarado em termos da função fold do capítulo Poly: Se ss: List (List t) representa uma sequência de strings s1, ..., sn, então fold (++) ss [] é o resultado da concatenação de todas elas.
+
+
+```rust,ignore
+
+fold:
+```
+
+#### Reg_exp_of_list
+
+Prove que reg_exp_of_list satisfaz a seguinte especificação:
+
+```rust,ignore
+
+reg_exp_of_list_spec:
+```
+
+Como a definição de Exp_match tem uma estrutura recursiva, é de se esperar que as provas envolvendo expressões regulares frequentemente exijam indução com base nas evidências. Por exemplo, suponha que quiséssemos provar o seguinte resultado intuitivo: se uma expressão regular re corresponde a alguma string s, então todos os elementos de s devem ocorrer em algum lugar de re. Para enunciar este teorema, primeiro definimos uma função re_chars que lista todos os caracteres que ocorrem em uma expressão regular:
+
+```rust,ignore
+
+re_chars:
+```
+
+Podemos então formular nosso teorema da seguinte forma:
+
+```rust,ignore
+
+destruct:
+```
+
+Algo interessante acontece no caso MStarApp. Obtemos duas hipóteses de indução: uma que se aplica quando x ocorre em s1 (o que corresponde a re) e uma segunda que se aplica quando x ocorre em s2 (o que corresponde a Star re). Isso ilustra por que precisamos da indução com base nas evidências para Exp_match, em oposição a re: este último forneceria apenas uma hipótese de indução para strings que correspondem a re, o que não nos permitiria raciocinar sobre o caso In x s2.
+
+```rust,ignore
+
+Left prf' ౬
+```
+
+4.0.3. Exercício: 4 estrelas (re_not_empty). Escreva uma função recursiva re_not_empty que testa se uma expressão regular corresponde a alguma string. Prove que sua função está correta.
+
+```rust,ignore
+
+re_not_empty
+```
+
+### The remember Tactic
+
+Reescrever a seção, o casamento de padrões dependentes resolve tudo isso.
+
+Uma característica potencialmente confusa da tática de indução é que ela permite facilmente que você tente configurar uma indução sobre um termo que não é suficientemente geral. O efeito disso é perder informações (assim como destruct pode fazer) e deixá-lo incapaz de concluir a prova. Aqui está um exemplo:
+
+```rust,ignore
+
+star_app:
+```
+
+Apenas fazer uma inversão em H1 não nos levará muito longe nos casos recursivos (tente!). Portanto, precisamos de indução. Aqui está uma primeira tentativa ingênua:
+
+```rust,ignore
+
+induction H1.
+as [|x'
+```
+
+
+
+Mas agora, embora tenhamos sete casos (como esperaríamos a partir da definição de Exp_match), perdemos uma informação muito importante de H1: o fato de que s1 correspondia a algo da forma Star re. Isso significa que temos que fornecer provas para todos os sete construtores dessa definição, embora todos, exceto dois deles (MStar0 e MStarApp), sejam contraditórios. Ainda é possível concluir a prova para alguns construtores, como MEmpty...
+
+(* MEmpty *) simpl. intros H. apply H.
+... mas a maioria dos casos fica parada. Por exemplo, para MChar, devemos mostrar que s2 => Char x' -> x' ௝௞ s2 => Char x', o que é claramente impossível.
+
+(* MChar. Stuck... *) Abort.
+O problema é que a indução sobre uma hipótese do tipo Type só funciona corretamente com hipóteses que são completamente gerais, isto é, aquelas em que todos os argumentos são variáveis, em oposição a expressões mais complexas, como Star re. (Nesse aspecto, a indução com base nas evidências se comporta mais como destruct do que como inversão.) Podemos resolver esse problema generalizando as expressões problemáticas com uma igualdade explícita:
+
+```rust,ignore
+Lemma star_app: forall
+
+```
+
+
+<!-- TL:DR
+Agora podemos prosseguir realizando a indução diretamente com base nas evidências, porque o argumento da primeira hipótese é suficientemente geral, o que significa que podemos descartar a maioria dos casos invertendo a igualdade re' = Star re no contexto. Esse padrão é tão comum que o Idris fornece uma tática para gerar automaticamente tais equações para nós, evitando assim a necessidade de alterar as declarações de nossos teoremas. -->
+
+Invocar a tática remember e as x faz com que o Idris (1) substitua todas as ocorrências da expressão e pela variável x e (2) adicione uma equação x = e ao contexto.
+
+Veja como podemos usá-la para mostrar o resultado acima:
+
+Abort.
+
+```rust,ignore
+
+Lemma star_app: forall
+```
+
+.
+
+intros T s1 s2 re H1.
+
+remember (Star re) as re'.
+
+Agora temos Heqre' : re' = Star re.
+
+generalize dependent s2.
+
+induction H1
+
+as
+
+A Heqre' é contraditória na maioria dos casos, o que nos permite concluir imediatamente.
+
+(* MEmpty *) inversion Heqre'.
+
+(* MChar *) inversion Heqre'.
+
+(* MApp *) inversion Heqre'.
+
+(* MUnionL *) inversion Heqre'.
+
+(* MUnionR *) inversion Heqre'.
+
+Os casos interessantes são aqueles que correspondem a Star. Note que a hipótese de indução IH2 no caso MStarApp menciona uma premissa adicional Star re" = Star re', que resulta da igualdade gerada pelo remember.
+
+(* MStar0 *)
+inversion Heqre'. intros s H. apply H.
+
+(* MStarApp *)
+inversion Heqre'. rewrite H0 in IH2, Hmatch1.
+
+intros s2 H1. rewrite <౐ app_assoc.
+
+apply MStarApp.
+
+apply Hmatch1.
+
+apply IH2.
+
+reflexivity.
+
+apply H1.
+
+Qed.
+
+#### Exp_match_ex2
+O lema MStar'' abaixo (junto com o seu inverso, o exercício MStar' acima), mostra que a nossa definição de Exp_match para Star é equivalente àquela informalmente dada anteriormente.
+
+#### pumping
+Um dos primeiros teoremas realmente interessantes na teoria das expressões regulares é o chamado lema do bombeamento, que afirma, informalmente, que qualquer string suficientemente longa s que corresponde a uma expressão regular re pode ser "bombeada" repetindo alguma seção do meio de s um número arbitrário de vezes para produzir uma nova string também correspondente a re.
+
+Para começar, precisamos definir o que significa "suficientemente longa". Uma vez que estamos trabalhando em uma lógica construtiva, na verdade precisamos ser capazes de calcular, para cada expressão regular re, o comprimento mínimo para as strings s garantirem a "bombeabilidade".
+
+
+```rust,ignore
+
+pumping_constant :
+```
+
+
+Em seguida, é útil definir uma função auxiliar que repete uma string (anexa a si mesma) um certo número de vezes.
+
+```rust,ignore
+napp :
+
+```
+
+
+Agora, o próprio lema do bombeamento afirma que, se s => re e se o comprimento de s for pelo menos a constante de bombeamento de re, então s pode ser dividida em três substrings s1 ++ s2 ++ s3 de tal forma que s2 pode ser repetida qualquer número de vezes e o resultado, quando combinado com s1 e s3, ainda corresponderá a re. Como s2 também está garantida a não ser a string vazia, isso nos dá uma maneira (construtiva!) de gerar strings correspondentes a re que são tão longas quanto desejarmos.
+
+```rust,ignore
+
+pumping :
+```
+
+
+Para agilizar a prova (que você deve preencher), a tática omega, que é habilitada pelo Require a seguir, é útil em vários lugares para completar automaticamente argumentos tediosos de baixo nível envolvendo igualdades ou desigualdades sobre números naturais. Voltaremos à tática omega em um capítulo posterior, mas sinta-se à vontade para experimentá-la agora, se quiser. O primeiro caso da indução dá um exemplo de como ela é usada.
+
+```rust,ignore
+
+pumping m le = ?pumping_rhs
+```
