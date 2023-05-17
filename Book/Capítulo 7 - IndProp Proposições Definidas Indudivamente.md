@@ -305,3 +305,164 @@ ev_plus_plus: Ev (n + m) ౏> Ev (n + p) ౏> Ev (m + p)
 
 ```
 
+#### 3.1.3. Exercise: 3 stars, recommended (R_provability)
+
+We can define threeplace relations, four-place relations, etc., in just the same way as binary relations.
+
+For example, consider the following three-place relation on numbers:
+```rust,ignore 
+type R ~ (a: Data.Nat) (b: Data.Nat) (c: Data.Nat) {
+  C1 : R 0n 0n 0n
+  C2 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R m n o) :
+    R (Data.Nat.succ m) n (Data.Nat.succ o)
+  C3 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R m n o) :
+    R m (Data.Nat.succ n) (Data.Nat.succ o)
+  C4 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R (Data.Nat.succ m) (Data.Nat.succ n) (Data.Nat.succ (Data.Nat.succ o))) :
+    R m n o
+  C5 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R m n o) :
+    R m n o
+}
+```
+Which of the following propositions are provable?
+• R 1n 1n 2n
+• R 2n 2n 6n
+• If we dropped constructor C5 from the definition of R, would the set of
+provable propositions change? Briefly (1 sentence) explain your answer.
+• If we dropped constructor C4 from the definition of R, would the set of
+provable propositions change? Briefly (1 sentence) explain your answer.
+
+// Solution(ommitted)
+```rust,ignore 
+type R ~ (a: Data.Nat) (b: Data.Nat) (c: Data.Nat) {
+  C1 : R 0n 0n 0n
+  C2 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R m n o) :
+    R (Data.Nat.succ m) n (Data.Nat.succ o)
+  C3 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R m n o) :
+    R m (Data.Nat.succ n) (Data.Nat.succ o)
+  C4 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R (Data.Nat.succ m) (Data.Nat.succ n) (Data.Nat.succ (Data.Nat.succ o))) :
+    R m n o
+  C5 <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+    (r: R m n o) :
+    R m n o
+}
+
+R_1_1_2 : R 1n 1n 2n
+R_1_1_2 = R.C3 (R.C2 R.C1)
+
+R_2_2_6 : Prop.Not (R 2n 2n 6n)
+R_2_2_6 = Data.Empty.absurd _ // TODO
+
+// If we dropped constructor C5 from the definition of R, would the set of provable propositions change? Briefly (1 sentence) explain your answer.
+// No, because C5 acts like an identity function, it won't change the proposition.
+
+// If we dropped constructor C4 from the definition of R, would the set of provable propositions change? Briefly (1 sentence) explain your answer.
+// No, because C4 acts like an inverse to C2 and C3, whenever those two are applied:
+// C4 C2 C2 C3 C2 : R 2 0 2
+// is the same as undoing the C4, C2 and C3
+// C2 C2 : R 2 0 2
+```
+
+#### 3.1.4. Exercise: 3 stars, optional (R_fact).
+The relation R above actually encodes a familiar function. Figure out which function; then state and prove this equivalence in Kind
+  
+```rust,ignore
+F_R (m: Data.Nat) (n: Data.Nat) : Data.Nat
+F_R m n = ?
+
+R_equiv_fR (m: Data.Nat) (n: Data.Nat) (o: Data.Nat) : Equiv (R m n o) (Prop.Equal (F_R m n) o)
+R_equiv_fR m n o = ?
+```
+
+<!-- Solution(ommited) -->
+```rust,ignore 
+record Equiv (p) (q) {
+  lft: p -> q 
+  rgt: q -> p
+}
+
+Equiv.mirror <p> <q> (e: Equiv p q) : Equiv q p
+Equiv.mirror p q (Equiv.new lft rgt) = (Equiv.new rgt lft)
+
+Equiv.refl <p> : Equiv p p
+Equiv.refl p = (Equiv.new p p (p => p) (p => p))
+
+F_R (m: Data.Nat) (n: Data.Nat) : Data.Nat
+F_R m n = Data.Nat.add m n
+
+R_equiv_fR (m: Data.Nat) (n: Data.Nat) (o: Data.Nat) : Equiv (R m n o) (Prop.Equal (F_R m n) o)
+R_equiv_fR m n o = Equiv.new (r => R_to_FR r) (eq => FR_to_R eq)
+
+R_to_FR
+  <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+  (r: R m n o) :
+  (Prop.Equal (F_R m n) o)
+R_to_FR m n o R.C1 =
+  let eq0 = Prop.Equal.refl :: Prop.Equal (Data.Nat.add m n) (Data.Nat.add m n)
+  let eq1 = Prop.Equal.refl :: Prop.Equal m 0n
+  let eq2 = Prop.Equal.refl :: Prop.Equal 0n o
+  let eq3 = Prop.Equal.rewrite eq1 (x => Prop.Equal (Data.Nat.add m n) (Data.Nat.add x n)) eq0
+  let eq4 = Prop.Equal.rewrite eq2 (x => Prop.Equal (Data.Nat.add m n) x) eq3
+  eq4
+  R_to_FR m n o (R.C2 m_ _ o_ r_) =
+  let ind = R_to_FR m_ n o_ r_
+  let add_succ_eq = Add_succ_eq ind
+  let prf = Prop.Equal.rewrite (Succ_add_eq_add_succ m m_ n (Prop.Equal.refl)) (x => Prop.Equal x o) add_succ_eq
+  prf
+R_to_FR m n o (R.C3 _ n_ o_ r_) =
+  let ind = R_to_FR m n_ o_ r_
+  let app = Prop.Equal.apply (x => Data.Nat.succ x) ind
+  let eq0 = Prop.Equal.mirror (Data.Nat.add.comm.succ m n_)
+  let aux = Prop.Equal.rewrite eq0 (x => Prop.Equal _ x o) app
+  aux
+R_to_FR m n o (R.C4 r_) =
+  let ind = R_to_FR r_
+  let app = Prop.Equal.apply (x => Data.Nat.pred x) ind
+  let eq0 = (Data.Nat.add.comm.succ m n)
+  let aux = Prop.Equal.rewrite eq0 (x => Prop.Equal _ x (Data.Nat.succ o)) app
+  let prf = Prop.Equal.apply (x => Data.Nat.pred x) aux
+  prf
+R_to_FR m n o (R.C5 r) = R_to_FR r
+
+Succ_add_eq_add_succ (m: Data.Nat) (m_: Data.Nat) (n: Data.Nat)
+  (eq: Prop.Equal m (Data.Nat.succ m_)) :
+  (Prop.Equal Data.Nat
+    (Data.Nat.succ (Data.Nat.add m_ n))
+    (Data.Nat.add m n))
+    Succ_add_eq_add_succ m m_ n eq =
+ let app = Prop.Equal.apply (x => Data.Nat.add x n) eq
+ let mir = Prop.Equal.mirror app
+ mir
+
+Add_succ_eq
+  <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+  (eq: Prop.Equal (Data.Nat.add m n) o) :
+  Prop.Equal (Data.Nat.add (Data.Nat.succ m) n) (Data.Nat.succ o)
+Add_succ_eq m n o eq =
+  let app = Prop.Equal.apply (x => Data.Nat.succ x) eq
+  app
+
+FR_to_R
+  <m: Data.Nat> <n: Data.Nat> <o: Data.Nat>
+  (eq: Prop.Equal (F_R m n) o) :
+  R m n o
+FR_to_R Data.Nat.zero Data.Nat.zero Data.Nat.zero eq = R.C1
+FR_to_R (Data.Nat.succ m) n (Data.Nat.succ o) eq =
+let ind = FR_to_R m n o (Prop.Equal.apply (x => Data.Nat.pred x) eq)
+  R.C2 ind
+FR_to_R m (Data.Nat.succ n) (Data.Nat.succ o) eq =
+let eq0 = (Data.Nat.add.comm.succ m n)
+  let aux = Prop.Equal.rewrite eq0 (x => Prop.Equal _ x (Data.Nat.succ o)) eq
+  let ind = FR_to_R m n o (Prop.Equal.apply (x => Data.Nat.pred x) aux)
+  R.C3 ind
+FR_to_R Data.Nat.zero Data.Nat.zero (Data.Nat.succ o) eq = Data.Empty.absurd _ // impossible
+FR_to_R Data.Nat.zero (Data.Nat.succ n) Data.Nat.zero eq = Data.Empty.absurd _ // impossible
+FR_to_R (Data.Nat.succ m) Data.Nat.zero Data.Nat.zero eq = Data.Empty.absurd _ // impossible
+FR_to_R (Data.Nat.succ m) (Data.Nat.succ n) Data.Nat.zero eq = Data.Empty.absurd _ // impossible
+```
