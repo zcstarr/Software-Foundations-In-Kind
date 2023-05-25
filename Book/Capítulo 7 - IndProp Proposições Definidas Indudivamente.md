@@ -693,8 +693,18 @@ Munion t s re1 re2 (Pair.new fst snd) =
 O próximo lema é declarado em termos da função fold do capítulo Poly: Se ss: List (List t) representa uma sequência de strings s1, ..., sn, então fold (++) ss [] é o resultado da concatenação de todas elas.
 
 ```rust,ignore
+Fold <x> <y> (f: x -> y -> y) (l: Data.List x) (b: y) : y
+Fold x y f Data.List.nil b = b
+Fold x y f (Data.List.cons xs.h xs.t) b = f xs.h (Fold f xs.t b) 
 
-fold:
+MStar_ <t>
+  (ss : Data.List (Data.List t))
+  (re : Regexp t)
+
+  (construct_match : (s : Data.List t) -> (i : In s ss) -> Expmatch s re)
+  : Expmatch (Concats ss) (Regexp.star re)
+MStar_ ss re construct_match = ?¬
+
 ```
 
 #### Reg_exp_of_list
@@ -730,8 +740,13 @@ Left prf' ౬
 4.0.3. Exercício: 4 estrelas (re_not_empty). Escreva uma função recursiva re_not_empty que testa se uma expressão regular corresponde a alguma string. Prove que sua função está correta.
 
 ```rust,ignore
+Re_not_empty <t> (re: Regexp t)   : Data.Bool
+Re_not_empty t re = ?
 
-re_not_empty
+Re_not_empty_correct <t> <re: Regexp t> 
+: Equivalence (Data.Sigma (Data.List t) (s => Expmatch s re)) (Prop.Equal (Re_not_empty re) Data.Bool.true)
+Re_not_empty_correct t re = ?
+
 ```
 
 ### The remember Tactic
