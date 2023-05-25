@@ -41,6 +41,12 @@
   - [Aplicando Teoremas a Argumentos](Book/chapter_06/6,5.md)
   - [Kind vs Teoria dos Conjuntos](Book/chapter_06/6,6.md)
   - [Lógica Clássica vs. Lógica Construtiva](Book/chapter_06/6,7.md)
+- [Proposições Definidas Indutivamente](Book/chapter_07/7.md)
+  - [Usando evidências em provas](./Book/chapter_07/7.1.md)
+  - [Inductive Relations](./Book/chapter_07/7.2.md)
+  - [Case Study: Regular Expressions](./Book/chapter_07/7.3.md)
+  - [Estudo de Caso: Melhorando a Reflexão](Book/chapter_07/7.4.md)
+  - [Exercícios adicionais](Book/chapter_07/7.5.md)
 
 -----------
 

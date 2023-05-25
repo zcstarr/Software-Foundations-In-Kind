@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Usando evidências em provas</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introdução</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Comecando.html"><strong aria-hidden="true">1.</strong> Começando</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/sobre.html"><strong aria-hidden="true">1.1.</strong> Kind</a></li><li class="chapter-item expanded "><a href="../../guide/instalacao.html"><strong aria-hidden="true">1.2.</strong> Instalação</a></li><li class="chapter-item expanded "><a href="../../cli/hello.html"><strong aria-hidden="true">1.3.</strong> Olá Mundo!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Olá Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Básico: Introdução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Tipos Enumerados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Dias da semana</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleanos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Tipos de função</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Módulos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Prova por Simplificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Prova por aplicação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Prova por análise de casos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Prova por Reescrita</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain e Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> Mais exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Indução: Prova por Indução</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercícios</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> Mais Exercícios</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Estrutura de dados</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Listas de números</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Raciocínio sobre listas</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polimorfismo</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Funções como dados</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Exercícios adicionais</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Lógica em Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Conectivos Lógicos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsidade e Negação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Verdade, Equivalência e Quantificação</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programação com proposições</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Aplicando Teoremas a Argumentos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Teoria dos Conjuntos</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,7.html"><strong aria-hidden="true">6.7.</strong> Lógica Clássica vs. Lógica Construtiva</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.html"><strong aria-hidden="true">7.</strong> Proposições Definidas Indutivamente</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.1.html" class="active"><strong aria-hidden="true">7.1.</strong> Usando evidências em provas</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.2.html"><strong aria-hidden="true">7.2.</strong> Inductive Relations</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.3.html"><strong aria-hidden="true">7.3.</strong> Case Study: Regular Expressions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.4.html"><strong aria-hidden="true">7.4.</strong> Estudo de Caso: Melhorando a Reflexão</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.5.html"><strong aria-hidden="true">7.5.</strong> Exercícios adicionais</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contribuidores.html">Contribuidores</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="usando-evidências-em-provas"><a class="header" href="#usando-evidências-em-provas">Usando evidências em provas</a></h2>
+<p>Além de construir evidências de que os números são pares, também podemos raciocinar sobre tais evidências. Introduzir <em>Ev</em> com uma declaração de dados diz ao <em>Kind</em> não apenas que os construtores <code>ev_z</code> e <code>ev_ss</code> são formas válidas de construir evidências de que algum número é par, mas também que esses dois construtores são as únicas maneiras de construir evidências de que os números são pares (no sentido de <em>Ev</em>).</p>
+<p>Em outras palavras, se alguém nos dá uma evidência e para a afirmação Ev n, então sabemos que e deve ter uma das duas formas:</p>
+<ul>
+<li><code>e</code> é <code>ev_z</code> (e <em>n</em> é Nat.zero), ou</li>
+<li><code>e</code> é <code>ev_ss</code> aplicando a indução com <code>n</code>  e ele é igual ao sucessor do sucessor do <code>n</code>*.</li>
+</ul>
+<h6 id="nota-já-usamos-essa-estratégia-antes-relembre-do-exercícioproblemst3-do-capítulo-de-indução-aqui-a-diferença-é-que-há-apenas-um-natsucc-a-mais-na-nossa-indução"><a class="header" href="#nota-já-usamos-essa-estratégia-antes-relembre-do-exercícioproblemst3-do-capítulo-de-indução-aqui-a-diferença-é-que-há-apenas-um-natsucc-a-mais-na-nossa-indução"><em>Nota: Já usamos essa estratégia antes, relembre do exercício</em>Problems.t3* do capítulo de indução, aqui a diferença é que há apenas um &quot;Nat.succ&quot; a mais na nossa indução</a></h6>
+<p>Isso sugere que deve ser possível analisar uma hipótese da forma <code>Ev n</code> da mesma forma que fazemos com estruturas de dados definidas de forma indutiva; em particular, deve ser possível argumentar por <em>indução</em> e <em>análise de casos</em> sobre essa evidência. Vamos ver alguns exemplos para ver o que isso significa na prática.</p>
+<h3 id="pattern-matching--nas-evidências"><a class="header" href="#pattern-matching--nas-evidências">Pattern Matching  nas evidências</a></h3>
+<p>Suponha que estamos provando algum fato envolvendo um número <em>n</em> e nos é dada a hipótese <code>Ev n</code>. Já sabemos como realizar a <em>análise de casos</em> em <em>n</em> usando a tática de inversão, gerando submetas separadas para o caso em que <code>n = Nat.zero</code> e o caso em que <code>n = Nat.succ n</code> para algum <em>n</em>. Mas para algumas provas, podemos querer analisar diretamente a evidência de que <code>Ev n</code> é verdadeiro.</p>
+<p>Pela definição de <em>Ev</em>, existem dois casos a considerar:</p>
+<ul>
+<li>Se a evidência for da forma <code>ev_z</code>, sabemos que <code>n = Nat.zero</code>.</li>
+<li>Caso contrário, a evidência deve ter a forma <code>ev_ss n e</code>, onde <code>n = Nat.succ (Nat.succ n)</code> e <code>e</code> é a evidência para <code>Ev n</code>.</li>
+</ul>
+<p>Podemos realizar esse tipo de raciocínio em Kind, novamente usando o <em>pattern matching</em>. Além de permitir que raciocinemos sobre igualdades envolvendo construtores, a inversão fornece um princípio de análise de casos para proposições definidas de forma indutiva. <!-- Quando usada dessa forma, sua sintaxe é semelhante à da função destruct: passamos a ela uma lista de identificadores separados por caracteres | para nomear os argumentos de cada um dos possíveis construtores.--></p>
+<pre><code class="language-rust ignore">Ev_minus2 (n: Nat) (e: Ev n) : Ev (Nat.pred (Nat.pred n))
+Ev_minus2 Nat.zero e = e
+Ev_minus2 (Nat.succ Nat.zero) e = Ev.ev_z
+Ev_minus2 (Nat.succ (Nat.succ n)) (Ev.ev_ss e) = e</code></pre>
+<p>Em palavras, aqui está como o raciocínio de <em>pattern matching</em> funciona nesta prova:</p>
+<ul>
+<li>Se a evidência for da forma <code>ev_z</code>, sabemos que <code>n = Nat.zero</code>. Portanto, é suficiente
+mostrar que <code>Ev (Nat.pred (Nat.pred Nat.zero))</code> é válido. Pela definição de <code>Nat.pred</code>, isso é
+equivalente a mostrar que <code>Ev Z</code> é válido, o que segue diretamente de <code>ev_0</code>.</li>
+<li>Caso contrário, a evidência deve ter a forma <code>ev_ss n e</code>, onde
+<code>n = Nat.succ (Nat.succ n)</code> e <code>e</code> é a evidência para <code>Ev n</code>. Devemos então mostrar que
+<code>Ev (Nat.pred (Nat.pred (Nat.succ (Nat.succ n))))</code> é válido, o que, após simplificação, segue
+diretamente de <code>e</code>.</li>
+</ul>
+<p>Suponha que quiséssemos provar a seguinte variação de <em>Ev_minus2</em>:</p>
+<pre><code class="language-rust ignore">Evss_ev (n: Nat) (e: Ev (Nat.succ (Nat.succ n))) : Ev n</code></pre>
+<p>Intuitivamente, sabemos que a evidência para a hipótese não pode consistir apenas do construtor <code>ev_z</code>, uma vez que <code>Nat.zero</code> e <code>Nat.succ</code> são construtores diferentes do tipo <em>Nat</em>; portanto, <code>ev_ss</code> é o único caso que se aplica. Infelizmente, o <em>pattern matching</em> não é inteligente o suficiente para perceber isso e ainda gera duas submetas. Ainda pior, ao fazê-lo, mantém a meta final inalterada, deixando de fornecer qualquer informação útil para completar a prova.</p>
+<p>A tática de inversão, por outro lado, pode detectar (1) que o primeiro caso não se aplica e (2) que o <em>n</em> que aparece no caso <code>Ev_SS</code> deve ser o mesmo que <code>n</code>. Isso nos permite concluir a prova.</p>
+<pre><code class="language-rust  ignore">Evss_ev n (Ev.ev_ss e) = e </code></pre>
+<p>Usando o pattern matching dependente, também podemos aplicar o princípio da explosão a hipóteses &quot;obviamente contraditórias&quot; que envolvem propriedades indutivas. Por exemplo:</p>
+<pre><code class="language-rust  ignore">One_not_even : Not (Ev 1n)
+</code></pre>
+<h3 id="inversion_practice"><a class="header" href="#inversion_practice">Inversion_practice</a></h3>
+<p>Prove os seguintes resultados usando correspondência de padrões.</p>
+<pre><code class="language-rust  ignore">Ssssev__even (n: Data.Nat) (e: Ev (Data.Nat.succ (Data.Nat.succ (Data.Nat.succ (Data.Nat.succ n))))) : Ev n
+Ssssev__even n e = ?
+
+Even5_nonsense (e: Ev 5n) : Prop.Equal (Data.Nat.add 2n 2n) 9n
+Even5_nonsense e = ?</code></pre>
+<p>A maneira como usamos a inversão aqui pode parecer um pouco misteriosa no início. Até agora, só usamos a inversão em proposições de igualdade para utilizar a injetividade dos construtores ou para discriminar entre diferentes construtores. Mas vemos aqui que a inversão também pode ser aplicada para analisar evidências de proposições definidas indutivamente.</p>
+<p>Aqui está como a inversão funciona em geral. Suponha que o nome <strong>I</strong> se refere a uma suposição <strong>P</strong> no contexto atual, onde <strong>P</strong> foi definido por uma declaração Indutiva. Então, para cada um dos construtores de <strong>P</strong>, a inversão de <strong>I</strong> gera uma submeta em que <strong>I</strong> foi substituído pelas condições exatas e específicas sob as quais este construtor poderia ter sido usado para provar <strong>P</strong>. Alguns desses submetas serão auto contraditórios; a inversão descarta esses. Aqueles que são deixados representam os casos que devem ser provados para estabelecer a meta original. Para estes, a inversão adiciona todas as equações ao contexto de prova que devem ser verdadeiras para os argumentos fornecidos a <strong>P</strong> (por exemplo, <code>Nat.succ (Nat.succ k) = n</code> na prova de evSS_ev).</p>
+<p>O exercício ev_double acima mostra que nossa nova noção de paridade é implicada pelas duas anteriores (uma vez que, por even_bool_prop no capítulo Lógica, já sabemos que elas são equivalentes entre si). Para mostrar que as três coincidem, nós apenas precisamos do seguinte lema:</p>
+<pre><code class="language-rust  ignore">Ev_even
+  (n: Data.Nat)
+  (e: Ev n) :
+  (Data.Sigma Data.Nat(k =&gt; Prop.Equal n ( Data.Nat.double k)))
+Ev_even n e = ?</code></pre>
+<p>Procedemos por análise de casos em Ev n. O primeiro caso pode ser resolvido trivialmente.</p>
+<pre><code class="language-rust  ignore">Ev_even Data.Nat.zero e = Data.Sigma.new 0n Prop.Equal.refl</code></pre>
+<pre><code>                                                            &lt;!-- mudar --&gt;
+</code></pre>
+<p>Infelizmente, o segundo caso é mais difícil. Precisamos mostrar (k ** S (S n') = double k) <code>Syntax sigma</code>, mas a única suposição disponível é <code>e'</code>, que afirma que <code>Ev n'</code> é verdadeiro. Uma vez que isso não é diretamente útil, parece que estamos presos e que a análise de casos em <code>Ev n</code>foi uma perda de tempo.</p>
+<pre><code class="language-rust  ignore">Ev_even (Data.Nat.succ Data.Nat.zero) e = Data.Empty.absurd _ //todo</code></pre>
+<p>Se olharmos mais de perto para nosso segundo objetivo, no entanto, podemos ver que algo interessante aconteceu: ao realizar a análise de casos em <code>Ev n</code>, fomos capazes de reduzir o resultado original a um semelhante que envolve uma evidência diferente para<code>Ev n: e'</code>. Mais formalmente, podemos concluir nossa prova mostrando que</p>
+<pre><code class="language-rust  ignore">Ev_even (Data.Nat.succ (Data.Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n e)</code></pre>
+<p>o que é o mesmo que a declaração original, mas com <code>n'</code> em vez de <code>n</code>. Na verdade, não é difícil convencer o Kind de que esse resultado intermediário é suficiente.</p>
+<pre><code class="language-rust  ignore">Ev_even (Nat.succ (Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n e)</code></pre>
+<h3 id="induction-on-evidence"><a class="header" href="#induction-on-evidence">Induction on Evidence</a></h3>
+<p>Se isso parece familiar, não é coincidência: encontramos problemas semelhantes no capítulo de Indução, ao tentar usar análise de casos para provar resultados que requeriam indução. E mais uma vez, a solução é... indução!</p>
+<!--TL:DR O comportamento da indução sobre evidências é o mesmo que o seu comportamento sobre dados: 
+ela faz com que o Kind gere uma submeta para cada construtor que poderia ter sido usado para construir aquela evidência, ao mesmo tempo em que fornece uma hipótese de indução para cada ocorrência recursiva da propriedade em questão. -->
+<p>Vamos tentar nosso lema atual novamente:</p>
+<pre><code class="language-rust  ignore">Ev_even
+  (n: Nat)
+  (e: Ev n) :
+  (Sigma Nat(k =&gt; Equal n ( Nat.double k)))
+Ev_even Nat.zero e = Sigma.new 0n Equal.refl
+Ev_even (Nat.succ Nat.zero) e = Empty.absurd _
+Ev_even (Nat.succ (Nat.succ n)) (Ev.ev_ss e) = Ev_even_ss n (Ev_even n e)
+// Ev_even (Nat.succ (Nat.succ n)) Ev.ev_z = Caso impossível</code></pre>
+<!--TL:DR
+Aqui, podemos ver que o Kind produziu uma HI que corresponde a E', a única ocorrência recursiva de ev em sua própria definição. Como E' menciona n', a hipótese de indução fala sobre n', em oposição a n ou algum outro número. -->
+<p>A equivalência entre as segunda e terceira definições de paridade agora segue.</p>
+<pre><code class="language-rust ignore">
+Ev_even_equiv (n: Nat)  : Equivalence (Ev n) (Sigma Nat (k =&gt; Equal n (Nat.double k)))
+Ev_even_equiv n         = Equivalence.new (x =&gt; Ev_even n x) (y =&gt; From_eee n y)
+
+From_eee (n: Nat) (s: Sigma Nat (k =&gt; Equal n (Nat.double k))) : Ev n
+From_eee n (Sigma.new a b fst snd) =
+  Equal.rewrite (Equal.mirror (specialize b into #0 in snd)) (x =&gt;(Ev x)) (Ev_double fst)
+
+Ev_double (n: Nat)      : Ev (Nat.double n)
+Ev_double Nat.zero      = Ev.ev_z
+Ev_double (Nat.succ n)  = Ev.ev_ss (Ev_double n)
+</code></pre>
+<p>Como veremos nos próximos capítulos, a indução sobre evidências é uma técnica recorrente em várias áreas, especialmente na formalização da semântica de linguagens de programação, onde muitas propriedades de interesse são definidas indutivamente.</p>
+<p>Os exercícios a seguir fornecem exemplos simples dessa técnica, para ajudá-lo a se familiarizar com ela.</p>
+<h4 id="ev_sum"><a class="header" href="#ev_sum">Ev_sum</a></h4>
+<pre><code class="language-rust ignore">Ev_sum (n: Nat) (m: Nat) (e1: Ev n) (e2: Ev m) : Ev (Nat.add n m)
+Ev_sum n m e1 e2 = ?
+</code></pre>
+<h4 id="ev_alternate"><a class="header" href="#ev_alternate">Ev_alternate</a></h4>
+<p>Em geral, pode haver várias maneiras de definir uma propriedade indutivamente. Por exemplo, aqui está uma definição alternativa (um pouco forçada) para Ev:</p>
+<pre><code class="language-rust ignore">type Evn ~ (n: Nat){
+  z : Evn Nat.zero
+  d : Evn (Nat.succ (Nat.succ Nat.zero))
+  sum &lt;n : Nat&gt; &lt;m: Nat&gt; (evn: Evn n) (evm: Evn m) : Evn (Nat.add n m)
+} </code></pre>
+<p>Prove que essa definição é logicamente equivalente à antiga. (Você pode querer olhar para o teorema anterior quando chegar à etapa de indução.)</p>
+<pre><code class="language-rust ignore">Ev_evn (n: Nat): Equivalence (Ev n) (Evn n)
+Ev_evn n = ?
+</code></pre>
+<h4 id="ev_ev__ev"><a class="header" href="#ev_ev__ev">Ev_ev__ev</a></h4>
+<p>Encontrar a coisa apropriada para fazer a indução é um pouco complicado aqui:</p>
+<pre><code class="language-rust ignore">
+Ev_ev_ev (n: Nat) (m: Nat) (e: Ev (Nat.add n m)) (en: Ev n) : Ev m
+Ev_ev_ev Nat.zero m e en = ?</code></pre>
+<h4 id="ev_plus_plus"><a class="header" href="#ev_plus_plus">Ev_plus_plus</a></h4>
+<p>Este exercício requer apenas a aplicação de lemas existentes. Nenhuma indução ou até mesmo análise de casos é necessária, embora algumas das reescritas possam ser tediosas.</p>
+<pre><code class="language-rust ignore">Ev_pp 
+  &lt;n: Nat&gt; 
+  &lt;m: Nat&gt; 
+  &lt;p: Nat&gt; 
+  (e1: Ev (Nat.add n m))
+  (e2: Ev (Nat.add n p))
+  : Ev (Nat.add m p)
+Ev_pp Nat.zero m p e1 e2 =
+``</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Book/chapter_07/7.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../Book/chapter_07/7.2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Book/chapter_07/7.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../Book/chapter_07/7.2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

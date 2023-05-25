@@ -700,7 +700,6 @@ Fold x y f (Data.List.cons xs.h xs.t) b = f xs.h (Fold f xs.t b)
 MStar_ <t>
   (ss : Data.List (Data.List t))
   (re : Regexp t)
-
   (construct_match : (s : Data.List t) -> (i : In s ss) -> Expmatch s re)
   : Expmatch (Concats ss) (Regexp.star re)
 MStar_ ss re construct_match = ?¬
@@ -784,64 +783,6 @@ Lemma star_app: forall
 <!-- TL:DR
 Agora podemos prosseguir realizando a indução diretamente com base nas evidências, porque o argumento da primeira hipótese é suficientemente geral, o que significa que podemos descartar a maioria dos casos invertendo a igualdade re' = Star re no contexto. Esse padrão é tão comum que o Kind fornece uma tática para gerar automaticamente tais equações para nós, evitando assim a necessidade de alterar as declarações de nossos teoremas. -->
 
-Invocar a tática remember e as x faz com que o Kind (1) substitua todas as ocorrências da expressão e pela variável x e (2) adicione uma equação x = e ao contexto.
-
-Veja como podemos usá-la para mostrar o resultado acima:
-
-Abort.
-
-```rust,ignore
-
-Lemma star_app: forall
-```
-
-.
-
-intros T s1 s2 re H1.
-
-remember (Star re) as re'.
-
-Agora temos Heqre' : re' = Star re.
-
-generalize dependent s2.
-
-induction H1
-
-as
-
-A Heqre' é contraditória na maioria dos casos, o que nos permite concluir imediatamente.
-
-(*MEmpty*) inversion Heqre'.
-
-(*MChar*) inversion Heqre'.
-
-(*MApp*) inversion Heqre'.
-
-(*MUnionL*) inversion Heqre'.
-
-(*MUnionR*) inversion Heqre'.
-
-Os casos interessantes são aqueles que correspondem a Star. Note que a hipótese de indução IH2 no caso MStarApp menciona uma premissa adicional Star re" = Star re', que resulta da igualdade gerada pelo remember.
-
-(*MStar0*)
-inversion Heqre'. intros s H. apply H.
-
-(*MStarApp*)
-inversion Heqre'. rewrite H0 in IH2, Hmatch1.
-
-intros s2 H1. rewrite <౐ app_assoc.
-
-apply MStarApp.
-
-apply Hmatch1.
-
-apply IH2.
-
-reflexivity.
-
-apply H1.
-
-Qed.
 
 #### Exp_match_ex2
 
