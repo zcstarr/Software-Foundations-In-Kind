@@ -1,0 +1,127 @@
+// Exercise 6.0.1 
+// maybe remove test #4 and comment to use Data.Nat.equal.proof and Prop.Decidable.extract_nop to help build the proofs
+
+#derive[match]
+type Nostutter <t> ~ (ts : Data.List t) {
+  nil : Nostutter t []
+  one (x : t) : Nostutter t [x]
+  cons (x : t) (h : t) (xs : Data.List t)
+    (nxs : Nostutter t (Data.List.cons h xs)) (neq : Prop.Not (Prop.Equal x h))
+    : Nostutter t (Data.List.cons x (Data.List.cons h xs))
+}
+
+Test.nostutter.1 : Nostutter [3n,1n,4n,1n,5n,6n]
+Test.nostutter.1 =
+  let ns1 = Nostutter.cons 5n 6n ([]) (Nostutter.one 6n) (Prop.Decidable.extract_nop (Data.Nat.equal.proof 5n 6n) Prop.Equal.refl)
+  let ns2 = Nostutter.cons 1n 5n ([6n]) (ns1) (Prop.Decidable.extract_nop (Data.Nat.equal.proof 1n 5n) Prop.Equal.refl)
+  let ns3 = Nostutter.cons 4n 1n ([5n,6n]) (ns2) (Prop.Decidable.extract_nop (Data.Nat.equal.proof 4n 1n) Prop.Equal.refl)
+  let ns4 = Nostutter.cons 1n 4n ([1n,5n,6n]) (ns3) (Prop.Decidable.extract_nop (Data.Nat.equal.proof 1n 4n) Prop.Equal.refl)
+  let ns5 = Nostutter.cons 3n 1n ([4n,1n,5n,6n]) (ns4) (Prop.Decidable.extract_nop (Data.Nat.equal.proof 3n 1n) Prop.Equal.refl)
+  ns5
+
+Test.nostutter.2 : Nostutter []
+Test.nostutter.2 = Nostutter.nil
+
+Test.nostutter.3 : Nostutter [5n]
+Test.nostutter.3 = Nostutter.one 5n
+
+// Exercise 6.0.2
+type InOrderMerge <t> ~ (l : Data.List t) (xs : Data.List t) (ys : Data.List t) {
+  nil : InOrderMerge t [] [] []
+  fst <ms: Data.List t> (x : t) (xs : Data.List t) (ys : Data.List t) (mrg : InOrderMerge t ms xs ys)
+    : InOrderMerge t (Data.List.cons x ms) (Data.List.cons x xs) ys
+  snd <ms: Data.List t> (y : t) (xs : Data.List t) (ys : Data.List t) (mrg : InOrderMerge t ms xs ys)
+    : InOrderMerge t (Data.List.cons y ms) xs (Data.List.cons y ys)
+}
+
+Test.inordermerge.1 : InOrderMerge [] [] []
+Test.inordermerge.1 = InOrderMerge.nil
+
+Test.inordermerge.2 : InOrderMerge [3] [3] []
+Test.inordermerge.2 = InOrderMerge.fst 3 [] [] (InOrderMerge.nil)
+
+Test.inordermerge.3 : InOrderMerge [4, 3] [3] [4]
+Test.inordermerge.3 =
+  let lst = InOrderMerge.fst 3 [] [] (InOrderMerge.nil)
+  let lst = InOrderMerge.snd 4 [3] [] lst
+  lst
+
+Test.inordermerge.4 : InOrderMerge [10, 3, 4, 20] [10, 20] [3, 4]
+Test.inordermerge.4 =
+  let lst = InOrderMerge.fst 20 [] [] (InOrderMerge.nil)
+  let lst = InOrderMerge.snd 4 [20] [] lst
+  let lst = InOrderMerge.snd 3 [20] [4] lst
+  let lst = InOrderMerge.fst 10 [20] [3, 4] lst
+  lst
+
+In <a> (x: a) (xs: Data.List a) : Type
+In a x Data.List.nil = Data.Empty
+In a x (Data.List.cons xs.h xs.t) = (Data.Either (Prop.Equal a x xs.h) (In x xs.t))
+  
+// // Now, suppose we have a set t, a function test : t -> Bool, and a list l of type List t.
+// // Suppose further that l is an in-order merge of two lists, l1 and l2, such that every
+// // item in l1 satisfies test and no item in l2 satisfies test. Then filter test l = l1.
+
+Filter_spec <t> <l1: Data.List t> <l2: Data.List t>
+  (l: Data.List t)
+  (test : t -> Data.Bool)
+  (mrg: InOrderMerge t l l1 l2)
+  (f1 : (x : t) -> (i : In x l1) -> Prop.Equal (test x) Data.Bool.true)
+  (f2 : (x : t) -> (i : In x l2) -> Prop.Equal (test x) Data.Bool.false)
+  : (Prop.Equal (Data.List.filter l test) l1)
+Filter_spec _ _ _ l test InOrderMerge.nil _ _ =
+  let eq0 = Prop.Equal.refl :: Prop.Equal l Data.List.nil
+  let eq1 = Prop.Equal.rewrite eq0 (
+    x => Prop.Equal (Data.List.filter l test) (Data.List.filter x test)
+  ) Prop.Equal.refl
+  eq1
+Filter_spec t (Data.List.cons h1 t1) l2 (Data.List.cons h tail) test (InOrderMerge.fst t_ ms x xs ys mrg) f1 f2 =
+  let l1 = Data.List.cons h1 t1
+  let l = Data.List.cons h tail
+  let x_eq_h = Prop.Equal.refl :: Prop.Equal x h
+  let test_h_eq_true = Prop.Equal.rewrite x_eq_h (
+    y => (Prop.Equal (test y) Data.Bool.true)
+  ) (f1 x (Data.Either.left Prop.Equal.refl))
+  let ind = Filter_spec tail test mrg (x => i => f1 x (Data.Either.right i)) f2
+  let eq0 = Prop.Equal.refl :: (Prop.Equal
+    (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+    (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test)))
+  let eq1 = Prop.Equal.rewrite test_h_eq_true (x => (
+    Prop.Equal
+      (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+      (Data.Bool.if x (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+  )) eq0
+  let eq2 = Prop.Equal.rewrite ind (x => (
+    Prop.Equal
+      (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+      (Data.List.cons h x)
+  )) eq1
+  let h_eq_x = Prop.Equal.refl :: Prop.Equal h x
+  let x_eq_h1 = Prop.Equal.refl :: Prop.Equal x h1
+  let h_eq_h1 = Prop.Equal.chain h_eq_x x_eq_h1
+  let eq3 = Prop.Equal.rewrite h_eq_h1 (y => (
+    Prop.Equal
+      (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+      (Data.List.cons y xs)
+  )) eq2
+  eq3
+Filter_spec t l1 (Data.List.cons h2 t2) (Data.List.cons h tail) test (InOrderMerge.snd t_ ms x xs ys mrg) f1 f2 =
+  let ind = Filter_spec tail test mrg f1 (x => i => f2 x (Data.Either.right i))
+  let x_eq_h = Prop.Equal.refl :: Prop.Equal x h
+  let test_h_eq_false = Prop.Equal.rewrite x_eq_h (
+    y => (Prop.Equal (test y) Data.Bool.false)
+  ) (f2 x (Data.Either.left Prop.Equal.refl))
+  let eq0 = Prop.Equal.refl :: (Prop.Equal
+    (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+    (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test)))
+  let eq1 = Prop.Equal.rewrite test_h_eq_false (x => (
+    Prop.Equal
+      (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+      (Data.Bool.if x (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+  )) eq0
+  let eq2 = Prop.Equal.rewrite ind (x => (
+    Prop.Equal
+      (Data.Bool.if (test h) (Data.List.cons h (Data.List.filter tail test)) (Data.List.filter tail test))
+      x
+  )) eq1
+  eq2
