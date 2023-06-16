@@ -144,14 +144,14 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="inductive-relations"><a class="header" href="#inductive-relations">Inductive Relations</a></h2>
-<p>Uma proposição parametrizada por um número (como Ev) pode ser considerada como uma propriedade, ou seja, ela define um subconjunto de Nat, especificamente aqueles números para os quais a proposição é provável. Da mesma forma, uma proposição de dois argumentos pode ser considerada como uma relação, ou seja, ela define um conjunto de pares para os quais a proposição é provável.</p>
-<p>Um exemplo útil é a relação &quot;menor ou igual&quot; entre números. A seguinte definição deve ser bastante intuitiva. Ela afirma que existem duas maneiras de fornecer evidências de que um número é menor ou igual a outro: observar que eles são o mesmo número ou fornecer evidências de que o primeiro é menor ou igual ao predecessor do segundo.</p>
+<p>A proposition parameterized by a number (like Ev) can be considered as a property, meaning it defines a subset of Nat, specifically those numbers for which the proposition holds. Similarly, a proposition with two arguments can be considered as a relation, meaning it defines a set of pairs for which the proposition holds.</p>
+<p>A useful example is the &quot;less than or equal&quot; relation between numbers. The following definition should be quite intuitive. It states that there are two ways to provide evidence that a number is less than or equal to another: observe that they are the same number or provide evidence that the first is less than or equal to the predecessor of the second.</p>
 <pre><code class="language-rust ignore">type Le (n: Nat) ~ (m: Nat) {
   n : Le n n
   S &lt;m: Nat&gt; (pred: (Le n m)) : (Le n (Nat.succ m)) 
 }</code></pre>
-<p>Provas de fatos sobre <code>Le</code> usando os construtores <code>n</code> e <code>S</code> seguem os mesmos padrões que provas sobre propriedades, como <code>Ev</code> acima. Podemos aplicar os construtores para provar metas de Le (por exemplo, mostrar que <code>Le 3n 3n</code> ou <code>Le 3n 6n</code>) e podemos usar correspondência de padrões para extrair informações das hipóteses de <code>Le</code> no contexto (por exemplo, provar que <code>(Le 2n 1n) -&gt; (Equal (Plus 2n 2n) 5n)</code>).</p>
-<p>Aqui estão algumas verificações de sanidade sobre a definição. (Observe que, embora sejam do mesmo tipo de &quot;testes simples&quot; que demos para as funções de teste que escrevemos nas primeiras palestras, devemos construir suas provas explicitamente - Refl não faz o trabalho, porque as provas não são apenas uma questão de simplificar cálculos.)</p>
+<p>Proofs of facts about <code>Le</code> using the constructors <code>n</code> and <code>S</code> follow the same patterns as proofs about properties, like Ev above. We can apply the constructors to prove goals about Le (e.g., show that <code>Le 3n 3n</code> or <code>Le 3n 6n</code>) and we can use pattern matching to extract information from <code>Le</code> hypotheses in the context (e.g., prove that <code>(Le 2n 1n) -&gt; (Equal (Plus 2n 2n) 5n)</code>).</p>
+<p>Here are some sanity checks about the definition. (Note that while they are of the same type as &quot;simple tests&quot; we gave for the test functions we wrote in the early lectures, we must construct their proofs explicitly - Refl doesn't do the job because the proofs are not just a matter of simplifying computations.)</p>
 <pre><code class="language-rust ignore">Test_le1 : Le 3n 3n
 Test_le1 = Le.n 3n
 
@@ -162,11 +162,11 @@ Test_le3 (l: Le 2n 1n) : Equal (Nat.add 2n 2n) 5n
 Test_le3 Le.n = Empty.absurd // TODO
 Test_le3 (Le.S Le.n) = Empty.absurd // TODO
 Test_le3 (Le.S (Le.S len)) = Empty.absurd // TODO</code></pre>
-<p>A relação &quot;estritamente menor que&quot; <code>n &lt; m</code> agora pode ser definida em termos de <code>Le</code>.</p>
+<p>The &quot;strictly less than&quot; relation <code>n &lt; m</code> can now be defined in terms of <code>Le</code>.</p>
 <pre><code class="language-rs ignore">Lt (n: Nat) (m: Nat) : Type
 Lt n m = Le (Nat.succ n) m
 </code></pre>
-<p>Aqui estão algumas outras relações simples sobre números:</p>
+<p>Here are some other simple relationships about numbers</p>
 <pre><code class="language-rs ignore">type Square_of ~ (n: Nat) (m: Nat) {
   sq &lt;n: Nat&gt; : Square_of n (Mult n n)
 }
@@ -181,15 +181,15 @@ Lt n m = Le (Nat.succ n) m
 }
 </code></pre>
 <h4 id="total_relation-opcional"><a class="header" href="#total_relation-opcional">Total_relation (Opcional)</a></h4>
-<p>Defina uma relação binária indutiva Total_relation que é válida para todos os pares de números naturais.</p>
+<p>Define an inductive binary relation Total_relation that holds for all pairs of natural numbers.</p>
 <pre><code class="language-rs ignore">// TODO
 </code></pre>
 <h4 id="empty_relation-opcional"><a class="header" href="#empty_relation-opcional">Empty_relation (Opcional)</a></h4>
-<p>Defina uma relação binária indutiva Empty_relation (sobre números) que nunca é válida.</p>
+<p>Define an inductive binary relation Empty_relation (about numbers) that never holds.</p>
 <pre><code class="language-rs ignore">// TODO
 </code></pre>
 <h4 id="le_exercises-opcional"><a class="header" href="#le_exercises-opcional">Le_exercises (Opcional)</a></h4>
-<p>Aqui estão alguns fatos sobre as relações <code>Le</code> e <code>Lt</code> que vamos precisar mais adiante no curso. As provas são bons exercícios de prática.</p>
+<p>Here are some facts about the relations <code>Le</code> and <code>Lt</code> that we will need later in the course. The proofs are good practice exercises.</p>
 <pre><code class="language-rust ignore">Le.trans (n: Nat) (m: Nat) (o: Nat) (x: Le m n) (y: Le n o) : Le m o 
 Le.trans n m o x y = ?
 
@@ -213,10 +213,10 @@ Lt_S n m l = ?
 
 Lte_complete (n: Nat) (m: Nat) (e: Equal (Nat.lte n m) Bool.true) :  (Le n m)
 Lte_complete n m e = ? </code></pre>
-<p>Dica: O próximo pode ser mais fácil de provar por indução em m.</p>
+<p>Hint: The next one may be easier to prove by induction on m.</p>
 <pre><code class="language-rust ignore">Lte_correct (n: Nat) (m: Nat) (le: Le n m) : Equal Bool (Nat.lte n m) Bool.true
 Lte_correct n m le = ?</code></pre>
-<p>Dica: Este teorema pode ser facilmente provado sem usar indução.</p>
+<p>Hint: This theorem can be easily proved without using induction.</p>
 <pre><code class="language-rust ignore">Lte_true_trans (n: Nat) (m: Nat) (o: Nat) 
   (l: Equal (Nat.lte n m) Bool.true) 
   (k: Equal (Nat.lte m o) Bool.true) 
@@ -270,17 +270,15 @@ F_R m n = ?
 R_equiv_fR (m: Nat) (n: Nat) (o: Nat) : Iff (R m n o) (Equal (F_R m n) o)
 R_equiv_fR m n o = ?</code></pre>
 <h4 id="subseq"><a class="header" href="#subseq">Subseq</a></h4>
-<p>Uma lista é uma subsequência de outra lista se todos os elementos da primeira lista ocorrem na mesma ordem na segunda lista, possivelmente com alguns elementos extras entre eles. Por exemplo, [1n,2n,3n] é uma subsequência de cada uma das listas [1n,2n,3n], [1n,1n,1n,2n,2n,3n], [1n,2n,7n,3n], [5n,6n,1n,9n,9n,2n,7n,3n,8n], mas não é uma subsequência de nenhuma das listas [1n,2n], [1n,3n], [5n,6n,2n,1n,7n,3n,8n].</p>
+<p>A list is a subsequence of another list if all the elements of the first list occur in the same order in the second list, possibly with some extra elements between them. For example, [1n,2n,3n] is a subsequence of each of the lists [1n,2n,3n], [1n,1n,1n,2n,2n,3n], [1n,2n,7n,3n], [5n,6n,1n,9n,9n,2n,7n,3n,8n], but it is not a subsequence of any of the lists [1n,2n], [1n,3n], [5n,6n,2n,1n,7n,3n,8n].</p>
+<p>Define an inductive type <code>Subseq</code> in List Nat that captures the meaning of being a subsequence. <em>(Hint: You will need three cases.)</em></p>
 <ul>
-<li>Defina um tipo indutivo <code>Subseq</code> em List Nat que capture o significado de ser uma subsequência. <em>(Dica: Você precisará de três casos.)</em></li>
-<li>Prove subseq_refl, que a subsequência é reflexiva, ou seja, qualquer lista é uma subsequência de si mesma.</li>
-<li>Prove subseq_app, que para quaisquer listas l1, l2 e l3, se l1 é uma subsequência de l2, então l1 também é uma subsequência de (App l2 l3).</li>
-<li>(Opcional, mais difícil) Prove subseq_trans, que a subsequência é transitiva - ou seja, se l1 é uma subsequência de l2 e l2 é uma subsequência de l3, então l1 é uma subsequência de l3. <em>Dica: escolha sua indução com cuidado!</em></li>
+<li>Prove subseq_refl, that subsequence is reflexive, meaning any list is a subsequence of itself.</li>
+<li>Prove subseq_app, that for any lists l1, l2, and l3, if l1 is a subsequence of l2, then l1 is also a subsequence of (App l2 l3).</li>
+<li>(Optional, more challenging) Prove subseq_trans, that subsequence is transitive - meaning if l1 is a subsequence of l2 and l2 is a subsequence of l3, then l1 is a subsequence of l3. Hint: <em>Choose your induction carefully!</em></li>
 </ul>
-<h4 id="r_provability-1"><a class="header" href="#r_provability-1">R_provability</a></h4>
-<p>oli</p>
 <h4 id="r_provability2-opcional"><a class="header" href="#r_provability2-opcional">R_provability2 (Opcional)</a></h4>
-<p>Suponha que demos a definição a seguir para o Kind:</p>
+<p>Assuming we have given the following definition to Kind:</p>
 <pre><code class="language-rust  ignore">type Rp ~ (n: Nat) (l: List Nat) {
   C1 
   : Rp 0n []
