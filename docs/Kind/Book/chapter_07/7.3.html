@@ -1,0 +1,432 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Case Study: Regular Expressions</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/About.html"><strong aria-hidden="true">1.1.</strong> About Kind</a></li><li class="chapter-item expanded "><a href="../../guide/Installation.html"><strong aria-hidden="true">1.2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../../cli/World.html"><strong aria-hidden="true">1.3.</strong> Hello World!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Hello Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Basics: Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Enumerated Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Days of the Week</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleans</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Function Types</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Modules</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Proof by Simplification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Proof by Application</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Proof by Case Analysis</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Proof by Rewriting</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain and Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Induction: Proof by Induction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercises</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Data Structures</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Lists of Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Reasoning about Lists</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polymorphism</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Functions as Data</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Additional Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Logic in Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Logical Connectives</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsehood and Negation</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Truth, Equivalence, and Quantification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programming with Propositions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Applying Theorems to Arguments</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Set Theory</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,7.html"><strong aria-hidden="true">6.7.</strong> Classical vs. Constructive Logic</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.html"><strong aria-hidden="true">7.</strong> Inductively Defined Propositions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.1.html"><strong aria-hidden="true">7.1.</strong> Using Evidence in Proofs</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.2.html"><strong aria-hidden="true">7.2.</strong> Inductive Relations</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.3.html" class="active"><strong aria-hidden="true">7.3.</strong> Case Study: Regular Expressions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.4.html"><strong aria-hidden="true">7.4.</strong> Case Study: Improving Reflection</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.5.html"><strong aria-hidden="true">7.5.</strong> Additional Exercises</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contributors.html">Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="case-study-regular-expressions"><a class="header" href="#case-study-regular-expressions">Case Study: Regular Expressions</a></h2>
+<p>A propriedade Ev fornece um exemplo simples para ilustrar definições indutivas e as técnicas básicas para raciocinar sobre elas, mas não é muito empolgante - afinal, é equivalente às duas definições não indutivas de paridade que já vimos, e não parece oferecer nenhum benefício concreto sobre elas. Para dar uma melhor noção do poder das definições indutivas, vamos mostrar como usá-las para modelar um conceito clássico da ciência da computação: expressões regulares.</p>
+<p>Expressões regulares são uma linguagem simples para descrever strings, definidas da seguinte forma:</p>
+<pre><code class="language-rust ignore">type Regexp (t: Type) {
+    emptyset                              
+    emptystr                              
+    chr   (h: t)                          
+    app   (st1: Regexp t) (st2: Regexp t) 
+    union (st1: Regexp t) (st2: Regexp t)
+    star  (st1: Regexp t)                 
+  }</code></pre>
+<p>Observe que essa definição é polimórfica: expressões regulares em <code>Reg_exp t</code> descrevem strings com caracteres extraídos de <code>t</code> - ou seja, listas de elementos de <code>t</code>.</p>
+<p>(Nós nos afastamos um pouco da prática padrão ao não exigir que o tipo t seja finito. Isso resulta em uma teoria um pouco diferente de expressões regulares, mas a diferença não é significativa para nossos propósitos.)</p>
+<p>Conectamos expressões regulares e strings por meio das seguintes regras, que definem quando uma expressão regular corresponde a alguma string:</p>
+<p>• A expressão EmptySet não corresponde a nenhuma string.
+• A expressão EmptyStr corresponde à string vazia [].
+• A expressão Chr x corresponde à string de um caractere [x].
+• Se re1 corresponde a s1 e re2 corresponde a s2, então (App re1 re2) corresponde a (App s1 s2).
+• Se pelo menos uma das expressões re1 e re2 corresponder a s, então Union re1 re2 corresponde a s.
+• Finalmente, se podemos escrever alguma string s como a concatenação de uma sequência de strings s = (App s_1 (App... s_k...)), e a expressão re corresponde a cada uma das strings s_i, então Star re corresponde a s.</p>
+<p>Como caso especial, a sequência de strings pode estar vazia, então Star re sempre corresponde à string vazia [] independentemente de qual seja re.</p>
+<p>Podemos facilmente traduzir essa definição informal em uma definição de dados da seguinte forma:</p>
+<pre><code class="language-rust ignore">type Expmatch &lt;t&gt; ~(xs: Data.List t) (r: Regexp t) {
+mempty              : Expmatch t []   Regexp.emptystr 
+mchar (x: t)        : Expmatch t [x] (Regexp.chr x)
+mapp 
+  &lt;s1: Data.List t&gt;
+  &lt;s2: Data.List t&gt;
+  &lt;re1: Regexp t&gt;
+  &lt;re2: Regexp t&gt;
+  (e1: Expmatch t s1 re1)
+  (e2: Expmatch t s2 re2)
+  : Expmatch t (Data.List.concat t s1 s2) (Regexp.app re1 re2)
+munionl &lt;s1: Data.List t&gt; (re1: Regexp t) (re2: Regexp t)
+  (e1: Expmatch t s1 re1)
+  : Expmatch t s1 (Regexp.union re1 re2)
+munionr (re1: Regexp t) &lt;s2: Data.List t&gt; (re2: Regexp t)
+  (e1: Expmatch t s2 re2)
+  : Expmatch t s2 (Regexp.union re1 re2)
+mstarz (r: Regexp t) : Expmatch t [] (Regexp.star r)  
+mstarapp 
+  &lt;s1: Data.List t&gt; 
+  &lt;s2: Data.List t&gt;
+  &lt;r1: Regexp t&gt;
+  (e1: Expmatch s1 r1)
+  (e2: Expmatch s2 (Regexp.star r1))
+  : Expmatch t (Data.List.concat t s1 s2) (Regexp.star r1)
+}</code></pre>
+<!-- Novamente, para legibilidade, também podemos exibir essa definição usando notação de regras de inferência. Ao mesmo tempo, vamos introduzir uma notação de infixa mais legível.
+
+-----------Latex
+
+Observe que essas regras não são exatamente as mesmas das informais que demos no início da seção. Primeiro, não precisamos incluir uma regra que declare explicitamente que nenhuma string corresponde a EmptySet; simplesmente não incluímos nenhuma regra que teria o efeito de alguma string corresponder a EmptySet. (De fato, a sintaxe das definições indutivas nem mesmo nos permite fornecer tal "regra negativa".) -->
+<!-- TL;DR Em segundo lugar, as regras informais para Union e Star correspondem a dois construtores cada: MUnionL / MUnionR e MStar0 / MStarApp. O resultado é logicamente equivalente às regras originais, 
+mas mais conveniente de usar no Kind, uma vez que as ocorrências recursivas de Exp_match são fornecidas como argumentos diretos para os construtores, facilitando a indução com base nas evidências. (Os exercícios exp_match_ex1 e exp_match_ex2 abaixo pedem para provar que os construtores dados na declaração indutiva e os que surgiriam de uma transcrição mais literal das regras informais são de fato equivalentes.) -->
+<p>Vamos ilustrar essas regras com alguns exemplos.</p>
+<pre><code class="language-rust ignore">Regexp_ex1 : Expmatch [1] (Regexp.chr 1)
+Regexp_ex1 = Expmatch.mchar 1 
+
+Regexp_ex2 : Expmatch [1, 2] (Regexp.app (Regexp.chr 1) (Regexp.chr 2))
+Regexp_ex2 = Expmatch.mapp [1] (Regexp.chr 1) (Expmatch.mchar 1) [2] (Regexp.chr 2) (Expmatch.mchar 2)
+</code></pre>
+<p>Usando correspondência de padrões, também podemos mostrar que certas strings não correspondem a uma expressão regular:</p>
+<pre><code class="language-rust ignore">Regexp_ex3 : Not (Expmatch [1, 2] (Regexp.chr 1))
+Regexp_ex3 = Empty.absurd _</code></pre>
+<p>Podemos definir funções auxiliares para ajudar a escrever expressões regulares. A função reg_exp_of_list constrói uma expressão regular que corresponde exatamente à lista que recebe como argumento:</p>
+<pre><code class="language-rust ignore">Regexp_of_list &lt;t&gt; (xs: List t)        : Regexp t
+Regexp_of_list t List.nil              = Regexp.emptystr
+Regexp_of_list t (List.cons xs.h xs.t) = Regexp.app (Regexp.chr xs.h) (Regexp_of_list t xs.t)
+
+Regexp_ex4 : Expmatch [1, 2, 3] (Regexp_of_list [1, 2, 3])
+Regexp_ex4 = 
+  (Expmatch.mapp 
+    [1] 
+    (Regexp.chr 1) 
+    (Expmatch.mchar 1) 
+    [2, 3] 
+    (Regexp_of_list [2, 3])
+    (Expmatch.mapp
+      [2]
+      (Regexp.chr 2)
+      (Expmatch.mchar 2) 
+      [3]
+      (Regexp_of_list [3])
+      (Expmatch.mapp
+        [3]
+        (Regexp.chr 3)
+        (Expmatch.mchar 3)
+        []
+        (Regexp_of_list [])
+        (Expmatch.mempty)
+      )
+    )
+  )
+
+</code></pre>
+<p>Também podemos provar fatos gerais sobre Exp_match. Por exemplo, o seguinte lema mostra que toda string s que corresponde a re também corresponde a Star re.</p>
+<pre><code class="language-rust ignore">Mstar1 &lt;t&gt; &lt;s: List t&gt; &lt;re: Regexp t&gt; (e: Expmatch s re) : Expmatch s (Regexp.star re)  
+Mstar1 t s re e = 
+  let msz = Expmatch.mstarz re
+  let mss = Expmatch.mstarapp s [] re e msz
+  let lst = List_concat s
+  let rwt = Equal.rewrite lst (x =&gt; (Expmatch t x (Regexp.star re))) mss
+  rwt
+
+</code></pre>
+<p>(Obsere o uso de appendNilRightNeutral*** para alterar o objetivo do teorema para exatamente a mesma forma esperada por MStarApp.)</p>
+<h4 id="exp_match_ex1"><a class="header" href="#exp_match_ex1">Exp_match_ex1</a></h4>
+<p>Os seguintes lemas mostram que as regras de correspondência informais fornecidas no início do capítulo podem ser obtidas a partir da definição indutiva formal.</p>
+<pre><code class="language-rust ignore">  Munion 
+  &lt;t&gt; 
+  &lt;s: List t&gt; 
+  &lt;re1:  Regexp t&gt; 
+  &lt;re2:  Regexp t&gt; 
+  (p: Pair (Expmatch s re1) (Expmatch s re2))
+  : Expmatch s (Regexp.union re1 re2)
+Munion t s re1 re2 (Pair.new fst snd) = 
+  Expmatch.munionl t s [] re1 re2</code></pre>
+<p>O próximo lema é declarado em termos da função fold do capítulo Poly: Se ss: List (List t) representa uma sequência de strings s1, ..., sn, então fold (++) ss [] é o resultado da concatenação de todas elas.</p>
+<pre><code class="language-rust ignore">Fold &lt;x&gt; &lt;y&gt; (f: x -&gt; y -&gt; y) (l: Data.List x) (b: y) : y
+Fold x y f Data.List.nil b = b
+Fold x y f (Data.List.cons xs.h xs.t) b = f xs.h (Fold f xs.t b) 
+
+MStar_ &lt;t&gt;
+  (ss : Data.List (Data.List t))
+  (re : Regexp t)
+  (construct_match : (s : Data.List t) -&gt; (i : In s ss) -&gt; Expmatch s re)
+  : Expmatch (Concats ss) (Regexp.star re)
+MStar_ ss re construct_match = ?</code></pre>
+<h4 id="reg_exp_of_list"><a class="header" href="#reg_exp_of_list">Reg_exp_of_list</a></h4>
+<p>Prove que reg_exp_of_list satisfaz a seguinte especificação:</p>
+<pre><code class="language-rust ignore">Reg_exp_of_list_spec &lt;t&gt; (s1: Data.List t) (s2: Data.List t) : Iff (Expmatch s1 (Regexp_of_list s2)) (Prop.Equal s1 s2)
+Reg_exp_of_list_spec s1 s2 = ?</code></pre>
+<p>Como a definição de Exp_match tem uma estrutura recursiva, é de se esperar que as provas envolvendo expressões regulares frequentemente exijam indução com base nas evidências. Por exemplo, suponha que quiséssemos provar o seguinte resultado intuitivo: se uma expressão regular re corresponde a alguma string s, então todos os elementos de s devem ocorrer em algum lugar de re. Para enunciar este teorema, primeiro definimos uma função re_chars que lista todos os caracteres que ocorrem em uma expressão regular:</p>
+<pre><code class="language-rust ignore">Re_chars &lt;t&gt; (re: Regexp t) : Data.List t
+Re_chars t Regexp.emptyset  = []
+Re_chars t Regexp.emptystr  = []
+Re_chars t (Regexp.chr x)   = [x]
+Re_chars t (Regexp.app r0 r1) = Data.List.concat (Re_chars r0) (Re_chars r1)
+Re_chars t (Regexp.union r0 r1) = Data.List.concat (Re_chars r0) (Re_chars r1)
+Re_chars t (Regexp.star r0) = Re_chars r0
+
+Re_star &lt;t&gt; (re: Regexp t) : Prop.Equal (Re_chars (Regexp.star re)) (Re_chars re)
+Re_star e re = Prop.Equal.refl</code></pre>
+<p>Podemos então formular nosso teorema da seguinte forma:</p>
+<pre><code class="language-rust ignore">Destruct &lt;a&gt; (x: a) (lx: Data.List a) (ly: Data.List a) (i: In x (Data.List.concat a lx ly)) : (Data.Either (In x lx) (In x ly))
+Destruct a x lx ly i =  
+  let Data.Pair.new fst snd = (In_app_iff x lx ly) 
+  let f = (fst :: (_) -&gt; (_)) i 
+  f
+
+Construct &lt;a&gt; (x: a) (lx: Regexp a) (ly: Regexp a) (e: Data.Either (In x (Re_chars lx)) (In x (Re_chars ly))) : In x (Data.List.concat (Re_chars lx) (Re_chars ly))
+Construct a x lx ly e = (Data.Pair.snd ( In_app_iff x (Re_chars lx) (Re_chars ly)) :: (_) -&gt; (_)) e
+
+In_re_match &lt;a&gt; (x: a) (re: Regexp a) (s: Data.List a) (e: Expmatch s re) (i: In x s) : In x (Re_chars re)
+In_re_match a x (Regexp.emptyset) Data.List.nil e i = i
+In_re_match a x (Regexp.emptyset) (Data.List.cons head tail) e i = Data.Empty.absurd _ //todo
+In_re_match a x (Regexp.emptystr) (Data.List.nil) Expmatch.mempty i = i
+In_re_match a x (Regexp.chr u s)  (Data.List.cons t re (Data.List.nil _)) (Expmatch.mchar c) i = 
+  let e0 = Prop.Equal.refl :: Prop.Equal c re
+  let e1 = Prop.Equal.refl :: Prop.Equal s c
+  let chn = Prop.Equal.chain e1 e0
+  let rrt = Prop.Equal.rewrite (Prop.Equal.mirror chn) (y =&gt; (Data.Either (Prop.Equal _ x y) _)) i 
+  rrt
+In_re_match a x (Regexp.app t z y) (Data.List.concat u l1 l2) e i = 
+  let e0 = Prop.Equal.refl :: Prop.Equal u a
+  let l3 = l1 :: Data.List a
+  let l4 = l2 :: Data.List a
+  let e1 = Prop.Equal.refl :: Prop.Equal l1 l3
+  let e2 = Prop.Equal.refl :: Prop.Equal l2 l4
+  let e3 = Prop.Equal.refl :: Prop.Equal  (Data.List.concat u l1 l2) (Data.List.concat a l3 l4) 
+  let i = i :: (In a x (Data.List.concat u l1 l2))
+  let rrt = Prop.Equal.rewrite e3 ((k: (Data.List a))=&gt; (In a x k)) i 
+  let des = Destruct x l3 l4 rrt
+  des
+In_re_match a x re Data.List.nil (Expmatch.mstarz z) i = Data.Empty.absurd _ //todo</code></pre>
+<h4 id="re_not_empty"><a class="header" href="#re_not_empty">Re_not_empty</a></h4>
+<p>Escreva uma função recursiva re_not_empty que testa se uma expressão regular corresponde a alguma string. Prove que sua função está correta.</p>
+<pre><code class="language-rust ignore">Re_not_empty &lt;t&gt; (re: Regexp t)   : Data.Bool
+Re_not_empty t re = ?
+
+Re_not_empty_correct &lt;t&gt; &lt;re: Regexp t&gt; 
+: Equivalence (Data.Sigma (Data.List t) (s =&gt; Expmatch s re)) (Prop.Equal (Re_not_empty re) Data.Bool.true)
+Re_not_empty_correct t re = ?
+</code></pre>
+<h3 id="the-remember-tactic"><a class="header" href="#the-remember-tactic">The remember Tactic</a></h3>
+<p>Reescrever a seção, o casamento de padrões dependentes resolve tudo isso.</p>
+<p>Uma característica potencialmente confusa da tática de indução é que ela permite facilmente que você tente configurar uma indução sobre um termo que não é suficientemente geral. O efeito disso é perder informações (assim como destruct pode fazer) e deixá-lo incapaz de concluir a prova. Aqui está um exemplo:</p>
+<pre><code class="language-rust ignore">Star_app  &lt;a&gt; (re: Regexp a) (s1: Data.List a) (s2: Data.List a) (exp0: Expmatch a s1 (Regexp.star re)) (exp1: Expmatch a s2 (Regexp.star re)) 
+: (Expmatch (Data.List.concat s1 s2) (Regexp.star re))
+Star_app a re (Data.List.nil _) s2 (Expmatch.mstarz e) exp1 = exp1
+Star_app a re s1 s2 (Expmatch.mstarapp t r s r1 m ms) exp1 = 
+  let e0 = Prop.Equal.refl :: Prop.Equal r1 re
+  let e1 = Prop.Equal.refl :: Prop.Equal (Data.List.concat r s) s1
+  let ind = Expmatch.mstarapp m (Star_app r1 s s2 ms exp1)
+  let rrt = Prop.Equal.rewrite e0 (x =&gt; (Expmatch _ _ (Regexp.star _ x))) ind
+  let aux = App_assoc r s s2
+  let rrt = Prop.Equal.rewrite aux (x =&gt; (Expmatch _ (x) (_))) rrt
+  let rrt = Prop.Equal.rewrite e1 (x =&gt; (Expmatch t (Data.List.concat _ x s2) (Regexp.star t re))) rrt
+  rrt</code></pre>
+<!-- TL:DR
+Agora podemos prosseguir realizando a indução diretamente com base nas evidências, porque o argumento da primeira hipótese é suficientemente geral, o que significa que podemos descartar a maioria dos casos invertendo a igualdade re' = Star re no contexto. Esse padrão é tão comum que o Kind fornece uma tática para gerar automaticamente tais equações para nós, evitando assim a necessidade de alterar as declarações de nossos teoremas. -->
+<h4 id="exp_match_ex2"><a class="header" href="#exp_match_ex2">Exp_match_ex2</a></h4>
+<pre><code class="language-rust ignore">MStar2 &lt;t&gt; (re: Regexp t) (s: Data.List t) (ss: Data.List (Data.List t)) (exp: Expmatch s (Regexp.star re)) 
+: (Data.Pair (Prop.Equal s (Fold (x =&gt; y =&gt; Data.List.concat x y ) ss [])) ((s2: Data.List t) -&gt; (In s2 ss) -&gt; (Expmatch s2 re)))</code></pre>
+<p>O lema MStar'' abaixo (junto com o seu inverso, o exercício MStar' acima), mostra que a nossa definição de Exp_match para Star é equivalente àquela informalmente dada anteriormente.</p>
+<h4 id="pumping"><a class="header" href="#pumping">pumping</a></h4>
+<p>Um dos primeiros teoremas realmente interessantes na teoria das expressões regulares é o chamado lema do bombeamento, que afirma, informalmente, que qualquer string suficientemente longa s que corresponde a uma expressão regular re pode ser &quot;bombeada&quot; repetindo alguma seção do meio de s um número arbitrário de vezes para produzir uma nova string também correspondente a re.</p>
+<p>Para começar, precisamos definir o que significa &quot;suficientemente longa&quot;. Uma vez que estamos trabalhando em uma lógica construtiva, na verdade precisamos ser capazes de calcular, para cada expressão regular re, o comprimento mínimo para as strings s garantirem a &quot;bombeabilidade&quot;.</p>
+<pre><code class="language-rust ignore">
+pumping_constant :</code></pre>
+<p>Em seguida, é útil definir uma função auxiliar que repete uma string (anexa a si mesma) um certo número de vezes.</p>
+<pre><code class="language-rust ignore">napp :
+</code></pre>
+<p>Agora, o próprio lema do bombeamento afirma que, se s =&gt; re e se o comprimento de s for pelo menos a constante de bombeamento de re, então s pode ser dividida em três substrings s1 ++ s2 ++ s3 de tal forma que s2 pode ser repetida qualquer número de vezes e o resultado, quando combinado com s1 e s3, ainda corresponderá a re. Como s2 também está garantida a não ser a string vazia, isso nos dá uma maneira (construtiva!) de gerar strings correspondentes a re que são tão longas quanto desejarmos.</p>
+<pre><code class="language-rust ignore">
+pumping :</code></pre>
+<p>Para agilizar a prova (que você deve preencher), a tática omega, que é habilitada pelo Require a seguir, é útil em vários lugares para completar automaticamente argumentos tediosos de baixo nível envolvendo igualdades ou desigualdades sobre números naturais. Voltaremos à tática omega em um capítulo posterior, mas sinta-se à vontade para experimentá-la agora, se quiser. O primeiro caso da indução dá um exemplo de como ela é usada.</p>
+<pre><code class="language-rust ignore">
+pumping m le = ?pumping_rhs</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Book/chapter_07/7.2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../Book/chapter_07/7.4.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Book/chapter_07/7.2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../Book/chapter_07/7.4.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

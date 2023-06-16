@@ -1,0 +1,364 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Inductive Relations</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../../guide/Started.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../guide/About.html"><strong aria-hidden="true">1.1.</strong> About Kind</a></li><li class="chapter-item expanded "><a href="../../guide/Installation.html"><strong aria-hidden="true">1.2.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../../cli/World.html"><strong aria-hidden="true">1.3.</strong> Hello World!</a></li><li class="chapter-item expanded "><a href="../../cli/kind.html"><strong aria-hidden="true">1.4.</strong> Hello Kind!</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Book</li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,1.html"><strong aria-hidden="true">2.</strong> Basics: Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2.html"><strong aria-hidden="true">2.1.</strong> Enumerated Types</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,2,1.html"><strong aria-hidden="true">2.1.1.</strong> Days of the Week</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,3.html"><strong aria-hidden="true">2.2.</strong> Booleans</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,4.html"><strong aria-hidden="true">2.3.</strong> Function Types</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,5.html"><strong aria-hidden="true">2.4.</strong> Modules</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,6.html"><strong aria-hidden="true">2.5.</strong> Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,7.html"><strong aria-hidden="true">2.6.</strong> Proof by Simplification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,8.html"><strong aria-hidden="true">2.7.</strong> Proof by Application</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,9.html"><strong aria-hidden="true">2.8.</strong> Proof by Case Analysis</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,10.html"><strong aria-hidden="true">2.9.</strong> Proof by Rewriting</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,11.html"><strong aria-hidden="true">2.10.</strong> Equal.chain and Equal.mirror</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_02/2,12.html"><strong aria-hidden="true">2.11.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3.html"><strong aria-hidden="true">3.</strong> Induction: Proof by Induction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,1.html"><strong aria-hidden="true">3.1.</strong> Exercises</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_03/3,2.html"><strong aria-hidden="true">3.2.</strong> More Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4.html"><strong aria-hidden="true">4.</strong> Data Structures</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,1.html"><strong aria-hidden="true">4.1.</strong> Lists of Numbers</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,2.html"><strong aria-hidden="true">4.2.</strong> Reasoning about Lists</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_04/4,3.html"><strong aria-hidden="true">4.3.</strong> Maybe</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5.html"><strong aria-hidden="true">5.</strong> Polymorphism</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,1.html"><strong aria-hidden="true">5.1.</strong> Functions as Data</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_05/5,2.html"><strong aria-hidden="true">5.2.</strong> Additional Exercises</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6.html"><strong aria-hidden="true">6.</strong> Logic in Kind</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,1.html"><strong aria-hidden="true">6.1.</strong> Logical Connectives</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,2.html"><strong aria-hidden="true">6.2.</strong> Falsehood and Negation</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,3.html"><strong aria-hidden="true">6.3.</strong> Truth, Equivalence, and Quantification</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,4.html"><strong aria-hidden="true">6.4.</strong> Programming with Propositions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,5.html"><strong aria-hidden="true">6.5.</strong> Applying Theorems to Arguments</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,6.html"><strong aria-hidden="true">6.6.</strong> Kind vs Set Theory</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_06/6,7.html"><strong aria-hidden="true">6.7.</strong> Classical vs. Constructive Logic</a></li></ol></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.html"><strong aria-hidden="true">7.</strong> Inductively Defined Propositions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.1.html"><strong aria-hidden="true">7.1.</strong> Using Evidence in Proofs</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.2.html" class="active"><strong aria-hidden="true">7.2.</strong> Inductive Relations</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.3.html"><strong aria-hidden="true">7.3.</strong> Case Study: Regular Expressions</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.4.html"><strong aria-hidden="true">7.4.</strong> Case Study: Improving Reflection</a></li><li class="chapter-item expanded "><a href="../../Book/chapter_07/7.5.html"><strong aria-hidden="true">7.5.</strong> Additional Exercises</a></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><a href="../../Contributors.html">Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="inductive-relations"><a class="header" href="#inductive-relations">Inductive Relations</a></h2>
+<p>Uma proposição parametrizada por um número (como Ev) pode ser considerada como uma propriedade, ou seja, ela define um subconjunto de Nat, especificamente aqueles números para os quais a proposição é provável. Da mesma forma, uma proposição de dois argumentos pode ser considerada como uma relação, ou seja, ela define um conjunto de pares para os quais a proposição é provável.</p>
+<p>Um exemplo útil é a relação &quot;menor ou igual&quot; entre números. A seguinte definição deve ser bastante intuitiva. Ela afirma que existem duas maneiras de fornecer evidências de que um número é menor ou igual a outro: observar que eles são o mesmo número ou fornecer evidências de que o primeiro é menor ou igual ao predecessor do segundo.</p>
+<pre><code class="language-rust ignore">type Le (n: Nat) ~ (m: Nat) {
+  n : Le n n
+  S &lt;m: Nat&gt; (pred: (Le n m)) : (Le n (Nat.succ m)) 
+}</code></pre>
+<p>Provas de fatos sobre <code>Le</code> usando os construtores <code>n</code> e <code>S</code> seguem os mesmos padrões que provas sobre propriedades, como <code>Ev</code> acima. Podemos aplicar os construtores para provar metas de Le (por exemplo, mostrar que <code>Le 3n 3n</code> ou <code>Le 3n 6n</code>) e podemos usar correspondência de padrões para extrair informações das hipóteses de <code>Le</code> no contexto (por exemplo, provar que <code>(Le 2n 1n) -&gt; (Equal (Plus 2n 2n) 5n)</code>).</p>
+<p>Aqui estão algumas verificações de sanidade sobre a definição. (Observe que, embora sejam do mesmo tipo de &quot;testes simples&quot; que demos para as funções de teste que escrevemos nas primeiras palestras, devemos construir suas provas explicitamente - Refl não faz o trabalho, porque as provas não são apenas uma questão de simplificar cálculos.)</p>
+<pre><code class="language-rust ignore">Test_le1 : Le 3n 3n
+Test_le1 = Le.n 3n
+
+Test_le2 : Le 3n 6n
+Test_le2 = Le.S (Le.S (Le.S Le.n))
+
+Test_le3 (l: Le 2n 1n) : Equal (Nat.add 2n 2n) 5n
+Test_le3 Le.n = Empty.absurd // TODO
+Test_le3 (Le.S Le.n) = Empty.absurd // TODO
+Test_le3 (Le.S (Le.S len)) = Empty.absurd // TODO</code></pre>
+<p>A relação &quot;estritamente menor que&quot; <code>n &lt; m</code> agora pode ser definida em termos de <code>Le</code>.</p>
+<pre><code class="language-rs ignore">Lt (n: Nat) (m: Nat) : Type
+Lt n m = Le (Nat.succ n) m
+</code></pre>
+<p>Aqui estão algumas outras relações simples sobre números:</p>
+<pre><code class="language-rs ignore">type Square_of ~ (n: Nat) (m: Nat) {
+  sq &lt;n: Nat&gt; : Square_of n (Mult n n)
+}
+</code></pre>
+<pre><code class="language-rs ignore">type Next_Nat ~ (n: Nat) (m: Nat) {
+  Nn &lt;n: Nat&gt; : Next_Nat n (Nat.succ n)
+}
+</code></pre>
+<pre><code class="language-rs ignore">type Next_even ~ (n: Nat) (m: Nat) {
+  1 &lt;n: Nat&gt; (pred: Ev (Nat.succ n)) : Next_even n (Nat.succ n)
+  2 &lt;n: Nat&gt; (pred: Ev (Nat.succ (Nat.succ n))) : Next_even n (Nat.succ (Nat.succ n))
+}
+</code></pre>
+<h4 id="total_relation-opcional"><a class="header" href="#total_relation-opcional">Total_relation (Opcional)</a></h4>
+<p>Defina uma relação binária indutiva Total_relation que é válida para todos os pares de números naturais.</p>
+<pre><code class="language-rs ignore">// TODO
+</code></pre>
+<h4 id="empty_relation-opcional"><a class="header" href="#empty_relation-opcional">Empty_relation (Opcional)</a></h4>
+<p>Defina uma relação binária indutiva Empty_relation (sobre números) que nunca é válida.</p>
+<pre><code class="language-rs ignore">// TODO
+</code></pre>
+<h4 id="le_exercises-opcional"><a class="header" href="#le_exercises-opcional">Le_exercises (Opcional)</a></h4>
+<p>Aqui estão alguns fatos sobre as relações <code>Le</code> e <code>Lt</code> que vamos precisar mais adiante no curso. As provas são bons exercícios de prática.</p>
+<pre><code class="language-rust ignore">Le.trans (n: Nat) (m: Nat) (o: Nat) (x: Le m n) (y: Le n o) : Le m o 
+Le.trans n m o x y = ?
+
+O_le_n (n: Nat) : Le Nat.zero n
+O_le_n n = ?
+
+N_le_m_sn_le_sm (n: Nat) (m: Nat) (l: Le n m) : Le (Nat.succ n) (Nat.succ m)
+N_le_m_sn_le_sm n m l = ?
+
+Sn_le_Sm_n_le_m (n: Nat) (m: Nat) (l: Le (Nat.succ n) (Nat.succ m)) : Le n m
+Sn_le_Sm_n_le_m n m l = ?
+
+Le_plus_l (a: Nat) (b: Nat) : Le a (Nat.add a b)
+Le_plus_l a b = ?
+
+Plus_lt (n1: Nat) (n2: Nat) (m: Nat) (lt: Lt (Nat.add n1 n2) m) : Pair (Lt n1 m) (Lt n2 m)
+Plus_lt n1 n2 m lt = ?
+
+Lt_S (n: Nat) (m: Nat) (l: Lt n m) : (Lt n (Nat.succ m))
+Lt_S n m l = ?
+
+Lte_complete (n: Nat) (m: Nat) (e: Equal (Nat.lte n m) Bool.true) :  (Le n m)
+Lte_complete n m e = ? </code></pre>
+<p>Dica: O próximo pode ser mais fácil de provar por indução em m.</p>
+<pre><code class="language-rust ignore">Lte_correct (n: Nat) (m: Nat) (le: Le n m) : Equal Bool (Nat.lte n m) Bool.true
+Lte_correct n m le = ?</code></pre>
+<p>Dica: Este teorema pode ser facilmente provado sem usar indução.</p>
+<pre><code class="language-rust ignore">Lte_true_trans (n: Nat) (m: Nat) (o: Nat) 
+  (l: Equal (Nat.lte n m) Bool.true) 
+  (k: Equal (Nat.lte m o) Bool.true) 
+  : Equal (Nat.lte n o) Bool.true
+Lte_true_trans n m o l k = ?</code></pre>
+<h4 id="lte_iff"><a class="header" href="#lte_iff">lte_iff</a></h4>
+<pre><code class="language-rust  ignore">Lte_iff (n: Nat) (m: Nat) : Iff (Equal (Nat.lte n m) Bool.true) (Le n m)
+Lte_iff n m = ?</code></pre>
+<h4 id="r_provability"><a class="header" href="#r_provability">R_provability</a></h4>
+<p>We can define threeplace relations, four-place relations, etc., in just the same way as binary relations.</p>
+<p>For example, consider the following three-place relation on numbers:</p>
+<pre><code class="language-rust ignore">type R ~ (a: Nat) (b: Nat) (c: Nat) {
+  C1 : R 0n 0n 0n
+  C2 &lt;m: Nat&gt; &lt;n: Nat&gt; &lt;o: Nat&gt;
+    (r: R m n o) 
+  : R (Nat.succ m) n (Nat.succ o)
+  C3 &lt;m: Nat&gt; &lt;n: Nat&gt; &lt;o: Nat&gt;
+    (r: R m n o) 
+  : R m (Nat.succ n) (Nat.succ o)
+  C4 &lt;m: Nat&gt; &lt;n: Nat&gt; &lt;o: Nat&gt;
+    (r: R (Nat.succ m) (Nat.succ n) (Nat.succ (Nat.succ o))) 
+  C5 &lt;m: Nat&gt; &lt;n: Nat&gt; &lt;o: Nat&gt; 
+   (r: R m n o) 
+}</code></pre>
+<p>Which of the following propositions are provable?</p>
+<ul>
+<li>R 1n 1n 2n</li>
+</ul>
+<pre><code class="language-rs ignore">// TODO
+</code></pre>
+<ul>
+<li>R 2n 2n 6n</li>
+</ul>
+<pre><code class="language-rs ignore">// TODO
+</code></pre>
+<ul>
+<li>If we dropped constructor C5 from the definition of R, would the set of provable propositions change? Briefly (1 sentence) explain your answer.</li>
+</ul>
+<pre><code class="language-rs ignore">// TODO
+</code></pre>
+<ul>
+<li>If we dropped constructor C4 from the definition of R, would the set of provable propositions change? Briefly (1 sentence) explain your answer.</li>
+</ul>
+<pre><code class="language-rs ignore">// TODO
+</code></pre>
+<h4 id="r_fact-optional"><a class="header" href="#r_fact-optional">R_fact (Optional)</a></h4>
+<p>The relation R above actually encodes a familiar function. Figure out which function; then state and prove this equivalence in Kind</p>
+<pre><code class="language-rust ignore">F_R (m: Nat) (n: Nat) : Nat
+F_R m n = ?
+
+R_equiv_fR (m: Nat) (n: Nat) (o: Nat) : Iff (R m n o) (Equal (F_R m n) o)
+R_equiv_fR m n o = ?</code></pre>
+<h4 id="subseq"><a class="header" href="#subseq">Subseq</a></h4>
+<p>Uma lista é uma subsequência de outra lista se todos os elementos da primeira lista ocorrem na mesma ordem na segunda lista, possivelmente com alguns elementos extras entre eles. Por exemplo, [1n,2n,3n] é uma subsequência de cada uma das listas [1n,2n,3n], [1n,1n,1n,2n,2n,3n], [1n,2n,7n,3n], [5n,6n,1n,9n,9n,2n,7n,3n,8n], mas não é uma subsequência de nenhuma das listas [1n,2n], [1n,3n], [5n,6n,2n,1n,7n,3n,8n].</p>
+<ul>
+<li>Defina um tipo indutivo <code>Subseq</code> em List Nat que capture o significado de ser uma subsequência. <em>(Dica: Você precisará de três casos.)</em></li>
+<li>Prove subseq_refl, que a subsequência é reflexiva, ou seja, qualquer lista é uma subsequência de si mesma.</li>
+<li>Prove subseq_app, que para quaisquer listas l1, l2 e l3, se l1 é uma subsequência de l2, então l1 também é uma subsequência de (App l2 l3).</li>
+<li>(Opcional, mais difícil) Prove subseq_trans, que a subsequência é transitiva - ou seja, se l1 é uma subsequência de l2 e l2 é uma subsequência de l3, então l1 é uma subsequência de l3. <em>Dica: escolha sua indução com cuidado!</em></li>
+</ul>
+<h4 id="r_provability-1"><a class="header" href="#r_provability-1">R_provability</a></h4>
+<p>oli</p>
+<h4 id="r_provability2-opcional"><a class="header" href="#r_provability2-opcional">R_provability2 (Opcional)</a></h4>
+<p>Suponha que demos a definição a seguir para o Kind:</p>
+<pre><code class="language-rust  ignore">type Rp ~ (n: Nat) (l: List Nat) {
+  C1 
+  : Rp 0n []
+  C2 &lt;n: Nat&gt; &lt;l: List Nat&gt; 
+  (r: Rp n l) 
+  : Rp (Nat.succ n) (List.cons n l)
+  C3 &lt;n: Nat&gt; &lt;l: List Nat&gt; 
+  (r: Rp (Nat.succ n) l)
+}</code></pre>
+<ul>
+<li>Rp 2n [1n,0n]</li>
+<li>Rp 1n [1n,2n,1n,0n]</li>
+<li>Rp 6n [3n,2n,1n,0n]</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../Book/chapter_07/7.1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../Book/chapter_07/7.3.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../Book/chapter_07/7.1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../Book/chapter_07/7.3.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

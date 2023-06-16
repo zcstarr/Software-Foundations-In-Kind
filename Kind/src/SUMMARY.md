@@ -42,6 +42,11 @@
   - [Kind vs Set Theory](Book/chapter_06/6,6.md)
   - [Classical vs. Constructive Logic](Book/chapter_06/6,7.md)
 - [Inductively Defined Propositions](Book/chapter_07/7.md)
+  - [Using Evidence in Proofs](./Book/chapter_07/7.1.md)
+  - [Inductive Relations](./Book/chapter_07/7.2.md)
+  - [Case Study: Regular Expressions](./Book/chapter_07/7.3.md)
+  - [Case Study: Improving Reflection](Book/chapter_07/7.4.md)
+  - [Additional Exercises](Book/chapter_07/7.5.md)
 
 -----------
 
